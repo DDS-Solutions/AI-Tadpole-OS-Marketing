@@ -1,4 +1,6 @@
 ---
+import TelemetryHUD from '../components/TelemetryHUD.astro';
+
 interface Props {
 	title: string;
 	description: string;
@@ -41,6 +43,7 @@ const { title, description } = Astro.props;
     <!-- Neural Backdrop Overlay -->
     <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
       <div class="neural-grid"></div>
+      <canvas id="cursor-canvas" class="absolute inset-0 z-10"></canvas>
       <!-- Background Auras -->
       <div class="glow-aura glow-emerald -top-48 -left-48 float-aura"></div>
       <div class="glow-aura glow-zinc top-1/2 -right-64 float-aura-reverse"></div>
@@ -49,6 +52,8 @@ const { title, description } = Astro.props;
 
     <slot />
     
+    <TelemetryHUD />
+
     <style is:global>
       :root {
         --font-display: 'Outfit', sans-serif;
@@ -161,6 +166,65 @@ const { title, description } = Astro.props;
           observer.observe(el);
         });
       });
+
+      // Recursive Context Cursor Logic
+      const canvas = document.getElementById('cursor-canvas');
+      const ctx = canvas?.getContext('2d');
+      let mouseX = 0;
+      let mouseY = 0;
+      let targets = [];
+
+      function resize() {
+        if (!canvas) return;
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+
+      window.addEventListener('resize', resize);
+      resize();
+
+      document.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+      });
+
+      function updateTargets() {
+        targets = Array.from(document.querySelectorAll('a, button, .glass-surface')).map(el => {
+          const rect = el.getBoundingClientRect();
+          return {
+            x: rect.left + rect.width / 2,
+            y: rect.top + rect.height / 2,
+            el: el
+          };
+        });
+      }
+
+      setInterval(updateTargets, 2000);
+      updateTargets();
+
+      function animate() {
+        if (!ctx || !canvas) return;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        targets.forEach(target => {
+          const dx = target.x - mouseX;
+          const dy = target.y - mouseY;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+
+          if (dist < 300) {
+            ctx.beginPath();
+            ctx.moveTo(mouseX, mouseY);
+            ctx.lineTo(target.x, target.y);
+            ctx.strokeStyle = `rgba(16, 185, 129, ${0.2 * (1 - dist / 300)})`;
+            ctx.lineWidth = 0.5;
+            ctx.stroke();
+          }
+        });
+
+        requestAnimationFrame(animate);
+      }
+
+      animate();
     </script>
     <script is:inline src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 	</body>

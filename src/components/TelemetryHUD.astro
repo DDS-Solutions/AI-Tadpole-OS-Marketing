@@ -1,0 +1,85 @@
+---
+// src/components/TelemetryHUD.astro
+---
+
+<div id="telemetry-hud" class="fixed bottom-6 right-6 z-[100] w-72 md:w-80 h-48 glass-surface rounded-2xl overflow-hidden border border-emerald-500/20 shadow-2xl transition-all duration-700 translate-y-24 opacity-0 pointer-events-none">
+  <div class="px-4 py-2 bg-emerald-500/10 border-b border-emerald-500/10 flex justify-between items-center bg-zinc-950">
+    <div class="flex gap-1.5">
+      <div class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></div>
+      <span class="text-[8px] font-mono text-emerald-400 uppercase tracking-widest">Sovereign Telemetry</span>
+    </div>
+    <span class="text-[8px] font-mono text-zinc-600 uppercase">Live Buffer</span>
+  </div>
+  
+  <div id="telemetry-log" class="p-3 font-mono text-[9px] text-emerald-500/80 space-y-1 overflow-y-auto h-full scrollbar-none">
+    <!-- Log entries injected via JS -->
+  </div>
+</div>
+
+<script>
+  const logs = [
+    "RECURSIVE_SWARM: Spawning sub-agent [Legal_4]...",
+    "NEURAL_MEMORY: Syncing LanceDB vector segments...",
+    "BUNKER_DISCOVERY: Node [Gamma-9] found via mDNS.",
+    "SHIELD: Governance gated (shell:execute) - [AWAITING_ENTITY_0]",
+    "RFC_9457: Problem Details reconciled (parity_guard.py)",
+    "HATEOAS: State transition [MISSION -> HYPERMEDIA_ACTIVE]",
+    "SOVEREIGN_TTS: Piper warmed up. Ready for synthesis.",
+    "LATENCY: Engine telemetry sub-ms threshold achieved.",
+    "RECONCILE: Zero context decay across recursive clusters."
+  ];
+
+  function initTelemetry() {
+    const hud = document.getElementById('telemetry-hud');
+    const logContainer = document.getElementById('telemetry-log');
+    if (!hud || !logContainer) return;
+
+    // Show HUD after delay
+    setTimeout(() => {
+      hud.classList.remove('translate-y-24', 'opacity-0');
+      hud.classList.add('translate-y-0', 'opacity-100');
+    }, 2000);
+
+    let logIndex = 0;
+    
+    function addLog() {
+      const entry = document.createElement('div');
+      entry.className = 'opacity-0 translate-x-4 transition-all duration-300';
+      const timestamp = new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' });
+      entry.innerHTML = `<span class="text-zinc-600">[${timestamp}]</span> ${logs[logIndex % logs.length]}`;
+      
+      logContainer.appendChild(entry);
+      
+      // Animate entry
+      setTimeout(() => {
+        entry.classList.remove('opacity-0', 'translate-x-4');
+        entry.classList.add('opacity-100', 'translate-x-0');
+      }, 50);
+
+      // Auto scroll
+      logContainer.scrollTop = logContainer.scrollHeight;
+
+      // Limit entries
+      if (logContainer.children.length > 20) {
+        logContainer.removeChild(logContainer.firstChild);
+      }
+
+      logIndex++;
+      setTimeout(addLog, 2000 + Math.random() * 3000);
+    }
+
+    addLog();
+  }
+
+  document.addEventListener('DOMContentLoaded', initTelemetry);
+</script>
+
+<style>
+  #telemetry-log::-webkit-scrollbar {
+    display: none;
+  }
+  #telemetry-log {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+</style>

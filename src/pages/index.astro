@@ -10,14 +10,14 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 		<!-- Hero Section -->
 		<section class="text-center space-y-8 relative">
       <!-- Hero Glow Aura -->
-      <div class="absolute -top-24 left-1/2 -translate-x-1/2 w-96 h-96 bg-emerald-500/5 blur-[120px] pointer-events-none"></div>
+      <div class="absolute -top-24 left-1/2 -translate-x-1/2 w-96 h-96 bg-green-500/5 blur-[120px] pointer-events-none"></div>
       
-			<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-emerald-500/20 bg-emerald-500/5 text-[10px] font-mono tracking-widest text-emerald-400 uppercase animate-pulse">
-				<span class="w-1.5 h-1.5 rounded-full bg-emerald-500 shadow-[0_0_12px_rgba(34,197,94,0.8)]"></span>
+			<div class="inline-flex items-center gap-2 px-3 py-1 rounded-lg border border-green-500/20 bg-green-500/5 text-[10px] font-mono tracking-widest text-green-400 uppercase animate-pulse">
+				<span class="w-1.5 h-1.5 rounded-full bg-green-500 shadow-[0_0_12px_rgba(34,197,94,0.8)]"></span>
 				Engine Status: Alpha-1 Active
 			</div>
 			
-			<h1 class="text-6xl md:text-9xl font-bold tracking-tighter text-white leading-[0.9] font-outfit">
+			<h1 class="text-6xl md:text-9xl font-bold tracking-tighter text-white leading-[0.9] font-inter">
 				The Sovereign Engine for <br/>
         <span class="text-zinc-700">Autonomous Growth</span>
 			</h1>
@@ -28,13 +28,13 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 			</p>
 			
 			<div class="flex flex-col sm:flex-row items-center justify-center gap-6 pt-12">
-				<a href="https://github.com/DDS-Solutions/AI-TadPole-OS" class="w-full sm:w-auto px-10 py-5 bg-white text-zinc-950 font-bold rounded-2xl hover:bg-zinc-200 transition-all hover:scale-105 active:scale-95 shadow-[0_0_30px_rgba(255,255,255,0.15)] text-sm tracking-tight">
+				<a href="https://github.com/DDS-Solutions/AI-TadPole-OS" class="w-full sm:w-auto px-10 py-5 bg-white text-zinc-950 font-bold rounded-lg hover:bg-zinc-200 transition-all hover:scale-105 active:scale-95 shadow-[0_0_30px_rgba(255,255,255,0.15)] text-sm tracking-tight">
 					Fork on GitHub
 				</a>
-				<a href="mission" class="w-full sm:w-auto px-10 py-5 bg-emerald-500 text-zinc-950 font-bold rounded-2xl hover:bg-emerald-400 transition-all hover:scale-105 active:scale-95 shadow-[0_0_30px_rgba(16,185,129,0.3)] text-sm tracking-tight">
+				<a href="mission" class="w-full sm:w-auto px-10 py-5 bg-green-500 text-zinc-950 font-bold rounded-lg hover:bg-green-400 transition-all hover:scale-105 active:scale-95 shadow-[0_0_30px_rgba(16,185,129,0.3)] text-sm tracking-tight">
 					Start Mission
 				</a>
-				<a href="how-it-works" class="w-full sm:w-auto px-10 py-5 glass-surface text-white font-bold rounded-2xl hover:bg-white/10 transition-all hover:scale-105 active:scale-95 text-sm tracking-tight border-white/20">
+				<a href="how-it-works" class="w-full sm:w-auto px-10 py-5 glass-surface text-white font-bold rounded-lg hover:bg-white/10 transition-all hover:scale-105 active:scale-95 text-sm tracking-tight border-white/20">
 					How It Works
 				</a>
 			</div>
@@ -50,43 +50,43 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       <div class="grid md:grid-cols-3 gap-12 relative px-4">
         <!-- Connecting Line (Desktop) -->
         <div class="hidden md:block absolute top-24 left-0 w-full h-px bg-zinc-800 -z-10">
-          <div id="metamorphosis-progress" class="h-full bg-emerald-500 shadow-[0_0_15px_rgba(16,185,129,0.5)] transition-all duration-300 w-0"></div>
+          <div id="metamorphosis-progress" class="h-full bg-green-500 shadow-[0_0_15px_rgba(16,185,129,0.5)] transition-all duration-300 w-0"></div>
         </div>
         
         <!-- Phase 1 -->
         <div class="space-y-6 text-center group">
-          <div class="w-24 h-24 mx-auto rounded-full bg-zinc-900 border-2 border-emerald-500/20 flex items-center justify-center glass-surface group-hover:border-emerald-500 transition-all duration-500 relative">
-            <div class="absolute inset-0 rounded-full bg-emerald-500/10 blur-xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
+          <div class="w-24 h-24 mx-auto rounded-full bg-zinc-900 border-2 border-green-500/20 flex items-center justify-center glass-surface group-hover:border-green-500 transition-all duration-500 relative">
+            <div class="absolute inset-0 rounded-full bg-green-500/10 blur-xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
             <span class="text-2xl phase-icon">🥚</span>
           </div>
           <div class="space-y-2">
             <h3 class="text-xl font-bold text-white">Phase 1: Tadpole</h3>
-            <p class="text-xs font-mono text-emerald-400/60 uppercase tracking-widest">Parallel Assistance</p>
+            <p class="text-xs font-mono text-green-400/60 uppercase tracking-widest">Parallel Assistance</p>
             <p class="text-sm text-zinc-500 leading-relaxed font-light">Runs in private isolation. Observes, documents, and automates repetitive tasks in a zero-risk sandbox.</p>
           </div>
         </div>
 
         <!-- Phase 2 -->
         <div class="space-y-6 text-center group">
-          <div class="w-24 h-24 mx-auto rounded-full bg-zinc-900 border-2 border-emerald-500/40 flex items-center justify-center glass-surface group-hover:border-emerald-500 transition-all duration-500 relative">
-            <div class="absolute inset-0 rounded-full bg-emerald-500/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
+          <div class="w-24 h-24 mx-auto rounded-full bg-zinc-900 border-2 border-green-500/40 flex items-center justify-center glass-surface group-hover:border-green-500 transition-all duration-500 relative">
+            <div class="absolute inset-0 rounded-full bg-green-500/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
             <span class="text-2xl phase-icon">🐸</span>
           </div>
           <div class="space-y-2">
             <h3 class="text-xl font-bold text-white">Phase 2: Metamorphosis</h3>
-            <p class="text-xs font-mono text-emerald-400/80 uppercase tracking-widest">Active Onboarding</p>
+            <p class="text-xs font-mono text-green-400/80 uppercase tracking-widest">Active Onboarding</p>
             <p class="text-sm text-zinc-500 leading-relaxed font-light">The OS integrates with company domains. Specialists solve supply chain, sales, and HR bottlenecks.</p>
           </div>
         </div>
 
         <!-- Phase 3 -->
         <div class="space-y-6 text-center group">
-          <div class="w-24 h-24 mx-auto rounded-full bg-emerald-500 border-2 border-emerald-400 flex items-center justify-center shadow-[0_0_30px_rgba(16,185,129,0.3)] group-hover:scale-110 transition-transform duration-500 relative">
+          <div class="w-24 h-24 mx-auto rounded-full bg-green-500 border-2 border-green-400 flex items-center justify-center shadow-[0_0_30px_rgba(16,185,129,0.3)] group-hover:scale-110 transition-transform duration-500 relative">
             <span class="text-2xl phase-icon">👑</span>
           </div>
           <div class="space-y-2">
             <h3 class="text-xl font-bold text-white">Phase 3: Big Frog</h3>
-            <p class="text-xs font-mono text-emerald-400 uppercase tracking-widest italic">Sovereign Mastery</p>
+            <p class="text-xs font-mono text-green-400 uppercase tracking-widest italic">Sovereign Mastery</p>
             <p class="text-sm text-zinc-500 leading-relaxed font-light">Full-scale **Autonomous Continuity** swarms. **Sovereign Strategic Intent Injection** ensures zero context decay across recursive agent clusters.</p>
           </div>
         </div>
@@ -117,7 +117,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
       <div class="relative max-w-5xl mx-auto px-4 group">
         <!-- Main Image -->
-        <div class="relative aspect-video rounded-3xl border border-white/10 overflow-hidden shadow-2xl glass-surface">
+        <div class="relative aspect-video rounded-xl border border-white/10 overflow-hidden shadow-2xl glass-surface">
           <template x-for="(slide, index) in slides" :key="index">
             <div 
               x-show="activeSlide === index" 
@@ -132,7 +132,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
               <!-- Slide Info -->
               <div class="absolute bottom-8 left-8 right-8 flex justify-between items-end">
                 <div class="space-y-1">
-                  <div class="text-[10px] font-mono text-emerald-400 uppercase tracking-widest" x-text="'TIMESTAMP: ' + slide.time"></div>
+                  <div class="text-[10px] font-mono text-green-400 uppercase tracking-widest" x-text="'TIMESTAMP: ' + slide.time"></div>
                   <h3 class="text-2xl font-bold text-white tracking-tight" x-text="slide.title"></h3>
                 </div>
                 <div class="text-[10px] font-mono text-zinc-500 uppercase tracking-widest" x-text="(index + 1) + ' / ' + slides.length"></div>
@@ -144,13 +144,13 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         <!-- Navigation -->
         <button 
           @click="activeSlide = activeSlide === 0 ? slides.length - 1 : activeSlide - 1"
-          class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 md:-translate-x-12 w-12 h-12 rounded-full glass-surface border border-white/10 flex items-center justify-center text-white hover:bg-emerald-500 hover:text-black transition-all opacity-0 group-hover:opacity-100"
+          class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 md:-translate-x-12 w-12 h-12 rounded-full glass-surface border border-white/10 flex items-center justify-center text-white hover:bg-green-500 hover:text-black transition-all opacity-0 group-hover:opacity-100"
         >
           ←
         </button>
         <button 
           @click="activeSlide = activeSlide === slides.length - 1 ? 0 : activeSlide + 1"
-          class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 md:translate-x-12 w-12 h-12 rounded-full glass-surface border border-white/10 flex items-center justify-center text-white hover:bg-emerald-500 hover:text-black transition-all opacity-0 group-hover:opacity-100"
+          class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 md:translate-x-12 w-12 h-12 rounded-full glass-surface border border-white/10 flex items-center justify-center text-white hover:bg-green-500 hover:text-black transition-all opacity-0 group-hover:opacity-100"
         >
           →
         </button>
@@ -161,7 +161,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
             <button 
               @click="activeSlide = index"
               class="w-2 h-2 rounded-full transition-all duration-300"
-              :class="activeSlide === index ? 'w-8 bg-emerald-500' : 'bg-zinc-800 hover:bg-zinc-600'"
+              :class="activeSlide === index ? 'w-8 bg-green-500' : 'bg-zinc-800 hover:bg-zinc-600'"
             ></button>
           </template>
         </div>
@@ -172,7 +172,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     <section class="py-32 border-t border-white/5 mt-32 relative overflow-hidden">
       <div class="grid md:grid-cols-2 gap-16 items-center">
         <div class="space-y-8">
-          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-emerald-500/20 bg-emerald-500/5 text-[10px] font-mono tracking-widest text-emerald-400 uppercase">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-green-500/20 bg-green-500/5 text-[10px] font-mono tracking-widest text-green-400 uppercase">
             Technical Excellence
           </div>
           <h2 class="text-4xl md:text-6xl font-bold text-white tracking-tight">REST Standards & <br/>Standardized Observability</h2>
@@ -181,26 +181,26 @@ import BaseLayout from '../layouts/BaseLayout.astro';
           </p>
           <ul class="space-y-4">
             <li class="flex items-center gap-3 text-zinc-500">
-              <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+              <span class="w-1.5 h-1.5 rounded-full bg-green-500"></span>
               Hypermedia as the Engine of Application State
             </li>
             <li class="flex items-center gap-3 text-zinc-500">
-              <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+              <span class="w-1.5 h-1.5 rounded-full bg-green-500"></span>
               RFC 9457 Machine-Readable Error Envelopes
             </li>
             <li class="flex items-center gap-3 text-zinc-500">
-              <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+              <span class="w-1.5 h-1.5 rounded-full bg-green-500"></span>
               Parity Guard Traceability (execution/parity_guard.py)
             </li>
             <li class="flex items-center gap-3 text-zinc-500">
-              <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+              <span class="w-1.5 h-1.5 rounded-full bg-green-500"></span>
               Reactive Infrastructure with sub-second latency
             </li>
           </ul>
         </div>
         <div class="relative group">
-          <div class="absolute inset-0 bg-emerald-500/10 blur-3xl rounded-full opacity-50 group-hover:opacity-100 transition-opacity"></div>
-          <img src="/AI-Tadpole-OS-Marketing/assets/neural_map_infographic_1773353269093.png" alt="Neural Map (LanceDB-backed Vector Segments)" class="rounded-2xl border border-white/10 shadow-2xl relative z-10 hover:scale-[1.02] transition-transform duration-500" />
+          <div class="absolute inset-0 bg-green-500/10 blur-3xl rounded-full opacity-50 group-hover:opacity-100 transition-opacity"></div>
+          <img src="/AI-Tadpole-OS-Marketing/assets/neural_map_infographic_1773353269093.png" alt="Neural Map (LanceDB-backed Vector Segments)" class="rounded-xl border border-white/10 shadow-2xl relative z-10 hover:scale-[1.02] transition-transform duration-500" />
         </div>
       </div>
     </section>
@@ -214,10 +214,10 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         </p>
       </div>
       <div class="grid md:grid-cols-3 gap-8">
-        <div class="p-8 glass-surface rounded-3xl space-y-4 relative group overflow-hidden">
-          <div class="absolute inset-0 bg-emerald-500/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-          <div class="w-12 h-12 bg-emerald-500/10 rounded-xl flex items-center justify-center relative z-10">
-            <svg class="w-6 h-6 text-emerald-500 waveform-anim" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <div class="p-8 glass-surface rounded-xl space-y-4 relative group overflow-hidden">
+          <div class="absolute inset-0 bg-green-500/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+          <div class="w-12 h-12 bg-green-500/10 rounded-xl flex items-center justify-center relative z-10">
+            <svg class="w-6 h-6 text-green-500 waveform-anim" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M3 12h1m4 0h1m4 0h1m4 0h1m4 0h1" stroke-linecap="round"/>
               <path class="wave-path" d="M3 12c2-4 4-4 6 0s4 4 6 0 4-4 6 0" stroke-opacity="0.5"/>
             </svg>
@@ -225,23 +225,23 @@ import BaseLayout from '../layouts/BaseLayout.astro';
           <h3 class="text-xl font-bold text-white relative z-10">Sovereign STT</h3>
           <p class="text-sm text-zinc-500 relative z-10">Local neural transcription powered by **Whisper**. Intent capture with zero context leakage.</p>
         </div>
-        <div class="p-8 glass-surface rounded-3xl space-y-4 relative group overflow-hidden">
-          <div class="absolute inset-0 bg-emerald-500/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-          <div class="w-12 h-12 bg-emerald-500/10 rounded-xl flex items-center justify-center relative z-10">
-            <svg class="w-6 h-6 text-emerald-500 waveform-anim" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <div class="p-8 glass-surface rounded-xl space-y-4 relative group overflow-hidden">
+          <div class="absolute inset-0 bg-green-500/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+          <div class="w-12 h-12 bg-green-500/10 rounded-xl flex items-center justify-center relative z-10">
+            <svg class="w-6 h-6 text-green-500 waveform-anim" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M2 12c2-8 4-8 6 0s4 8 6 0 4-8 6 0" class="wave-path-alt"/>
             </svg>
           </div>
           <h3 class="text-xl font-bold text-white relative z-10">Sovereign TTS</h3>
           <p class="text-sm text-zinc-500 relative z-10">Human-grade vocal interaction via **Piper**. Fast, local, and fully customizable synthesis.</p>
         </div>
-        <div class="p-8 glass-surface rounded-3xl space-y-4 relative group overflow-hidden">
-          <div class="absolute inset-0 bg-emerald-500/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-          <div class="w-12 h-12 bg-emerald-500/10 rounded-xl flex items-center justify-center relative z-10">
+        <div class="p-8 glass-surface rounded-xl space-y-4 relative group overflow-hidden">
+          <div class="absolute inset-0 bg-green-500/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+          <div class="w-12 h-12 bg-green-500/10 rounded-lg flex items-center justify-center relative z-10">
             <div class="flex gap-1">
-              <div class="w-1 h-4 bg-emerald-500/40 animate-bounce" style="animation-delay: 0.1s"></div>
-              <div class="w-1 h-6 bg-emerald-500 animate-bounce" style="animation-delay: 0.2s"></div>
-              <div class="w-1 h-3 bg-emerald-500/60 animate-bounce" style="animation-delay: 0.3s"></div>
+              <div class="w-1 h-4 bg-green-500/40 animate-bounce" style="animation-delay: 0.1s"></div>
+              <div class="w-1 h-6 bg-green-500 animate-bounce" style="animation-delay: 0.2s"></div>
+              <div class="w-1 h-3 bg-green-500/60 animate-bounce" style="animation-delay: 0.3s"></div>
             </div>
           </div>
           <h3 class="text-xl font-bold text-white relative z-10">Neural VAD</h3>
@@ -251,11 +251,11 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     <section class="py-32 border-t border-white/5 mt-32 relative">
       <div class="grid md:grid-cols-2 gap-16 items-center">
         <div class="relative order-2 md:order-1 group">
-          <div class="absolute inset-0 bg-emerald-500/10 blur-3xl rounded-full opacity-50 group-hover:opacity-100 transition-opacity"></div>
-          <img src="/AI-Tadpole-OS-Marketing/assets/distributed_bunker_nodes_1773353300493.png" alt="Distributed Bunkers" class="rounded-2xl border border-white/10 shadow-2xl relative z-10 hover:scale-[1.02] transition-transform duration-500" />
+          <div class="absolute inset-0 bg-green-500/10 blur-3xl rounded-full opacity-50 group-hover:opacity-100 transition-opacity"></div>
+          <img src="/AI-Tadpole-OS-Marketing/assets/distributed_bunker_nodes_1773353300493.png" alt="Distributed Bunkers" class="rounded-xl border border-white/10 shadow-2xl relative z-10 hover:scale-[1.02] transition-transform duration-500" />
         </div>
         <div class="space-y-8 order-1 md:order-2">
-          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-emerald-500/20 bg-emerald-500/5 text-[10px] font-mono tracking-widest text-emerald-400 uppercase">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-green-500/20 bg-green-500/5 text-[10px] font-mono tracking-widest text-green-400 uppercase">
             Scalability & Privacy
           </div>
           <h2 class="text-4xl md:text-6xl font-bold text-white tracking-tight">Bunker Shield & <br/>Zero-Conf Swarms</h2>
@@ -263,11 +263,11 @@ import BaseLayout from '../layouts/BaseLayout.astro';
             Expand your collective intelligence across the local network. Our **Bunker Discovery** protocol leverages mDNS to automatically scavenge secondary nodes for hardware-accelerated swarming.
           </p>
           <div class="grid grid-cols-2 gap-4">
-            <div class="p-4 border border-white/5 rounded-xl bg-zinc-900/50">
+            <div class="p-4 border border-white/5 rounded-lg bg-zinc-900/50">
               <h4 class="text-white font-bold mb-1">Privacy Mode (Shield)</h4>
               <p class="text-xs text-zinc-500">Explicitly block all external cloud traffic for total air-gapped sovereignty.</p>
             </div>
-            <div class="p-4 border border-white/5 rounded-xl bg-zinc-900/50">
+            <div class="p-4 border border-white/5 rounded-lg bg-zinc-900/50">
               <h4 class="text-white font-bold mb-1">Zero-Conf mDNS</h4>
               <p class="text-xs text-zinc-500">Automatic local discovery of and pairing with Bunker nodes.</p>
             </div>
@@ -285,14 +285,14 @@ import BaseLayout from '../layouts/BaseLayout.astro';
             Don't start from scratch. Browse our GitHub-native marketplace for industry-specific swarms. Deploy Legal, Healthcare, or Finance specialists in seconds.
           </p>
           <div class="space-y-6">
-            <div class="flex gap-4 p-4 glass-surface rounded-2xl border-emerald-500/20">
+            <div class="flex gap-4 p-4 glass-surface rounded-xl border-green-500/20">
               <div class="text-2xl">🛡️</div>
               <div>
                 <h4 class="text-white font-bold">Sapphire Shield Protection</h4>
                 <p class="text-sm text-zinc-500">Zero-Trust capability scanning for every installed template.</p>
               </div>
             </div>
-            <div class="flex gap-4 p-4 glass-surface rounded-2xl">
+            <div class="flex gap-4 p-4 glass-surface rounded-xl">
               <div class="text-2xl">⚡</div>
               <div>
                 <h4 class="text-white font-bold">Hot-Loading Persistence</h4>
@@ -302,17 +302,17 @@ import BaseLayout from '../layouts/BaseLayout.astro';
           </div>
         </div>
         <div class="flex-1 w-full relative group">
-           <div class="absolute inset-0 bg-emerald-500/10 blur-3xl rounded-full opacity-50 group-hover:opacity-100 transition-opacity"></div>
-           <img src="/AI-Tadpole-OS-Marketing/assets/sovereign_vault_viz_1773353285088.png" alt="Sovereign Vault" class="rounded-2xl border border-white/10 shadow-2xl relative z-10" />
+           <div class="absolute inset-0 bg-green-500/10 blur-3xl rounded-full opacity-50 group-hover:opacity-100 transition-opacity"></div>
+           <img src="/AI-Tadpole-OS-Marketing/assets/sovereign_vault_viz_1773353285088.png" alt="Sovereign Vault" class="rounded-xl border border-white/10 shadow-2xl relative z-10" />
         </div>
        </div>
     </section>
 
     <!-- Technical Documentation Hub Section -->
     <section class="py-32 border-t border-white/5 mt-32 relative overflow-hidden">
-      <div class="absolute -left-24 top-1/2 -translate-y-1/2 w-96 h-96 bg-emerald-500/5 blur-[120px] pointer-events-none"></div>
+      <div class="absolute -left-24 top-1/2 -translate-y-1/2 w-96 h-96 bg-green-500/5 blur-[120px] pointer-events-none"></div>
       <div class="max-w-4xl mx-auto text-center space-y-8">
-        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-emerald-500/20 bg-emerald-500/5 text-[10px] font-mono tracking-widest text-emerald-400 uppercase">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-green-500/20 bg-green-500/5 text-[10px] font-mono tracking-widest text-green-400 uppercase">
           Technical Authority
         </div>
         <h2 class="text-4xl md:text-6xl font-bold text-white tracking-tight">Technical Documentation Hub</h2>
@@ -321,25 +321,25 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         </p>
         
         <div class="grid sm:grid-cols-3 gap-4 pt-8">
-          <a href="https://dds-solutions.github.io/AI-TadPole-OS/ARCHITECTURE.html" class="p-6 glass-surface rounded-2xl hover:border-emerald-500/30 transition-all group">
-            <h4 class="text-white font-bold mb-2 group-hover:text-emerald-400 transition-colors">Core Architecture</h4>
+          <a href="https://dds-solutions.github.io/AI-TadPole-OS/ARCHITECTURE.html" class="p-6 glass-surface rounded-xl hover:border-green-500/30 transition-all group">
+            <h4 class="text-white font-bold mb-2 group-hover:text-green-400 transition-colors">Core Architecture</h4>
             <p class="text-xs text-zinc-500">The blueprint of the local-first runtime engine.</p>
           </a>
-          <a href="https://dds-solutions.github.io/AI-TadPole-OS/SWARM_ORCHESTRATION.html" class="p-6 glass-surface rounded-2xl hover:border-emerald-500/30 transition-all group">
-            <h4 class="text-white font-bold mb-2 group-hover:text-emerald-400 transition-colors">Hierarchical Swarm Protocols</h4>
+          <a href="https://dds-solutions.github.io/AI-TadPole-OS/SWARM_ORCHESTRATION.html" class="p-6 glass-surface rounded-xl hover:border-green-500/30 transition-all group">
+            <h4 class="text-white font-bold mb-2 group-hover:text-green-400 transition-colors">Hierarchical Swarm Protocols</h4>
             <p class="text-xs text-zinc-500">Recruitment and delegation logic for recursive clusters.</p>
           </a>
-          <a href="https://dds-solutions.github.io/AI-TadPole-OS/API_REFERENCE.html" class="p-6 glass-surface rounded-2xl hover:border-emerald-500/30 transition-all group">
-            <h4 class="text-white font-bold mb-2 group-hover:text-emerald-400 transition-colors">API Reference</h4>
+          <a href="https://dds-solutions.github.io/AI-TadPole-OS/API_REFERENCE.html" class="p-6 glass-surface rounded-xl hover:border-green-500/30 transition-all group">
+            <h4 class="text-white font-bold mb-2 group-hover:text-green-400 transition-colors">API Reference</h4>
             <p class="text-xs text-zinc-500">RFC 9457 compliant machine-readable contracts.</p>
           </a>
         </div>
 
         <div class="flex flex-col sm:flex-row items-center justify-center gap-6 pt-12">
-          <a href="https://dds-solutions.github.io/AI-TadPole-OS/" class="w-full sm:w-auto px-10 py-5 bg-emerald-500 text-zinc-950 font-bold rounded-2xl hover:bg-emerald-400 transition-all hover:scale-105 active:scale-95 shadow-[0_0_30px_rgba(16,185,129,0.3)] text-sm tracking-tight">
+          <a href="https://dds-solutions.github.io/AI-TadPole-OS/" class="w-full sm:w-auto px-10 py-5 bg-green-500 text-zinc-950 font-bold rounded-lg hover:bg-green-400 transition-all hover:scale-105 active:scale-95 shadow-[0_0_30px_rgba(16,185,129,0.3)] text-sm tracking-tight">
             Explore Documentation
           </a>
-          <a href="https://github.com/DDS-Solutions/AI-TadPole-OS" class="w-full sm:w-auto px-10 py-5 glass-surface text-white font-bold rounded-2xl hover:bg-white/10 transition-all hover:scale-105 active:scale-95 text-sm tracking-tight border-white/20">
+          <a href="https://github.com/DDS-Solutions/AI-TadPole-OS" class="w-full sm:w-auto px-10 py-5 glass-surface text-white font-bold rounded-lg hover:bg-white/10 transition-all hover:scale-105 active:scale-95 text-sm tracking-tight border-white/20">
             View Docs on GitHub
           </a>
         </div>
@@ -350,7 +350,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     <section class="py-32 border-t border-white/5 mt-32 bg-zinc-900/20 relative">
       <div class="grid md:grid-cols-2 gap-16 items-center">
         <div class="space-y-8">
-          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-emerald-500/20 bg-emerald-500/5 text-[10px] font-mono tracking-widest text-emerald-400 uppercase">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-green-500/20 bg-green-500/5 text-[10px] font-mono tracking-widest text-green-400 uppercase">
             Swarm Sculpting
           </div>
           <h2 class="text-4xl md:text-6xl font-bold text-white tracking-tight">Industry Template Builder</h2>
@@ -361,16 +361,16 @@ import BaseLayout from '../layouts/BaseLayout.astro';
             <a href="https://dds-solutions.github.io/AI-Tadpole-OS-Industry-Templates/" class="w-full sm:w-auto px-8 py-4 bg-white text-zinc-950 font-bold rounded-xl hover:bg-zinc-200 transition-all hover:scale-105 active:scale-95 text-sm tracking-tight">
               Launch Template Builder
             </a>
-            <a href="https://github.com/DDS-Solutions/AI-Tadpole-OS-Industry-Templates" class="text-zinc-500 hover:text-emerald-400 transition-colors text-sm font-mono font-bold tracking-tight">
+            <a href="https://github.com/DDS-Solutions/AI-Tadpole-OS-Industry-Templates" class="text-zinc-500 hover:text-green-400 transition-colors text-sm font-mono font-bold tracking-tight">
               View Builder Repo →
             </a>
           </div>
         </div>
         <div class="relative group">
-          <div class="absolute inset-0 bg-emerald-500/10 blur-3xl rounded-full opacity-50 group-hover:opacity-100 transition-opacity"></div>
-          <div class="p-4 glass-surface rounded-3xl border-emerald-500/20 relative z-10 overflow-hidden shadow-2xl skew-y-3 group-hover:skew-y-0 transition-transform duration-700">
+          <div class="absolute inset-0 bg-green-500/10 blur-3xl rounded-full opacity-50 group-hover:opacity-100 transition-opacity"></div>
+          <div class="p-4 glass-surface rounded-xl border-green-500/20 relative z-10 overflow-hidden shadow-2xl skew-y-3 group-hover:skew-y-0 transition-transform duration-700">
             <div class="aspect-video bg-zinc-950 rounded-xl border border-white/5 overflow-hidden relative">
-              <div class="absolute inset-0 bg-gradient-to-tr from-emerald-500/10 via-transparent to-transparent"></div>
+              <div class="absolute inset-0 bg-gradient-to-tr from-green-500/10 via-transparent to-transparent"></div>
               <div class="absolute top-4 left-4 right-4 flex justify-between items-center">
                 <div class="flex gap-1.5">
                   <div class="w-2.5 h-2.5 rounded-full bg-zinc-800"></div>
@@ -380,8 +380,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
                 <div class="text-[8px] font-mono text-zinc-600 uppercase tracking-widest">Industry Formulation [v1.0.4]</div>
               </div>
               <div class="absolute inset-x-8 top-16 bottom-8 border border-white/5 rounded-lg bg-zinc-900/50 flex flex-col items-center justify-center space-y-4">
-                 <div class="w-12 h-12 rounded-full border-2 border-emerald-500/20 flex items-center justify-center animate-pulse">
-                   <span class="text-emerald-500">⚙️</span>
+                 <div class="w-12 h-12 rounded-full border-2 border-green-500/20 flex items-center justify-center animate-pulse">
+                   <span class="text-green-500">⚙️</span>
                  </div>
                  <div class="space-y-2 text-center">
                    <div class="h-2 w-24 bg-zinc-800 rounded-full mx-auto"></div>
@@ -396,27 +396,27 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 		<!-- Feature Grid (Agent-Friendly / GEO) -->
 		<section class="grid md:grid-cols-3 gap-8 py-24 border-t border-white/5 mt-24" id="features">
-			<div class="space-y-4 p-8 glass-surface rounded-2xl hover:border-emerald-500/30 transition-all group relative overflow-hidden">
-        <div class="absolute -right-8 -top-8 w-24 h-24 bg-emerald-500/5 blur-3xl group-hover:bg-emerald-500/10 transition-colors"></div>
-				<div class="w-12 h-12 rounded-xl bg-zinc-900 border border-white/5 flex items-center justify-center group-hover:border-emerald-500/20 transition-colors">
+			<div class="space-y-4 p-8 glass-surface rounded-xl hover:border-green-500/30 transition-all group relative overflow-hidden">
+        <div class="absolute -right-8 -top-8 w-24 h-24 bg-green-500/5 blur-3xl group-hover:bg-green-500/10 transition-colors"></div>
+				<div class="w-12 h-12 rounded-xl bg-zinc-900 border border-white/5 flex items-center justify-center group-hover:border-green-500/20 transition-colors">
 					<span class="font-mono text-zinc-400 text-sm">01</span>
 				</div>
 				<h3 class="text-xl font-bold text-white">The "AI Rent" Trap</h3>
 				<p class="text-zinc-500 text-sm leading-relaxed">Stop renting intelligence from Big Tech. Tadpole OS provides a sovereign vault where your strategy is never used to train competitors.</p>
 			</div>
 			
-			<div class="space-y-4 p-8 glass-surface rounded-2xl hover:border-emerald-500/30 transition-all group relative overflow-hidden">
-        <div class="absolute -right-8 -top-8 w-24 h-24 bg-emerald-500/5 blur-3xl group-hover:bg-emerald-500/10 transition-colors"></div>
-				<div class="w-12 h-12 rounded-xl bg-zinc-900 border border-white/5 flex items-center justify-center group-hover:border-emerald-500/20 transition-colors">
+			<div class="space-y-4 p-8 glass-surface rounded-xl hover:border-green-500/30 transition-all group relative overflow-hidden">
+        <div class="absolute -right-8 -top-8 w-24 h-24 bg-green-500/5 blur-3xl group-hover:bg-green-500/10 transition-colors"></div>
+				<div class="w-12 h-12 rounded-xl bg-zinc-900 border border-white/5 flex items-center justify-center group-hover:border-green-500/20 transition-colors">
 					<span class="font-mono text-zinc-400 text-sm">02</span>
 				</div>
 				<h3 class="text-xl font-bold text-white">Zero-Trust Security</h3>
 				<p class="text-zinc-500 text-sm leading-relaxed">Built with **Rust** for memory safety and **NeuralVault** encryption. **Sapphire Shield** protocols ensure total host isolation.</p>
 			</div>
 
-			<div class="space-y-4 p-8 glass-surface rounded-2xl hover:border-emerald-500/30 transition-all group relative overflow-hidden">
-        <div class="absolute -right-8 -top-8 w-24 h-24 bg-emerald-500/5 blur-3xl group-hover:bg-emerald-500/10 transition-colors"></div>
-				<div class="w-12 h-12 rounded-xl bg-zinc-900 border border-white/5 flex items-center justify-center group-hover:border-emerald-500/20 transition-colors">
+			<div class="space-y-4 p-8 glass-surface rounded-xl hover:border-green-500/30 transition-all group relative overflow-hidden">
+        <div class="absolute -right-8 -top-8 w-24 h-24 bg-green-500/5 blur-3xl group-hover:bg-green-500/10 transition-colors"></div>
+				<div class="w-12 h-12 rounded-xl bg-zinc-900 border border-white/5 flex items-center justify-center group-hover:border-green-500/20 transition-colors">
 					<span class="font-mono text-zinc-400 text-sm">03</span>
 				</div>
 				<h3 class="text-xl font-bold text-white">Shared Prosperity</h3>
@@ -432,54 +432,54 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       </div>
       
       <div class="space-y-12">
-        <div class="space-y-4 border-l-2 border-emerald-500/20 pl-8 group">
-          <h4 class="font-bold text-zinc-100 text-lg group-hover:text-emerald-400 transition-colors tracking-tight">Q: Why do we need Tadpole OS instead of generic AI?</h4>
+        <div class="space-y-4 border-l-2 border-green-500/20 pl-8 group">
+          <h4 class="font-bold text-zinc-100 text-lg group-hover:text-green-400 transition-colors tracking-tight">Q: Why do we need Tadpole OS instead of generic AI?</h4>
           <p class="text-zinc-500 leading-relaxed font-light">A: Generic AI is a rental. Tadpole OS is an asset. It creates a **private parallel brain** for your company that you own, control, and evolve without feeding your proprietary secrets to third-party models.</p>
         </div>
 
         <div class="space-y-4 border-l-2 border-zinc-800 pl-8 group">
-          <h4 class="font-bold text-zinc-100 text-lg group-hover:text-emerald-400 transition-colors tracking-tight">Q: How does the "Sapphire Shield" protect us?</h4>
+          <h4 class="font-bold text-zinc-100 text-lg group-hover:text-green-400 transition-colors tracking-tight">Q: How does the "Sapphire Shield" protect us?</h4>
           <p class="text-zinc-500 leading-relaxed font-light">A: The **Sapphire Shield** is an automated security gate that flags high-risk tool calls (like `shell:execute` or `budget:spend`) for mandatory human oversight, preventing autonomous drift.</p>
         </div>
 
-        <div class="space-y-4 border-l-2 border-emerald-500/20 pl-8 group">
-          <h4 class="font-bold text-zinc-100 text-lg group-hover:text-emerald-400 transition-colors tracking-tight">Q: Is a "Parallel OS" disruptive to current IT?</h4>
+        <div class="space-y-4 border-l-2 border-green-500/20 pl-8 group">
+          <h4 class="font-bold text-zinc-100 text-lg group-hover:text-green-400 transition-colors tracking-tight">Q: Is a "Parallel OS" disruptive to current IT?</h4>
           <p class="text-zinc-500 leading-relaxed font-light">A: No. Tadpole OS is designed to integrate via the **Model Context Protocol (MCP)** and standard REST protocols, assists your current workflows without "rip and replace" friction.</p>
         </div>
       </div>
     </section>
 
     <!-- Onboarding Funnel (Hierarchy) -->
-    <section class="py-24 glass-surface rounded-3xl p-12 text-center space-y-12 relative overflow-hidden">
-      <div class="absolute inset-0 bg-emerald-500/5 blur-3xl pointer-events-none"></div>
+    <section class="py-24 glass-surface rounded-xl p-12 text-center space-y-12 relative overflow-hidden">
+      <div class="absolute inset-0 bg-green-500/5 blur-3xl pointer-events-none"></div>
       <div class="space-y-4 relative">
         <h2 class="text-3xl font-bold text-white">Ready for the Leap?</h2>
         <p class="text-zinc-400 max-w-xl mx-auto font-light">Three tiered entry points to sovereign intelligence.</p>
       </div>
       
       <div class="grid md:grid-cols-3 gap-6 relative">
-        <div class="p-6 rounded-2xl bg-zinc-950/50 border border-white/5 flex flex-col justify-between">
+        <div class="p-6 rounded-xl bg-zinc-950/50 border border-white/5 flex flex-col justify-between">
           <div class="space-y-2">
-            <h4 class="text-emerald-400 font-mono text-[10px] tracking-widest uppercase">Tier 1</h4>
+            <h4 class="text-green-400 font-mono text-[10px] tracking-widest uppercase">Tier 1</h4>
             <h5 class="text-white font-bold">Instant Demo</h5>
             <p class="text-xs text-zinc-500 leading-relaxed">Read-only interactive swarm for CEO-level ROI verification.</p>
           </div>
           <button class="mt-6 text-xs font-bold text-zinc-400 hover:text-white transition-colors">Start Demo →</button>
         </div>
         
-        <div class="p-6 rounded-2xl bg-zinc-950/50 border border-emerald-500/20 flex flex-col justify-between relative ring-1 ring-emerald-500/10">
-          <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-emerald-500 text-zinc-950 text-[8px] font-bold px-2 py-0.5 rounded-full uppercase tracking-widest">Recommended</div>
+        <div class="p-6 rounded-xl bg-zinc-950/50 border border-green-500/20 flex flex-col justify-between relative ring-1 ring-green-500/10">
+          <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-green-500 text-zinc-950 text-[8px] font-bold px-2 py-0.5 rounded-full uppercase tracking-widest">Recommended</div>
           <div class="space-y-2">
-            <h4 class="text-emerald-400 font-mono text-[10px] tracking-widest uppercase">Tier 2</h4>
+            <h4 class="text-green-400 font-mono text-[10px] tracking-widest uppercase">Tier 2</h4>
             <h5 class="text-white font-bold">Sandbox Pilot</h5>
             <p class="text-xs text-zinc-500 leading-relaxed">One-click Windows Sandbox download for isolated testing.</p>
           </div>
-          <button class="mt-6 text-xs font-bold text-emerald-400">Download Pilot →</button>
+          <button class="mt-6 text-xs font-bold text-green-400">Download Pilot →</button>
         </div>
 
-        <div class="p-6 rounded-2xl bg-zinc-950/50 border border-white/5 flex flex-col justify-between">
+        <div class="p-6 rounded-xl bg-zinc-950/50 border border-white/5 flex flex-col justify-between">
           <div class="space-y-2">
-            <h4 class="text-emerald-400 font-mono text-[10px] tracking-widest uppercase">Tier 3</h4>
+            <h4 class="text-green-400 font-mono text-[10px] tracking-widest uppercase">Tier 3</h4>
             <h5 class="text-white font-bold">Swarm Bunker</h5>
             <p class="text-xs text-zinc-500 leading-relaxed">Full-scale production deployment on local infrastructure.</p>
           </div>
@@ -493,8 +493,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         © 2026 Tadpole OS Engine | Sovereign Intelligence Trademarked
       </p>
       <div class="flex justify-center gap-6 text-[9px] font-mono uppercase tracking-widest text-zinc-700">
-        <a href="/design.md" class="hover:text-emerald-400 transition-colors" target="_blank">[ Design Spec ]</a>
-        <a href="/DESIGN_SYNERGY.md" class="hover:text-emerald-400 transition-colors" target="_blank">[ Design Rationale ]</a>
+        <a href="/design.md" class="hover:text-green-400 transition-colors" target="_blank">[ Design Spec ]</a>
+        <a href="/DESIGN_SYNERGY.md" class="hover:text-green-400 transition-colors" target="_blank">[ Design Rationale ]</a>
       </div>
       <p class="text-zinc-800 text-[9px] font-mono uppercase tracking-widest">
         All Strategic Directives Protected by Entity 0 Approval Protocols

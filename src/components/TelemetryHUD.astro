@@ -2,16 +2,25 @@
 // src/components/TelemetryHUD.astro
 ---
 
-<div id="telemetry-hud" class="fixed bottom-6 right-6 z-[100] w-72 md:w-80 h-48 glass-surface rounded-xl overflow-hidden border border-green-500/20 shadow-2xl transition-all duration-700 translate-y-24 opacity-0 pointer-events-none">
-  <div class="px-4 py-2 bg-green-500/10 border-b border-green-500/10 flex justify-between items-center bg-zinc-950">
-    <div class="flex gap-1.5">
-      <div class="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></div>
-      <span class="text-[8px] font-mono text-green-400 uppercase tracking-widest">Sovereign Telemetry</span>
+<div 
+  id="telemetry-hud" 
+  class="fixed bottom-6 right-6 z-[100] w-72 md:w-80 h-52 flex flex-col glass-surface rounded-xl overflow-hidden border border-emerald-500/20 shadow-[0_0_30px_rgba(16,185,129,0.1)] transition-all duration-1000 translate-y-32 opacity-0 pointer-events-none"
+>
+  <!-- Scanline Effect Overlay -->
+  <div class="absolute inset-0 pointer-events-none opacity-[0.03] z-50 bg-[linear-gradient(rgba(16,185,129,0)_50%,rgba(16,185,129,1)_50%),linear-gradient(90deg,rgba(16,185,129,0)_50%,rgba(16,185,129,1)_50%)] bg-[length:4px_4px]"></div>
+
+  <div class="px-4 py-2 bg-emerald-500/5 border-b border-emerald-500/10 flex justify-between items-center relative z-10">
+    <div class="flex items-center gap-2">
+      <div class="relative flex h-2 w-2">
+        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+        <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+      </div>
+      <span class="text-[9px] font-mono font-bold text-emerald-400 uppercase tracking-[0.2em]">Sovereign Telemetry</span>
     </div>
-    <span class="text-[8px] font-mono text-zinc-600 uppercase">Live Buffer</span>
+    <span class="text-[8px] font-mono text-emerald-500/40 uppercase tracking-widest">Live_v2.0</span>
   </div>
   
-  <div id="telemetry-log" class="p-3 font-mono text-[9px] text-green-500/80 space-y-1 overflow-y-auto h-full scrollbar-none">
+  <div id="telemetry-log" class="flex-1 p-4 font-mono text-[10px] text-emerald-400/90 space-y-1.5 overflow-y-auto scrollbar-none relative z-10">
     <!-- Log entries injected via JS -->
   </div>
 </div>
@@ -26,7 +35,10 @@
     "HATEOAS: State transition [MISSION -> HYPERMEDIA_ACTIVE]",
     "SOVEREIGN_TTS: Piper warmed up. Ready for synthesis.",
     "LATENCY: Engine telemetry sub-ms threshold achieved.",
-    "RECONCILE: Zero context decay across recursive clusters."
+    "RECONCILE: Zero context decay across recursive clusters.",
+    "SWARM_EVOLUTION: Skill registry hot-reload initiated...",
+    "AUDIT: AES-256 neural vault integrity verified.",
+    "ORCHESTRATOR: Routing model request to [Ollama-Llama3]."
   ];
 
   function initTelemetry() {
@@ -34,44 +46,61 @@
     const logContainer = document.getElementById('telemetry-log');
     if (!hud || !logContainer) return;
 
+    // Reset if already running (for page transitions)
+    logContainer.innerHTML = '';
+    let logIndex = 0;
+    let timeoutId: number | null = null;
+
     // Show HUD after delay
     setTimeout(() => {
-      hud.classList.remove('translate-y-24', 'opacity-0');
+      hud.classList.remove('translate-y-32', 'opacity-0', 'pointer-events-none');
       hud.classList.add('translate-y-0', 'opacity-100');
-    }, 2000);
+    }, 1500);
 
-    let logIndex = 0;
-    
     function addLog() {
+      if (!logContainer) return;
+
       const entry = document.createElement('div');
-      entry.className = 'opacity-0 translate-x-4 transition-all duration-300';
+      entry.className = 'opacity-0 translate-x-2 transition-all duration-400 border-l border-emerald-500/20 pl-2 py-0.5';
       const timestamp = new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' });
-      entry.innerHTML = `<span class="text-zinc-600">[${timestamp}]</span> ${logs[logIndex % logs.length]}`;
+      
+      entry.innerHTML = `<span class="text-emerald-500/30 text-[8px]">[${timestamp}]</span> <span class="text-emerald-300/80">${logs[logIndex % logs.length]}</span>`;
       
       logContainer.appendChild(entry);
       
       // Animate entry
-      setTimeout(() => {
-        entry.classList.remove('opacity-0', 'translate-x-4');
-        entry.classList.add('opacity-100', 'translate-x-0');
-      }, 50);
+      requestAnimationFrame(() => {
+        setTimeout(() => {
+          entry.classList.remove('opacity-0', 'translate-x-2');
+          entry.classList.add('opacity-100', 'translate-x-0');
+        }, 10);
+      });
 
       // Auto scroll
       logContainer.scrollTop = logContainer.scrollHeight;
 
       // Limit entries
-      if (logContainer.children.length > 20) {
-        logContainer.removeChild(logContainer.firstChild);
+      if (logContainer.children.length > 25) {
+        const firstChild = logContainer.firstChild;
+        if (firstChild) logContainer.removeChild(firstChild);
       }
 
       logIndex++;
-      setTimeout(addLog, 2000 + Math.random() * 3000);
+      timeoutId = window.setTimeout(addLog, 1500 + Math.random() * 4000);
     }
 
-    addLog();
+    // Start logs after HUD starts appearing
+    setTimeout(addLog, 2000);
+    
+    // Cleanup on page hide
+    document.addEventListener('astro:before-preparation', () => {
+        if (timeoutId) clearTimeout(timeoutId);
+    }, { once: true });
   }
 
+  // Support for both initial load and view transitions
   document.addEventListener('DOMContentLoaded', initTelemetry);
+  document.addEventListener('astro:page-load', initTelemetry);
 </script>
 
 <style>
@@ -81,5 +110,6 @@
   #telemetry-log {
     -ms-overflow-style: none;
     scrollbar-width: none;
+    mask-image: linear-gradient(to bottom, transparent, black 10%, black 90%, transparent);
   }
 </style>

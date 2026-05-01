@@ -1,98 +1,147 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+import BaseLayout from "../layouts/BaseLayout.astro";
 
-const basePath = '/AI-Tadpole-OS-Marketing';
+const basePath = "/AI-Tadpole-OS-Marketing";
 
 const architectureLayers = [
   {
-    label: 'L1',
-    title: 'Directive layer',
-    detail: 'Human-authored SOPs, goals, and non-negotiable mission rules stay in versioned directives.'
+    label: "L1",
+    title: "Directive layer",
+    detail:
+      "Human-authored SOPs, goals, and non-negotiable mission rules stay in versioned directives.",
   },
   {
-    label: 'L2',
-    title: 'Orchestration layer',
-    detail: 'Agent 99 coordinates hierarchy, model routing, self-correction, and wisdom extraction.'
+    label: "L2",
+    title: "Orchestration layer",
+    detail:
+      "Agent 99 coordinates hierarchy, model routing, self-correction, and wisdom extraction.",
   },
   {
-    label: 'L3',
-    title: 'Execution layer',
-    detail: 'Rust and deterministic scripts handle action paths, auditability, and repeatable business logic.'
-  }
+    label: "L3",
+    title: "Execution layer",
+    detail:
+      "Rust and deterministic scripts handle action paths, auditability, and repeatable business logic.",
+  },
 ];
 
 const interfaceSurfaces = [
-  'Operations dashboard with live swarm status and detachable sectors',
-  'Model manager with provider vaulting, model inventory, and capability-aware routing',
-  'Security dashboard for quotas, audit trail verification, and defense posture',
-  'Skills, templates, workspaces, missions, standups, and documentation hubs'
+  "Operations dashboard with live swarm status and detachable sectors",
+  "Model manager with provider vaulting, model inventory, and capability-aware routing",
+  "Security dashboard for quotas, audit trail verification, and defense posture",
+  "Skills, templates, workspaces, missions, standups, and documentation hubs",
 ];
 
 const governance = [
-  ['Privacy gate', 'Block external cloud traffic when a mission requires air-gapped operation.'],
-  ['Sapphire Shield', 'Escalate sensitive tool calls such as shell execution and budget spend for human approval.'],
-  ['Audit trail', 'Track decisions, verification state, quotas, and agent health from the security console.'],
-  ['Secret-aware logs', 'Redact tokens and credentials before telemetry becomes operational memory.']
+  [
+    "Privacy gate",
+    "Block external cloud traffic when a mission requires air-gapped operation.",
+  ],
+  [
+    "Sapphire Shield",
+    "Escalate sensitive tool calls such as shell execution and budget spend for human approval.",
+  ],
+  [
+    "Audit trail",
+    "Track decisions, verification state, quotas, and agent health from the security console.",
+  ],
+  [
+    "Secret-aware logs",
+    "Redact tokens and credentials before telemetry becomes operational memory.",
+  ],
 ];
 
 const roadmap = [
-  ['Current', 'Rust backend, reactive dashboard, modular skills, model registry, local-first memory'],
-  ['Next', 'Continuity scheduler, unified oversight gate, GraphRAG, communication bridges'],
-  ['Distributed', 'Bunker mesh, portable context cores, graceful provider degradation, self-annealing recovery']
+  [
+    "Current",
+    "Rust backend, reactive dashboard, modular skills, model registry, local-first memory",
+  ],
+  [
+    "Next",
+    "Continuity scheduler, unified oversight gate, GraphRAG, communication bridges",
+  ],
+  [
+    "Distributed",
+    "Bunker mesh, portable context cores, graceful provider degradation, self-annealing recovery",
+  ],
 ];
 
 const screenshots = [
   {
     src: `${basePath}/assets/real_os_dashboard.png`,
-    alt: 'Tadpole OS operations dashboard'
+    alt: "Tadpole OS operations dashboard",
   },
   {
     src: `${basePath}/assets/real_os_nodes.png`,
-    alt: 'Tadpole OS node hierarchy interface'
+    alt: "Tadpole OS node hierarchy interface",
   },
   {
     src: `${basePath}/assets/real_os_oversight.png`,
-    alt: 'Tadpole OS oversight and security interface'
-  }
+    alt: "Tadpole OS oversight and security interface",
+  },
 ];
 ---
 
 <BaseLayout
-  title="Tadpole OS | Local-First Multi-Agent Swarm Runtime"
-  description="Tadpole OS is a local-first Rust and React runtime for sovereign multi-agent orchestration, live telemetry, model routing, and human-governed execution."
+  title="AI-Tadpole-OS | Local-First Multi-Agent Swarm Runtime"
+  description=" AI-Tadpole-OS is a local-first Rust and React runtime for sovereign multi-agent orchestration, live telemetry, model routing, and human-governed execution."
 >
   <main id="main" class="relative z-10">
-    <section class="relative min-h-[88vh] overflow-hidden border-b border-white/10 pt-28">
+    <section
+      class="relative min-h-[88vh] overflow-hidden border-b border-white/10 pt-28"
+    >
       <img
         src={`${basePath}/assets/real_os_dashboard.png`}
         alt=""
         class="absolute inset-0 h-full w-full object-cover opacity-24"
         loading="eager"
       />
-      <div class="absolute inset-0 bg-[linear-gradient(90deg,#09090b_0%,rgba(9,9,11,0.92)_42%,rgba(9,9,11,0.62)_100%)]"></div>
-      <div class="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-zinc-950 to-transparent"></div>
+      <div
+        class="absolute inset-0 bg-[linear-gradient(90deg,#09090b_0%,rgba(9,9,11,0.92)_42%,rgba(9,9,11,0.62)_100%)]"
+      >
+      </div>
+      <div
+        class="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-zinc-950 to-transparent"
+      >
+      </div>
 
-      <div class="relative mx-auto flex min-h-[calc(88vh-7rem)] max-w-7xl flex-col justify-end px-5 pb-16 sm:px-8 lg:pb-20">
+      <div
+        class="relative mx-auto flex min-h-[calc(88vh-7rem)] max-w-7xl flex-col justify-end px-5 pb-16 sm:px-8 lg:pb-20"
+      >
         <div class="max-w-4xl space-y-8">
-          <div class="inline-flex min-h-11 items-center gap-3 rounded-lg border border-emerald-400/20 bg-zinc-950/70 px-4 font-mono text-[11px] font-bold uppercase tracking-[0.22em] text-emerald-300 backdrop-blur">
-            <span class="signal-node h-2 w-2 rounded-full bg-emerald-400"></span>
+          <div
+            class="inline-flex min-h-11 items-center gap-3 rounded-lg border border-emerald-400/20 bg-zinc-950/70 px-4 font-mono text-[11px] font-bold uppercase tracking-[0.22em] text-emerald-300 backdrop-blur"
+          >
+            <span class="signal-node h-2 w-2 rounded-full bg-emerald-400"
+            ></span>
             Local-first autonomous runtime
           </div>
 
           <div class="space-y-5">
-            <h1 class="text-display text-6xl font-extrabold leading-[0.92] text-white sm:text-7xl lg:text-9xl">
-              Tadpole OS
+            <h1
+              class="text-display text-6xl font-extrabold leading-[0.92] text-white sm:text-7xl lg:text-9xl"
+            >
+              AI-Tadpole-OS
             </h1>
-            <p class="max-w-3xl text-xl leading-8 text-zinc-300 sm:text-2xl sm:leading-9">
-              A sovereign command layer for multi-agent work: Rust execution, React observability, private memory, and human-governed automation in one local runtime.
+            <p
+              class="max-w-3xl text-xl leading-8 text-zinc-300 sm:text-2xl sm:leading-9"
+            >
+              A sovereign command layer for multi-agent work: Rust execution,
+              React observability, private memory, and human-governed automation
+              in one local runtime.
             </p>
           </div>
 
           <div class="flex flex-col gap-3 sm:flex-row">
-            <a href="https://github.com/DDS-Solutions/AI-TadPole-OS" class="inline-flex min-h-12 items-center justify-center rounded-lg bg-white px-6 text-sm font-bold text-zinc-950 hover:bg-zinc-200">
+            <a
+              href="https://github.com/DDS-Solutions/AI-TadPole-OS"
+              class="inline-flex min-h-12 items-center justify-center rounded-lg bg-white px-6 text-sm font-bold text-zinc-950 hover:bg-zinc-200"
+            >
               Explore the source
             </a>
-            <a href="#runtime" class="inline-flex min-h-12 items-center justify-center rounded-lg border border-white/15 bg-white/5 px-6 text-sm font-bold text-zinc-100 hover:border-emerald-300/50 hover:text-emerald-200">
+            <a
+              href="#runtime"
+              class="inline-flex min-h-12 items-center justify-center rounded-lg border border-white/15 bg-white/5 px-6 text-sm font-bold text-zinc-100 hover:border-emerald-300/50 hover:text-emerald-200"
+            >
               See the architecture
             </a>
           </div>
@@ -100,53 +149,96 @@ const screenshots = [
       </div>
     </section>
 
-    <section id="runtime" class="mx-auto grid max-w-7xl gap-12 px-5 py-24 sm:px-8 lg:grid-cols-[0.9fr_1.1fr] lg:py-32" data-reveal>
+    <section
+      id="runtime"
+      class="mx-auto grid max-w-7xl gap-12 px-5 py-24 sm:px-8 lg:grid-cols-[0.9fr_1.1fr] lg:py-32"
+      data-reveal
+    >
       <div class="space-y-5">
-        <p class="font-mono text-xs font-bold uppercase tracking-[0.24em] text-emerald-300">Runtime model</p>
-        <h2 class="text-4xl font-bold leading-tight text-white sm:text-5xl">Built to keep strategy close to the machine.</h2>
+        <p
+          class="font-mono text-xs font-bold uppercase tracking-[0.24em] text-emerald-300"
+        >
+          Runtime model
+        </p>
+        <h2 class="text-4xl font-bold leading-tight text-white sm:text-5xl">
+          Built to keep strategy close to the machine.
+        </h2>
         <p class="text-lg leading-8 text-zinc-400">
-          Tadpole OS treats a clone as the unit of sovereignty. Directives, orchestration, and execution remain inspectable so teams can run missions without surrendering operational context to a hosted black box.
+          AI-Tadpole-OS treats a clone as the unit of sovereignty. Directives,
+          orchestration, and execution remain inspectable so teams can run
+          missions without surrendering operational context to a hosted black
+          box.
         </p>
       </div>
 
       <div class="grid gap-4">
-        {architectureLayers.map((layer) => (
-          <article class="grid gap-5 rounded-lg border border-white/10 bg-zinc-900/40 p-6 sm:grid-cols-[5rem_1fr]">
-            <div class="font-mono text-3xl font-bold text-emerald-300">{layer.label}</div>
-            <div class="space-y-2">
-              <h3 class="text-2xl font-bold text-white">{layer.title}</h3>
-              <p class="leading-7 text-zinc-400">{layer.detail}</p>
-            </div>
-          </article>
-        ))}
+        {
+          architectureLayers.map((layer) => (
+            <article class="grid gap-5 rounded-lg border border-white/10 bg-zinc-900/40 p-6 sm:grid-cols-[5rem_1fr]">
+              <div class="font-mono text-3xl font-bold text-emerald-300">
+                {layer.label}
+              </div>
+              <div class="space-y-2">
+                <h3 class="text-2xl font-bold text-white">{layer.title}</h3>
+                <p class="leading-7 text-zinc-400">{layer.detail}</p>
+              </div>
+            </article>
+          ))
+        }
       </div>
     </section>
 
-    <section id="interface" class="border-y border-white/10 bg-zinc-900/20" data-reveal>
-      <div class="mx-auto grid max-w-7xl gap-12 px-5 py-24 sm:px-8 lg:grid-cols-[1.2fr_0.8fr] lg:py-32">
+    <section
+      id="interface"
+      class="border-y border-white/10 bg-zinc-900/20"
+      data-reveal
+    >
+      <div
+        class="mx-auto grid max-w-7xl gap-12 px-5 py-24 sm:px-8 lg:grid-cols-[1.2fr_0.8fr] lg:py-32"
+      >
         <div class="space-y-5">
-          <p class="font-mono text-xs font-bold uppercase tracking-[0.24em] text-emerald-300">Operator interface</p>
-          <h2 class="text-4xl font-bold leading-tight text-white sm:text-5xl">Dense control surfaces for live swarm work.</h2>
+          <p
+            class="font-mono text-xs font-bold uppercase tracking-[0.24em] text-emerald-300"
+          >
+            Operator interface
+          </p>
+          <h2 class="text-4xl font-bold leading-tight text-white sm:text-5xl">
+            Dense control surfaces for live swarm work.
+          </h2>
           <p class="text-lg leading-8 text-zinc-400">
-            The product codebase exposes a high-density dashboard system rather than a chat-only wrapper. Operators can inspect agents, model slots, quotas, telemetry, mission state, and detached tactical views from the same shell.
+            The product codebase exposes a high-density dashboard system rather
+            than a chat-only wrapper. Operators can inspect agents, model slots,
+            quotas, telemetry, mission state, and detached tactical views from
+            the same shell.
           </p>
 
           <ul class="grid gap-3 pt-4">
-            {interfaceSurfaces.map((item) => (
-              <li class="flex gap-3 rounded-lg border border-white/10 bg-zinc-950/40 p-4 text-zinc-300">
-                <span class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-400"></span>
-                <span>{item}</span>
-              </li>
-            ))}
+            {
+              interfaceSurfaces.map((item) => (
+                <li class="flex gap-3 rounded-lg border border-white/10 bg-zinc-950/40 p-4 text-zinc-300">
+                  <span class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-400" />
+                  <span>{item}</span>
+                </li>
+              ))
+            }
           </ul>
         </div>
 
         <div class="grid gap-4">
-          {screenshots.map((shot, index) => (
-            <figure class={`overflow-hidden rounded-lg border border-white/10 bg-zinc-950 ${index === 1 ? 'lg:-ml-12' : ''}`}>
-              <img src={shot.src} alt={shot.alt} class="aspect-[16/9] w-full object-cover" loading={index === 0 ? 'eager' : 'lazy'} />
-            </figure>
-          ))}
+          {
+            screenshots.map((shot, index) => (
+              <figure
+                class={`overflow-hidden rounded-lg border border-white/10 bg-zinc-950 ${index === 1 ? "lg:-ml-12" : ""}`}
+              >
+                <img
+                  src={shot.src}
+                  alt={shot.alt}
+                  class="aspect-[16/9] w-full object-cover"
+                  loading={index === 0 ? "eager" : "lazy"}
+                />
+              </figure>
+            ))
+          }
         </div>
       </div>
     </section>
@@ -154,88 +246,169 @@ const screenshots = [
     <section class="mx-auto max-w-7xl px-5 py-24 sm:px-8 lg:py-32" data-reveal>
       <div class="grid gap-8 lg:grid-cols-[0.8fr_1.2fr]">
         <div class="space-y-5">
-          <p class="font-mono text-xs font-bold uppercase tracking-[0.24em] text-emerald-300">Model intelligence</p>
-          <h2 class="text-4xl font-bold leading-tight text-white sm:text-5xl">Provider choice without operational drift.</h2>
+          <p
+            class="font-mono text-xs font-bold uppercase tracking-[0.24em] text-emerald-300"
+          >
+            Model intelligence
+          </p>
+          <h2 class="text-4xl font-bold leading-tight text-white sm:text-5xl">
+            Provider choice without operational drift.
+          </h2>
           <p class="text-lg leading-8 text-zinc-400">
-            The model manager is designed around capability-aware routing: local/self-hosted models, hosted providers, secure vault sync, modality filters, and triple-slot fallback per agent.
+            The model manager is designed around capability-aware routing:
+            local/self-hosted models, hosted providers, secure vault sync,
+            modality filters, and triple-slot fallback per agent.
           </p>
         </div>
 
         <div class="grid gap-5 sm:grid-cols-2">
           <div class="rounded-lg border border-white/10 bg-zinc-900/40 p-6">
-            <p class="font-mono text-xs font-bold uppercase tracking-[0.2em] text-zinc-500">Providers</p>
-            <h3 class="mt-4 text-2xl font-bold text-white">Ollama, OpenAI, Groq, Google, and custom nodes</h3>
+            <p
+              class="font-mono text-xs font-bold uppercase tracking-[0.2em] text-zinc-500"
+            >
+              Providers
+            </p>
+            <h3 class="mt-4 text-2xl font-bold text-white">
+              Ollama, OpenAI, Groq, Google, and custom nodes
+            </h3>
           </div>
           <div class="rounded-lg border border-white/10 bg-zinc-900/40 p-6">
-            <p class="font-mono text-xs font-bold uppercase tracking-[0.2em] text-zinc-500">Routing</p>
-            <h3 class="mt-4 text-2xl font-bold text-white">Primary, secondary, and tertiary model slots per agent</h3>
+            <p
+              class="font-mono text-xs font-bold uppercase tracking-[0.2em] text-zinc-500"
+            >
+              Routing
+            </p>
+            <h3 class="mt-4 text-2xl font-bold text-white">
+              Primary, secondary, and tertiary model slots per agent
+            </h3>
           </div>
-          <div class="rounded-lg border border-white/10 bg-zinc-900/40 p-6 sm:col-span-2">
-            <img src={`${basePath}/assets/real_os_templates.png`} alt="Tadpole OS template and model surfaces" class="mb-6 aspect-[16/7] w-full rounded-lg border border-white/10 object-cover" loading="lazy" />
+          <div
+            class="rounded-lg border border-white/10 bg-zinc-900/40 p-6 sm:col-span-2"
+          >
+            <img
+              src={`${basePath}/assets/real_os_templates.png`}
+              alt="AI-Tadpole-OS template and model surfaces"
+              class="mb-6 aspect-[16/7] w-full rounded-lg border border-white/10 object-cover"
+              loading="lazy"
+            />
             <p class="text-zinc-400">
-              Industry templates and MCP skills are first-class operational material, not marketing add-ons. They feed directly into the agent, workflow, and capability model.
+              Industry templates and MCP skills are first-class operational
+              material, not marketing add-ons. They feed directly into the
+              agent, workflow, and capability model.
             </p>
           </div>
         </div>
       </div>
     </section>
 
-    <section id="governance" class="border-y border-white/10 bg-zinc-900/20" data-reveal>
-      <div class="mx-auto grid max-w-7xl gap-12 px-5 py-24 sm:px-8 lg:grid-cols-[1fr_1fr] lg:py-32">
+    <section
+      id="governance"
+      class="border-y border-white/10 bg-zinc-900/20"
+      data-reveal
+    >
+      <div
+        class="mx-auto grid max-w-7xl gap-12 px-5 py-24 sm:px-8 lg:grid-cols-[1fr_1fr] lg:py-32"
+      >
         <div class="space-y-6">
-          <p class="font-mono text-xs font-bold uppercase tracking-[0.24em] text-emerald-300">Governance</p>
-          <h2 class="text-4xl font-bold leading-tight text-white sm:text-5xl">Autonomy with explicit control points.</h2>
-          <p class="text-lg leading-8 text-zinc-400">
-            Tadpole OS is built around bounded execution. Sensitive actions can require human approval, mission spending is visible, and local-first operation can be enforced when privacy is the priority.
+          <p
+            class="font-mono text-xs font-bold uppercase tracking-[0.24em] text-emerald-300"
+          >
+            Governance
           </p>
-          <img src={`${basePath}/assets/real_os_oversight.png`} alt="Tadpole OS security and oversight dashboard" class="rounded-lg border border-white/10" loading="lazy" />
+          <h2 class="text-4xl font-bold leading-tight text-white sm:text-5xl">
+            Autonomy with explicit control points.
+          </h2>
+          <p class="text-lg leading-8 text-zinc-400">
+            Tadpole OS is built around bounded execution. Sensitive actions can
+            require human approval, mission spending is visible, and local-first
+            operation can be enforced when privacy is the priority.
+          </p>
+          <img
+            src={`${basePath}/assets/real_os_oversight.png`}
+            alt="Tadpole OS security and oversight dashboard"
+            class="rounded-lg border border-white/10"
+            loading="lazy"
+          />
         </div>
 
         <div class="grid content-start gap-4">
-          {governance.map(([title, detail]) => (
-            <article class="rounded-lg border border-white/10 bg-zinc-950/50 p-6">
-              <h3 class="text-xl font-bold text-white">{title}</h3>
-              <p class="mt-3 leading-7 text-zinc-400">{detail}</p>
-            </article>
-          ))}
+          {
+            governance.map(([title, detail]) => (
+              <article class="rounded-lg border border-white/10 bg-zinc-950/50 p-6">
+                <h3 class="text-xl font-bold text-white">{title}</h3>
+                <p class="mt-3 leading-7 text-zinc-400">{detail}</p>
+              </article>
+            ))
+          }
         </div>
       </div>
     </section>
 
-    <section id="roadmap" class="mx-auto max-w-7xl px-5 py-24 sm:px-8 lg:py-32" data-reveal>
+    <section
+      id="roadmap"
+      class="mx-auto max-w-7xl px-5 py-24 sm:px-8 lg:py-32"
+      data-reveal
+    >
       <div class="mb-12 max-w-3xl space-y-5">
-        <p class="font-mono text-xs font-bold uppercase tracking-[0.24em] text-emerald-300">Roadmap</p>
-        <h2 class="text-4xl font-bold leading-tight text-white sm:text-5xl">From local engine to distributed swarm mesh.</h2>
+        <p
+          class="font-mono text-xs font-bold uppercase tracking-[0.24em] text-emerald-300"
+        >
+          Roadmap
+        </p>
+        <h2 class="text-4xl font-bold leading-tight text-white sm:text-5xl">
+          From local engine to distributed swarm mesh.
+        </h2>
         <p class="text-lg leading-8 text-zinc-400">
-          The May 1, 2026 product roadmap shows the platform moving through governance, memory, distributed runtime, and hardened infrastructure work.
+          The May 1, 2026 product roadmap shows the platform moving through
+          governance, memory, distributed runtime, and hardened infrastructure
+          work.
         </p>
       </div>
 
       <div class="overflow-hidden rounded-lg border border-white/10">
-        {roadmap.map(([phase, detail]) => (
-          <div class="grid gap-4 border-b border-white/10 bg-zinc-900/30 p-6 last:border-b-0 sm:grid-cols-[10rem_1fr]">
-            <p class="font-mono text-xs font-bold uppercase tracking-[0.22em] text-emerald-300">{phase}</p>
-            <p class="text-zinc-300">{detail}</p>
-          </div>
-        ))}
+        {
+          roadmap.map(([phase, detail]) => (
+            <div class="grid gap-4 border-b border-white/10 bg-zinc-900/30 p-6 last:border-b-0 sm:grid-cols-[10rem_1fr]">
+              <p class="font-mono text-xs font-bold uppercase tracking-[0.22em] text-emerald-300">
+                {phase}
+              </p>
+              <p class="text-zinc-300">{detail}</p>
+            </div>
+          ))
+        }
       </div>
     </section>
 
     <section class="mx-auto max-w-7xl px-5 pb-24 sm:px-8 lg:pb-32" data-reveal>
-      <div class="relative overflow-hidden rounded-lg border border-emerald-400/20 bg-zinc-900/60 p-8 sm:p-12">
+      <div
+        class="relative overflow-hidden rounded-lg border border-emerald-400/20 bg-zinc-900/60 p-8 sm:p-12"
+      >
         <div class="grid gap-8 lg:grid-cols-[1fr_auto] lg:items-end">
           <div class="max-w-3xl space-y-4">
-            <p class="font-mono text-xs font-bold uppercase tracking-[0.24em] text-emerald-300">Clone the runtime</p>
-            <h2 class="text-4xl font-bold leading-tight text-white sm:text-5xl">Own the directives, memory, and execution path.</h2>
+            <p
+              class="font-mono text-xs font-bold uppercase tracking-[0.24em] text-emerald-300"
+            >
+              Clone the runtime
+            </p>
+            <h2 class="text-4xl font-bold leading-tight text-white sm:text-5xl">
+              Own the directives, memory, and execution path.
+            </h2>
             <p class="text-lg leading-8 text-zinc-400">
-              Start from the source repository, review the architecture, then run the Rust engine and React dashboard locally.
+              Start from the source repository, review the architecture, then
+              run the Rust engine and React dashboard locally.
             </p>
           </div>
           <div class="flex flex-col gap-3 sm:flex-row lg:flex-col">
-            <a href="https://github.com/DDS-Solutions/AI-TadPole-OS" class="inline-flex min-h-12 items-center justify-center rounded-lg bg-emerald-300 px-6 text-sm font-bold text-zinc-950 hover:bg-white">
+            <a
+              href="https://github.com/DDS-Solutions/AI-TadPole-OS"
+              class="inline-flex min-h-12 items-center justify-center rounded-lg bg-emerald-300 px-6 text-sm font-bold text-zinc-950 hover:bg-white"
+            >
               Open GitHub
             </a>
-            <a href="https://github.com/DDS-Solutions/AI-TadPole-OS/blob/main/README.md" class="inline-flex min-h-12 items-center justify-center rounded-lg border border-white/15 px-6 text-sm font-bold text-zinc-100 hover:border-white/40">
+            <a
+              href="https://github.com/DDS-Solutions/AI-TadPole-OS/blob/main/README.md"
+              class="inline-flex min-h-12 items-center justify-center rounded-lg border border-white/15 px-6 text-sm font-bold text-zinc-100 hover:border-white/40"
+            >
               Read quick start
             </a>
           </div>
@@ -244,7 +417,9 @@ const screenshots = [
     </section>
 
     <footer class="border-t border-white/10 px-5 py-10 text-center sm:px-8">
-      <p class="font-mono text-[11px] font-bold uppercase tracking-[0.24em] text-zinc-600">
+      <p
+        class="font-mono text-[11px] font-bold uppercase tracking-[0.24em] text-zinc-600"
+      >
         Tadpole OS Engine | Sovereign intelligence runtime
       </p>
     </footer>

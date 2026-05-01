@@ -1,4 +1,6 @@
 ---
+import TelemetryHUD from "../components/TelemetryHUD.astro";
+
 interface Props {
   title: string;
   description: string;
@@ -208,5 +210,6 @@ const basePath = '/AI-Tadpole-OS-Marketing';
         animateCursorField();
       }
     </script>
+    <TelemetryHUD />
   </body>
 </html>

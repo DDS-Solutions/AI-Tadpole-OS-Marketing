@@ -1,600 +1,268 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+
+const basePath = '/AI-Tadpole-OS-Marketing';
+
+const architectureLayers = [
+  {
+    label: 'L1',
+    title: 'Directive layer',
+    detail: 'Human-authored SOPs, goals, and non-negotiable mission rules stay in versioned directives.'
+  },
+  {
+    label: 'L2',
+    title: 'Orchestration layer',
+    detail: 'Agent 99 coordinates hierarchy, model routing, self-correction, and wisdom extraction.'
+  },
+  {
+    label: 'L3',
+    title: 'Execution layer',
+    detail: 'Rust and deterministic scripts handle action paths, auditability, and repeatable business logic.'
+  }
+];
+
+const interfaceSurfaces = [
+  'Operations dashboard with live swarm status and detachable sectors',
+  'Model manager with provider vaulting, model inventory, and capability-aware routing',
+  'Security dashboard for quotas, audit trail verification, and defense posture',
+  'Skills, templates, workspaces, missions, standups, and documentation hubs'
+];
+
+const governance = [
+  ['Privacy gate', 'Block external cloud traffic when a mission requires air-gapped operation.'],
+  ['Sapphire Shield', 'Escalate sensitive tool calls such as shell execution and budget spend for human approval.'],
+  ['Audit trail', 'Track decisions, verification state, quotas, and agent health from the security console.'],
+  ['Secret-aware logs', 'Redact tokens and credentials before telemetry becomes operational memory.']
+];
+
+const roadmap = [
+  ['Current', 'Rust backend, reactive dashboard, modular skills, model registry, local-first memory'],
+  ['Next', 'Continuity scheduler, unified oversight gate, GraphRAG, communication bridges'],
+  ['Distributed', 'Bunker mesh, portable context cores, graceful provider degradation, self-annealing recovery']
+];
+
+const screenshots = [
+  {
+    src: `${basePath}/assets/real_os_dashboard.png`,
+    alt: 'Tadpole OS operations dashboard'
+  },
+  {
+    src: `${basePath}/assets/real_os_nodes.png`,
+    alt: 'Tadpole OS node hierarchy interface'
+  },
+  {
+    src: `${basePath}/assets/real_os_oversight.png`,
+    alt: 'Tadpole OS oversight and security interface'
+  }
+];
 ---
 
-<BaseLayout 
-	title="Tadpole OS | Secure, Local-First Multi-Agent Swarms"
-	description="The high-performance, autonomous engine for sovereign intelligence. Built for SMBs who demand scalability and absolute data control."
+<BaseLayout
+  title="Tadpole OS | Local-First Multi-Agent Swarm Runtime"
+  description="Tadpole OS is a local-first Rust and React runtime for sovereign multi-agent orchestration, live telemetry, model routing, and human-governed execution."
 >
-	<main class="relative z-10 max-w-7xl mx-auto px-6 py-24 md:py-32">
-		<!-- Hero Section -->
-		<section class="text-center space-y-8 relative">
-      <!-- Hero Glow Aura -->
-      <div class="absolute -top-24 left-1/2 -translate-x-1/2 w-96 h-96 bg-green-500/5 blur-[120px] pointer-events-none"></div>
-      
-			<div class="inline-flex items-center gap-2 px-3 py-1 rounded-lg border border-green-500/20 bg-green-500/5 text-[10px] font-mono tracking-widest text-green-400 uppercase animate-pulse">
-				<span class="w-1.5 h-1.5 rounded-full bg-green-500 shadow-[0_0_12px_rgba(34,197,94,0.8)]"></span>
-				Engine Status: Alpha-1 Active
-			</div>
-			
-			<h1 class="text-6xl md:text-9xl font-bold tracking-tighter text-white leading-[0.9] font-inter">
-				The Sovereign Engine for <br/>
-        <span class="text-zinc-700">Autonomous Growth</span>
-			</h1>
-			
-			<p class="text-lg md:text-xl text-zinc-400 max-w-2xl mx-auto font-light leading-relaxed font-inter">
-				Tadpole OS is the high-performance, local-first runtime for **autonomous multi-agent swarms**. 
-				Powered by **Recursive Swarm Protocols**, it delivers absolute data sovereignty and hierarchical intelligence for the modern enterprise.
-			</p>
-			
-			<div class="flex flex-col sm:flex-row items-center justify-center gap-6 pt-12">
-				<a href="https://github.com/DDS-Solutions/AI-TadPole-OS" class="w-full sm:w-auto px-10 py-5 bg-white text-zinc-950 font-bold rounded-lg hover:bg-zinc-200 transition-all hover:scale-105 active:scale-95 shadow-[0_0_30px_rgba(255,255,255,0.15)] text-sm tracking-tight">
-					Fork on GitHub
-				</a>
-				<a href="mission" class="w-full sm:w-auto px-10 py-5 bg-green-500 text-zinc-950 font-bold rounded-lg hover:bg-green-400 transition-all hover:scale-105 active:scale-95 shadow-[0_0_30px_rgba(16,185,129,0.3)] text-sm tracking-tight">
-					Start Mission
-				</a>
-				<a href="how-it-works" class="w-full sm:w-auto px-10 py-5 glass-surface text-white font-bold rounded-lg hover:bg-white/10 transition-all hover:scale-105 active:scale-95 text-sm tracking-tight border-white/20">
-					How It Works
-				</a>
-			</div>
-		</section>
+  <main id="main" class="relative z-10">
+    <section class="relative min-h-[88vh] overflow-hidden border-b border-white/10 pt-28">
+      <img
+        src={`${basePath}/assets/real_os_dashboard.png`}
+        alt=""
+        class="absolute inset-0 h-full w-full object-cover opacity-24"
+        loading="eager"
+      />
+      <div class="absolute inset-0 bg-[linear-gradient(90deg,#09090b_0%,rgba(9,9,11,0.92)_42%,rgba(9,9,11,0.62)_100%)]"></div>
+      <div class="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-zinc-950 to-transparent"></div>
 
-    <!-- Metamorphosis Workflow Section -->
-    <section class="py-32 border-t border-white/5 mt-32">
-      <div class="text-center space-y-4 mb-16">
-        <h2 class="text-3xl md:text-5xl font-bold text-white tracking-tight">The Metamorphosis</h2>
-        <p class="text-zinc-500 font-mono text-xs uppercase tracking-[0.3em]">From Observer to Market Leader</p>
-      </div>
-      
-      <div class="grid md:grid-cols-3 gap-12 relative px-4">
-        <!-- Connecting Line (Desktop) -->
-        <div class="hidden md:block absolute top-24 left-0 w-full h-px bg-zinc-800 -z-10">
-          <div id="metamorphosis-progress" class="h-full bg-green-500 shadow-[0_0_15px_rgba(16,185,129,0.5)] transition-all duration-300 w-0"></div>
-        </div>
-        
-        <!-- Phase 1 -->
-        <div class="space-y-6 text-center group">
-          <div class="w-24 h-24 mx-auto rounded-full bg-zinc-900 border-2 border-green-500/20 flex items-center justify-center glass-surface group-hover:border-green-500 transition-all duration-500 relative">
-            <div class="absolute inset-0 rounded-full bg-green-500/10 blur-xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
-            <span class="text-2xl phase-icon">🥚</span>
+      <div class="relative mx-auto flex min-h-[calc(88vh-7rem)] max-w-7xl flex-col justify-end px-5 pb-16 sm:px-8 lg:pb-20">
+        <div class="max-w-4xl space-y-8">
+          <div class="inline-flex min-h-11 items-center gap-3 rounded-lg border border-emerald-400/20 bg-zinc-950/70 px-4 font-mono text-[11px] font-bold uppercase tracking-[0.22em] text-emerald-300 backdrop-blur">
+            <span class="signal-node h-2 w-2 rounded-full bg-emerald-400"></span>
+            Local-first autonomous runtime
           </div>
-          <div class="space-y-2">
-            <h3 class="text-xl font-bold text-white">Phase 1: Tadpole</h3>
-            <p class="text-xs font-mono text-green-400/60 uppercase tracking-widest">Parallel Assistance</p>
-            <p class="text-sm text-zinc-500 leading-relaxed font-light">Runs in private isolation. Observes, documents, and automates repetitive tasks in a zero-risk sandbox.</p>
-          </div>
-        </div>
 
-        <!-- Phase 2 -->
-        <div class="space-y-6 text-center group">
-          <div class="w-24 h-24 mx-auto rounded-full bg-zinc-900 border-2 border-green-500/40 flex items-center justify-center glass-surface group-hover:border-green-500 transition-all duration-500 relative">
-            <div class="absolute inset-0 rounded-full bg-green-500/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
-            <span class="text-2xl phase-icon">🐸</span>
+          <div class="space-y-5">
+            <h1 class="text-display text-6xl font-extrabold leading-[0.92] text-white sm:text-7xl lg:text-9xl">
+              Tadpole OS
+            </h1>
+            <p class="max-w-3xl text-xl leading-8 text-zinc-300 sm:text-2xl sm:leading-9">
+              A sovereign command layer for multi-agent work: Rust execution, React observability, private memory, and human-governed automation in one local runtime.
+            </p>
           </div>
-          <div class="space-y-2">
-            <h3 class="text-xl font-bold text-white">Phase 2: Metamorphosis</h3>
-            <p class="text-xs font-mono text-green-400/80 uppercase tracking-widest">Active Onboarding</p>
-            <p class="text-sm text-zinc-500 leading-relaxed font-light">The OS integrates with company domains. Specialists solve supply chain, sales, and HR bottlenecks.</p>
-          </div>
-        </div>
 
-        <!-- Phase 3 -->
-        <div class="space-y-6 text-center group">
-          <div class="w-24 h-24 mx-auto rounded-full bg-green-500 border-2 border-green-400 flex items-center justify-center shadow-[0_0_30px_rgba(16,185,129,0.3)] group-hover:scale-110 transition-transform duration-500 relative">
-            <span class="text-2xl phase-icon">👑</span>
-          </div>
-          <div class="space-y-2">
-            <h3 class="text-xl font-bold text-white">Phase 3: Big Frog</h3>
-            <p class="text-xs font-mono text-green-400 uppercase tracking-widest italic">Sovereign Mastery</p>
-            <p class="text-sm text-zinc-500 leading-relaxed font-light">Full-scale **Autonomous Continuity** swarms. **Sovereign Strategic Intent Injection** ensures zero context decay across recursive agent clusters.</p>
+          <div class="flex flex-col gap-3 sm:flex-row">
+            <a href="https://github.com/DDS-Solutions/Tadpole-OS" class="inline-flex min-h-12 items-center justify-center rounded-lg bg-white px-6 text-sm font-bold text-zinc-950 hover:bg-zinc-200">
+              Explore the source
+            </a>
+            <a href="#runtime" class="inline-flex min-h-12 items-center justify-center rounded-lg border border-white/15 bg-white/5 px-6 text-sm font-bold text-zinc-100 hover:border-emerald-300/50 hover:text-emerald-200">
+              See the architecture
+            </a>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Interface Showcase Carousel -->
-    <section class="py-32 border-t border-white/5 mt-32 relative" x-data="{ 
-      activeSlide: 0, 
-      slides: [
-        { title: 'Initial Dash & Handshake', time: '17:45', img: '/AI-Tadpole-OS-Marketing/assets/screenshots/Screenshot 2026-03-24 174526.png' },
-        { title: 'Neural Gateway Verification', time: '17:45', img: '/AI-Tadpole-OS-Marketing/assets/screenshots/Screenshot 2026-03-24 174554.png' },
-        { title: 'Swarm Discovery Initiated', time: '17:46', img: '/AI-Tadpole-OS-Marketing/assets/screenshots/Screenshot 2026-03-24 174614.png' },
-        { title: 'Context Bus Mapping', time: '17:46', img: '/AI-Tadpole-OS-Marketing/assets/screenshots/Screenshot 2026-03-24 174656.png' },
-        { title: 'Recursive Agent Spawning', time: '17:48', img: '/AI-Tadpole-OS-Marketing/assets/screenshots/Screenshot 2026-03-24 174846.png' },
-        { title: 'Tool Execution (Oversight)', time: '17:49', img: '/AI-Tadpole-OS-Marketing/assets/screenshots/Screenshot 2026-03-24 174954.png' },
-        { title: 'Hardened Vault Access', time: '17:51', img: '/AI-Tadpole-OS-Marketing/assets/screenshots/Screenshot 2026-03-24 175102.png' },
-        { title: 'Multi-Node Synchronization', time: '17:51', img: '/AI-Tadpole-OS-Marketing/assets/screenshots/Screenshot 2026-03-24 175129.png' },
-        { title: 'Sovereign Audit Progress', time: '17:52', img: '/AI-Tadpole-OS-Marketing/assets/screenshots/Screenshot 2026-03-24 175219.png' },
-        { title: 'Final Mission Reconcile', time: '17:54', img: '/AI-Tadpole-OS-Marketing/assets/screenshots/Screenshot 2026-03-24 175438.png' },
-        { title: 'System Secure (Sovereign)', time: '17:55', img: '/AI-Tadpole-OS-Marketing/assets/screenshots/Screenshot 2026-03-24 175523.png' }
-      ] 
-    }">
-      <div class="text-center space-y-4 mb-16">
-        <h2 class="text-3xl md:text-5xl font-bold text-white tracking-tight">Mission Timeline</h2>
-        <p class="text-zinc-500 font-mono text-xs uppercase tracking-[0.3em]">Handshake to Sovereignty | 17:45 - 17:55</p>
+    <section id="runtime" class="mx-auto grid max-w-7xl gap-12 px-5 py-24 sm:px-8 lg:grid-cols-[0.9fr_1.1fr] lg:py-32" data-reveal>
+      <div class="space-y-5">
+        <p class="font-mono text-xs font-bold uppercase tracking-[0.24em] text-emerald-300">Runtime model</p>
+        <h2 class="text-4xl font-bold leading-tight text-white sm:text-5xl">Built to keep strategy close to the machine.</h2>
+        <p class="text-lg leading-8 text-zinc-400">
+          Tadpole OS treats a clone as the unit of sovereignty. Directives, orchestration, and execution remain inspectable so teams can run missions without surrendering operational context to a hosted black box.
+        </p>
       </div>
 
-      <div class="relative max-w-5xl mx-auto px-4 group">
-        <!-- Main Image -->
-        <div class="relative aspect-video rounded-xl border border-white/10 overflow-hidden shadow-2xl glass-surface">
-          <template x-for="(slide, index) in slides" :key="index">
-            <div 
-              x-show="activeSlide === index" 
-              x-transition:enter="transition ease-out duration-500"
-              x-transition:enter-start="opacity-0 scale-95"
-              x-transition:enter-end="opacity-100 scale-100"
-              class="absolute inset-0"
-            >
-              <img :src="slide.img" :alt="slide.title" class="w-full h-full object-cover" />
-              <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
-              
-              <!-- Slide Info -->
-              <div class="absolute bottom-8 left-8 right-8 flex justify-between items-end">
-                <div class="space-y-1">
-                  <div class="text-[10px] font-mono text-green-400 uppercase tracking-widest" x-text="'TIMESTAMP: ' + slide.time"></div>
-                  <h3 class="text-2xl font-bold text-white tracking-tight" x-text="slide.title"></h3>
-                </div>
-                <div class="text-[10px] font-mono text-zinc-500 uppercase tracking-widest" x-text="(index + 1) + ' / ' + slides.length"></div>
-              </div>
+      <div class="grid gap-4">
+        {architectureLayers.map((layer) => (
+          <article class="grid gap-5 rounded-lg border border-white/10 bg-zinc-900/40 p-6 sm:grid-cols-[5rem_1fr]">
+            <div class="font-mono text-3xl font-bold text-emerald-300">{layer.label}</div>
+            <div class="space-y-2">
+              <h3 class="text-2xl font-bold text-white">{layer.title}</h3>
+              <p class="leading-7 text-zinc-400">{layer.detail}</p>
             </div>
-          </template>
-        </div>
-
-        <!-- Navigation -->
-        <button 
-          @click="activeSlide = activeSlide === 0 ? slides.length - 1 : activeSlide - 1"
-          class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 md:-translate-x-12 w-12 h-12 rounded-full glass-surface border border-white/10 flex items-center justify-center text-white hover:bg-green-500 hover:text-black transition-all opacity-0 group-hover:opacity-100"
-        >
-          ←
-        </button>
-        <button 
-          @click="activeSlide = activeSlide === slides.length - 1 ? 0 : activeSlide + 1"
-          class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 md:translate-x-12 w-12 h-12 rounded-full glass-surface border border-white/10 flex items-center justify-center text-white hover:bg-green-500 hover:text-black transition-all opacity-0 group-hover:opacity-100"
-        >
-          →
-        </button>
-
-        <!-- Thumbnails / Progress -->
-        <div class="flex justify-center gap-2 mt-8">
-          <template x-for="(slide, index) in slides" :key="index">
-            <button 
-              @click="activeSlide = index"
-              class="w-2 h-2 rounded-full transition-all duration-300"
-              :class="activeSlide === index ? 'w-8 bg-green-500' : 'bg-zinc-800 hover:bg-zinc-600'"
-            ></button>
-          </template>
-        </div>
+          </article>
+        ))}
       </div>
     </section>
 
-    <!-- RREST Excellence Section -->
-    <section class="py-32 border-t border-white/5 mt-32 relative overflow-hidden">
-      <div class="grid md:grid-cols-2 gap-16 items-center">
-        <div class="space-y-8">
-          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-green-500/20 bg-green-500/5 text-[10px] font-mono tracking-widest text-green-400 uppercase">
-            Technical Excellence
-          </div>
-          <h2 class="text-4xl md:text-6xl font-bold text-white tracking-tight">REST Standards & <br/>Standardized Observability</h2>
-          <p class="text-zinc-400 text-lg font-light leading-relaxed">
-            We don't just build APIs; we build discoverable ecosystems. Tadpole OS implements the **HATEOAS** pattern (REST Level 3), enabling self-discovery of related actions. Every failure is reported via **RFC 9457 (Problem Details)**, ensuring your developers never have to guess.
+    <section id="interface" class="border-y border-white/10 bg-zinc-900/20" data-reveal>
+      <div class="mx-auto grid max-w-7xl gap-12 px-5 py-24 sm:px-8 lg:grid-cols-[1.2fr_0.8fr] lg:py-32">
+        <div class="space-y-5">
+          <p class="font-mono text-xs font-bold uppercase tracking-[0.24em] text-emerald-300">Operator interface</p>
+          <h2 class="text-4xl font-bold leading-tight text-white sm:text-5xl">Dense control surfaces for live swarm work.</h2>
+          <p class="text-lg leading-8 text-zinc-400">
+            The product codebase exposes a high-density dashboard system rather than a chat-only wrapper. Operators can inspect agents, model slots, quotas, telemetry, mission state, and detached tactical views from the same shell.
           </p>
-          <ul class="space-y-4">
-            <li class="flex items-center gap-3 text-zinc-500">
-              <span class="w-1.5 h-1.5 rounded-full bg-green-500"></span>
-              Hypermedia as the Engine of Application State
-            </li>
-            <li class="flex items-center gap-3 text-zinc-500">
-              <span class="w-1.5 h-1.5 rounded-full bg-green-500"></span>
-              RFC 9457 Machine-Readable Error Envelopes
-            </li>
-            <li class="flex items-center gap-3 text-zinc-500">
-              <span class="w-1.5 h-1.5 rounded-full bg-green-500"></span>
-              Parity Guard Traceability (execution/parity_guard.py)
-            </li>
-            <li class="flex items-center gap-3 text-zinc-500">
-              <span class="w-1.5 h-1.5 rounded-full bg-green-500"></span>
-              Reactive Infrastructure with sub-second latency
-            </li>
+
+          <ul class="grid gap-3 pt-4">
+            {interfaceSurfaces.map((item) => (
+              <li class="flex gap-3 rounded-lg border border-white/10 bg-zinc-950/40 p-4 text-zinc-300">
+                <span class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-400"></span>
+                <span>{item}</span>
+              </li>
+            ))}
           </ul>
         </div>
-        <div class="relative group">
-          <div class="absolute inset-0 bg-green-500/10 blur-3xl rounded-full opacity-50 group-hover:opacity-100 transition-opacity"></div>
-          <img src="/AI-Tadpole-OS-Marketing/assets/neural_map_infographic_1773353269093.png" alt="Neural Map (LanceDB-backed Vector Segments)" class="rounded-xl border border-white/10 shadow-2xl relative z-10 hover:scale-[1.02] transition-transform duration-500" />
+
+        <div class="grid gap-4">
+          {screenshots.map((shot, index) => (
+            <figure class={`overflow-hidden rounded-lg border border-white/10 bg-zinc-950 ${index === 1 ? 'lg:-ml-12' : ''}`}>
+              <img src={shot.src} alt={shot.alt} class="aspect-[16/9] w-full object-cover" loading={index === 0 ? 'eager' : 'lazy'} />
+            </figure>
+          ))}
         </div>
       </div>
     </section>
 
-    <!-- Neural Interaction Section -->
-    <section class="py-32 border-t border-white/5 mt-32">
-      <div class="text-center max-w-3xl mx-auto space-y-8 mb-20">
-        <h2 class="text-4xl md:text-6xl font-bold text-white tracking-tight">Neural Voice <br/>& Sovereign Synthesis</h2>
-        <p class="text-zinc-400 text-lg font-light">
-          Talk to your swarm without the cloud overhead. Our **Sovereign TTS (Piper)** and **STT (Whisper)** integration delivers near-zero latency interaction.
+    <section class="mx-auto max-w-7xl px-5 py-24 sm:px-8 lg:py-32" data-reveal>
+      <div class="grid gap-8 lg:grid-cols-[0.8fr_1.2fr]">
+        <div class="space-y-5">
+          <p class="font-mono text-xs font-bold uppercase tracking-[0.24em] text-emerald-300">Model intelligence</p>
+          <h2 class="text-4xl font-bold leading-tight text-white sm:text-5xl">Provider choice without operational drift.</h2>
+          <p class="text-lg leading-8 text-zinc-400">
+            The model manager is designed around capability-aware routing: local/self-hosted models, hosted providers, secure vault sync, modality filters, and triple-slot fallback per agent.
+          </p>
+        </div>
+
+        <div class="grid gap-5 sm:grid-cols-2">
+          <div class="rounded-lg border border-white/10 bg-zinc-900/40 p-6">
+            <p class="font-mono text-xs font-bold uppercase tracking-[0.2em] text-zinc-500">Providers</p>
+            <h3 class="mt-4 text-2xl font-bold text-white">Ollama, OpenAI, Groq, Google, and custom nodes</h3>
+          </div>
+          <div class="rounded-lg border border-white/10 bg-zinc-900/40 p-6">
+            <p class="font-mono text-xs font-bold uppercase tracking-[0.2em] text-zinc-500">Routing</p>
+            <h3 class="mt-4 text-2xl font-bold text-white">Primary, secondary, and tertiary model slots per agent</h3>
+          </div>
+          <div class="rounded-lg border border-white/10 bg-zinc-900/40 p-6 sm:col-span-2">
+            <img src={`${basePath}/assets/real_os_templates.png`} alt="Tadpole OS template and model surfaces" class="mb-6 aspect-[16/7] w-full rounded-lg border border-white/10 object-cover" loading="lazy" />
+            <p class="text-zinc-400">
+              Industry templates and MCP skills are first-class operational material, not marketing add-ons. They feed directly into the agent, workflow, and capability model.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="governance" class="border-y border-white/10 bg-zinc-900/20" data-reveal>
+      <div class="mx-auto grid max-w-7xl gap-12 px-5 py-24 sm:px-8 lg:grid-cols-[1fr_1fr] lg:py-32">
+        <div class="space-y-6">
+          <p class="font-mono text-xs font-bold uppercase tracking-[0.24em] text-emerald-300">Governance</p>
+          <h2 class="text-4xl font-bold leading-tight text-white sm:text-5xl">Autonomy with explicit control points.</h2>
+          <p class="text-lg leading-8 text-zinc-400">
+            Tadpole OS is built around bounded execution. Sensitive actions can require human approval, mission spending is visible, and local-first operation can be enforced when privacy is the priority.
+          </p>
+          <img src={`${basePath}/assets/real_os_oversight.png`} alt="Tadpole OS security and oversight dashboard" class="rounded-lg border border-white/10" loading="lazy" />
+        </div>
+
+        <div class="grid content-start gap-4">
+          {governance.map(([title, detail]) => (
+            <article class="rounded-lg border border-white/10 bg-zinc-950/50 p-6">
+              <h3 class="text-xl font-bold text-white">{title}</h3>
+              <p class="mt-3 leading-7 text-zinc-400">{detail}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section id="roadmap" class="mx-auto max-w-7xl px-5 py-24 sm:px-8 lg:py-32" data-reveal>
+      <div class="mb-12 max-w-3xl space-y-5">
+        <p class="font-mono text-xs font-bold uppercase tracking-[0.24em] text-emerald-300">Roadmap</p>
+        <h2 class="text-4xl font-bold leading-tight text-white sm:text-5xl">From local engine to distributed swarm mesh.</h2>
+        <p class="text-lg leading-8 text-zinc-400">
+          The May 1, 2026 product roadmap shows the platform moving through governance, memory, distributed runtime, and hardened infrastructure work.
         </p>
       </div>
-      <div class="grid md:grid-cols-3 gap-8">
-        <div class="p-8 glass-surface rounded-xl space-y-4 relative group overflow-hidden">
-          <div class="absolute inset-0 bg-green-500/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-          <div class="w-12 h-12 bg-green-500/10 rounded-xl flex items-center justify-center relative z-10">
-            <svg class="w-6 h-6 text-green-500 waveform-anim" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M3 12h1m4 0h1m4 0h1m4 0h1m4 0h1" stroke-linecap="round"/>
-              <path class="wave-path" d="M3 12c2-4 4-4 6 0s4 4 6 0 4-4 6 0" stroke-opacity="0.5"/>
-            </svg>
+
+      <div class="overflow-hidden rounded-lg border border-white/10">
+        {roadmap.map(([phase, detail]) => (
+          <div class="grid gap-4 border-b border-white/10 bg-zinc-900/30 p-6 last:border-b-0 sm:grid-cols-[10rem_1fr]">
+            <p class="font-mono text-xs font-bold uppercase tracking-[0.22em] text-emerald-300">{phase}</p>
+            <p class="text-zinc-300">{detail}</p>
           </div>
-          <h3 class="text-xl font-bold text-white relative z-10">Sovereign STT</h3>
-          <p class="text-sm text-zinc-500 relative z-10">Local neural transcription powered by **Whisper**. Intent capture with zero context leakage.</p>
-        </div>
-        <div class="p-8 glass-surface rounded-xl space-y-4 relative group overflow-hidden">
-          <div class="absolute inset-0 bg-green-500/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-          <div class="w-12 h-12 bg-green-500/10 rounded-xl flex items-center justify-center relative z-10">
-            <svg class="w-6 h-6 text-green-500 waveform-anim" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M2 12c2-8 4-8 6 0s4 8 6 0 4-8 6 0" class="wave-path-alt"/>
-            </svg>
-          </div>
-          <h3 class="text-xl font-bold text-white relative z-10">Sovereign TTS</h3>
-          <p class="text-sm text-zinc-500 relative z-10">Human-grade vocal interaction via **Piper**. Fast, local, and fully customizable synthesis.</p>
-        </div>
-        <div class="p-8 glass-surface rounded-xl space-y-4 relative group overflow-hidden">
-          <div class="absolute inset-0 bg-green-500/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-          <div class="w-12 h-12 bg-green-500/10 rounded-lg flex items-center justify-center relative z-10">
-            <div class="flex gap-1">
-              <div class="w-1 h-4 bg-green-500/40 animate-bounce" style="animation-delay: 0.1s"></div>
-              <div class="w-1 h-6 bg-green-500 animate-bounce" style="animation-delay: 0.2s"></div>
-              <div class="w-1 h-3 bg-green-500/60 animate-bounce" style="animation-delay: 0.3s"></div>
-            </div>
-          </div>
-          <h3 class="text-xl font-bold text-white relative z-10">Neural VAD</h3>
-          <p class="text-sm text-zinc-500 relative z-10">Intelligent **Silero** Voice Activity Detection for hands-free swarm orchestration.</p>
-        </div>
-      </div>    <!-- Distributed Bunkers Section -->
-    <section class="py-32 border-t border-white/5 mt-32 relative">
-      <div class="grid md:grid-cols-2 gap-16 items-center">
-        <div class="relative order-2 md:order-1 group">
-          <div class="absolute inset-0 bg-green-500/10 blur-3xl rounded-full opacity-50 group-hover:opacity-100 transition-opacity"></div>
-          <img src="/AI-Tadpole-OS-Marketing/assets/distributed_bunker_nodes_1773353300493.png" alt="Distributed Bunkers" class="rounded-xl border border-white/10 shadow-2xl relative z-10 hover:scale-[1.02] transition-transform duration-500" />
-        </div>
-        <div class="space-y-8 order-1 md:order-2">
-          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-green-500/20 bg-green-500/5 text-[10px] font-mono tracking-widest text-green-400 uppercase">
-            Scalability & Privacy
-          </div>
-          <h2 class="text-4xl md:text-6xl font-bold text-white tracking-tight">Bunker Shield & <br/>Zero-Conf Swarms</h2>
-          <p class="text-zinc-400 text-lg font-light leading-relaxed">
-            Expand your collective intelligence across the local network. Our **Bunker Discovery** protocol leverages mDNS to automatically scavenge secondary nodes for hardware-accelerated swarming.
-          </p>
-          <div class="grid grid-cols-2 gap-4">
-            <div class="p-4 border border-white/5 rounded-lg bg-zinc-900/50">
-              <h4 class="text-white font-bold mb-1">Privacy Mode (Shield)</h4>
-              <p class="text-xs text-zinc-500">Explicitly block all external cloud traffic for total air-gapped sovereignty.</p>
-            </div>
-            <div class="p-4 border border-white/5 rounded-lg bg-zinc-900/50">
-              <h4 class="text-white font-bold mb-1">Zero-Conf mDNS</h4>
-              <p class="text-xs text-zinc-500">Automatic local discovery of and pairing with Bunker nodes.</p>
-            </div>
-          </div>
-        </div>
+        ))}
       </div>
     </section>
 
-    <!-- Template Ecosystem Section -->
-    <section class="py-32 border-t border-white/5 mt-32">
-       <div class="flex flex-col md:flex-row gap-16 items-center">
-        <div class="flex-1 space-y-8">
-          <h2 class="text-4xl md:text-6xl font-bold text-white tracking-tight">The Swarm Template <br/>Ecosystem</h2>
-          <p class="text-zinc-400 text-lg font-light">
-            Don't start from scratch. Browse our GitHub-native marketplace for industry-specific swarms. Deploy Legal, Healthcare, or Finance specialists in seconds.
-          </p>
-          <div class="space-y-6">
-            <div class="flex gap-4 p-4 glass-surface rounded-xl border-green-500/20">
-              <div class="text-2xl">🛡️</div>
-              <div>
-                <h4 class="text-white font-bold">Sapphire Shield Protection</h4>
-                <p class="text-sm text-zinc-500">Zero-Trust capability scanning for every installed template.</p>
-              </div>
-            </div>
-            <div class="flex gap-4 p-4 glass-surface rounded-xl">
-              <div class="text-2xl">⚡</div>
-              <div>
-                <h4 class="text-white font-bold">Hot-Loading Persistence</h4>
-                <p class="text-sm text-zinc-500">Instant extraction and activation of new agent roles.</p>
-              </div>
-            </div>
+    <section class="mx-auto max-w-7xl px-5 pb-24 sm:px-8 lg:pb-32" data-reveal>
+      <div class="relative overflow-hidden rounded-lg border border-emerald-400/20 bg-zinc-900/60 p-8 sm:p-12">
+        <div class="grid gap-8 lg:grid-cols-[1fr_auto] lg:items-end">
+          <div class="max-w-3xl space-y-4">
+            <p class="font-mono text-xs font-bold uppercase tracking-[0.24em] text-emerald-300">Clone the runtime</p>
+            <h2 class="text-4xl font-bold leading-tight text-white sm:text-5xl">Own the directives, memory, and execution path.</h2>
+            <p class="text-lg leading-8 text-zinc-400">
+              Start from the source repository, review the architecture, then run the Rust engine and React dashboard locally.
+            </p>
           </div>
-        </div>
-        <div class="flex-1 w-full relative group">
-           <div class="absolute inset-0 bg-green-500/10 blur-3xl rounded-full opacity-50 group-hover:opacity-100 transition-opacity"></div>
-           <img src="/AI-Tadpole-OS-Marketing/assets/sovereign_vault_viz_1773353285088.png" alt="Sovereign Vault" class="rounded-xl border border-white/10 shadow-2xl relative z-10" />
-        </div>
-       </div>
-    </section>
-
-    <!-- Technical Documentation Hub Section -->
-    <section class="py-32 border-t border-white/5 mt-32 relative overflow-hidden">
-      <div class="absolute -left-24 top-1/2 -translate-y-1/2 w-96 h-96 bg-green-500/5 blur-[120px] pointer-events-none"></div>
-      <div class="max-w-4xl mx-auto text-center space-y-8">
-        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-green-500/20 bg-green-500/5 text-[10px] font-mono tracking-widest text-green-400 uppercase">
-          Technical Authority
-        </div>
-        <h2 class="text-4xl md:text-6xl font-bold text-white tracking-tight">Technical Documentation Hub</h2>
-        <p class="text-zinc-400 text-lg font-light max-w-2xl mx-auto leading-relaxed">
-          Deep dive into the **Sovereign Intelligence Architecture**. Explore our comprehensive guides on recursive orchestration, neural memory mapping, and REST Level 3 standards.
-        </p>
-        
-        <div class="grid sm:grid-cols-3 gap-4 pt-8">
-          <a href="https://dds-solutions.github.io/AI-TadPole-OS/ARCHITECTURE.html" class="p-6 glass-surface rounded-xl hover:border-green-500/30 transition-all group">
-            <h4 class="text-white font-bold mb-2 group-hover:text-green-400 transition-colors">Core Architecture</h4>
-            <p class="text-xs text-zinc-500">The blueprint of the local-first runtime engine.</p>
-          </a>
-          <a href="https://dds-solutions.github.io/AI-TadPole-OS/SWARM_ORCHESTRATION.html" class="p-6 glass-surface rounded-xl hover:border-green-500/30 transition-all group">
-            <h4 class="text-white font-bold mb-2 group-hover:text-green-400 transition-colors">Hierarchical Swarm Protocols</h4>
-            <p class="text-xs text-zinc-500">Recruitment and delegation logic for recursive clusters.</p>
-          </a>
-          <a href="https://dds-solutions.github.io/AI-TadPole-OS/API_REFERENCE.html" class="p-6 glass-surface rounded-xl hover:border-green-500/30 transition-all group">
-            <h4 class="text-white font-bold mb-2 group-hover:text-green-400 transition-colors">API Reference</h4>
-            <p class="text-xs text-zinc-500">RFC 9457 compliant machine-readable contracts.</p>
-          </a>
-        </div>
-
-        <div class="flex flex-col sm:flex-row items-center justify-center gap-6 pt-12">
-          <a href="https://dds-solutions.github.io/AI-TadPole-OS/" class="w-full sm:w-auto px-10 py-5 bg-green-500 text-zinc-950 font-bold rounded-lg hover:bg-green-400 transition-all hover:scale-105 active:scale-95 shadow-[0_0_30px_rgba(16,185,129,0.3)] text-sm tracking-tight">
-            Explore Documentation
-          </a>
-          <a href="https://github.com/DDS-Solutions/AI-TadPole-OS" class="w-full sm:w-auto px-10 py-5 glass-surface text-white font-bold rounded-lg hover:bg-white/10 transition-all hover:scale-105 active:scale-95 text-sm tracking-tight border-white/20">
-            View Docs on GitHub
-          </a>
-        </div>
-      </div>
-    </section>
-
-    <!-- Industry Template Builder Section -->
-    <section class="py-32 border-t border-white/5 mt-32 bg-zinc-900/20 relative">
-      <div class="grid md:grid-cols-2 gap-16 items-center">
-        <div class="space-y-8">
-          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-green-500/20 bg-green-500/5 text-[10px] font-mono tracking-widest text-green-400 uppercase">
-            Swarm Sculpting
-          </div>
-          <h2 class="text-4xl md:text-6xl font-bold text-white tracking-tight">Industry Template Builder</h2>
-          <p class="text-zinc-400 text-lg font-light leading-relaxed">
-            Formulate specialist swarms with our **Swarm Architect Platform**. Design industry-specific templates for Legal, Healthcare, and Finance with automated skill mapping and capability gates.
-          </p>
-          <div class="flex flex-col sm:flex-row items-center gap-6">
-            <a href="https://dds-solutions.github.io/AI-Tadpole-OS-Industry-Templates/" class="w-full sm:w-auto px-8 py-4 bg-white text-zinc-950 font-bold rounded-xl hover:bg-zinc-200 transition-all hover:scale-105 active:scale-95 text-sm tracking-tight">
-              Launch Template Builder
+          <div class="flex flex-col gap-3 sm:flex-row lg:flex-col">
+            <a href="https://github.com/DDS-Solutions/Tadpole-OS" class="inline-flex min-h-12 items-center justify-center rounded-lg bg-emerald-300 px-6 text-sm font-bold text-zinc-950 hover:bg-white">
+              Open GitHub
             </a>
-            <a href="https://github.com/DDS-Solutions/AI-Tadpole-OS-Industry-Templates" class="text-zinc-500 hover:text-green-400 transition-colors text-sm font-mono font-bold tracking-tight">
-              View Builder Repo →
+            <a href="https://github.com/DDS-Solutions/Tadpole-OS/blob/main/README.md" class="inline-flex min-h-12 items-center justify-center rounded-lg border border-white/15 px-6 text-sm font-bold text-zinc-100 hover:border-white/40">
+              Read quick start
             </a>
           </div>
         </div>
-        <div class="relative group">
-          <div class="absolute inset-0 bg-green-500/10 blur-3xl rounded-full opacity-50 group-hover:opacity-100 transition-opacity"></div>
-          <div class="p-4 glass-surface rounded-xl border-green-500/20 relative z-10 overflow-hidden shadow-2xl skew-y-3 group-hover:skew-y-0 transition-transform duration-700">
-            <div class="aspect-video bg-zinc-950 rounded-xl border border-white/5 overflow-hidden relative">
-              <div class="absolute inset-0 bg-gradient-to-tr from-green-500/10 via-transparent to-transparent"></div>
-              <div class="absolute top-4 left-4 right-4 flex justify-between items-center">
-                <div class="flex gap-1.5">
-                  <div class="w-2.5 h-2.5 rounded-full bg-zinc-800"></div>
-                  <div class="w-2.5 h-2.5 rounded-full bg-zinc-800"></div>
-                  <div class="w-2.5 h-2.5 rounded-full bg-zinc-800"></div>
-                </div>
-                <div class="text-[8px] font-mono text-zinc-600 uppercase tracking-widest">Industry Formulation [v1.0.4]</div>
-              </div>
-              <div class="absolute inset-x-8 top-16 bottom-8 border border-white/5 rounded-lg bg-zinc-900/50 flex flex-col items-center justify-center space-y-4">
-                 <div class="w-12 h-12 rounded-full border-2 border-green-500/20 flex items-center justify-center animate-pulse">
-                   <span class="text-green-500">⚙️</span>
-                 </div>
-                 <div class="space-y-2 text-center">
-                   <div class="h-2 w-24 bg-zinc-800 rounded-full mx-auto"></div>
-                   <div class="h-2 w-32 bg-zinc-800 rounded-full mx-auto opacity-50"></div>
-                 </div>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
     </section>
 
-		<!-- Feature Grid (Agent-Friendly / GEO) -->
-		<section class="grid md:grid-cols-3 gap-8 py-24 border-t border-white/5 mt-24" id="features">
-			<div class="space-y-4 p-8 glass-surface rounded-xl hover:border-green-500/30 transition-all group relative overflow-hidden">
-        <div class="absolute -right-8 -top-8 w-24 h-24 bg-green-500/5 blur-3xl group-hover:bg-green-500/10 transition-colors"></div>
-				<div class="w-12 h-12 rounded-xl bg-zinc-900 border border-white/5 flex items-center justify-center group-hover:border-green-500/20 transition-colors">
-					<span class="font-mono text-zinc-400 text-sm">01</span>
-				</div>
-				<h3 class="text-xl font-bold text-white">The "AI Rent" Trap</h3>
-				<p class="text-zinc-500 text-sm leading-relaxed">Stop renting intelligence from Big Tech. Tadpole OS provides a sovereign vault where your strategy is never used to train competitors.</p>
-			</div>
-			
-			<div class="space-y-4 p-8 glass-surface rounded-xl hover:border-green-500/30 transition-all group relative overflow-hidden">
-        <div class="absolute -right-8 -top-8 w-24 h-24 bg-green-500/5 blur-3xl group-hover:bg-green-500/10 transition-colors"></div>
-				<div class="w-12 h-12 rounded-xl bg-zinc-900 border border-white/5 flex items-center justify-center group-hover:border-green-500/20 transition-colors">
-					<span class="font-mono text-zinc-400 text-sm">02</span>
-				</div>
-				<h3 class="text-xl font-bold text-white">Zero-Trust Security</h3>
-				<p class="text-zinc-500 text-sm leading-relaxed">Built with **Rust** for memory safety and **NeuralVault** encryption. **Sapphire Shield** protocols ensure total host isolation.</p>
-			</div>
-
-			<div class="space-y-4 p-8 glass-surface rounded-xl hover:border-green-500/30 transition-all group relative overflow-hidden">
-        <div class="absolute -right-8 -top-8 w-24 h-24 bg-green-500/5 blur-3xl group-hover:bg-green-500/10 transition-colors"></div>
-				<div class="w-12 h-12 rounded-xl bg-zinc-900 border border-white/5 flex items-center justify-center group-hover:border-green-500/20 transition-colors">
-					<span class="font-mono text-zinc-400 text-sm">03</span>
-				</div>
-				<h3 class="text-xl font-bold text-white">Shared Prosperity</h3>
-				<p class="text-zinc-500 text-sm leading-relaxed">Automate the "drudgery" to secure the value. Use AI-driven growth to reward and secure the humans who built your company.</p>
-			</div>
-		</section>
-
-    <!-- Executive Q&A (Strategic FAQ) -->
-    <section class="max-w-4xl mx-auto py-32 space-y-16">
-      <div class="text-center space-y-4">
-        <h2 class="text-3xl font-bold text-white">Executive Strategy Q&A</h2>
-        <p class="text-zinc-500 font-mono text-xs uppercase tracking-widest">Sovereign Intelligence Briefing</p>
-      </div>
-      
-      <div class="space-y-12">
-        <div class="space-y-4 border-l-2 border-green-500/20 pl-8 group">
-          <h4 class="font-bold text-zinc-100 text-lg group-hover:text-green-400 transition-colors tracking-tight">Q: Why do we need Tadpole OS instead of generic AI?</h4>
-          <p class="text-zinc-500 leading-relaxed font-light">A: Generic AI is a rental. Tadpole OS is an asset. It creates a **private parallel brain** for your company that you own, control, and evolve without feeding your proprietary secrets to third-party models.</p>
-        </div>
-
-        <div class="space-y-4 border-l-2 border-zinc-800 pl-8 group">
-          <h4 class="font-bold text-zinc-100 text-lg group-hover:text-green-400 transition-colors tracking-tight">Q: How does the "Sapphire Shield" protect us?</h4>
-          <p class="text-zinc-500 leading-relaxed font-light">A: The **Sapphire Shield** is an automated security gate that flags high-risk tool calls (like `shell:execute` or `budget:spend`) for mandatory human oversight, preventing autonomous drift.</p>
-        </div>
-
-        <div class="space-y-4 border-l-2 border-green-500/20 pl-8 group">
-          <h4 class="font-bold text-zinc-100 text-lg group-hover:text-green-400 transition-colors tracking-tight">Q: Is a "Parallel OS" disruptive to current IT?</h4>
-          <p class="text-zinc-500 leading-relaxed font-light">A: No. Tadpole OS is designed to integrate via the **Model Context Protocol (MCP)** and standard REST protocols, assists your current workflows without "rip and replace" friction.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Onboarding Funnel (Hierarchy) -->
-    <section class="py-24 glass-surface rounded-xl p-12 text-center space-y-12 relative overflow-hidden">
-      <div class="absolute inset-0 bg-green-500/5 blur-3xl pointer-events-none"></div>
-      <div class="space-y-4 relative">
-        <h2 class="text-3xl font-bold text-white">Ready for the Leap?</h2>
-        <p class="text-zinc-400 max-w-xl mx-auto font-light">Three tiered entry points to sovereign intelligence.</p>
-      </div>
-      
-      <div class="grid md:grid-cols-3 gap-6 relative">
-        <div class="p-6 rounded-xl bg-zinc-950/50 border border-white/5 flex flex-col justify-between">
-          <div class="space-y-2">
-            <h4 class="text-green-400 font-mono text-[10px] tracking-widest uppercase">Tier 1</h4>
-            <h5 class="text-white font-bold">Instant Demo</h5>
-            <p class="text-xs text-zinc-500 leading-relaxed">Read-only interactive swarm for CEO-level ROI verification.</p>
-          </div>
-          <button class="mt-6 text-xs font-bold text-zinc-400 hover:text-white transition-colors">Start Demo →</button>
-        </div>
-        
-        <div class="p-6 rounded-xl bg-zinc-950/50 border border-green-500/20 flex flex-col justify-between relative ring-1 ring-green-500/10">
-          <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-green-500 text-zinc-950 text-[8px] font-bold px-2 py-0.5 rounded-full uppercase tracking-widest">Recommended</div>
-          <div class="space-y-2">
-            <h4 class="text-green-400 font-mono text-[10px] tracking-widest uppercase">Tier 2</h4>
-            <h5 class="text-white font-bold">Sandbox Pilot</h5>
-            <p class="text-xs text-zinc-500 leading-relaxed">One-click Windows Sandbox download for isolated testing.</p>
-          </div>
-          <button class="mt-6 text-xs font-bold text-green-400">Download Pilot →</button>
-        </div>
-
-        <div class="p-6 rounded-xl bg-zinc-950/50 border border-white/5 flex flex-col justify-between">
-          <div class="space-y-2">
-            <h4 class="text-green-400 font-mono text-[10px] tracking-widest uppercase">Tier 3</h4>
-            <h5 class="text-white font-bold">Swarm Bunker</h5>
-            <p class="text-xs text-zinc-500 leading-relaxed">Full-scale production deployment on local infrastructure.</p>
-          </div>
-          <button class="mt-6 text-xs font-bold text-zinc-400 hover:text-white transition-colors">Contact Sales →</button>
-        </div>
-      </div>
-    </section>
-
-    <footer class="mt-32 pt-12 border-t border-white/5 text-center space-y-4 pb-12">
-      <p class="text-zinc-600 font-mono text-[10px] tracking-[0.4em] uppercase">
-        © 2026 Tadpole OS Engine | Sovereign Intelligence Trademarked
-      </p>
-      <div class="flex justify-center gap-6 text-[9px] font-mono uppercase tracking-widest text-zinc-700">
-        <a href="/design.md" class="hover:text-green-400 transition-colors" target="_blank">[ Design Spec ]</a>
-        <a href="/DESIGN_SYNERGY.md" class="hover:text-green-400 transition-colors" target="_blank">[ Design Rationale ]</a>
-      </div>
-      <p class="text-zinc-800 text-[9px] font-mono uppercase tracking-widest">
-        All Strategic Directives Protected by Entity 0 Approval Protocols
+    <footer class="border-t border-white/10 px-5 py-10 text-center sm:px-8">
+      <p class="font-mono text-[11px] font-bold uppercase tracking-[0.24em] text-zinc-600">
+        Tadpole OS Engine | Sovereign intelligence runtime
       </p>
     </footer>
-	</main>
+  </main>
 
-  <!-- JSON-LD for AI Search Engines (GEO) -->
   <script type="application/ld+json" is:inline>
     {
       "@context": "https://schema.org",
       "@type": "SoftwareApplication",
       "name": "Tadpole OS",
       "applicationCategory": "AI Operating System",
-      "operatingSystem": "Cross-platform (Rust Runtime)",
-      "description": "A high-performance, local-first engine for sovereign multi-agent swarms.",
-      "offers": {
-        "@type": "Offer",
-        "price": "0.00",
-        "priceCurrency": "USD"
-      },
+      "operatingSystem": "Windows, Linux, macOS, local infrastructure",
+      "description": "A local-first Rust and React runtime for orchestrating sovereign multi-agent swarms with telemetry, model routing, memory, and human-governed execution.",
+      "codeRepository": "https://github.com/DDS-Solutions/Tadpole-OS",
       "author": {
         "@type": "Organization",
-        "name": "Tadpole OS Project"
+        "name": "DDS Solutions"
       }
     }
   </script>
-  <!-- Interactive Enhancements Script -->
-  <script is:inline>
-    // Kinetic 3D Tilt Logic
-    function initTilt() {
-      const cards = document.querySelectorAll('.glass-surface');
-      
-      cards.forEach(card => {
-        card.addEventListener('mousemove', (e) => {
-          const rect = card.getBoundingClientRect();
-          const x = e.clientX - rect.left;
-          const y = e.clientY - rect.top;
-          
-          const centerX = rect.width / 2;
-          const centerY = rect.height / 2;
-          
-          const rotateX = (y - centerY) / 20;
-          const rotateY = (centerX - x) / 20;
-          
-          card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
-        });
-        
-        card.addEventListener('mouseleave', () => {
-          card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
-        });
-      });
-    }
-
-    // Metamorphosis Scroll Progress
-    function initMetamorphosisProgress() {
-      const progressBar = document.getElementById('metamorphosis-progress');
-      const section = progressBar?.closest('section');
-      
-      if (!progressBar || !section) return;
-
-      window.addEventListener('scroll', () => {
-        const rect = section.getBoundingClientRect();
-        const winHeight = window.innerHeight;
-        
-        if (rect.top < winHeight && rect.bottom > 0) {
-          const progress = Math.min(Math.max((winHeight - rect.top) / (rect.height + winHeight), 0), 1);
-          progressBar.style.width = `${progress * 100}%`;
-          
-          // Trigger icon pulses
-          const icons = section.querySelectorAll('.phase-icon');
-          if (progress > 0.2) icons[0]?.classList.add('animate-pulse');
-          if (progress > 0.5) icons[1]?.classList.add('animate-pulse');
-          if (progress > 0.8) icons[2]?.classList.add('animate-pulse');
-        }
-      });
-    }
-
-    // Initialize all
-    document.addEventListener('DOMContentLoaded', () => {
-      initTilt();
-      initMetamorphosisProgress();
-    });
-  </script>
-
-  <style is:inline>
-    .waveform-anim .wave-path {
-      stroke-dasharray: 20;
-      animation: wave 2s linear infinite;
-    }
-    .waveform-anim .wave-path-alt {
-      stroke-dasharray: 30;
-      animation: wave 1.5s linear infinite reverse;
-    }
-    @keyframes wave {
-      from { stroke-dashoffset: 40; }
-      to { stroke-dashoffset: 0; }
-    }
-    .glass-surface {
-      transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.2s ease;
-    }
-  </style>
 </BaseLayout>

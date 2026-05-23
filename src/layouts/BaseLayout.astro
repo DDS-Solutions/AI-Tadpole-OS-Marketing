@@ -7,13 +7,16 @@ interface Props {
 }
 
 const { title, description } = Astro.props;
-const basePath = '/AI-Tadpole-OS-Marketing';
+const basePath = "/AI-Tadpole-OS-Marketing";
 ---
 
 <!doctype html>
 <html lang="en" data-theme="zinc">
   <head>
-    <meta name="google-site-verification" content="fZFIBOhQC_xJPk_Vt_iueDPpdufqV8XOqdifUtCu_dk" />
+    <meta
+      name="google-site-verification"
+      content="fZFIBOhQC_xJPk_Vt_iueDPpdufqV8XOqdifUtCu_dk"
+    />
     <meta charset="UTF-8" />
     <meta name="description" content={description} />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -21,45 +24,96 @@ const basePath = '/AI-Tadpole-OS-Marketing';
     <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:url" content="https://dds-solutions.github.io/AI-Tadpole-OS-Marketing/" />
+    <meta
+      property="og:url"
+      content={`https://dds-solutions.github.io${Astro.url.pathname}`}
+    />
+    <link rel="canonical" href={`https://dds-solutions.github.io${Astro.url.pathname}`} />
     <link rel="icon" type="image/svg+xml" href={`${basePath}/favicon.svg`} />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
 
     <meta name="ai-sovereign-os" content="AI-Tadpole-OS" />
-    <meta name="ai-intelligence-category" content="Local-first multi-agent swarm runtime" />
+    <meta
+      name="ai-intelligence-category"
+      content="Local-first multi-agent swarm runtime"
+    />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
   </head>
-  <body class="bg-zinc-950 text-zinc-100 font-inter antialiased selection:bg-emerald-500/30 overflow-x-hidden">
-    <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-lg focus:bg-white focus:px-4 focus:py-3 focus:text-sm focus:font-bold focus:text-zinc-950">
+  <body
+    class="bg-zinc-950 text-zinc-100 font-inter antialiased selection:bg-emerald-500/30 overflow-x-hidden"
+  >
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-lg focus:bg-white focus:px-4 focus:py-3 focus:text-sm focus:font-bold focus:text-zinc-950"
+    >
       Skip to content
     </a>
 
-    <header class="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-zinc-950/80 backdrop-blur-xl">
-      <div class="mx-auto flex h-20 max-w-7xl items-center justify-between px-5 sm:px-8">
-        <a href={`${basePath}/`} class="flex min-h-11 items-center gap-3 rounded-lg text-zinc-100 outline-offset-4" aria-label="AI-Tadpole-OS home">
-          <img src={`${basePath}/assets/program-logo.png`} alt="AI-Tadpole-OS logo" class="h-10 w-10 rounded-lg border border-white/10 object-cover" />
-          <span class="hidden text-sm font-bold tracking-tight sm:block">AI-Tadpole-OS</span>
+    <header
+      class="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-zinc-950/80 backdrop-blur-xl"
+    >
+      <div
+        class="mx-auto flex h-20 max-w-7xl items-center justify-between px-5 sm:px-8"
+      >
+        <a
+          href={`${basePath}/`}
+          class="flex min-h-11 items-center gap-3 rounded-lg text-zinc-100 outline-offset-4"
+          aria-label="AI-Tadpole-OS home"
+        >
+          <img
+            src={`${basePath}/assets/program-logo.png`}
+            alt="AI-Tadpole-OS logo"
+            class="h-10 w-10 rounded-lg border border-white/10 object-cover"
+          />
+          <span class="hidden text-sm font-bold tracking-tight sm:block"
+            >AI-Tadpole-OS</span
+          >
         </a>
-        <nav class="hidden items-center gap-8 text-xs font-bold uppercase tracking-[0.18em] text-zinc-500 md:flex" aria-label="Primary navigation">
-          <a class="hover:text-zinc-100" href={`${basePath}/#runtime`}>Runtime</a>
-          <a class="hover:text-zinc-100" href={`${basePath}/#interface`}>Interface</a>
-          <a class="hover:text-zinc-100" href={`${basePath}/how-it-works`}>How It Works</a>
-          <a class="hover:text-zinc-100" href={`${basePath}/mission`}>Mission</a>
-          <a class="hover:text-zinc-100" href={`${basePath}/governance`}>Governance</a>
-          <a class="hover:text-zinc-100" href={`${basePath}/#roadmap`}>Roadmap</a>
+        <nav
+          class="hidden items-center gap-8 text-xs font-bold uppercase tracking-[0.18em] text-zinc-500 md:flex"
+          aria-label="Primary navigation"
+        >
+          <a class="hover:text-zinc-100" href={`${basePath}/#runtime`}
+            >Runtime</a
+          >
+          <a class="hover:text-zinc-100" href={`${basePath}/#interface`}
+            >Interface</a
+          >
+          <a class="hover:text-zinc-100" href={`${basePath}/how-it-works`}
+            >How It Works</a
+          >
+          <a class="hover:text-zinc-100" href={`${basePath}/mission`}>Mission</a
+          >
+          <a class="hover:text-zinc-100" href={`${basePath}/governance`}
+            >Governance</a
+          >
+          <a class="hover:text-zinc-100" href={`${basePath}/#roadmap`}
+            >Roadmap</a
+          >
         </nav>
-        <a href="https://github.com/DDS-Solutions/AI-TadPole-OS" class="inline-flex min-h-11 items-center rounded-lg border border-emerald-400/30 bg-emerald-400/10 px-4 text-xs font-bold uppercase tracking-[0.16em] text-emerald-300 hover:border-emerald-300 hover:bg-emerald-300 hover:text-zinc-950">
+        <a
+          href="https://github.com/DDS-Solutions/AI-TadPole-OS"
+          class="inline-flex min-h-11 items-center rounded-lg border border-emerald-400/30 bg-emerald-400/10 px-4 text-xs font-bold uppercase tracking-[0.16em] text-emerald-300 hover:border-emerald-300 hover:bg-emerald-300 hover:text-zinc-950"
+        >
           Source
         </a>
       </div>
     </header>
 
-    <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden" aria-hidden="true">
-      <canvas id="bg-shader-canvas" class="absolute inset-0 h-full w-full z-0 opacity-90"></canvas>
+    <div
+      class="fixed inset-0 pointer-events-none z-0 overflow-hidden"
+      aria-hidden="true"
+    >
+      <canvas
+        id="bg-shader-canvas"
+        class="absolute inset-0 h-full w-full z-0 opacity-90"></canvas>
       <div class="neural-grid absolute inset-0 z-5"></div>
     </div>
 
@@ -67,8 +121,10 @@ const basePath = '/AI-Tadpole-OS-Marketing';
 
     <style is:global>
       :root {
-        --font-body: 'Inter', system-ui, sans-serif;
-        --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        --font-body: "Inter", system-ui, sans-serif;
+        --font-mono:
+          "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas,
+          monospace;
         --zinc-950: #09090b;
         --zinc-900: #18181b;
         --zinc-800: #27272a;
@@ -76,8 +132,12 @@ const basePath = '/AI-Tadpole-OS-Marketing';
         --pulse: #22c55e;
       }
 
-      .font-inter { font-family: var(--font-body); }
-      .font-mono { font-family: var(--font-mono); }
+      .font-inter {
+        font-family: var(--font-body);
+      }
+      .font-mono {
+        font-family: var(--font-mono);
+      }
 
       h1,
       h2,
@@ -99,7 +159,11 @@ const basePath = '/AI-Tadpole-OS-Marketing';
         opacity: 0.1;
         background-image:
           linear-gradient(rgba(255, 255, 255, 0.032) 1px, transparent 1px),
-          linear-gradient(90deg, rgba(255, 255, 255, 0.032) 1px, transparent 1px);
+          linear-gradient(
+            90deg,
+            rgba(255, 255, 255, 0.032) 1px,
+            transparent 1px
+          );
         background-size: 64px 64px;
         mask-image: linear-gradient(to bottom, black, transparent 88%);
       }
@@ -114,7 +178,9 @@ const basePath = '/AI-Tadpole-OS-Marketing';
       .reveal-on-scroll {
         opacity: 0;
         transform: translateY(22px);
-        transition: opacity 700ms ease, transform 700ms cubic-bezier(0.16, 1, 0.3, 1);
+        transition:
+          opacity 700ms ease,
+          transform 700ms cubic-bezier(0.16, 1, 0.3, 1);
       }
 
       .reveal-on-scroll.active {
@@ -138,10 +204,19 @@ const basePath = '/AI-Tadpole-OS-Marketing';
         }
       }
 
-      ::-webkit-scrollbar { width: 8px; }
-      ::-webkit-scrollbar-track { background: transparent; }
-      ::-webkit-scrollbar-thumb { background: #27272a; border-radius: 8px; }
-      ::-webkit-scrollbar-thumb:hover { background: #3f3f46; }
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #27272a;
+        border-radius: 8px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #3f3f46;
+      }
     </style>
 
     <script>
@@ -150,18 +225,23 @@ const basePath = '/AI-Tadpole-OS-Marketing';
       function setupVisuals() {
         cleanupVisuals();
 
-        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const prefersReducedMotion = window.matchMedia(
+          "(prefers-reduced-motion: reduce)",
+        ).matches;
         if (prefersReducedMotion) return;
 
         // Observer for scroll animation reveals
-        const observer = new IntersectionObserver((entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) entry.target.classList.add('active');
-          });
-        }, { threshold: 0.12 });
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) entry.target.classList.add("active");
+            });
+          },
+          { threshold: 0.12 },
+        );
 
-        document.querySelectorAll('[data-reveal]').forEach((el) => {
-          el.classList.add('reveal-on-scroll');
+        document.querySelectorAll("[data-reveal]").forEach((el) => {
+          el.classList.add("reveal-on-scroll");
           observer.observe(el);
         });
 
@@ -173,14 +253,16 @@ const basePath = '/AI-Tadpole-OS-Marketing';
           resizeBgCanvas();
         };
 
-        window.addEventListener('resize', onResize);
+        window.addEventListener("resize", onResize);
 
         cleanups.push(() => {
-          window.removeEventListener('resize', onResize);
+          window.removeEventListener("resize", onResize);
         });
 
         // WebGL2 Background Swarm Fluid Shader
-        const bgCanvas = document.getElementById("bg-shader-canvas") as HTMLCanvasElement | null;
+        const bgCanvas = document.getElementById(
+          "bg-shader-canvas",
+        ) as HTMLCanvasElement | null;
         if (!bgCanvas) return;
 
         const gl = bgCanvas.getContext("webgl2");
@@ -297,20 +379,34 @@ const basePath = '/AI-Tadpole-OS-Marketing';
           return;
         }
 
-        const positionAttributeLocation = gl.getAttribLocation(program, "position");
+        const positionAttributeLocation = gl.getAttribLocation(
+          program,
+          "position",
+        );
         const positionBuffer = gl.createBuffer();
         gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
-        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([
-          -1, -1,   1, -1,  -1,  1,
-          -1,  1,   1, -1,   1,  1,
-        ]), gl.STATIC_DRAW);
+        gl.bufferData(
+          gl.ARRAY_BUFFER,
+          new Float32Array([-1, -1, 1, -1, -1, 1, -1, 1, 1, -1, 1, 1]),
+          gl.STATIC_DRAW,
+        );
 
         const vao = gl.createVertexArray();
         gl.bindVertexArray(vao);
         gl.enableVertexAttribArray(positionAttributeLocation);
-        gl.vertexAttribPointer(positionAttributeLocation, 2, gl.FLOAT, false, 0, 0);
+        gl.vertexAttribPointer(
+          positionAttributeLocation,
+          2,
+          gl.FLOAT,
+          false,
+          0,
+          0,
+        );
 
-        const resolutionLocation = gl.getUniformLocation(program, "u_resolution");
+        const resolutionLocation = gl.getUniformLocation(
+          program,
+          "u_resolution",
+        );
         const timeLocation = gl.getUniformLocation(program, "u_time");
 
         function resizeBgCanvas() {
@@ -325,8 +421,11 @@ const basePath = '/AI-Tadpole-OS-Marketing';
         let bgAnimId = 0;
         function render(time: number) {
           if (!gl || !program) return;
-          
-          if (bgCanvas.width !== window.innerWidth || bgCanvas.height !== window.innerHeight) {
+
+          if (
+            bgCanvas.width !== window.innerWidth ||
+            bgCanvas.height !== window.innerHeight
+          ) {
             resizeBgCanvas();
           }
 
@@ -350,7 +449,9 @@ const basePath = '/AI-Tadpole-OS-Marketing';
       }
 
       function resizeBgCanvas() {
-        const bgCanvas = document.getElementById("bg-shader-canvas") as HTMLCanvasElement | null;
+        const bgCanvas = document.getElementById(
+          "bg-shader-canvas",
+        ) as HTMLCanvasElement | null;
         if (!bgCanvas) return;
         const gl = bgCanvas.getContext("webgl2");
         if (!gl) return;
@@ -364,9 +465,9 @@ const basePath = '/AI-Tadpole-OS-Marketing';
         cleanups = [];
       }
 
-      document.addEventListener('DOMContentLoaded', setupVisuals);
-      document.addEventListener('astro:page-load', setupVisuals);
-      document.addEventListener('astro:before-preparation', cleanupVisuals);
+      document.addEventListener("DOMContentLoaded", setupVisuals);
+      document.addEventListener("astro:page-load", setupVisuals);
+      document.addEventListener("astro:before-preparation", cleanupVisuals);
     </script>
     <TelemetryHUD />
   </body>

@@ -1,0 +1,30 @@
+# Robots.txt for AI-Tadpole-OS-Marketing
+User-agent: *
+Allow: /
+
+# Specific AI & LLM User-Agents
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Meta-ExternalAgent
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+Sitemap: https://dds-solutions.github.io/AI-Tadpole-OS-Marketing/sitemap.xml

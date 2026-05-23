@@ -1,0 +1,24 @@
+# AI-Tadpole-OS
+
+> A local-first, sovereign multi-agent runtime designed for high-performance orchestration, private memory, and human-in-the-loop governance.
+
+AI-Tadpole-OS (Tadpole OS) separates directives, orchestration, and execution into a robust, three-layer architecture to solve the probabilistic reliability issue of LLM applications.
+
+## Primary Documentation Links
+- [Core Runtime Github](https://github.com/DDS-Solutions/AI-TadPole-OS)
+- [How It Works](https://dds-solutions.github.io/AI-Tadpole-OS-Marketing/how-it-works/)
+- [Mission & Sovereign Vision](https://dds-solutions.github.io/AI-Tadpole-OS-Marketing/mission/)
+- [Governance Protocol](https://dds-solutions.github.io/AI-Tadpole-OS-Marketing/governance/)
+
+## Key Technical Specifications
+- **Core Runtime**: Written in high-performance Rust for deterministic thread/process isolation.
+- **Agent Orchestration**: Swarm coordination at 10Hz frequency heartbeat.
+- **Agent Intelligence**: Self-annealing, self-debugging loop designed for runtime stability.
+- **Private Memory**: Vector database using LanceDB.
+- **Safety**: Human-in-the-loop validation, strict local-first data sandboxing, and OBLITERATUS hard reset capabilities.
+
+## Marketing Site Sitemap
+- **Homepage** (`https://dds-solutions.github.io/AI-Tadpole-OS-Marketing/`): High-level overview of runtime features, telemetry, and OS characteristics.
+- **How It Works** (`https://dds-solutions.github.io/AI-Tadpole-OS-Marketing/how-it-works/`): Details on the three-layer architecture (Directive, Orchestration, Execution), BFS pathfinding, and memory integration.
+- **Mission** (`https://dds-solutions.github.io/AI-Tadpole-OS-Marketing/mission/`): Focus on sovereign intelligence, privacy-preserving local swarms, and independence from monopolistic API dependencies.
+- **Governance** (`https://dds-solutions.github.io/AI-Tadpole-OS-Marketing/governance/`): Explanations of safety systems, consensus algorithms, and telemetry constraints.

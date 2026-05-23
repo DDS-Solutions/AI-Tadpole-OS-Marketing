@@ -61,7 +61,6 @@ const basePath = '/AI-Tadpole-OS-Marketing';
     <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden" aria-hidden="true">
       <canvas id="bg-shader-canvas" class="absolute inset-0 h-full w-full z-0 opacity-90"></canvas>
       <div class="neural-grid absolute inset-0 z-5"></div>
-      <canvas data-cursor-canvas class="absolute inset-0 h-full w-full z-10"></canvas>
     </div>
 
     <slot />
@@ -170,71 +169,14 @@ const basePath = '/AI-Tadpole-OS-Marketing';
           observer.disconnect();
         });
 
-        // 2D Cursor Connecting Field
-        const cursorCanvas = document.querySelector('[data-cursor-canvas]') as HTMLCanvasElement | null;
-        const ctx = cursorCanvas?.getContext('2d');
-        let mouseX = -1000;
-        let mouseY = -1000;
-        let targets: { x: number; y: number }[] = [];
-
-        function resizeCursorCanvas() {
-          if (!cursorCanvas) return;
-          cursorCanvas.width = window.innerWidth;
-          cursorCanvas.height = window.innerHeight;
-        }
-
-        function updateTargets() {
-          targets = Array.from(document.querySelectorAll('a, button, .signal-node')).map((el) => {
-            const rect = el.getBoundingClientRect();
-            return { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 };
-          });
-        }
-
         const onResize = () => {
-          resizeCursorCanvas();
           resizeBgCanvas();
         };
 
-        const onMouseMove = (event: MouseEvent) => {
-          mouseX = event.clientX;
-          mouseY = event.clientY;
-          bgMouse.x = event.clientX;
-          bgMouse.y = event.clientY;
-        };
-
         window.addEventListener('resize', onResize);
-        document.addEventListener('mousemove', onMouseMove);
-
-        resizeCursorCanvas();
-        updateTargets();
-        const targetInterval = setInterval(updateTargets, 2500);
-
-        let cursorAnimId = 0;
-        function animateCursorField() {
-          if (!ctx || !cursorCanvas) return;
-          ctx.clearRect(0, 0, cursorCanvas.width, cursorCanvas.height);
-          targets.forEach((target) => {
-            const dx = target.x - mouseX;
-            const dy = target.y - mouseY;
-            const distance = Math.sqrt(dx * dx + dy * dy);
-            if (distance < 260) {
-              ctx.beginPath();
-              ctx.moveTo(mouseX, mouseY);
-              ctx.lineTo(target.x, target.y);
-              ctx.strokeStyle = `rgba(16, 185, 129, ${0.18 * (1 - distance / 260)})`;
-              ctx.lineWidth = 0.5;
-              ctx.stroke();
-            }
-          });
-          cursorAnimId = requestAnimationFrame(animateCursorField);
-        }
-        animateCursorField();
 
         cleanups.push(() => {
           window.removeEventListener('resize', onResize);
-          document.removeEventListener('mousemove', onMouseMove);
-          clearInterval(targetInterval);
-          cancelAnimationFrame(cursorAnimId);
         });
 
         // WebGL2 Background Swarm Fluid Shader
@@ -255,7 +197,6 @@ const basePath = '/AI-Tadpole-OS-Marketing';
           precision highp float;
           uniform vec2 u_resolution;
           uniform float u_time;
-          uniform vec2 u_mouse;
           out vec4 outColor;
 
           vec3 permute(vec3 x) { return mod(((x*34.0)+1.0)*x, 289.0); }
@@ -289,42 +230,15 @@ const basePath = '/AI-Tadpole-OS-Marketing';
             vec2 p = uv;
             p.x *= aspect;
 
-            vec2 mouseNorm = u_mouse / u_resolution.xy;
-            mouseNorm.x *= aspect;
-
-            float distToMouse = distance(p, mouseNorm);
-
-            vec2 mouseWarp = vec2(0.0);
-            float ripple = 0.0;
-            
-            if (distToMouse < 0.4) {
-              float influence = 1.0 - smoothstep(0.0, 0.4, distToMouse);
-              vec2 dir = p - mouseNorm;
-              float len = length(dir);
-              if (len > 0.001) {
-                dir = dir / len;
-              }
-              mouseWarp = dir * 0.08 * influence;
-              
-              vec2 twist = vec2(-dir.y, dir.x);
-              mouseWarp += twist * 0.05 * influence;
-
-              ripple = sin(distToMouse * 35.0 - u_time * 4.5) * 0.5 + 0.5;
-              ripple *= influence * 0.28;
-            }
-
-            p += mouseWarp;
-
             vec2 q = vec2(0.0);
-            q.x = snoise(p * 1.2 + vec2(0.0, u_time * 0.04));
-            q.y = snoise(p * 1.5 + vec2(1.7, u_time * 0.03));
+            q.x = snoise(p * 0.25 + vec2(0.0, u_time * 0.02));
+            q.y = snoise(p * 0.3 + vec2(1.7, u_time * 0.015));
 
             vec2 r = vec2(0.0);
-            r.x = snoise(p * 2.2 + q * 2.8 + vec2(5.2, u_time * 0.05));
-            r.y = snoise(p * 2.0 + q * 2.5 + vec2(8.3, u_time * 0.04));
+            r.x = snoise(p * 0.5 + q * 1.5 + vec2(5.2, u_time * 0.02));
+            r.y = snoise(p * 0.45 + q * 1.2 + vec2(8.3, u_time * 0.018));
 
-            float f = snoise(p * 1.6 + r * 3.2);
-            f += ripple;
+            float f = snoise(p * 0.35 + r * 1.2);
 
             float intensity = smoothstep(-0.8, 0.8, f);
 
@@ -340,7 +254,7 @@ const basePath = '/AI-Tadpole-OS-Marketing';
             vec3 upperColor = mix(auroraPurple, auroraMagenta, r.y * 0.5 + 0.5);
             vec3 auroraColor = mix(lowerColor, upperColor, heightWeight + q.y * 0.15);
 
-            float curtains = snoise(vec2(p.x * 6.5 - u_time * 0.08, p.y * 0.3));
+            float curtains = snoise(vec2(p.x * 1.2 - u_time * 0.03, p.y * 0.1));
             curtains = smoothstep(-0.4, 0.6, curtains);
             
             float finalGlow = clamp(intensity * (0.4 + 0.6 * curtains) * 1.6, 0.0, 1.0);
@@ -349,11 +263,6 @@ const basePath = '/AI-Tadpole-OS-Marketing';
             finalGlow *= edgeFade;
 
             vec3 finalColor = mix(spaceBg, auroraColor, finalGlow);
-
-            if (distToMouse < 0.35) {
-              float mouseGlow = 1.0 - smoothstep(0.0, 0.35, distToMouse);
-              finalColor += auroraCyan * mouseGlow * 0.12;
-            }
 
             outColor = vec4(finalColor, 1.0);
           }
@@ -403,9 +312,6 @@ const basePath = '/AI-Tadpole-OS-Marketing';
 
         const resolutionLocation = gl.getUniformLocation(program, "u_resolution");
         const timeLocation = gl.getUniformLocation(program, "u_time");
-        const mouseLocation = gl.getUniformLocation(program, "u_mouse");
-
-        let bgMouse = { x: -1000, y: -1000 };
 
         function resizeBgCanvas() {
           if (!bgCanvas) return;
@@ -429,7 +335,6 @@ const basePath = '/AI-Tadpole-OS-Marketing';
 
           gl.uniform2f(resolutionLocation, bgCanvas.width, bgCanvas.height);
           gl.uniform1f(timeLocation, time * 0.001);
-          gl.uniform2f(mouseLocation, bgMouse.x, bgCanvas.height - bgMouse.y);
 
           gl.drawArrays(gl.TRIANGLES, 0, 6);
           bgAnimId = requestAnimationFrame(render);

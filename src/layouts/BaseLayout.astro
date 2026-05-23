@@ -59,9 +59,9 @@ const basePath = '/AI-Tadpole-OS-Marketing';
     </header>
 
     <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden" aria-hidden="true">
-      <canvas id="bg-shader-canvas" class="absolute inset-0 z-0 opacity-90"></canvas>
+      <canvas id="bg-shader-canvas" class="absolute inset-0 h-full w-full z-0 opacity-90"></canvas>
       <div class="neural-grid absolute inset-0 z-5"></div>
-      <canvas data-cursor-canvas class="absolute inset-0 z-10"></canvas>
+      <canvas data-cursor-canvas class="absolute inset-0 h-full w-full z-10"></canvas>
     </div>
 
     <slot />
@@ -410,8 +410,8 @@ const basePath = '/AI-Tadpole-OS-Marketing';
 
         function resizeBgCanvas() {
           if (!bgCanvas) return;
-          bgCanvas.width = bgCanvas.clientWidth;
-          bgCanvas.height = bgCanvas.clientHeight;
+          bgCanvas.width = window.innerWidth;
+          bgCanvas.height = window.innerHeight;
           gl.viewport(0, 0, bgCanvas.width, bgCanvas.height);
         }
 
@@ -421,7 +421,7 @@ const basePath = '/AI-Tadpole-OS-Marketing';
         function render(time: number) {
           if (!gl || !program) return;
           
-          if (bgCanvas.width !== bgCanvas.clientWidth || bgCanvas.height !== bgCanvas.clientHeight) {
+          if (bgCanvas.width !== window.innerWidth || bgCanvas.height !== window.innerHeight) {
             resizeBgCanvas();
           }
 
@@ -450,8 +450,8 @@ const basePath = '/AI-Tadpole-OS-Marketing';
         if (!bgCanvas) return;
         const gl = bgCanvas.getContext("webgl2");
         if (!gl) return;
-        bgCanvas.width = bgCanvas.clientWidth;
-        bgCanvas.height = bgCanvas.clientHeight;
+        bgCanvas.width = window.innerWidth;
+        bgCanvas.height = window.innerHeight;
         gl.viewport(0, 0, bgCanvas.width, bgCanvas.height);
       }
 

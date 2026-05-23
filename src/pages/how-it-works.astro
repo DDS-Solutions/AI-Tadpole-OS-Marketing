@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+const basePath = '/AI-Tadpole-OS-Marketing';
 ---
 
 <style>
@@ -40,7 +41,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
     <!-- Header -->
     <header class="text-center space-y-8 mb-24 relative">
       <a
-        href="./"
+        href={`${basePath}/`}
         class="text-[10px] font-mono text-zinc-500 hover:text-emerald-400 transition-colors flex items-center justify-center gap-2 tracking-widest uppercase"
       >
         ← Return to Base
@@ -121,8 +122,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
                 </h4>
                 <h3 class="font-bold text-white">Directives (The Context)</h3>
                 <p class="text-xs text-zinc-500 mt-2">
-                  Human-readable SOPs in Markdown. The absolute source of truth
-                  for agent behavior and long-term memory.
+                  Human-authored Markdown directives and strict rulesets. The absolute source of truth for agent behavior and swarm limits.
                 </p>
               </div>
               <div
@@ -133,10 +133,9 @@ import BaseLayout from "../layouts/BaseLayout.astro";
                 >
                   Layer 2
                 </h4>
-                <h3 class="font-bold text-white">Orchestration (The Router)</h3>
+                <h3 class="font-bold text-white">Orchestration (Agent 99 Router)</h3>
                 <p class="text-xs text-zinc-500 mt-2">
-                  Intelligent multi-model dispatching and intent decomposition
-                  via the **Neural Context Bus**.
+                  Multi-model routing, dynamic intent decomposition, and **Agent 99 Self-Annealing** to extract operational wisdom and write to long-term memory.
                 </p>
               </div>
               <div
@@ -148,11 +147,10 @@ import BaseLayout from "../layouts/BaseLayout.astro";
                   Layer 3
                 </h4>
                 <h3 class="font-bold text-white">
-                  Execution (The Determinism)
+                  Execution (Rust & FuturesUnordered)
                 </h3>
                 <p class="text-xs text-zinc-500 mt-2">
-                  Native Rust-powered tools and MCP skills. Memory-safe,
-                  lightning-fast, and 100% predictable performance.
+                  Native Rust-powered tools and Model Context Protocol (MCP) skills. Runs parallel swarms safely with zero context decay.
                 </p>
               </div>
             </div>

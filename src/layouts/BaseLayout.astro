@@ -7,16 +7,13 @@ interface Props {
 }
 
 const { title, description } = Astro.props;
-const basePath = "/AI-Tadpole-OS-Marketing";
+const basePath = '/AI-Tadpole-OS-Marketing';
 ---
 
 <!doctype html>
 <html lang="en" data-theme="zinc">
   <head>
-    <meta
-      name="google-site-verification"
-      content="fZFIBOhQC_xJPk_Vt_iueDPpdufqV8XOqdifUtCu_dk"
-    />
+    <meta name="google-site-verification" content="fZFIBOhQC_xJPk_Vt_iueDPpdufqV8XOqdifUtCu_dk" />
     <meta charset="UTF-8" />
     <meta name="description" content={description} />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -24,80 +21,46 @@ const basePath = "/AI-Tadpole-OS-Marketing";
     <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta
-      property="og:url"
-      content="https://dds-solutions.github.io/AI-Tadpole-OS-Marketing/"
-    />
+    <meta property="og:url" content="https://dds-solutions.github.io/AI-Tadpole-OS-Marketing/" />
     <link rel="icon" type="image/svg+xml" href={`${basePath}/favicon.svg`} />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
 
     <meta name="ai-sovereign-os" content="AI-Tadpole-OS" />
-    <meta
-      name="ai-intelligence-category"
-      content="Local-first multi-agent swarm runtime"
-    />
+    <meta name="ai-intelligence-category" content="Local-first multi-agent swarm runtime" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
   </head>
-  <body
-    class="bg-zinc-950 text-zinc-100 font-inter antialiased selection:bg-emerald-500/30 overflow-x-hidden"
-  >
-    <a
-      href="#main"
-      class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-lg focus:bg-white focus:px-4 focus:py-3 focus:text-sm focus:font-bold focus:text-zinc-950"
-    >
+  <body class="bg-zinc-950 text-zinc-100 font-inter antialiased selection:bg-emerald-500/30 overflow-x-hidden">
+    <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-lg focus:bg-white focus:px-4 focus:py-3 focus:text-sm focus:font-bold focus:text-zinc-950">
       Skip to content
     </a>
 
-    <header
-      class="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-zinc-950/80 backdrop-blur-xl"
-    >
-      <div
-        class="mx-auto flex h-20 max-w-7xl items-center justify-between px-5 sm:px-8"
-      >
-        <a
-          href={`${basePath}/`}
-          class="flex min-h-11 items-center gap-3 rounded-lg text-zinc-100 outline-offset-4"
-          aria-label="AI-Tadpole-OS home"
-        >
-          <img
-            src={`${basePath}/assets/program-logo.png`}
-            alt="AI-Tadpole-OS logo"
-            class="h-10 w-10 rounded-lg border border-white/10 object-cover"
-          />
-          <span class="hidden text-sm font-bold tracking-tight sm:block"
-            >AI-Tadpole-OS</span
-          >
+    <header class="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-zinc-950/80 backdrop-blur-xl">
+      <div class="mx-auto flex h-20 max-w-7xl items-center justify-between px-5 sm:px-8">
+        <a href={`${basePath}/`} class="flex min-h-11 items-center gap-3 rounded-lg text-zinc-100 outline-offset-4" aria-label="AI-Tadpole-OS home">
+          <img src={`${basePath}/assets/program-logo.png`} alt="AI-Tadpole-OS logo" class="h-10 w-10 rounded-lg border border-white/10 object-cover" />
+          <span class="hidden text-sm font-bold tracking-tight sm:block">AI-Tadpole-OS</span>
         </a>
-        <nav
-          class="hidden items-center gap-8 text-xs font-bold uppercase tracking-[0.18em] text-zinc-500 md:flex"
-          aria-label="Primary navigation"
-        >
-          <a class="hover:text-zinc-100" href="#runtime">Runtime</a>
-          <a class="hover:text-zinc-100" href="#interface">Interface</a>
-          <a class="hover:text-zinc-100" href="#governance">Governance</a>
-          <a class="hover:text-zinc-100" href="#roadmap">Roadmap</a>
+        <nav class="hidden items-center gap-8 text-xs font-bold uppercase tracking-[0.18em] text-zinc-500 md:flex" aria-label="Primary navigation">
+          <a class="hover:text-zinc-100" href={`${basePath}/#runtime`}>Runtime</a>
+          <a class="hover:text-zinc-100" href={`${basePath}/#interface`}>Interface</a>
+          <a class="hover:text-zinc-100" href={`${basePath}/how-it-works`}>How It Works</a>
+          <a class="hover:text-zinc-100" href={`${basePath}/mission`}>Mission</a>
+          <a class="hover:text-zinc-100" href={`${basePath}/governance`}>Governance</a>
+          <a class="hover:text-zinc-100" href={`${basePath}/#roadmap`}>Roadmap</a>
         </nav>
-        <a
-          href="https://github.com/DDS-Solutions/AI-TadPole-OS"
-          class="inline-flex min-h-11 items-center rounded-lg border border-emerald-400/30 bg-emerald-400/10 px-4 text-xs font-bold uppercase tracking-[0.16em] text-emerald-300 hover:border-emerald-300 hover:bg-emerald-300 hover:text-zinc-950"
-        >
+        <a href="https://github.com/DDS-Solutions/AI-TadPole-OS" class="inline-flex min-h-11 items-center rounded-lg border border-emerald-400/30 bg-emerald-400/10 px-4 text-xs font-bold uppercase tracking-[0.16em] text-emerald-300 hover:border-emerald-300 hover:bg-emerald-300 hover:text-zinc-950">
           Source
         </a>
       </div>
     </header>
 
-    <div
-      class="fixed inset-0 pointer-events-none z-0 overflow-hidden"
-      aria-hidden="true"
-    >
-      <div class="neural-grid"></div>
+    <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden" aria-hidden="true">
+      <canvas id="bg-shader-canvas" class="absolute inset-0 z-0 opacity-60"></canvas>
+      <div class="neural-grid absolute inset-0 z-5"></div>
       <canvas data-cursor-canvas class="absolute inset-0 z-10"></canvas>
     </div>
 
@@ -105,10 +68,8 @@ const basePath = "/AI-Tadpole-OS-Marketing";
 
     <style is:global>
       :root {
-        --font-body: "Inter", system-ui, sans-serif;
-        --font-mono:
-          "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas,
-          monospace;
+        --font-body: 'Inter', system-ui, sans-serif;
+        --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
         --zinc-950: #09090b;
         --zinc-900: #18181b;
         --zinc-800: #27272a;
@@ -116,12 +77,8 @@ const basePath = "/AI-Tadpole-OS-Marketing";
         --pulse: #22c55e;
       }
 
-      .font-inter {
-        font-family: var(--font-body);
-      }
-      .font-mono {
-        font-family: var(--font-mono);
-      }
+      .font-inter { font-family: var(--font-body); }
+      .font-mono { font-family: var(--font-mono); }
 
       h1,
       h2,
@@ -143,11 +100,7 @@ const basePath = "/AI-Tadpole-OS-Marketing";
         opacity: 0.1;
         background-image:
           linear-gradient(rgba(255, 255, 255, 0.032) 1px, transparent 1px),
-          linear-gradient(
-            90deg,
-            rgba(255, 255, 255, 0.032) 1px,
-            transparent 1px
-          );
+          linear-gradient(90deg, rgba(255, 255, 255, 0.032) 1px, transparent 1px);
         background-size: 64px 64px;
         mask-image: linear-gradient(to bottom, black, transparent 88%);
       }
@@ -162,9 +115,7 @@ const basePath = "/AI-Tadpole-OS-Marketing";
       .reveal-on-scroll {
         opacity: 0;
         transform: translateY(22px);
-        transition:
-          opacity 700ms ease,
-          transform 700ms cubic-bezier(0.16, 1, 0.3, 1);
+        transition: opacity 700ms ease, transform 700ms cubic-bezier(0.16, 1, 0.3, 1);
       }
 
       .reveal-on-scroll.active {
@@ -188,80 +139,80 @@ const basePath = "/AI-Tadpole-OS-Marketing";
         }
       }
 
-      ::-webkit-scrollbar {
-        width: 8px;
-      }
-      ::-webkit-scrollbar-track {
-        background: transparent;
-      }
-      ::-webkit-scrollbar-thumb {
-        background: #27272a;
-        border-radius: 8px;
-      }
-      ::-webkit-scrollbar-thumb:hover {
-        background: #3f3f46;
-      }
+      ::-webkit-scrollbar { width: 8px; }
+      ::-webkit-scrollbar-track { background: transparent; }
+      ::-webkit-scrollbar-thumb { background: #27272a; border-radius: 8px; }
+      ::-webkit-scrollbar-thumb:hover { background: #3f3f46; }
     </style>
 
-    <script is:inline>
-      const prefersReducedMotion = window.matchMedia(
-        "(prefers-reduced-motion: reduce)",
-      ).matches;
+    <script>
+      let cleanups: (() => void)[] = [];
 
-      if (!prefersReducedMotion) {
-        const observer = new IntersectionObserver(
-          (entries) => {
-            entries.forEach((entry) => {
-              if (entry.isIntersecting) entry.target.classList.add("active");
-            });
-          },
-          { threshold: 0.12 },
-        );
+      function setupVisuals() {
+        cleanupVisuals();
 
-        document.addEventListener("DOMContentLoaded", () => {
-          document.querySelectorAll("[data-reveal]").forEach((el) => {
-            el.classList.add("reveal-on-scroll");
-            observer.observe(el);
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (prefersReducedMotion) return;
+
+        // Observer for scroll animation reveals
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) entry.target.classList.add('active');
           });
+        }, { threshold: 0.12 });
+
+        document.querySelectorAll('[data-reveal]').forEach((el) => {
+          el.classList.add('reveal-on-scroll');
+          observer.observe(el);
         });
 
-        const canvas = document.querySelector("[data-cursor-canvas]");
-        const ctx = canvas?.getContext("2d");
+        cleanups.push(() => {
+          observer.disconnect();
+        });
+
+        // 2D Cursor Connecting Field
+        const cursorCanvas = document.querySelector('[data-cursor-canvas]') as HTMLCanvasElement | null;
+        const ctx = cursorCanvas?.getContext('2d');
         let mouseX = -1000;
         let mouseY = -1000;
-        let targets = [];
+        let targets: { x: number; y: number }[] = [];
 
-        function resizeCanvas() {
-          if (!canvas) return;
-          canvas.width = window.innerWidth;
-          canvas.height = window.innerHeight;
+        function resizeCursorCanvas() {
+          if (!cursorCanvas) return;
+          cursorCanvas.width = window.innerWidth;
+          cursorCanvas.height = window.innerHeight;
         }
 
         function updateTargets() {
-          targets = Array.from(
-            document.querySelectorAll("a, button, .signal-node"),
-          ).map((el) => {
+          targets = Array.from(document.querySelectorAll('a, button, .signal-node')).map((el) => {
             const rect = el.getBoundingClientRect();
-            return {
-              x: rect.left + rect.width / 2,
-              y: rect.top + rect.height / 2,
-            };
+            return { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 };
           });
         }
 
-        window.addEventListener("resize", resizeCanvas);
-        document.addEventListener("mousemove", (event) => {
+        const onResize = () => {
+          resizeCursorCanvas();
+          resizeBgCanvas();
+        };
+
+        const onMouseMove = (event: MouseEvent) => {
           mouseX = event.clientX;
           mouseY = event.clientY;
-        });
+          bgMouse.x = event.clientX;
+          bgMouse.y = event.clientY;
+        };
 
-        resizeCanvas();
+        window.addEventListener('resize', onResize);
+        document.addEventListener('mousemove', onMouseMove);
+
+        resizeCursorCanvas();
         updateTargets();
-        setInterval(updateTargets, 2500);
+        const targetInterval = setInterval(updateTargets, 2500);
 
+        let cursorAnimId = 0;
         function animateCursorField() {
-          if (!ctx || !canvas) return;
-          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          if (!ctx || !cursorCanvas) return;
+          ctx.clearRect(0, 0, cursorCanvas.width, cursorCanvas.height);
           targets.forEach((target) => {
             const dx = target.x - mouseX;
             const dy = target.y - mouseY;
@@ -270,16 +221,197 @@ const basePath = "/AI-Tadpole-OS-Marketing";
               ctx.beginPath();
               ctx.moveTo(mouseX, mouseY);
               ctx.lineTo(target.x, target.y);
-              ctx.strokeStyle = `rgba(34, 197, 94, ${0.18 * (1 - distance / 260)})`;
+              ctx.strokeStyle = `rgba(16, 185, 129, ${0.18 * (1 - distance / 260)})`;
               ctx.lineWidth = 0.5;
               ctx.stroke();
             }
           });
-          requestAnimationFrame(animateCursorField);
+          cursorAnimId = requestAnimationFrame(animateCursorField);
+        }
+        animateCursorField();
+
+        cleanups.push(() => {
+          window.removeEventListener('resize', onResize);
+          document.removeEventListener('mousemove', onMouseMove);
+          clearInterval(targetInterval);
+          cancelAnimationFrame(cursorAnimId);
+        });
+
+        // WebGL2 Background Swarm Fluid Shader
+        const bgCanvas = document.getElementById("bg-shader-canvas") as HTMLCanvasElement | null;
+        if (!bgCanvas) return;
+
+        const gl = bgCanvas.getContext("webgl2");
+        if (!gl) return;
+
+        const vertexShaderSource = `#version 300 es
+          in vec2 position;
+          void main() {
+            gl_Position = vec4(position, 0.0, 1.0);
+          }
+        `;
+
+        const fragmentShaderSource = `#version 300 es
+          precision highp float;
+          uniform vec2 u_resolution;
+          uniform float u_time;
+          uniform vec2 u_mouse;
+          out vec4 outColor;
+
+          vec3 permute(vec3 x) { return mod(((x*34.0)+1.0)*x, 289.0); }
+          float snoise(vec2 v){
+            const vec4 C = vec4(0.211324865405187, 0.366025403784439,
+                     -0.577350269189626, 0.024390243902439);
+            vec2 i  = floor(v + dot(v, C.yy) );
+            vec2 x0 = v -   i + dot(i, C.xx) ;
+            vec2 i1;
+            i1 = (x0.x > x0.y) ? vec2(1.0, 0.0) : vec2(0.0, 1.0);
+            vec4 x12 = x0.xyxy + C.xxzz;
+            x12.xy -= i1;
+            i = mod(i, 289.0);
+            vec3 p = permute( permute( i.y + vec3(0.0, i1.y, 1.0 ))
+            + i.x + vec3(0.0, i1.x, 1.0 ));
+            vec3 m = max(0.5 - vec3(dot(x0,x0), dot(x12.xy,x12.xy),
+              dot(x12.zw,x12.zw)), 0.0);
+            m = m*m ;
+            m = m*m ;
+            vec3 x = 2.0 * fract(p * C.www) - 1.0;
+            vec3 h = abs(x) - 0.5;
+            vec3 a0 = x - floor(x + 0.5);
+            vec3 g = a0.xyxy * vec2(C.x,C.z).xxxy + vec2(C.w,C.y).xyxy;
+            vec3 norm = 1.79284291400159 - 0.85373472095314 * ( g*g + h*h );
+            vec3 vecValues = g * vec3(x0.x, x12.xz) + h * vec3(x0.y, x12.yw);
+            return 130.0 * dot(m * norm, vecValues);
+          }
+
+          void main() {
+            vec2 uv = gl_FragCoord.xy / u_resolution.xy;
+            vec2 mouseNorm = u_mouse / u_resolution.xy;
+            
+            vec3 colorDark = vec3(0.035, 0.035, 0.043);   // #09090b
+            vec3 colorGreen = vec3(0.02, 0.12, 0.06);     // #022c22 (Dark Swarm Emerald)
+            vec3 colorHighlight = vec3(0.06, 0.65, 0.35); // #10b981 (Active Telemetry Glow)
+
+            float noiseVal1 = snoise(uv * 2.5 + u_time * 0.05);
+            float noiseVal2 = snoise(uv * 6.0 - u_time * 0.08);
+
+            float distToMouse = distance(uv, mouseNorm);
+            float mouseInfluence = smoothstep(0.35, 0.0, distToMouse);
+
+            float mixFactor = smoothstep(-1.0, 1.0, noiseVal1 + noiseVal2 * 0.45 + mouseInfluence * 0.35);
+            vec3 blendedColor = mix(colorDark, colorGreen, mixFactor);
+
+            if (mixFactor > 0.85) {
+              blendedColor = mix(blendedColor, colorHighlight, (mixFactor - 0.85) * 1.5);
+            }
+
+            outColor = vec4(blendedColor, 1.0);
+          }
+        `;
+
+        const vs = gl.createShader(gl.VERTEX_SHADER);
+        const fs = gl.createShader(gl.FRAGMENT_SHADER);
+        if (!vs || !fs) return;
+
+        gl.shaderSource(vs, vertexShaderSource);
+        gl.compileShader(vs);
+        if (!gl.getShaderParameter(vs, gl.COMPILE_STATUS)) {
+          console.error(gl.getShaderInfoLog(vs));
+          return;
         }
 
-        animateCursorField();
+        gl.shaderSource(fs, fragmentShaderSource);
+        gl.compileShader(fs);
+        if (!gl.getShaderParameter(fs, gl.COMPILE_STATUS)) {
+          console.error(gl.getShaderInfoLog(fs));
+          return;
+        }
+
+        const program = gl.createProgram();
+        if (!program) return;
+
+        gl.attachShader(program, vs);
+        gl.attachShader(program, fs);
+        gl.linkProgram(program);
+        if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+          console.error(gl.getProgramInfoLog(program));
+          return;
+        }
+
+        const positionAttributeLocation = gl.getAttribLocation(program, "position");
+        const positionBuffer = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([
+          -1, -1,   1, -1,  -1,  1,
+          -1,  1,   1, -1,   1,  1,
+        ]), gl.STATIC_DRAW);
+
+        const vao = gl.createVertexArray();
+        gl.bindVertexArray(vao);
+        gl.enableVertexAttribArray(positionAttributeLocation);
+        gl.vertexAttribPointer(positionAttributeLocation, 2, gl.FLOAT, false, 0, 0);
+
+        const resolutionLocation = gl.getUniformLocation(program, "u_resolution");
+        const timeLocation = gl.getUniformLocation(program, "u_time");
+        const mouseLocation = gl.getUniformLocation(program, "u_mouse");
+
+        let bgMouse = { x: -1000, y: -1000 };
+
+        function resizeBgCanvas() {
+          if (!bgCanvas) return;
+          bgCanvas.width = bgCanvas.clientWidth;
+          bgCanvas.height = bgCanvas.clientHeight;
+          gl.viewport(0, 0, bgCanvas.width, bgCanvas.height);
+        }
+
+        resizeBgCanvas();
+
+        let bgAnimId = 0;
+        function render(time: number) {
+          if (!gl || !program) return;
+          
+          if (bgCanvas.width !== bgCanvas.clientWidth || bgCanvas.height !== bgCanvas.clientHeight) {
+            resizeBgCanvas();
+          }
+
+          gl.useProgram(program);
+          gl.bindVertexArray(vao);
+
+          gl.uniform2f(resolutionLocation, bgCanvas.width, bgCanvas.height);
+          gl.uniform1f(timeLocation, time * 0.001);
+          gl.uniform2f(mouseLocation, bgMouse.x, bgCanvas.height - bgMouse.y);
+
+          gl.drawArrays(gl.TRIANGLES, 0, 6);
+          bgAnimId = requestAnimationFrame(render);
+        }
+        bgAnimId = requestAnimationFrame(render);
+
+        cleanups.push(() => {
+          cancelAnimationFrame(bgAnimId);
+          gl.deleteProgram(program);
+          gl.deleteBuffer(positionBuffer);
+          gl.deleteVertexArray(vao);
+        });
       }
+
+      function resizeBgCanvas() {
+        const bgCanvas = document.getElementById("bg-shader-canvas") as HTMLCanvasElement | null;
+        if (!bgCanvas) return;
+        const gl = bgCanvas.getContext("webgl2");
+        if (!gl) return;
+        bgCanvas.width = bgCanvas.clientWidth;
+        bgCanvas.height = bgCanvas.clientHeight;
+        gl.viewport(0, 0, bgCanvas.width, bgCanvas.height);
+      }
+
+      function cleanupVisuals() {
+        cleanups.forEach((cleanup) => cleanup());
+        cleanups = [];
+      }
+
+      document.addEventListener('DOMContentLoaded', setupVisuals);
+      document.addEventListener('astro:page-load', setupVisuals);
+      document.addEventListener('astro:before-preparation', cleanupVisuals);
     </script>
     <TelemetryHUD />
   </body>

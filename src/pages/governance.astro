@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+const basePath = '/AI-Tadpole-OS-Marketing';
 ---
 
 <BaseLayout
@@ -11,7 +12,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
       <!-- Header -->
       <header class="space-y-4 border-b border-white/5 pb-12">
         <a
-          href="./"
+          href={`${basePath}/`}
           class="text-[10px] font-mono text-zinc-500 hover:text-emerald-400 transition-colors flex items-center gap-2 tracking-widest uppercase"
         >
           ← Return to Base
@@ -94,12 +95,10 @@ import BaseLayout from "../layouts/BaseLayout.astro";
               >
               </div>
               <h4 class="font-bold text-white mb-2 tracking-tight">
-                Private Context
+                Private Context (LanceDB)
               </h4>
               <p class="text-xs text-zinc-500 leading-relaxed italic">
-                "Your intelligence, your hardware." - Every strategic directive
-                and proprietary context remains local, protected by NeuralVault
-                encryption.
+                "Your intelligence, your hardware." - Directives, traversal history, and context segments remain locally stored in a secure LanceDB vector store.
               </p>
             </div>
             <div
@@ -110,12 +109,10 @@ import BaseLayout from "../layouts/BaseLayout.astro";
               >
               </div>
               <h4 class="font-bold text-white mb-2 tracking-tight">
-                Bunker Shield
+                Hard Privacy Gate
               </h4>
               <p class="text-xs text-zinc-500 leading-relaxed italic">
-                Activate **Privacy Mode** to explicitly block all external cloud
-                traffic, ensuring total host isolation for sensitive strategic
-                missions.
+                Activate the Hard Privacy Gate to explicitly block all external outbound cloud traffic, ensuring absolute node isolation.
               </p>
             </div>
           </div>
@@ -169,7 +166,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
             Start the Pilot
           </a>
           <a
-            href="./"
+            href={`${basePath}/`}
             class="w-full sm:w-auto px-10 py-4 glass-surface text-zinc-400 font-bold rounded-xl hover:bg-white/5 transition-all text-sm"
           >
             Back to Home

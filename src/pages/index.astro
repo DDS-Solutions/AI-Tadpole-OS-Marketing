@@ -8,45 +8,45 @@ const architectureLayers = [
     label: "L1",
     title: "Directive layer",
     detail:
-      "Human-authored SOPs, goals, and non-negotiable mission rules stay in versioned directives.",
+      "Human-authored SOPs in Markdown. Versioned directives serve as the absolute source of truth for agent behavior.",
   },
   {
     label: "L2",
     title: "Orchestration layer",
     detail:
-      "Agent 99 coordinates hierarchy, model routing, self-correction, and wisdom extraction.",
+      "Agent 99 coordinates swarm hierarchy, decomposes objectives, and performs Self-Annealing to refine long-term memory.",
   },
   {
     label: "L3",
     title: "Execution layer",
     detail:
-      "Rust and deterministic scripts handle action paths, auditability, and repeatable business logic.",
+      "Rust-native engine and deterministic scripts execute tools in parallel using FuturesUnordered for absolute speed and security.",
   },
 ];
 
 const interfaceSurfaces = [
-  "Operations dashboard with live swarm status and detachable sectors",
-  "Model manager with provider vaulting, model inventory, and capability-aware routing",
-  "Security dashboard for quotas, audit trail verification, and defense posture",
-  "Skills, templates, workspaces, missions, standups, and documentation hubs",
+  "Operations dashboard with 10Hz Swarm Pulse (MessagePack telemetry) and detachable portals",
+  "Model manager with triple-slot routing (Primary, Secondary, Tertiary fallback slots)",
+  "Codebase Knowledge Graph HUD with dynamic traversal history and BFS Dependency Pathfinder",
+  "Security dashboard featuring the Sapphire Shield and OBLITERATUS Merkle audit trails",
 ];
 
 const governance = [
   [
-    "Privacy gate",
-    "Block external cloud traffic when a mission requires air-gapped operation.",
+    "Hard Privacy gate",
+    "Block external cloud traffic entirely when a mission requires 100% air-gapped isolation.",
   ],
   [
     "Sapphire Shield",
-    "Escalate sensitive tool calls such as shell execution and budget spend for human approval.",
+    "Mandatory human gating for high-risk tool calls like budget:spend and shell:execute.",
   ],
   [
-    "Audit trail",
-    "Track decisions, verification state, quotas, and agent health from the security console.",
+    "OBLITERATUS Hardening",
+    "Audit-verified code paths, zero context decay, and Merkle-proof decision history.",
   ],
   [
     "Secret-aware logs",
-    "Redact tokens and credentials before telemetry becomes operational memory.",
+    "Real-time token and credential scrubbing before telemetry reaches LanceDB storage.",
   ],
 ];
 

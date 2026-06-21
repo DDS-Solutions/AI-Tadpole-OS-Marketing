@@ -4,6 +4,8 @@
   # 🚀 AI-Tadpole-OS Marketing Hub
   **The high-performance, Astro-powered gateway to the Sovereign Protocol.**
 
+  **Live Website**: [https://dds-solutions.github.io/AI-Tadpole-OS-Marketing/](https://dds-solutions.github.io/AI-Tadpole-OS-Marketing/)
+
   [![Astro](https://img.shields.io/badge/Astro-5.0-zinc?style=for-the-badge&logo=astro&logoColor=FF5D01)](https://astro.build/)
   [![Tailwind](https://img.shields.io/badge/Tailwind-v4-zinc?style=for-the-badge&logo=tailwindcss&logoColor=38B2AC)](https://tailwindcss.com/)
   [![GEO-Ready](https://img.shields.io/badge/GEO-Optimized-emerald?style=for-the-badge&logo=google-cloud&logoColor=white)](#geo-strategy)

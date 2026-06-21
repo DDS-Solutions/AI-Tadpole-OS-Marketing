@@ -514,7 +514,7 @@ const screenshots = [
             >
               Clone the runtime
             </p>
-            <h2 class="text-4xl font-bold leading-tight text-white sm:text-5xl">
+            <h2 class="text-4xl font-bold leading-tight text-white sm:text-5xl slow-pulse-text">
               Own the directives, memory, and execution path.
             </h2>
             <p class="text-lg leading-8 text-zinc-400">
@@ -564,4 +564,20 @@ const screenshots = [
       }
     }
   </script>
+
+  <style>
+    .slow-pulse-text {
+      animation: slowPulse 4s ease-in-out infinite;
+    }
+    @keyframes slowPulse {
+      0%, 100% {
+        opacity: 1;
+        text-shadow: 0 0 10px rgba(52, 211, 153, 0);
+      }
+      50% {
+        opacity: 0.85;
+        text-shadow: 0 0 20px rgba(52, 211, 153, 0.45);
+      }
+    }
+  </style>
 </BaseLayout>

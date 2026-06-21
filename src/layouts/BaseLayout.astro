@@ -1,5 +1,6 @@
 ---
 import TelemetryHUD from "../components/TelemetryHUD.astro";
+import { ClientRouter } from "astro:transitions";
 
 interface Props {
   title: string;
@@ -32,6 +33,7 @@ const basePath = "/AI-Tadpole-OS-Marketing";
     <link rel="icon" type="image/svg+xml" href={`${basePath}/favicon.svg`} />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
+    <ClientRouter />
 
     <meta name="ai-sovereign-os" content="AI-Tadpole-OS" />
     <meta

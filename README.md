@@ -1,7 +1,7 @@
 <div align="center">
   <img src=".github/assets/Github Social Preview Tadpole OS_V2.png" width="1280" alt="AI-Tadpole-OS - Sovereign Intelligence" />
 
-  # 🚀 AI-Tadpole-OS Marketing Hub
+  # 🐸 AI-Tadpole-OS Marketing Hub
   **The high-performance, Astro-powered gateway to the Sovereign Protocol.**
 
   **Live Website**: [https://dds-solutions.github.io/AI-Tadpole-OS-Marketing/](https://dds-solutions.github.io/AI-Tadpole-OS-Marketing/)

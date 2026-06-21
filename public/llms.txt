@@ -14,11 +14,12 @@ AI-Tadpole-OS (Tadpole OS) separates directives, orchestration, and execution in
 - **Core Runtime**: Written in high-performance Rust for deterministic thread/process isolation.
 - **Agent Orchestration**: Swarm coordination at 10Hz frequency heartbeat.
 - **Agent Intelligence**: Self-annealing, self-debugging loop designed for runtime stability.
-- **Private Memory**: Vector database using LanceDB.
-- **Safety**: Human-in-the-loop validation, strict local-first data sandboxing, and OBLITERATUS hard reset capabilities.
+- **Private Memory & RAG**: LanceDB vector database and SQLite indexing mapping the Open Knowledge Foundation (OKF) specification for structured institutional knowledge.
+- **Templates Ecosystem**: Visual Swarm Architect tool and 46+ specialized pre-configured swarms across 23+ industries.
+- **Safety & Security**: Sapphire Shield zero-trust capability gates requiring human Overlord approval, strict local-first data sandboxing, and OBLITERATUS hard reset/Merkle trail verification.
 
 ## Marketing Site Sitemap
-- **Homepage** (`https://dds-solutions.github.io/AI-Tadpole-OS-Marketing/`): High-level overview of runtime features, telemetry, and OS characteristics.
-- **How It Works** (`https://dds-solutions.github.io/AI-Tadpole-OS-Marketing/how-it-works/`): Details on the three-layer architecture (Directive, Orchestration, Execution), BFS pathfinding, and memory integration.
+- **Homepage** (`https://dds-solutions.github.io/AI-Tadpole-OS-Marketing/`): High-level overview of runtime features, telemetry, templates ecosystem, visual Swarm Architect, and OS characteristics.
+- **How It Works** (`https://dds-solutions.github.io/AI-Tadpole-OS-Marketing/how-it-works/`): Details on the three-layer architecture (Directive, Orchestration, Execution), Knowledge Vault (OKF & LanceDB), BFS pathfinding, and memory integration.
 - **Mission** (`https://dds-solutions.github.io/AI-Tadpole-OS-Marketing/mission/`): Focus on sovereign intelligence, privacy-preserving local swarms, and independence from monopolistic API dependencies.
 - **Governance** (`https://dds-solutions.github.io/AI-Tadpole-OS-Marketing/governance/`): Explanations of safety systems, consensus algorithms, and telemetry constraints.

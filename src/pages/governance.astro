@@ -3,173 +3,276 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 const basePath = '/AI-Tadpole-OS-Marketing';
 ---
 
+<style>
+  .font-mono-code {
+    font-family: "JetBrains Mono", monospace;
+  }
+
+  .scanline-bg {
+    background: linear-gradient(
+      to bottom,
+      rgba(255,255,255,0),
+      rgba(255,255,255,0) 50%,
+      rgba(16, 185, 129, 0.02) 50%,
+      rgba(16, 185, 129, 0.02)
+    );
+    background-size: 100% 4px;
+  }
+
+  .glow-emerald-box {
+    box-shadow: 0 0 35px rgba(16, 185, 129, 0.15);
+  }
+</style>
+
 <BaseLayout
-  title="Governance | The Sovereign Protocol of AI-Tadpole-OS"
-  description="The ethical and technical framework for local-first multi-agent systems. Understanding the Overlord Protocol and Sovereign Execution."
+  title="Sovereign Protocol & Governance Whitepaper | AI-Tadpole-OS"
+  description="The technical governance, zero-trust security contracts, and ethical framework for AI-Tadpole-OS sovereign multi-agent swarms."
 >
-  <main class="relative z-10 max-w-4xl mx-auto px-6 py-24 md:py-32">
-    <div class="space-y-12">
-      <!-- Header -->
-      <header class="space-y-4 border-b border-white/5 pb-12">
-        <a
-          href={`${basePath}/`}
-          class="text-[10px] font-mono text-zinc-500 hover:text-emerald-400 transition-colors flex items-center gap-2 tracking-widest uppercase"
-        >
-          ← Return to Base
-        </a>
-        <h1
-          class="text-4xl md:text-9xl font-bold tracking-tighter text-white font-outfit leading-[0.9]"
-        >
-          The <span class="text-zinc-700">Sovereign Protocol</span>
-        </h1>
-        <p
-          class="text-xs text-emerald-500/60 font-mono tracking-[0.2em] uppercase"
-        >
-          Version 1.0.0 | Governance & Ethics Whitepaper
-        </p>
-      </header>
+  <main
+    class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 py-20 md:py-28 space-y-20"
+    x-data="governancePage()"
+  >
+    <!-- Header -->
+    <header class="text-center space-y-6 max-w-4xl mx-auto">
+      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-emerald-500/20 bg-emerald-500/10 text-emerald-400 font-mono text-xs uppercase tracking-widest backdrop-blur">
+        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+        Sovereign Protocol Specification v1.2.1
+      </div>
+      <h1 class="text-5xl sm:text-7xl lg:text-8xl font-extrabold tracking-tight text-white font-outfit leading-[0.95]">
+        Protocol <span class="bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400 bg-clip-text text-transparent">Governance</span>
+      </h1>
+      <p class="text-base sm:text-lg text-zinc-400 font-light leading-relaxed max-w-2xl mx-auto">
+        The official technical and ethical whitepaper governing <strong>Entity 0 (The Overlord)</strong>, 
+        <strong>Sapphire Shield Zero-Trust Gates</strong>, and <strong>Air-Gapped Sovereign Execution</strong>.
+      </p>
+    </header>
 
-      <!-- Section: The Overlord -->
-      <section class="space-y-6">
-        <h2
-          class="text-2xl font-bold border-l border-emerald-500/30 pl-6 text-white tracking-tight"
+    <!-- INTERACTIVE GOVERNANCE CLAUSE SELECTOR -->
+    <section class="glass-surface rounded-3xl border border-white/10 overflow-hidden shadow-2xl p-6 sm:p-10 space-y-8 scanline-bg glow-emerald-box">
+      <!-- Nav Tabs -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-3 font-mono text-xs">
+        <button
+          @click="activeTab = 'overlord'"
+          :class="activeTab === 'overlord' ? 'border-emerald-500 bg-emerald-500/15 text-white font-bold' : 'border-white/10 bg-black/40 text-zinc-400 hover:border-white/20'"
+          class="p-4 rounded-2xl border text-left transition-all duration-200 space-y-1"
         >
-          I. The Overlord (Entity 0)
-        </h2>
-        <div
-          class="prose prose-invert max-w-none text-zinc-400 leading-relaxed space-y-4 font-light"
+          <div class="text-[10px] text-emerald-400 uppercase font-bold tracking-widest">Section I</div>
+          <div class="text-sm font-bold text-white font-outfit">The Overlord (Entity 0)</div>
+        </button>
+
+        <button
+          @click="activeTab = 'sovereignty'"
+          :class="activeTab === 'sovereignty' ? 'border-cyan-500 bg-cyan-500/15 text-white font-bold' : 'border-white/10 bg-black/40 text-zinc-400 hover:border-white/20'"
+          class="p-4 rounded-2xl border text-left transition-all duration-200 space-y-1"
         >
-          <p>
-            In the AI-Tadpole-OS ecosystem, the human operator is designated as
-            **Entity 0**, also known as **The Overlord**. This role is the final
-            authority in our parallel intelligence layer.
-          </p>
-          <div class="glass-surface p-8 rounded-2xl space-y-4 mt-8">
-            <h4
-              class="text-sm font-bold text-emerald-400 uppercase tracking-widest"
-            >
-              Authority Protocols
-            </h4>
-            <ul class="list-disc pl-5 space-y-3 text-sm">
-              <li>
-                <strong>The Oversight Gate & Sapphire Shield</strong>: A dedicated security layer that flags high-risk tool calls—like `shell:execute` or `budget:spend`—for mandatory human verification. This zero-trust security paradigm extends directly to our template ecosystem: all template swarms are strictly declarative (JSON/Markdown) with zero executables allowed, and any dynamic capability escalation freezes the runtime instantly until the Overlord signs off.
-              </li>
-              <li>
-                <strong>Autonomous Continuity</strong>: Missions persist beyond
-                session boundaries. The swarm maintains context and objective
-                alignment through **zero-context-decay** protocols.
-              </li>
-              <li>
-                <strong>The Red Button</strong>: Entity 0 possesses a global
-                cryptographic killswitch to freeze all active swarms instantly.
-              </li>
-            </ul>
+          <div class="text-[10px] text-cyan-400 uppercase font-bold tracking-widest">Section II</div>
+          <div class="text-sm font-bold text-white font-outfit">Sovereign Execution</div>
+        </button>
+
+        <button
+          @click="activeTab = 'sapphire'"
+          :class="activeTab === 'sapphire' ? 'border-amber-500 bg-amber-500/15 text-white font-bold' : 'border-white/10 bg-black/40 text-zinc-400 hover:border-white/20'"
+          class="p-4 rounded-2xl border text-left transition-all duration-200 space-y-1"
+        >
+          <div class="text-[10px] text-amber-400 uppercase font-bold tracking-widest">Section III</div>
+          <div class="text-sm font-bold text-white font-outfit">Sapphire Shield Gate</div>
+        </button>
+
+        <button
+          @click="activeTab = 'scaling'"
+          :class="activeTab === 'scaling' ? 'border-purple-500 bg-purple-500/15 text-white font-bold' : 'border-white/10 bg-black/40 text-zinc-400 hover:border-white/20'"
+          class="p-4 rounded-2xl border text-left transition-all duration-200 space-y-1"
+        >
+          <div class="text-[10px] text-purple-400 uppercase font-bold tracking-widest">Section IV</div>
+          <div class="text-sm font-bold text-white font-outfit">Scalability & EBITDA Moat</div>
+        </button>
+      </div>
+
+      <!-- Section Details Viewport -->
+      <div class="p-6 sm:p-8 rounded-2xl bg-zinc-950/90 border border-white/10 space-y-8">
+        
+        <!-- SECTION I: OVERLORD -->
+        <div x-show="activeTab === 'overlord'" class="space-y-6 animate-fadeIn">
+          <div class="flex items-center gap-3 border-b border-white/10 pb-4">
+            <span class="text-3xl">👑</span>
+            <div>
+              <h3 class="text-2xl font-bold text-white font-outfit">I. Entity 0 Protocol (The Overlord)</h3>
+              <p class="text-xs font-mono text-emerald-400">Human Operator Final Authority & Global Cryptographic Killswitch</p>
+            </div>
           </div>
-        </div>
-      </section>
 
-      <!-- Section: Local-First Sovereignty -->
-      <section class="space-y-6">
-        <h2
-          class="text-2xl font-bold border-l border-emerald-500/30 pl-6 text-white tracking-tight"
-        >
-          II. Sovereign Execution
-        </h2>
-        <div
-          class="prose prose-invert max-w-none text-zinc-400 leading-relaxed space-y-4 font-light"
-        >
-          <p>
-            AI-Tadpole-OS operates on the principle of **Absolute Data
-            Sovereignty**. We believe companies shouldn't have to "rent" their
-            strategic intelligence from Big Tech intermediaries.
+          <p class="text-base text-zinc-300 font-light leading-relaxed">
+            In the AI-Tadpole-OS architecture, human operators hold the designation of <strong>Entity 0 (The Overlord)</strong>. 
+            All multi-agent swarms operate strictly as subordinate intelligence layers beneath explicit human governance contracts.
           </p>
-          <div class="grid md:grid-cols-2 gap-8 my-8">
-            <div
-              class="p-8 glass-surface rounded-2xl relative overflow-hidden group"
-            >
-              <div
-                class="absolute -right-4 -top-4 w-16 h-16 bg-emerald-500/5 blur-2xl group-hover:bg-emerald-500/10 transition-colors"
-              >
-              </div>
-              <h4 class="font-bold text-white mb-2 tracking-tight">
-                Private Context (LanceDB)
-              </h4>
-              <p class="text-xs text-zinc-500 leading-relaxed italic">
-                "Your intelligence, your hardware." - Directives, traversal history, and context segments remain locally stored in a secure LanceDB vector store.
+
+          <div class="grid md:grid-cols-3 gap-4 font-mono text-xs">
+            <div class="p-4 rounded-xl bg-black/50 border border-white/5 space-y-2">
+              <div class="text-emerald-400 font-bold uppercase text-[10px]">1. Oversight Gate</div>
+              <p class="text-zinc-400 font-light text-[11px] leading-relaxed">
+                Mandatory human verification for all high-risk capabilities (<code class="text-emerald-300">shell:execute</code>, <code class="text-emerald-300">budget:spend</code>).
               </p>
             </div>
-            <div
-              class="p-8 glass-surface rounded-2xl relative overflow-hidden group"
-            >
-              <div
-                class="absolute -right-4 -top-4 w-16 h-16 bg-emerald-500/5 blur-2xl group-hover:bg-emerald-500/10 transition-colors"
-              >
-              </div>
-              <h4 class="font-bold text-white mb-2 tracking-tight">
-                Hard Privacy Gate
-              </h4>
-              <p class="text-xs text-zinc-500 leading-relaxed italic">
-                Activate the Hard Privacy Gate to explicitly block all external outbound cloud traffic, ensuring absolute node isolation.
+
+            <div class="p-4 rounded-xl bg-black/50 border border-white/5 space-y-2">
+              <div class="text-cyan-400 font-bold uppercase text-[10px]">2. Zero Context Decay</div>
+              <p class="text-zinc-400 font-light text-[11px] leading-relaxed">
+                Autonomous missions persist beyond session boundaries with zero objective drift.
+              </p>
+            </div>
+
+            <div class="p-4 rounded-xl bg-black/50 border border-white/5 space-y-2">
+              <div class="text-red-400 font-bold uppercase text-[10px]">3. Red Button Killswitch</div>
+              <p class="text-zinc-400 font-light text-[11px] leading-relaxed">
+                Global cryptographic killswitch to freeze all Tokio execution loops instantly.
               </p>
             </div>
           </div>
         </div>
-      </section>
 
-      <!-- Section: Scaling Small Teams -->
-      <section class="space-y-6">
-        <h2
-          class="text-2xl font-bold border-l border-emerald-500/30 pl-6 text-white tracking-tight"
-        >
-          III. The Scalability Matrix
-        </h2>
-        <div
-          class="prose prose-invert max-w-none text-zinc-400 leading-relaxed space-y-4 font-light"
-        >
-          <p>
-            From a single **Tadpole** pilot in a Windows Sandbox to a massive
-            **Big Frog** swarm in a production Bunker.
+        <!-- SECTION II: SOVEREIGN EXECUTION -->
+        <div x-show="activeTab === 'sovereignty'" class="space-y-6 animate-fadeIn">
+          <div class="flex items-center gap-3 border-b border-white/10 pb-4">
+            <span class="text-3xl">🏰</span>
+            <div>
+              <h3 class="text-2xl font-bold text-white font-outfit">II. Absolute Data Sovereignty</h3>
+              <p class="text-xs font-mono text-cyan-400">100% Air-Gapped Local Hardware Isolation</p>
+            </div>
+          </div>
+
+          <p class="text-base text-zinc-300 font-light leading-relaxed">
+            AI-Tadpole-OS is built on the foundation of <strong>Hardware-Level Intelligence Ownership</strong>. 
+            Enterprises store all directives, vector databases, and execution histories locally—eliminating vendor lock-in and cloud data leaks.
           </p>
-          <blockquote
-            class="border-l-2 border-emerald-500/20 pl-8 italic text-lg text-zinc-200 my-12 font-light leading-relaxed"
-          >
-            "The future of business belongs to small, agile teams wielding
-            massive, sovereign intelligence swarms."
+
+          <div class="grid md:grid-cols-2 gap-6">
+            <div class="p-5 rounded-xl bg-black/50 border border-emerald-500/30 space-y-2 font-mono text-xs">
+              <div class="text-emerald-300 font-bold">LanceDB Private Vector Store</div>
+              <p class="text-zinc-400 font-light leading-relaxed">
+                Directives, traversal graphs, and GraphRAG entities remain 100% encrypted on your local disk.
+              </p>
+            </div>
+
+            <div class="p-5 rounded-xl bg-black/50 border border-cyan-500/30 space-y-2 font-mono text-xs">
+              <div class="text-cyan-300 font-bold">Hard Privacy Gate</div>
+              <p class="text-zinc-400 font-light leading-relaxed">
+                Explicit network firewall flag blocking external cloud API requests for mission-critical confidentiality.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- SECTION III: SAPPHIRE SHIELD -->
+        <div x-show="activeTab === 'sapphire'" class="space-y-6 animate-fadeIn">
+          <div class="flex items-center gap-3 border-b border-white/10 pb-4">
+            <span class="text-3xl">🛡️</span>
+            <div>
+              <h3 class="text-2xl font-bold text-white font-outfit">III. Sapphire Shield Zero-Trust Gate</h3>
+              <p class="text-xs font-mono text-amber-400">Declarative Template Swarms & Cryptographic Audit Proofs</p>
+            </div>
+          </div>
+
+          <p class="text-base text-zinc-300 font-light leading-relaxed">
+            All template swarms are strictly declarative (JSON/Markdown) with zero raw executable code allowed. 
+            Any dynamic capability escalation freezes the runtime instantly until signed with an immutable <strong>Merkle-Proof Audit Receipt</strong>.
+          </p>
+
+          <div class="p-4 rounded-xl bg-black border border-white/10 font-mono text-xs space-y-2 text-zinc-300">
+            <div class="text-amber-400 font-bold uppercase text-[10px]">Sample Merkle Proof Audit Contract</div>
+            <pre class="text-emerald-400 leading-relaxed overflow-x-auto p-2 bg-zinc-950 rounded">
+&#123;
+  "governance_version": "1.2.1",
+  "capability_requested": "shell:execute",
+  "intercept_gate": "SapphireShield_v2",
+  "signed_by": "Entity_0_Overlord",
+  "merkle_root": "0x7f83a91b2c4e5d6f081726345890abcdef1234567890fedcba0987654321ffff"
+&#125;</pre>
+          </div>
+        </div>
+
+        <!-- SECTION IV: SCALABILITY & EBITDA MOAT -->
+        <div x-show="activeTab === 'scaling'" class="space-y-6 animate-fadeIn">
+          <div class="flex items-center gap-3 border-b border-white/10 pb-4">
+            <span class="text-3xl">🔱</span>
+            <div>
+              <h3 class="text-2xl font-bold text-white font-outfit">IV. Enterprise Scalability & EBITDA Moat</h3>
+              <p class="text-xs font-mono text-purple-400">Transition from Tadpole Pilot to Big Frog Swarms</p>
+            </div>
+          </div>
+
+          <p class="text-base text-zinc-300 font-light leading-relaxed">
+            By leveraging Rust Tokio concurrency, small agile teams can orchestrate 50+ specialist agents simultaneously—delivering weeks of documentation, audits, and research in hours.
+          </p>
+
+          <blockquote class="border-l-4 border-emerald-500 pl-6 text-lg italic text-zinc-200 font-light font-outfit">
+            "The future belongs to small teams wielding sovereign, parallel intelligence swarms."
           </blockquote>
-          <p>
-            By leveraging Rust-powered concurrency, SMEs can recruit 25+
-            specialist agents simultaneously, solving a month's work in an hour
-            with zero latency bottlenecks.
-          </p>
         </div>
-      </section>
 
-      <!-- Footer CTA -->
-      <footer
-        class="pt-24 border-t border-white/5 text-center space-y-12 pb-12"
-      >
-        <p
-          class="text-zinc-600 font-mono text-[10px] tracking-[0.4em] uppercase"
-        >
-          © 2026 AI-Tadpole-OS | Sovereign Protocol V1.0
-        </p>
-        <div
-          class="flex flex-col sm:flex-row items-center justify-center gap-4"
-        >
-          <a
-            href="https://github.com/DDS-Solutions/AI-TadPole-OS"
-            class="w-full sm:w-auto px-10 py-4 bg-white text-zinc-950 font-bold rounded-xl hover:bg-zinc-200 transition-all hover:scale-105 active:scale-95 shadow-[0_0_20px_rgba(255,255,255,0.1)] text-sm"
-          >
-            Start the Pilot
-          </a>
-          <a
-            href={`${basePath}/`}
-            class="w-full sm:w-auto px-10 py-4 glass-surface text-zinc-400 font-bold rounded-xl hover:bg-white/5 transition-all text-sm"
-          >
-            Back to Home
-          </a>
+      </div>
+    </section>
+
+    <!-- COMPLIANCE & STANDARDS MATRIX -->
+    <section class="space-y-8">
+      <div class="text-center space-y-3">
+        <h2 class="text-3xl font-bold text-white font-outfit">Sovereign Compliance Standards</h2>
+        <p class="text-xs font-mono text-zinc-400 uppercase tracking-widest">Built for ISO, GxP, and NIST AI Governance</p>
+      </div>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 font-mono text-xs">
+        <div class="p-6 rounded-2xl glass-surface border border-white/10 space-y-2">
+          <div class="text-emerald-400 font-bold text-base">ISO 9001 / 42001</div>
+          <p class="text-zinc-400 text-xs font-light">Quality management & AI management systems compliance.</p>
         </div>
-      </footer>
-    </div>
+
+        <div class="p-6 rounded-2xl glass-surface border border-white/10 space-y-2">
+          <div class="text-cyan-400 font-bold text-base">NIST AI-RMF</div>
+          <p class="text-zinc-400 text-xs font-light">Risk Management Framework map & zero-trust boundaries.</p>
+        </div>
+
+        <div class="p-6 rounded-2xl glass-surface border border-white/10 space-y-2">
+          <div class="text-purple-400 font-bold text-base">ALCOA+ Standard</div>
+          <p class="text-zinc-400 text-xs font-light">Attributable, legible, contemporaneous, original audit logs.</p>
+        </div>
+
+        <div class="p-6 rounded-2xl glass-surface border border-white/10 space-y-2">
+          <div class="text-amber-400 font-bold text-base">GxP Regulatory</div>
+          <p class="text-zinc-400 text-xs font-light">Validated software execution for life sciences & medical.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <footer class="pt-16 border-t border-white/10 text-center space-y-8 pb-12">
+      <div class="space-y-3">
+        <h3 class="text-2xl font-bold text-white font-outfit">Ready to Deploy Governed Swarms?</h3>
+        <p class="text-xs text-zinc-400 font-mono">Explore the core source code or launch a live simulation.</p>
+      </div>
+
+      <div class="flex flex-wrap justify-center gap-4 font-mono text-xs font-bold">
+        <a
+          href="https://github.com/DDS-Solutions/AI-TadPole-OS"
+          class="px-8 py-3.5 bg-white text-zinc-950 rounded-xl hover:bg-zinc-200 transition-all uppercase tracking-wider shadow-lg"
+        >
+          View GitHub Repository
+        </a>
+        <a
+          href={`${basePath}/mission`}
+          class="px-8 py-3.5 border border-white/20 bg-white/5 text-white rounded-xl hover:border-emerald-400 hover:text-emerald-300 transition-all uppercase tracking-wider"
+        >
+          Test Mission Simulator ➔
+        </a>
+      </div>
+    </footer>
   </main>
+
+  <script is:inline>
+    function governancePage() {
+      return {
+        activeTab: 'overlord'
+      };
+    }
+  </script>
+
+  <script is:inline src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </BaseLayout>

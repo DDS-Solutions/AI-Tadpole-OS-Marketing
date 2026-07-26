@@ -4,377 +4,692 @@ const basePath = '/AI-Tadpole-OS-Marketing';
 ---
 
 <style>
-  .terminal-line {
+  .terminal-font {
     font-family: "JetBrains Mono", monospace;
-    opacity: 0;
-    animation: fadeIn 0.5s forwards;
   }
-  @keyframes fadeIn {
-    to {
-      opacity: 1;
-    }
+  
+  .terminal-scroll::-webkit-scrollbar {
+    width: 6px;
   }
-  .cursor {
+  .terminal-scroll::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.4);
+  }
+  .terminal-scroll::-webkit-scrollbar-thumb {
+    background: rgba(16, 185, 129, 0.3);
+    border-radius: 3px;
+  }
+  .terminal-scroll::-webkit-scrollbar-thumb:hover {
+    background: rgba(16, 185, 129, 0.6);
+  }
+
+  .cursor-blink {
     animation: blink 1s step-end infinite;
   }
   @keyframes blink {
-    50% {
-      opacity: 0;
-    }
+    50% { opacity: 0; }
   }
-  .progress-gradient {
-    background: linear-gradient(90deg, #10b981 0%, #059669 100%);
-    box-shadow: 0 0 15px rgba(16, 185, 129, 0.4);
+
+  .glow-emerald {
+    box-shadow: 0 0 25px rgba(16, 185, 129, 0.25);
+  }
+  .glow-amber {
+    box-shadow: 0 0 25px rgba(245, 158, 11, 0.3);
+  }
+  .glow-cyan {
+    box-shadow: 0 0 25px rgba(6, 182, 212, 0.25);
+  }
+  
+  .scanline {
+    background: linear-gradient(
+      to bottom,
+      rgba(255,255,255,0),
+      rgba(255,255,255,0) 50%,
+      rgba(16, 185, 129, 0.03) 50%,
+      rgba(16, 185, 129, 0.03)
+    );
+    background-size: 100% 4px;
+  }
+
+  .radar-sweep {
+    animation: sweep 4s linear infinite;
+  }
+  @keyframes sweep {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
   }
 </style>
 
 <BaseLayout
-  title="Mission Simulator | AI-Tadpole-OS Experience"
-  description="Experience a live AI-Tadpole-OS mission simulation. See how agents Nine, Tadpole, and Elon coordinate a system-wide security audit."
+  title="Autonomous Mission Simulator | AI-Tadpole-OS Sovereign Protocol"
+  description="Experience an interactive live simulation of the AI-Tadpole-OS multi-agent runtime. Test zero-trust governance, Sapphire Shield HITL gates, and 10Hz telemetry."
 >
   <main
-    class="relative z-10 max-w-7xl mx-auto px-6 py-24 md:py-32"
-    x-data="{ 
-      currentStep: 0, 
-      missionActive: false, 
-      soundEnabled: true, 
-      init() { 
-        this.$watch('currentStep', value => { 
-          if (value > 0 && this.soundEnabled) { 
-            playClick(); 
-            setTimeout(() => playClick(), 85); 
-            setTimeout(() => playClick(), 170); 
-          } 
-        }); 
-      } 
-    }"
+    class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 py-20 md:py-28"
+    x-data="missionSimulator()"
   >
-    <!-- Mission Header -->
-    <header class="text-center space-y-8 mb-24">
-      <p
-        class="text-[10px] font-mono text-emerald-500 uppercase tracking-[0.5em]"
-      >
-        Live Prototype
-      </p>
-      <h1
-        class="text-6xl md:text-9xl font-bold tracking-tighter text-white font-outfit leading-[0.9]"
-      >
-        Mission <span class="text-zinc-700">Simulator</span>
+    <!-- Header -->
+    <header class="text-center space-y-6 mb-16">
+      <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-emerald-500/20 bg-emerald-500/10 text-emerald-400 font-mono text-xs uppercase tracking-widest backdrop-blur">
+        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+        Interactive Protocol Runtime Simulator
+      </div>
+      <h1 class="text-5xl sm:text-7xl lg:text-8xl font-extrabold tracking-tight text-white font-outfit leading-[0.95]">
+        Mission <span class="bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400 bg-clip-text text-transparent">Simulator</span>
       </h1>
-      <p class="text-lg text-zinc-400 max-w-xl mx-auto font-light font-inter">
-        Visualize a **Recursive Swarm Engagement**. Witness the orchestration of
-        the **Neural Context Bus** during a sovereign security audit.
+      <p class="text-base sm:text-lg text-zinc-400 max-w-2xl mx-auto font-light leading-relaxed">
+        Experience a live **Recursive Swarm Engagement**. Test zero-trust **Sapphire Shield** gates, 
+        watch real-time **10Hz MessagePack telemetry**, and audit deterministic execution.
       </p>
     </header>
 
-    <!-- Simulator Terminal -->
-    <section
-      class="max-w-4xl mx-auto glass-surface rounded-3xl border border-white/5 overflow-hidden shadow-2xl relative"
-    >
-      <div
-        class="absolute inset-0 bg-emerald-500/5 blur-3xl pointer-events-none"
-      >
-      </div>
-
-      <!-- Window Controls -->
-      <div
-        class="bg-white/5 border-b border-white/5 px-6 py-4 flex items-center justify-between"
-      >
-        <div class="flex gap-2">
-          <div class="w-2 h-2 rounded-full bg-red-500/20"></div>
-          <div class="w-2 h-2 rounded-full bg-yellow-500/20"></div>
-          <div class="w-2 h-2 rounded-full bg-emerald-500/40"></div>
-        </div>
-        <div
-          class="text-[10px] font-mono text-zinc-500 uppercase tracking-widest"
-        >
-          Tadpole-OS-v2026.exe
-        </div>
+    <!-- Mission Selector & Preset Cards -->
+    <section class="mb-12 max-w-5xl mx-auto">
+      <h2 class="text-xs font-mono text-zinc-400 uppercase tracking-[0.25em] mb-4 text-center">
+        Select Directive Scenario
+      </h2>
+      <div class="grid sm:grid-cols-3 gap-4">
         <button
-          @click="soundEnabled = !soundEnabled"
-          class="text-[10px] font-mono text-zinc-500 hover:text-emerald-400 focus:outline-none flex items-center gap-1 transition-colors px-2 py-1 rounded border border-white/5 bg-white/5 hover:border-emerald-500/20"
-          title="Toggle keystroke sounds"
+          @click="selectDirective('security')"
+          :class="selectedScenario === 'security' ? 'border-emerald-500/60 bg-emerald-500/10 shadow-[0_0_20px_rgba(16,185,129,0.15)]' : 'border-white/10 bg-zinc-900/40 hover:border-white/20'"
+          class="p-5 rounded-2xl border text-left transition-all duration-300 relative group overflow-hidden"
         >
-          <span x-text="soundEnabled ? '🔊 SOUND ON' : '🔇 MUTED'"></span>
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-2xl">🛡️</span>
+            <span class="text-[10px] font-mono px-2 py-0.5 rounded border border-emerald-500/30 text-emerald-400 bg-emerald-500/10">SOP-01</span>
+          </div>
+          <h3 class="font-bold text-white text-base font-outfit group-hover:text-emerald-300 transition-colors">
+            Zero-Trust Code Audit
+          </h3>
+          <p class="text-xs text-zinc-400 mt-2 leading-relaxed">
+            `security_audit.md` directive across Rust backend (`server-rs`) and Tauri desktop runtime.
+          </p>
+        </button>
+
+        <button
+          @click="selectDirective('knowledge')"
+          :class="selectedScenario === 'knowledge' ? 'border-cyan-500/60 bg-cyan-500/10 shadow-[0_0_20px_rgba(6,182,212,0.15)]' : 'border-white/10 bg-zinc-900/40 hover:border-white/20'"
+          class="p-5 rounded-2xl border text-left transition-all duration-300 relative group overflow-hidden"
+        >
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-2xl">🧠</span>
+            <span class="text-[10px] font-mono px-2 py-0.5 rounded border border-cyan-500/30 text-cyan-400 bg-cyan-500/10">SOP-02</span>
+          </div>
+          <h3 class="font-bold text-white text-base font-outfit group-hover:text-cyan-300 transition-colors">
+            IKS GraphRAG Ingestion
+          </h3>
+          <p class="text-xs text-zinc-400 mt-2 leading-relaxed">
+            `neural_handoff.md` directive for vectorizing SOP playbooks into local LanceDB storage.
+          </p>
+        </button>
+
+        <button
+          @click="selectDirective('patch')"
+          :class="selectedScenario === 'patch' ? 'border-purple-500/60 bg-purple-500/10 shadow-[0_0_20px_rgba(168,85,247,0.15)]' : 'border-white/10 bg-zinc-900/40 hover:border-white/20'"
+          class="p-5 rounded-2xl border text-left transition-all duration-300 relative group overflow-hidden"
+        >
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-2xl">⚡</span>
+            <span class="text-[10px] font-mono px-2 py-0.5 rounded border border-purple-500/30 text-purple-400 bg-purple-500/10">ADG-01</span>
+          </div>
+          <h3 class="font-bold text-white text-base font-outfit group-hover:text-purple-300 transition-colors">
+            Autonomous Skill Patching
+          </h3>
+          <p class="text-xs text-zinc-400 mt-2 leading-relaxed">
+            Active Documentation Guard symbol validation & hot-reloading MCP execution tools.
+          </p>
         </button>
       </div>
+    </section>
 
-      <!-- Console Area -->
-      <div class="p-8 md:p-12 space-y-12 bg-black/40 min-h-[500px] relative">
-        <!-- START SCREEN -->
-        <div
-          x-show="currentStep === 0"
-          class="flex flex-col items-center justify-center space-y-8 py-12"
-        >
-          <div
-            class="w-24 h-24 rounded-full border border-emerald-500/20 flex items-center justify-center bg-emerald-500/5 animate-pulse"
-          >
-            <span class="text-4xl text-emerald-500">🐸</span>
+    <!-- Main Interactive Terminal & Telemetry Suite -->
+    <section class="max-w-6xl mx-auto glass-surface rounded-3xl border border-white/10 overflow-hidden shadow-2xl relative scanline">
+      <!-- Terminal Header / Control Bar -->
+      <div class="bg-zinc-950/90 border-b border-white/10 px-5 py-3.5 flex flex-wrap items-center justify-between gap-4">
+        <div class="flex items-center gap-3">
+          <div class="flex gap-1.5">
+            <div class="w-3 h-3 rounded-full bg-red-500/40 border border-red-500/50"></div>
+            <div class="w-3 h-3 rounded-full bg-yellow-500/40 border border-yellow-500/50"></div>
+            <div class="w-3 h-3 rounded-full bg-emerald-500/40 border border-emerald-500/50"></div>
           </div>
-          <div class="text-center">
-            <h3
-              class="text-2xl font-bold text-white mb-2 uppercase tracking-tighter"
-            >
-              Initiate Handshake
-            </h3>
-            <p
-              class="text-zinc-500 text-sm font-mono tracking-widest uppercase"
-            >
-              Awaiting NEURAL_TOKEN...
+          <div class="h-4 w-[1px] bg-white/10"></div>
+          <div class="font-mono text-xs text-zinc-400 flex items-center gap-2">
+            <span class="text-emerald-400 font-bold">tadpole-os-v1.1.307</span>
+            <span class="text-zinc-600">|</span>
+            <span class="text-zinc-500" x-text="activeScenarioTitle"></span>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-3 text-xs font-mono">
+          <!-- Speed Toggle -->
+          <div class="flex items-center rounded-lg border border-white/10 bg-black/40 p-0.5">
+            <button
+              @click="speed = 1"
+              :class="speed === 1 ? 'bg-emerald-500/20 text-emerald-300 font-bold' : 'text-zinc-400 hover:text-zinc-200'"
+              class="px-2.5 py-1 rounded transition-colors"
+            >1x</button>
+            <button
+              @click="speed = 2"
+              :class="speed === 2 ? 'bg-emerald-500/20 text-emerald-300 font-bold' : 'text-zinc-400 hover:text-zinc-200'"
+              class="px-2.5 py-1 rounded transition-colors"
+            >2x</button>
+            <button
+              @click="speed = 4"
+              :class="speed === 4 ? 'bg-emerald-500/20 text-emerald-300 font-bold' : 'text-zinc-400 hover:text-zinc-200'"
+              class="px-2.5 py-1 rounded transition-colors"
+            >4x</button>
+          </div>
+
+          <!-- Sound Button -->
+          <button
+            @click="toggleAudio()"
+            class="px-3 py-1.5 rounded-lg border border-white/10 bg-black/40 text-zinc-400 hover:text-emerald-400 transition-colors flex items-center gap-1.5"
+            title="Toggle mechanical keypress audio"
+          >
+            <span x-text="soundEnabled ? '🔊 AUDIO ON' : '🔇 MUTED'"></span>
+          </button>
+
+          <!-- Reset Button -->
+          <button
+            @click="resetMission()"
+            class="px-3 py-1.5 rounded-lg border border-white/10 bg-black/40 text-zinc-400 hover:text-white transition-colors"
+          >
+            🔄 Reset
+          </button>
+        </div>
+      </div>
+
+      <!-- Real-time Swarm Topology Status Bar -->
+      <div class="bg-black/60 border-b border-white/5 px-6 py-4 grid grid-cols-2 md:grid-cols-4 gap-4">
+        <!-- Agent Overlord -->
+        <div class="flex items-center gap-3">
+          <div class="relative">
+            <div class="w-9 h-9 rounded-xl bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-sm font-bold text-purple-300">
+              👑
+            </div>
+            <div :class="nodeStatus.overlord === 'ACTIVE' ? 'bg-emerald-400 animate-ping' : 'bg-zinc-600'" class="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full"></div>
+          </div>
+          <div>
+            <div class="text-xs font-bold text-white font-mono">Overlord</div>
+            <div class="text-[10px] font-mono text-zinc-400" x-text="'[' + nodeStatus.overlord + ']'"></div>
+          </div>
+        </div>
+
+        <!-- Agent 99 -->
+        <div class="flex items-center gap-3">
+          <div class="relative">
+            <div class="w-9 h-9 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-sm font-bold text-emerald-300">
+              ⚡
+            </div>
+            <div :class="nodeStatus.agent99 === 'ROUTING' || nodeStatus.agent99 === 'EXECUTING' ? 'bg-emerald-400 animate-ping' : 'bg-zinc-600'" class="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full"></div>
+          </div>
+          <div>
+            <div class="text-xs font-bold text-white font-mono">Agent 99 (L2)</div>
+            <div class="text-[10px] font-mono text-zinc-400" x-text="'[' + nodeStatus.agent99 + ']'"></div>
+          </div>
+        </div>
+
+        <!-- Domestic Tadpole -->
+        <div class="flex items-center gap-3">
+          <div class="relative">
+            <div class="w-9 h-9 rounded-xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-sm font-bold text-cyan-300">
+              🐸
+            </div>
+            <div :class="nodeStatus.tadpole === 'PARSING' || nodeStatus.tadpole === 'VERIFYING' ? 'bg-cyan-400 animate-ping' : 'bg-zinc-600'" class="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full"></div>
+          </div>
+          <div>
+            <div class="text-xs font-bold text-white font-mono">Tadpole Core</div>
+            <div class="text-[10px] font-mono text-zinc-400" x-text="'[' + nodeStatus.tadpole + ']'"></div>
+          </div>
+        </div>
+
+        <!-- Sapphire Shield Gate -->
+        <div class="flex items-center gap-3">
+          <div class="relative">
+            <div :class="nodeStatus.sapphire === 'ARMED' ? 'bg-amber-500/20 border-amber-500/50' : 'bg-emerald-500/10 border-emerald-500/30'" class="w-9 h-9 rounded-xl border flex items-center justify-center text-sm font-bold">
+              🛡️
+            </div>
+            <div :class="nodeStatus.sapphire === 'ARMED' ? 'bg-amber-400 animate-ping' : 'bg-emerald-400'" class="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full"></div>
+          </div>
+          <div>
+            <div class="text-xs font-bold text-white font-mono">Sapphire Shield</div>
+            <div class="text-[10px] font-mono text-zinc-400" x-text="'[' + nodeStatus.sapphire + ']'"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Terminal Body & Execution Viewport -->
+      <div class="p-6 md:p-8 bg-zinc-950/95 min-h-[460px] flex flex-col justify-between relative">
+        
+        <!-- INITIAL PRE-RUN STATE -->
+        <div x-show="state === 'IDLE'" class="my-auto py-12 flex flex-col items-center justify-center text-center space-y-6">
+          <div class="relative">
+            <div class="w-24 h-24 rounded-full border border-emerald-500/30 bg-emerald-500/5 flex items-center justify-center text-5xl shadow-[0_0_40px_rgba(16,185,129,0.2)]">
+              🐸
+            </div>
+            <div class="absolute inset-0 rounded-full border border-emerald-400/40 animate-ping opacity-30"></div>
+          </div>
+          
+          <div class="max-w-md space-y-2">
+            <h3 class="text-2xl font-bold text-white font-outfit">Ready to Launch Directive</h3>
+            <p class="text-xs font-mono text-zinc-400 leading-relaxed">
+              Target Directive: <span class="text-emerald-400" x-text="activeDirectiveFile"></span><br />
+              Model Route: <span class="text-cyan-400">Primary: Ollama (qwen2.5-coder) ➔ Groq Fallback</span>
             </p>
           </div>
+
           <button
-            @click="currentStep = 1"
-            class="px-12 py-4 bg-white text-zinc-950 font-bold rounded-xl hover:bg-zinc-200 transition-all hover:scale-105 active:scale-95"
+            @click="startMission()"
+            class="px-10 py-4 bg-gradient-to-r from-emerald-500 to-teal-400 text-zinc-950 font-extrabold rounded-xl hover:from-emerald-400 hover:to-teal-300 transition-all duration-300 hover:scale-105 active:scale-95 shadow-[0_0_30px_rgba(16,185,129,0.3)] font-mono text-sm tracking-wider uppercase flex items-center gap-2"
           >
-            START MISSION
+            <span>▶</span> Launch Sovereign Mission
           </button>
         </div>
 
-        <!-- STEP 1: Handshake -->
-        <div x-show="currentStep === 1" class="space-y-6">
-          <div class="terminal-line text-zinc-500 text-xs">
-            PS C:\Tadpole> .\initiate_handshake.ps1
-          </div>
-          <div class="terminal-line text-emerald-500 font-bold">
-            ✅ NEURAL_TOKEN: VERIFIED
-          </div>
-          <div class="terminal-line text-white">
-            📡 Handshake success. System Online.
-          </div>
-          <div class="terminal-line text-zinc-600 mt-4 italic">
-            "Welcome back, Overlord. Domestic agent Tadpole (ID 2) is ready."
-          </div>
-          <button
-            @click="currentStep = 2"
-            class="mt-8 px-8 py-3 glass-surface text-white text-xs font-bold rounded-lg border border-white/10 hover:border-white/20"
-            >Next Phase: Discovery</button
-          >
-        </div>
-
-        <!-- STEP 2: Discovery -->
-        <div x-show="currentStep === 2" class="space-y-8">
-          <div class="relative group">
-            <div class="absolute inset-0 bg-emerald-500/10 blur-3xl opacity-50">
-            </div>
-            <img
-              src="/AI-Tadpole-OS-Marketing/assets/real_os_dashboard.png"
-              alt="OS Dashboard"
-              class="rounded-xl border border-white/10 shadow-2xl relative z-10"
-            />
-            <div
-              class="absolute bottom-4 right-4 glass-surface px-3 py-1 rounded-full text-[8px] font-mono text-emerald-400 uppercase tracking-widest z-20"
-            >
-              Live Interface
-            </div>
-          </div>
-          <div
-            class="terminal-line text-zinc-600 text-[10px] leading-relaxed mt-4"
-          >
-            [SYS] Neural Context Bus initialized. <br />
-            [SYS] Bunker Discovery: 14 Nodes found (mDNS). <br />
-            [Tadpole] Dispatching Recursive Swarm mission to Alpha Node: Elon (ID
-            3).
-          </div>
-          <button
-            @click="currentStep = 3"
-            class="mt-8 px-8 py-3 glass-surface text-white text-xs font-bold rounded-lg border border-white/10"
-            >Next Phase: Recruitment</button
-          >
-        </div>
-
-        <!-- STEP 3: Recruitment -->
-        <div x-show="currentStep === 3" class="space-y-8">
-          <div class="relative group">
-            <div class="absolute inset-0 bg-emerald-500/10 blur-3xl opacity-50">
-            </div>
-            <img
-              src="/AI-Tadpole-OS-Marketing/assets/real_os_nodes.png"
-              alt="OS Hierarchy"
-              class="rounded-xl border border-white/10 shadow-2xl relative z-10"
-            />
-          </div>
-          <div class="terminal-line text-zinc-500 text-[10px] mt-4">
-            [Tadpole] "Elon, coordinate swarm for 'server-rs' audit." <br />
-            [Elon] "Strategic intent received. Initiating Recursive Swarm on Silicon
-            Horizon."
-          </div>
-          <button
-            @click="currentStep = 4"
-            class="mt-8 px-8 py-3 bg-emerald-500 text-zinc-950 text-xs font-bold rounded-lg border border-emerald-400 hover:bg-emerald-400"
-            >Launch Execution</button
-          >
-        </div>
-
-        <!-- STEP 4: Execution -->
-        <div x-show="currentStep === 4" class="space-y-8">
-          <div class="relative group">
-            <div class="absolute inset-0 bg-emerald-500/10 blur-3xl opacity-50">
-            </div>
-            <img
-              src="/AI-Tadpole-OS-Marketing/assets/real_os_oversight.png"
-              alt="OS Oversight"
-              class="rounded-xl border border-white/10 shadow-2xl relative z-10"
-            />
-          </div>
-          <div
-            class="terminal-line text-emerald-500/60 font-mono text-[10px] mt-4"
-          >
-            Scanning Capabilities ... [Sapphire Shield: ENGAGED] <br />
-            Validating Neural Vault integrity ... [AES-256: OK] <br />
-            Synthesizing Autonomous Continuity ... 100%
-          </div>
-          <button
-            @click="currentStep = 5"
-            class="mt-8 px-8 py-3 bg-white text-zinc-950 text-xs font-bold rounded-lg hover:bg-zinc-200"
-            >View Final Report</button
-          >
-        </div>
-
-        <!-- STEP 5: Results -->
-        <div
-          x-show="currentStep === 5"
-          class="space-y-8 animate-in zoom-in duration-500"
-        >
-          <div
-            class="p-8 glass-surface rounded-3xl border border-white/10 space-y-8 text-center bg-white/[0.02]"
-          >
-            <div
-              class="w-16 h-16 mx-auto bg-emerald-500/10 rounded-full flex items-center justify-center text-2xl border border-emerald-500/20"
-            >
-              🏆
-            </div>
-            <div class="space-y-2">
-              <h3
-                class="text-2xl font-bold text-white tracking-widest uppercase"
-              >
-                Executive Risk Report
-              </h3>
-              <p
-                class="text-emerald-400 font-mono text-xs uppercase tracking-[0.2em]"
-              >
-                Archive: Vault-1/2026-Audit.md
-              </p>
-            </div>
-            <div
-              class="text-left py-6 border-t border-b border-white/5 space-y-4"
-            >
-              <div class="flex justify-between text-[10px] font-mono">
-                <span class="text-zinc-500">TIME TO RESULT:</span>
-                <span class="text-white">12.4 Seconds</span>
+        <!-- ACTIVE TERMINAL LOG STREAM -->
+        <div x-show="state === 'RUNNING' || state === 'HITL_WAIT' || state === 'COMPLETE'" class="space-y-4 flex-1 flex flex-col justify-between">
+          <div id="terminal-scroll-container" class="terminal-font text-xs space-y-2 max-h-[380px] overflow-y-auto pr-2 terminal-scroll">
+            <template x-for="(log, idx) in logs" :key="idx">
+              <div class="flex items-start gap-2 leading-relaxed animate-fadeIn">
+                <span class="text-zinc-600 select-none" x-text="log.timestamp"></span>
+                <span :class="log.colorClass" class="font-bold shrink-0" x-text="log.tag"></span>
+                <span class="text-zinc-300 break-words" x-html="log.message"></span>
               </div>
-              <div class="flex justify-between text-[10px] font-mono">
-                <span class="text-zinc-500">OPERATIONAL SAVINGS:</span>
-                <span class="text-emerald-500">+18 Man-Hours</span>
-              </div>
-              <div class="flex justify-between text-[10px] font-mono">
-                <span class="text-zinc-500">STATUS:</span>
-                <span class="text-white">SOVEREIGNTY SECURED</span>
-              </div>
+            </template>
+
+            <!-- Cursor Line -->
+            <div x-show="state === 'RUNNING'" class="flex items-center gap-2 text-emerald-400 pt-2 font-mono">
+              <span>❯</span>
+              <span class="cursor-blink font-bold">█</span>
+              <span class="text-zinc-500 text-[10px]" x-text="'[Telemetry Stream @ 10Hz MessagePack]'"></span>
             </div>
-            <p class="text-zinc-500 text-xs font-light italic">
-              "The results are reconciled on the Silicon Horizon. AI-Tadpole-OS
-              is ready to evolve your company into the Big Frog."
+          </div>
+
+          <!-- INTERACTIVE SAPPHIRE SHIELD HITL PROMPT -->
+          <div
+            x-show="state === 'HITL_WAIT'"
+            class="mt-6 p-6 rounded-2xl bg-amber-500/10 border-2 border-amber-500/40 space-y-4 animate-bounce-short shadow-[0_0_40px_rgba(245,158,11,0.2)]"
+          >
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-3">
+                <span class="text-3xl">⚠️</span>
+                <div>
+                  <h4 class="font-bold text-amber-300 text-sm font-outfit uppercase tracking-wider">
+                    Sapphire Shield Security Intercept Gate
+                  </h4>
+                  <p class="text-xs text-amber-200/80 font-mono mt-0.5">
+                    Agent 99 requested capability: <code class="bg-black/50 px-2 py-0.5 rounded text-amber-300">shell:execute (cargo clippy --all-targets -- -D warnings)</code>
+                  </p>
+                </div>
+              </div>
+              <span class="px-2.5 py-1 rounded bg-amber-500/20 text-amber-300 font-mono text-[10px] uppercase font-bold border border-amber-500/30">
+                Awaiting Signature
+              </span>
+            </div>
+
+            <p class="text-xs text-zinc-300 font-light leading-relaxed">
+              Under Sovereign Governance (IDENTITY.md v1.2.1), external shell mutations require an explicit Merkle-proof signature from the Overlord.
             </p>
-            <div class="flex gap-4 justify-center">
-              <a
-                href={`${basePath}/`}
-                class="px-6 py-3 glass-surface text-white text-[10px] font-bold uppercase rounded-lg border border-white/10"
-                >Return Home</a
-              >
+
+            <div class="flex flex-wrap gap-3 pt-2">
               <button
-                @click="currentStep = 0"
-                class="px-6 py-3 bg-emerald-500 text-zinc-950 text-[10px] font-bold uppercase rounded-lg"
-                >Run New Simulation</button
+                @click="approveHITL()"
+                class="px-6 py-2.5 bg-amber-400 hover:bg-amber-300 text-zinc-950 font-bold rounded-lg text-xs font-mono uppercase tracking-wider transition-all hover:scale-105 active:scale-95 shadow-lg flex items-center gap-2"
               >
+                <span>✍️</span> Sign Merkle Proof & Approve
+              </button>
+              <button
+                @click="rejectHITL()"
+                class="px-6 py-2.5 bg-zinc-900 hover:bg-zinc-800 text-zinc-300 border border-white/10 rounded-lg text-xs font-mono uppercase tracking-wider transition-all"
+              >
+                ❌ Reject & Air-Gap
+              </button>
             </div>
           </div>
+
+          <!-- PROGRESS BAR & METRICS FOOTER -->
+          <div class="pt-4 border-t border-white/10 flex flex-wrap items-center justify-between gap-4 font-mono text-[11px] text-zinc-400">
+            <div class="flex items-center gap-3 w-full sm:w-auto">
+              <span class="text-zinc-500">MISSION PROGRESS:</span>
+              <div class="flex-1 sm:w-48 h-2 rounded-full bg-zinc-900 overflow-hidden border border-white/5">
+                <div
+                  class="h-full bg-gradient-to-r from-emerald-500 to-cyan-400 transition-all duration-300"
+                  :style="'width: ' + progress + '%'"
+                ></div>
+              </div>
+              <span class="text-emerald-400 font-bold" x-text="progress + '%'"></span>
+            </div>
+
+            <div class="flex items-center gap-4 text-xs">
+              <div>
+                <span class="text-zinc-500">THREADS:</span>
+                <span class="text-white font-bold" x-text="metrics.threads"></span>
+              </div>
+              <div>
+                <span class="text-zinc-500">BUS RATE:</span>
+                <span class="text-cyan-400 font-bold" x-text="metrics.busRate"></span>
+              </div>
+              <div>
+                <span class="text-zinc-500">SCRUBBED SECRETS:</span>
+                <span class="text-emerald-400 font-bold" x-text="metrics.scrubbed"></span>
+              </div>
+            </div>
+          </div>
+
         </div>
+
       </div>
     </section>
 
-    <!-- Additional Context (GEO/Authority) -->
-    <section class="mt-24 max-w-4xl mx-auto grid md:grid-cols-2 gap-12">
-      <div class="space-y-4">
-        <h4 class="text-white font-bold uppercase tracking-widest text-xs">
-          Mission Integrity
-        </h4>
-        <p class="text-zinc-500 text-sm font-light">
-          Unlike generic AI chat, AI-Tadpole-OS runs deterministic missions.
-          Every step is logged on the **Neural Context Bus**, ensuring that
-          multiple agents can coordinate with surgical precision.
-        </p>
+    <!-- FINAL MISSION AUDIT REPORT (MODAL / OVERLAY AFTER COMPLETION) -->
+    <div
+      x-show="state === 'COMPLETE'"
+      class="mt-12 max-w-4xl mx-auto glass-surface rounded-3xl border border-emerald-500/30 p-8 space-y-6 shadow-[0_0_50px_rgba(16,185,129,0.15)] animate-fadeIn"
+    >
+      <div class="flex items-center justify-between border-b border-white/10 pb-6">
+        <div class="flex items-center gap-4">
+          <div class="w-14 h-14 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-3xl">
+            🏆
+          </div>
+          <div>
+            <h3 class="text-2xl font-bold text-white font-outfit">Sovereign Audit Certificate</h3>
+            <p class="text-xs font-mono text-emerald-400">Reconciled on Silicon Horizon | Merkle Proof Signed</p>
+          </div>
+        </div>
+        <span class="px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 font-mono text-xs font-bold uppercase">
+          100% SECURED
+        </span>
       </div>
-      <div class="space-y-4">
-        <h4 class="text-white font-bold uppercase tracking-widest text-xs">
-          Silicon Horizon
-        </h4>
-        <p class="text-zinc-500 text-sm font-light">
-          When missions reach the "Silicon Horizon," the engine merges
-          specialists' tactical findings into a single strategic report for your
-          review—protecting your EBITDA through autonomous growth.
-        </p>
+
+      <div class="grid sm:grid-cols-3 gap-4 text-left font-mono">
+        <div class="p-4 rounded-xl bg-black/40 border border-white/5 space-y-1">
+          <div class="text-[10px] text-zinc-500 uppercase">Execution Latency</div>
+          <div class="text-lg font-bold text-white" x-text="finalReport.time"></div>
+        </div>
+        <div class="p-4 rounded-xl bg-black/40 border border-white/5 space-y-1">
+          <div class="text-[10px] text-zinc-500 uppercase">Operational Savings</div>
+          <div class="text-lg font-bold text-emerald-400" x-text="finalReport.savings"></div>
+        </div>
+        <div class="p-4 rounded-xl bg-black/40 border border-white/5 space-y-1">
+          <div class="text-[10px] text-zinc-500 uppercase">ADG Compliance Gate</div>
+          <div class="text-lg font-bold text-cyan-400">100% Passed</div>
+        </div>
       </div>
-    </section>
+
+      <div class="p-4 rounded-xl bg-zinc-950 border border-white/10 font-mono text-xs space-y-2 text-zinc-300">
+        <div class="text-zinc-500 font-bold uppercase text-[10px]">Merkle Proof Hash</div>
+        <div class="break-all text-emerald-300 bg-black/60 p-2.5 rounded border border-white/5">
+          0x7f83a91b2c4e5d6f081726345890abcdef1234567890fedcba0987654321ffff
+        </div>
+      </div>
+
+      <div class="flex flex-wrap gap-4 justify-between items-center pt-2">
+        <button
+          @click="startMission()"
+          class="px-6 py-3 bg-emerald-500 text-zinc-950 text-xs font-mono font-bold uppercase rounded-xl hover:bg-emerald-400 transition-all hover:scale-105"
+        >
+          🔁 Re-run Directive
+        </button>
+        <a
+          href={`${basePath}/governance`}
+          class="px-6 py-3 border border-white/15 bg-white/5 text-white text-xs font-mono font-bold uppercase rounded-xl hover:border-emerald-400/50 hover:text-emerald-300 transition-all"
+        >
+          View Governance Specs ➔
+        </a>
+      </div>
+    </div>
+
   </main>
 
+  <!-- Script for Interactive Mission Simulator State Machine -->
   <script is:inline>
-    // Audio Synthesizer for Mechanical Keyboard Clicks (Zero Assets / Offline-First)
-    let audioCtx = null;
-    
-    function playClick() {
-      try {
-        if (!audioCtx) {
-          audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    function missionSimulator() {
+      return {
+        selectedScenario: 'security',
+        activeScenarioTitle: 'Zero-Trust Code Audit',
+        activeDirectiveFile: 'directives/security_audit.md',
+        state: 'IDLE', // IDLE, RUNNING, HITL_WAIT, COMPLETE
+        progress: 0,
+        speed: 1,
+        soundEnabled: true,
+        audioCtx: null,
+
+        nodeStatus: {
+          overlord: 'IDLE',
+          agent99: 'IDLE',
+          tadpole: 'IDLE',
+          sapphire: 'READY'
+        },
+
+        metrics: {
+          threads: '0/16',
+          busRate: '0 Hz',
+          scrubbed: '0'
+        },
+
+        finalReport: {
+          time: '12.4s',
+          savings: '+18 Hours'
+        },
+
+        logs: [],
+
+        scenarios: {
+          security: {
+            title: 'Zero-Trust Code Audit',
+            directive: 'directives/security_audit.md',
+            time: '11.8s',
+            savings: '+24 Man-Hours',
+            steps: [
+              { delay: 400, tag: '[SYSTEM]', color: 'text-cyan-400', msg: 'Ingesting directive: <span class="text-emerald-300">directives/security_audit.md</span>', node: { overlord: 'ACTIVE', agent99: 'ROUTING' } },
+              { delay: 800, tag: '[AGENT_99]', color: 'text-purple-400', msg: 'Decomposing objectives across Rust core (<code class="text-zinc-300">server-rs</code>) and React frontend.', node: { agent99: 'EXECUTING', tadpole: 'PARSING' } },
+              { delay: 1200, tag: '[TADPOLE]', color: 'text-emerald-400', msg: 'Spawning parallel thread workers via Axum/Tokio pool. 16 workers attached.', node: { tadpole: 'PARSING' }, metrics: { threads: '16/16', busRate: '10 Hz', scrubbed: '3 Tokens' } },
+              { delay: 1600, tag: '[ADG_GUARD]', color: 'text-cyan-300', msg: 'Running Active Documentation Guard symbol matching against header metadata.', node: {} },
+              { delay: 2200, tag: '[SAPPHIRE]', color: 'text-amber-400 font-bold', msg: '⚠️ ZERO-TRUST INTERCEPT: Swarm requested <code class="text-amber-300">shell:execute</code> for cargo clippy validation.', hitl: true, node: { sapphire: 'ARMED', overlord: 'AWAITING HITL' } },
+              // AFTER HITL APPROVAL:
+              { delay: 600, tag: '[MERKLE]', color: 'text-emerald-400', msg: '✅ Overlord signature verified: Merkle Proof <code class="text-emerald-300">0x7f83a91b...</code> committed to immutable log.', node: { overlord: 'ACTIVE', sapphire: 'VERIFIED' } },
+              { delay: 1100, tag: '[LANCE_DB]', color: 'text-blue-400', msg: 'Querying vector memory: zero memory safety violations found in Rust FFI bindings.', node: { tadpole: 'VERIFYING' }, metrics: { threads: '16/16', busRate: '10 Hz', scrubbed: '7 Tokens' } },
+              { delay: 1600, tag: '[OBLITERATUS]', color: 'text-emerald-300', msg: 'Reconciling findings on Silicon Horizon. Sovereign Audit Certificate generated.', node: { overlord: 'RECONCILED', agent99: 'IDLE', tadpole: 'IDLE', sapphire: 'READY' } }
+            ]
+          },
+          knowledge: {
+            title: 'IKS GraphRAG Ingestion',
+            directive: 'directives/neural_handoff.md',
+            time: '8.2s',
+            savings: '+14 Man-Hours',
+            steps: [
+              { delay: 400, tag: '[SYSTEM]', color: 'text-cyan-400', msg: 'Ingesting SOP directives into Institutional Knowledge Store (IKS)...', node: { overlord: 'ACTIVE', agent99: 'ROUTING' } },
+              { delay: 900, tag: '[LANCE_DB]', color: 'text-blue-400', msg: 'Generating 768-dim embeddings via local <code class="text-cyan-300">text-embedding-004</code> engine.', node: { agent99: 'EXECUTING', tadpole: 'PARSING' } },
+              { delay: 1400, tag: '[TADPOLE]', color: 'text-emerald-400', msg: 'Building GraphRAG entity-relationship triples (ISO 9001 / ALCOA+ compliance).', node: { tadpole: 'VERIFYING' }, metrics: { threads: '8/16', busRate: '10 Hz', scrubbed: '12 Secrets' } },
+              { delay: 2000, tag: '[SECRET_SCRUB]', color: 'text-amber-300', msg: 'Scrubbed 12 transient OAuth tokens prior to vector persistence.', node: {} },
+              { delay: 2600, tag: '[OBLITERATUS]', color: 'text-emerald-300', msg: 'IKS Index committed. Knowledge graph available for local subagent queries.', node: { overlord: 'RECONCILED', agent99: 'IDLE', tadpole: 'IDLE', sapphire: 'READY' } }
+            ]
+          },
+          patch: {
+            title: 'Autonomous Skill Patching',
+            directive: 'directives/ADG-01.md',
+            time: '9.6s',
+            savings: '+30 Man-Hours',
+            steps: [
+              { delay: 400, tag: '[ADG_01]', color: 'text-purple-400', msg: 'Static analysis triggered: checking symbol parity across <code class="text-zinc-300">src-tauri/src/main.rs</code>', node: { overlord: 'ACTIVE', agent99: 'ROUTING' } },
+              { delay: 1000, tag: '[AGENT_99]', color: 'text-purple-300', msg: 'Discovered deprecated MCP skill schema. Synthesizing hot-fix patch...', node: { agent99: 'EXECUTING' } },
+              { delay: 1600, tag: '[SAPPHIRE]', color: 'text-amber-400 font-bold', msg: '⚠️ ZERO-TRUST INTERCEPT: Swarm requested <code class="text-amber-300">skill:hot_reload</code> capability.', hitl: true, node: { sapphire: 'ARMED', overlord: 'AWAITING HITL' } },
+              // AFTER HITL APPROVAL:
+              { delay: 600, tag: '[MERKLE]', color: 'text-emerald-400', msg: '✅ Overlord signed skill patch. Dynamic hot-reload completed in 14ms.', node: { overlord: 'ACTIVE', sapphire: 'VERIFIED' } },
+              { delay: 1200, tag: '[OBLITERATUS]', color: 'text-emerald-300', msg: 'Self-annealed skill store updated without restarting protocol engine.', node: { overlord: 'RECONCILED', agent99: 'IDLE', tadpole: 'IDLE', sapphire: 'READY' } }
+            ]
+          }
+        },
+
+        selectDirective(key) {
+          if (this.state === 'RUNNING' || this.state === 'HITL_WAIT') return;
+          this.selectedScenario = key;
+          const s = this.scenarios[key];
+          this.activeScenarioTitle = s.title;
+          this.activeDirectiveFile = s.directive;
+          this.finalReport.time = s.time;
+          this.finalReport.savings = s.savings;
+          this.resetMission();
+        },
+
+        resetMission() {
+          this.state = 'IDLE';
+          this.progress = 0;
+          this.logs = [];
+          this.nodeStatus = { overlord: 'IDLE', agent99: 'IDLE', tadpole: 'IDLE', sapphire: 'READY' };
+          this.metrics = { threads: '0/16', busRate: '0 Hz', scrubbed: '0' };
+        },
+
+        toggleAudio() {
+          this.soundEnabled = !this.soundEnabled;
+          if (this.soundEnabled) this.playClickSound(800, 0.05);
+        },
+
+        playClickSound(freq = 1200, duration = 0.03) {
+          if (!this.soundEnabled) return;
+          try {
+            if (!this.audioCtx) {
+              this.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            if (this.audioCtx.state === 'suspended') {
+              this.audioCtx.resume();
+            }
+            const now = this.audioCtx.currentTime;
+            const osc = this.audioCtx.createOscillator();
+            const gain = this.audioCtx.createGain();
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(freq + Math.random() * 100, now);
+            gain.gain.setValueAtTime(0.03, now);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + duration);
+            osc.connect(gain);
+            gain.connect(this.audioCtx.destination);
+            osc.start(now);
+            osc.stop(now + duration);
+          } catch(e) {}
+        },
+
+        async startMission() {
+          this.resetMission();
+          this.state = 'RUNNING';
+          this.playClickSound(600, 0.08);
+
+          const scenario = this.scenarios[this.selectedScenario];
+          const steps = scenario.steps;
+          const totalSteps = steps.length;
+
+          let stepIdx = 0;
+          
+          const processNextStep = () => {
+            if (stepIdx >= steps.length) {
+              this.state = 'COMPLETE';
+              this.progress = 100;
+              this.playClickSound(1400, 0.15);
+              return;
+            }
+
+            const step = steps[stepIdx];
+
+            if (step.hitl) {
+              // Pause at HITL Gate
+              this.state = 'HITL_WAIT';
+              this.logs.push({
+                timestamp: new Date().toLocaleTimeString('en-US', { hour12: false }),
+                tag: step.tag,
+                colorClass: step.color,
+                message: step.msg
+              });
+              if (step.node) this.nodeStatus = { ...this.nodeStatus, ...step.node };
+              this.progress = Math.round(((stepIdx + 1) / totalSteps) * 100);
+              this.playClickSound(400, 0.12);
+              this.scrollToBottom();
+              stepIdx++;
+              return;
+            }
+
+            // Normal Log Entry
+            this.logs.push({
+              timestamp: new Date().toLocaleTimeString('en-US', { hour12: false }),
+              tag: step.tag,
+              colorClass: step.color,
+              message: step.msg
+            });
+
+            if (step.node) this.nodeStatus = { ...this.nodeStatus, ...step.node };
+            if (step.metrics) this.metrics = { ...this.metrics, ...step.metrics };
+
+            this.progress = Math.round(((stepIdx + 1) / totalSteps) * 100);
+            this.playClickSound(1000 + Math.random() * 300, 0.03);
+            this.scrollToBottom();
+
+            stepIdx++;
+            const nextDelay = (step.delay || 800) / this.speed;
+            setTimeout(processNextStep, nextDelay);
+          };
+
+          processNextStep();
+        },
+
+        approveHITL() {
+          this.playClickSound(1500, 0.1);
+          this.state = 'RUNNING';
+          const scenario = this.scenarios[this.selectedScenario];
+          const steps = scenario.steps;
+          
+          // Resume execution after HITL approval
+          let stepIdx = 5; // Resume from post-HITL steps
+          
+          const processNextStep = () => {
+            if (stepIdx >= steps.length) {
+              this.state = 'COMPLETE';
+              this.progress = 100;
+              this.playClickSound(1600, 0.2);
+              return;
+            }
+
+            const step = steps[stepIdx];
+            this.logs.push({
+              timestamp: new Date().toLocaleTimeString('en-US', { hour12: false }),
+              tag: step.tag,
+              colorClass: step.color,
+              message: step.msg
+            });
+
+            if (step.node) this.nodeStatus = { ...this.nodeStatus, ...step.node };
+            if (step.metrics) this.metrics = { ...this.metrics, ...step.metrics };
+
+            this.progress = Math.round(((stepIdx + 1) / steps.length) * 100);
+            this.playClickSound(1100, 0.04);
+            this.scrollToBottom();
+
+            stepIdx++;
+            const nextDelay = (step.delay || 800) / this.speed;
+            setTimeout(processNextStep, nextDelay);
+          };
+
+          processNextStep();
+        },
+
+        rejectHITL() {
+          this.playClickSound(300, 0.15);
+          this.logs.push({
+            timestamp: new Date().toLocaleTimeString('en-US', { hour12: false }),
+            tag: '[SAPPHIRE]',
+            colorClass: 'text-red-400 font-bold',
+            message: '❌ Overlord REJECTED shell execution. Mission aborted safely into air-gapped sandbox.'
+          });
+          this.state = 'IDLE';
+          this.nodeStatus.sapphire = 'AIR-GAPPED';
+          this.nodeStatus.overlord = 'REJECTED';
+        },
+
+        scrollToBottom() {
+          setTimeout(() => {
+            const el = document.getElementById('terminal-scroll-container');
+            if (el) el.scrollTop = el.scrollHeight;
+          }, 50);
         }
-        
-        if (audioCtx.state === 'suspended') {
-          audioCtx.resume();
-        }
-        
-        const now = audioCtx.currentTime;
-        
-        // 1. High frequency transient tick
-        const osc1 = audioCtx.createOscillator();
-        const gain1 = audioCtx.createGain();
-        osc1.type = 'sine';
-        osc1.frequency.setValueAtTime(1400 + Math.random() * 200, now);
-        osc1.frequency.exponentialRampToValueAtTime(700, now + 0.04);
-        
-        gain1.gain.setValueAtTime(0.04, now);
-        gain1.gain.exponentialRampToValueAtTime(0.001, now + 0.04);
-        
-        osc1.connect(gain1);
-        gain1.connect(audioCtx.destination);
-        osc1.start(now);
-        osc1.stop(now + 0.05);
-        
-        // 2. Mid range mechanical spring sound
-        const osc2 = audioCtx.createOscillator();
-        const gain2 = audioCtx.createGain();
-        const filter = audioCtx.createBiquadFilter();
-        
-        osc2.type = 'triangle';
-        osc2.frequency.setValueAtTime(320 + Math.random() * 40, now);
-        
-        filter.type = 'bandpass';
-        filter.frequency.setValueAtTime(900, now);
-        filter.Q.setValueAtTime(6, now);
-        
-        gain2.gain.setValueAtTime(0.06, now);
-        gain2.gain.exponentialRampToValueAtTime(0.001, now + 0.06);
-        
-        osc2.connect(filter);
-        filter.connect(gain2);
-        gain2.connect(audioCtx.destination);
-        osc2.start(now);
-        osc2.stop(now + 0.07);
-      } catch (e) {
-        console.warn("Web Audio click sound failed to play", e);
-      }
+      };
     }
   </script>
 
-  <script is:inline src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"
-  ></script>
+  <script is:inline src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </BaseLayout>

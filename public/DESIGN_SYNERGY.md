@@ -1,136 +1,110 @@
 > [!IMPORTANT]
 > **AI Assist Note (Sovereign Authority)**:
-> This document is now **SUPPLEMENTARY**. 
-> The **Primary Source of Truth** for all design tokens, colors, and UI patterns is the **[/design.md](file:///d:/TadpoleOS-Dev/design.md)** file in the root directory.
+> This document is **SUPPLEMENTARY**. 
+> The **Primary Source of Truth** for all design tokens, colors, component patterns, and typography specs is the **[design.md](file:///c:/Users/Home%20Office_PC/.gemini/antigravity/playground/tadpole-marketing/design.md)** file in the project root.
 > 
-> - **Primary Spec**: `design.md` (Root)
-> - **Heritage Role**: This file provides additional rationale for "Neural Glass" effects but must NOT override root tokens.
-
-
-> [!IMPORTANT]
-> **AI Assist Note (Knowledge Heritage)**:
-> This document is part of the "Sovereign Reality" documentation.
-> - **@docs ARCHITECTURE:Documentation**
-> - **Failure Path**: Information drift, legacy terminology, or documentation mismatch.
-> - **Telemetry Link**: Cross-reference with `execution/parity_guard.py` results.
+> - **Primary Spec**: `design.md` (Root Spec v2.0)
+> - **Heritage Role**: Provides architectural rationale for "Neural Glass" effects, 10Hz telemetry visualization, and Astro + Tailwind design tokens.
 
 # 🎨 Tadpole OS: Design Synergy Package
 
 > **Intelligence Level**: High-Fidelity (ECC-ARA)  
-> **Status**: Verified Production-Ready  
-> **Version**: 1.2.0  
-> **Last Hardened**: 2026-04-10  
+> **Status**: Verified Production-Ready (5/5 Standard)  
+> **Version**: 2.0.0  
+> **Last Hardened**: 2026-07-26  
 > **Classification**: Sovereign  
 
 ---
 
 ## 🛠️ Modern Tech Stack (2026 Core)
-Tadpole OS utilizes the following "AI-Awakened" frontend stack:
-- **Core**: React 19 (Server Components / Actions awareness)
-- **Styling**: Tailwind CSS v4 (Rust-based engine, CSS-first config)
-- **Animations**: Framer Motion (Optimized 60fps springs)
-- **State**: Zustand (Atomic reactive stores)
+
+Tadpole OS Marketing & Application Engine utilizes the following high-performance stack:
+- **Framework**: Astro v5.18.2 (Static zero-JS output + Client Router view transitions)
+- **Core App**: React 19 (Desktop Tauri + Rust Axum `server-rs` backend)
+- **Styling**: Tailwind CSS v3/v4 (Neural Glass design system tokens)
+- **Interactivity**: Alpine.js v3 + Web Audio API (Zero-asset mechanical keypress audio)
 
 ---
 
-## 🏗️ Tailwind v4 Core Theme (`index.css`)
-
-In Tailwind v4, we discard legacy JS configs in favor of pure CSS tokens. Implement this block in your global stylesheet:
+## 🏗️ Core Theme Tokens
 
 ```css
 @import "tailwindcss";
 
 @theme {
-  /* Neural Color Palette */
-  --color-zinc-950: #040405;
-  --color-zinc-900: #0a0a0c;
-  --color-zinc-800: #1a1a20;
+  /* Surface Palette */
+  --color-zinc-950: #09090b; /* Base Root */
+  --color-zinc-900: #18181b; /* Glass Surface */
+  --color-zinc-800: #27272a; /* Border Subtle */
   
-  --color-background: var(--color-zinc-950);
-  --color-surface: var(--color-zinc-900);
-  --color-border: var(--color-zinc-800);
-  
-  /* Intelligence Accent */
-  --color-neural-pulse: #e4e4e7;
-  --color-cyber-green: #22c55e;
+  /* Subsystem Accent Tokens */
+  --color-emerald-400: #10b981; /* Sovereign / Verified Merkle Proof */
+  --color-cyan-400:    #06b6d4; /* 10Hz Telemetry & LanceDB Vector */
+  --color-purple-400:  #a855f7; /* Agent 99 Router & ADG-01 Guard */
+  --color-amber-400:   #f59e0b; /* Sapphire Shield Zero-Trust Intercept */
+  --color-red-400:     #ef4444; /* Emergency Air-Gap Killswitch */
   
   /* Typography */
-  --font-sans: "Inter", "system-ui", sans-serif;
-  --font-mono: "JetBrains Mono", "monospace";
+  --font-display: "Outfit", "system-ui", sans-serif;
+  --font-sans:    "Inter", "system-ui", sans-serif;
+  --font-mono:    "JetBrains Mono", "monospace";
 
   /* Glassmorphism Tokens */
-  --blur-neural: 12px;
+  --blur-neural: 16px;
 }
 ```
 
 ---
 
-## 💎 Neural Glass Aesthetics
+## 💎 Neural Glass & Telemetry Component Tokens
 
-The signature "Neural Glass" look is achieved via a multi-layer backdrop filter and subtle border-glow.
-
-### 1. Sovereign Panel (High-Density Grid)
+### 1. Glass Surface Container (`.glass-surface`)
 ```css
-.sovereign-panel {
-  background: color-mix(in srgb, var(--color-zinc-900) 60%, transparent);
-  backdrop-filter: blur(var(--blur-neural));
-  border: 1px solid color-mix(in srgb, var(--color-zinc-800) 40%, transparent);
-  border-radius: var(--radius-xl);
-  box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.5);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.sovereign-panel:hover {
-  border-color: color-mix(in srgb, var(--color-zinc-700) 60%, transparent);
-  box-shadow: 0 15px 50px -12px rgba(0, 0, 0, 0.7);
+.glass-surface {
+  background: rgba(24, 24, 27, 0.6);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 ```
 
-### 2. Animated Traces (Swarm Visualizer)
+### 2. Slow Pulse Highlight (`.slow-pulse-text`)
 ```css
-.swarm-node-glow {
-  filter: drop-shadow(0 0 8px var(--color-neural-pulse));
-  transition: filter 0.3s ease-in-out;
+.slow-pulse-text {
+  color: #ffffff;
+  animation: slowPulse 4s ease-in-out infinite;
 }
-
-.swarm-edge-pulse {
-  stroke-dasharray: 4, 4;
-  animation: dash-offset 20s linear infinite;
+@keyframes slowPulse {
+  0%, 100% {
+    color: #ffffff;
+    text-shadow: 0 0 10px rgba(52, 211, 153, 0);
+  }
+  50% {
+    color: #a7f3d0;
+    text-shadow: 0 0 25px rgba(52, 211, 153, 0.6);
+  }
 }
+```
 
-@keyframes dash-offset {
-  from { stroke-dashoffset: 100; }
-  to { stroke-dashoffset: 0; }
-}
-
-@keyframes neural-pulse {
-  0% { opacity: 0.3; filter: drop-shadow(0 0 0px #fff); }
-  50% { opacity: 0.8; filter: drop-shadow(0 0 4px #fff); }
-  100% { opacity: 0.3; filter: drop-shadow(0 0 0px #fff); }
-}
-
-.neural-pulse-effect {
-  animation: neural-pulse 2s infinite ease-in-out;
+### 3. Scanline Background (`.scanline-bg`)
+```css
+.scanline-bg {
+  background: linear-gradient(
+    to bottom,
+    rgba(255,255,255,0),
+    rgba(255,255,255,0) 50%,
+    rgba(16, 185, 129, 0.02) 50%,
+    rgba(16, 185, 129, 0.02)
+  );
+  background-size: 100% 4px;
 }
 ```
 
 ---
 
-## 📏 Operational Principles
+## 📏 Operational Governance & Do's / Don'ts
 
-### 1. Cyber-God-View (10Hz Real-Time)
-Tadpole OS provides an interactive **Swarm_Visualizer** driven by a 100ms binary pulse. The design must maintain a consistent "Intelligence Flow" — use animated traces, node status glows, and viewport translations to ensure the swarm feels alive.
-
-### 2. Interactive Info-Layer
-Use high-fidelity tooltips and "Sovereign Modals" for meta-information. Never hide critical governance metrics; instead, use layering (Z-index) to maintain clarity.
-
----
-
-## 🎨 Branding & Identity
-- **Primary Logo**: Neural Tadpole Badge (`src/assets/logo.png`)
-- **Tone**: Professional, Dark, High-Performance, Sovereign.
-- **Palette**: Monochromatic Zinc with High-Contrast Pulse Accents.
-
-[//]: # (Metadata: [DESIGN_SYNERGY])
+1. **Maintain Type Parity**: Use `Outfit` for display headings, `Inter` for body copy, and `JetBrains Mono` for log streams and badges.
+2. **Zero Unstyled Fallbacks**: Never output raw red/blue unstyled default browser components.
+3. **Cross-Reference Primary Spec**: Refer to [`design.md`](file:///c:/Users/Home%20Office_PC/.gemini/antigravity/playground/tadpole-marketing/design.md) for full component specs.
 
 [//]: # (Metadata: [DESIGN_SYNERGY])

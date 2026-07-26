@@ -1,10 +1,12 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-const basePath = '/AI-Tadpole-OS-Marketing';
+const basePath = "/AI-Tadpole-OS-Marketing";
 ---
 
 <style>
-  [x-cloak] { display: none !important; }
+  [x-cloak] {
+    display: none !important;
+  }
   .font-mono-code {
     font-family: "JetBrains Mono", monospace;
   }
@@ -14,14 +16,16 @@ const basePath = '/AI-Tadpole-OS-Marketing';
     animation: dashPulse 2s linear infinite;
   }
   @keyframes dashPulse {
-    to { stroke-dashoffset: -40; }
+    to {
+      stroke-dashoffset: -40;
+    }
   }
 
   .scanline-bg {
     background: linear-gradient(
       to bottom,
-      rgba(255,255,255,0),
-      rgba(255,255,255,0) 50%,
+      rgba(255, 255, 255, 0),
+      rgba(255, 255, 255, 0) 50%,
       rgba(16, 185, 129, 0.02) 50%,
       rgba(16, 185, 129, 0.02)
     );
@@ -43,33 +47,52 @@ const basePath = '/AI-Tadpole-OS-Marketing';
   >
     <!-- Header -->
     <header class="text-center space-y-6 max-w-4xl mx-auto">
-      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-emerald-500/20 bg-emerald-500/10 text-emerald-400 font-mono text-xs uppercase tracking-widest backdrop-blur">
+      <div
+        class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-emerald-500/20 bg-emerald-500/10 text-emerald-400 font-mono text-xs uppercase tracking-widest backdrop-blur"
+      >
         <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
         Technical Architecture & Mechanics
       </div>
-      <h1 class="text-5xl sm:text-7xl lg:text-8xl font-extrabold tracking-tight text-white font-outfit leading-[0.95]">
-        High-Fidelity <span class="bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400 bg-clip-text text-transparent">Architecture</span>
+      <h1
+        class="text-5xl sm:text-7xl lg:text-8xl font-extrabold tracking-tight text-white font-outfit leading-[0.95]"
+      >
+        High-Fidelity <span
+          class="bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400 bg-clip-text text-transparent"
+          >Architecture</span
+        >
       </h1>
-      <p class="text-base sm:text-lg text-zinc-400 font-light leading-relaxed max-w-2xl mx-auto">
-        A comprehensive technical deep-dive into the sovereign engine: **3-Layer Separation of Concerns**, 
-        **Axum/Tokio Async Execution**, **Sapphire Shield Governance**, and **LanceDB GraphRAG Memory**.
+      <p
+        class="text-base sm:text-lg text-zinc-400 font-light leading-relaxed max-w-2xl mx-auto"
+      >
+        A comprehensive technical deep-dive into the sovereign engine: **3-Layer
+        Separation of Concerns**, **Axum/Tokio Async Execution**, **Sapphire
+        Shield Governance**, and **LanceDB GraphRAG Memory**.
       </p>
     </header>
 
     <!-- INTERACTIVE ARCHITECTURE EXPLORER HUD -->
-    <section class="glass-surface rounded-3xl border border-white/10 overflow-hidden shadow-2xl p-6 sm:p-10 space-y-8 scanline-bg glow-box-emerald">
-      <div class="flex flex-wrap items-center justify-between gap-4 border-b border-white/10 pb-6">
+    <section
+      class="glass-surface rounded-3xl border border-white/10 overflow-hidden shadow-2xl p-6 sm:p-10 space-y-8 scanline-bg glow-box-emerald"
+    >
+      <div
+        class="flex flex-wrap items-center justify-between gap-4 border-b border-white/10 pb-6"
+      >
         <div>
           <div class="flex items-center gap-3">
             <span class="text-2xl">⚙️</span>
-            <h2 class="text-2xl font-bold text-white font-outfit">Sovereign Protocol Core Stack</h2>
+            <h2 class="text-2xl font-bold text-white font-outfit">
+              Sovereign Protocol Core Stack
+            </h2>
           </div>
           <p class="text-xs text-zinc-400 mt-1 font-mono">
-            Click any component below to inspect runtime specs, data flows, and code contracts.
+            Click any component below to inspect runtime specs, data flows, and
+            code contracts.
           </p>
         </div>
 
-        <div class="flex items-center gap-2 font-mono text-xs text-emerald-400 bg-emerald-500/10 px-3 py-1.5 rounded-xl border border-emerald-500/20">
+        <div
+          class="flex items-center gap-2 font-mono text-xs text-emerald-400 bg-emerald-500/10 px-3 py-1.5 rounded-xl border border-emerald-500/20"
+        >
           <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
           <span>Version 1.1.307 Active</span>
         </div>
@@ -82,9 +105,17 @@ const basePath = '/AI-Tadpole-OS-Marketing';
           :class="getNodeClass('directive')"
           class="p-4 rounded-2xl border text-left transition-all duration-200 space-y-2 relative overflow-hidden group cursor-pointer"
         >
-          <div class="text-[10px] text-emerald-400 font-bold uppercase tracking-widest">Layer 1</div>
-          <div class="text-sm font-bold text-white font-outfit">Directives SOP</div>
-          <div class="text-[11px] text-zinc-400 font-light">Markdown SOPs & YAML Parameters</div>
+          <div
+            class="text-[10px] text-emerald-400 font-bold uppercase tracking-widest"
+          >
+            Layer 1
+          </div>
+          <div class="text-sm font-bold text-white font-outfit">
+            Directives SOP
+          </div>
+          <div class="text-[11px] text-zinc-400 font-light">
+            Markdown SOPs & YAML Parameters
+          </div>
         </button>
 
         <button
@@ -92,9 +123,17 @@ const basePath = '/AI-Tadpole-OS-Marketing';
           :class="getNodeClass('orchestration')"
           class="p-4 rounded-2xl border text-left transition-all duration-200 space-y-2 relative overflow-hidden group cursor-pointer"
         >
-          <div class="text-[10px] text-purple-400 font-bold uppercase tracking-widest">Layer 2</div>
-          <div class="text-sm font-bold text-white font-outfit">Agent 99 Router</div>
-          <div class="text-[11px] text-zinc-400 font-light">Tri-Slot Fallback & Swarm Hierarchy</div>
+          <div
+            class="text-[10px] text-purple-400 font-bold uppercase tracking-widest"
+          >
+            Layer 2
+          </div>
+          <div class="text-sm font-bold text-white font-outfit">
+            Agent 99 Router
+          </div>
+          <div class="text-[11px] text-zinc-400 font-light">
+            Tri-Slot Fallback & Swarm Hierarchy
+          </div>
         </button>
 
         <button
@@ -102,9 +141,17 @@ const basePath = '/AI-Tadpole-OS-Marketing';
           :class="getNodeClass('execution')"
           class="p-4 rounded-2xl border text-left transition-all duration-200 space-y-2 relative overflow-hidden group cursor-pointer"
         >
-          <div class="text-[10px] text-cyan-400 font-bold uppercase tracking-widest">Layer 3</div>
-          <div class="text-sm font-bold text-white font-outfit">Rust Core Engine</div>
-          <div class="text-[11px] text-zinc-400 font-light">Axum/Tokio & FuturesUnordered</div>
+          <div
+            class="text-[10px] text-cyan-400 font-bold uppercase tracking-widest"
+          >
+            Layer 3
+          </div>
+          <div class="text-sm font-bold text-white font-outfit">
+            Rust Core Engine
+          </div>
+          <div class="text-[11px] text-zinc-400 font-light">
+            Axum/Tokio & FuturesUnordered
+          </div>
         </button>
 
         <button
@@ -112,9 +159,17 @@ const basePath = '/AI-Tadpole-OS-Marketing';
           :class="getNodeClass('governance')"
           class="p-4 rounded-2xl border text-left transition-all duration-200 space-y-2 relative overflow-hidden group cursor-pointer"
         >
-          <div class="text-[10px] text-amber-400 font-bold uppercase tracking-widest">Governance</div>
-          <div class="text-sm font-bold text-white font-outfit">Sapphire Shield</div>
-          <div class="text-[11px] text-zinc-400 font-light">Zero-Trust HITL & Merkle Proofs</div>
+          <div
+            class="text-[10px] text-amber-400 font-bold uppercase tracking-widest"
+          >
+            Governance
+          </div>
+          <div class="text-sm font-bold text-white font-outfit">
+            Sapphire Shield
+          </div>
+          <div class="text-[11px] text-zinc-400 font-light">
+            Zero-Trust HITL & Merkle Proofs
+          </div>
         </button>
 
         <button
@@ -122,33 +177,68 @@ const basePath = '/AI-Tadpole-OS-Marketing';
           :class="getNodeClass('memory')"
           class="p-4 rounded-2xl border text-left transition-all duration-200 space-y-2 relative overflow-hidden group cursor-pointer"
         >
-          <div class="text-[10px] text-blue-400 font-bold uppercase tracking-widest">Memory Store</div>
-          <div class="text-sm font-bold text-white font-outfit">LanceDB GraphRAG</div>
-          <div class="text-[11px] text-zinc-400 font-light">IKS Vectors & 768-dim Embeddings</div>
+          <div
+            class="text-[10px] text-blue-400 font-bold uppercase tracking-widest"
+          >
+            Memory Store
+          </div>
+          <div class="text-sm font-bold text-white font-outfit">
+            LanceDB GraphRAG
+          </div>
+          <div class="text-[11px] text-zinc-400 font-light">
+            IKS Vectors & 768-dim Embeddings
+          </div>
         </button>
       </div>
 
       <!-- Node Technical Spec Detail Card -->
-      <div class="p-6 sm:p-8 rounded-2xl bg-zinc-950/90 border border-white/10 space-y-6">
-        <div class="flex flex-wrap items-center justify-between gap-4 border-b border-white/10 pb-4">
+      <div
+        class="p-6 sm:p-8 rounded-2xl bg-zinc-950/90 border border-white/10 space-y-6"
+      >
+        <div
+          class="flex flex-wrap items-center justify-between gap-4 border-b border-white/10 pb-4"
+        >
           <div class="flex items-center gap-3">
             <span class="text-3xl" x-text="nodes[selectedNode].icon"></span>
             <div>
-              <h3 class="text-2xl font-bold text-white font-outfit" x-text="nodes[selectedNode].title"></h3>
-              <p class="text-xs font-mono text-emerald-400" x-text="nodes[selectedNode].subTitle"></p>
+              <h3
+                class="text-2xl font-bold text-white font-outfit"
+                x-text="nodes[selectedNode].title"
+              >
+              </h3>
+              <p
+                class="text-xs font-mono text-emerald-400"
+                x-text="nodes[selectedNode].subTitle"
+              >
+              </p>
             </div>
           </div>
 
-          <span class="px-3 py-1 rounded-full bg-white/5 border border-white/10 font-mono text-xs text-zinc-300 font-bold" x-text="nodes[selectedNode].badge"></span>
+          <span
+            class="px-3 py-1 rounded-full bg-white/5 border border-white/10 font-mono text-xs text-zinc-300 font-bold"
+            x-text="nodes[selectedNode].badge"></span>
         </div>
 
-        <p class="text-base text-zinc-300 font-light leading-relaxed" x-text="nodes[selectedNode].description"></p>
+        <p
+          class="text-base text-zinc-300 font-light leading-relaxed"
+          x-text="nodes[selectedNode].description"
+        >
+        </p>
 
         <div class="grid md:grid-cols-2 gap-6">
           <div class="space-y-3 font-mono text-xs">
-            <div class="text-zinc-500 font-bold uppercase text-[10px] tracking-wider">Key Engineering Specifications</div>
-            <template x-for="(spec, sIdx) in nodes[selectedNode].specs" :key="sIdx">
-              <div class="flex justify-between items-center py-2 border-b border-white/5">
+            <div
+              class="text-zinc-500 font-bold uppercase text-[10px] tracking-wider"
+            >
+              Key Engineering Specifications
+            </div>
+            <template
+              x-for="(spec, sIdx) in nodes[selectedNode].specs"
+              :key="sIdx"
+            >
+              <div
+                class="flex justify-between items-center py-2 border-b border-white/5"
+              >
                 <span class="text-zinc-400" x-text="spec.label"></span>
                 <span class="text-white font-bold" x-text="spec.val"></span>
               </div>
@@ -156,8 +246,15 @@ const basePath = '/AI-Tadpole-OS-Marketing';
           </div>
 
           <div class="space-y-2">
-            <div class="text-zinc-500 font-mono text-[10px] font-bold uppercase tracking-wider">Architecture Code Contract</div>
-            <pre class="p-4 rounded-xl bg-black border border-white/10 font-mono text-xs text-emerald-300 overflow-x-auto leading-relaxed" x-text="nodes[selectedNode].code"></pre>
+            <div
+              class="text-zinc-500 font-mono text-[10px] font-bold uppercase tracking-wider"
+            >
+              Architecture Code Contract
+            </div>
+            <pre
+              class="p-4 rounded-xl bg-black border border-white/10 font-mono text-xs text-emerald-300 overflow-x-auto leading-relaxed"
+              x-text="nodes[selectedNode].code">
+            </pre>
           </div>
         </div>
       </div>
@@ -170,7 +267,8 @@ const basePath = '/AI-Tadpole-OS-Marketing';
           Operational Perspectives
         </h2>
         <p class="text-zinc-400 font-light leading-relaxed">
-          Select a role to see how AI-Tadpole-OS transforms security, governance, EBITDA protection, and daily execution.
+          Select a role to see how AI-Tadpole-OS transforms security,
+          governance, EBITDA protection, and daily execution.
         </p>
       </div>
 
@@ -207,35 +305,68 @@ const basePath = '/AI-Tadpole-OS-Marketing';
       </div>
 
       <!-- Perspective Content Cards -->
-      <div class="glass-surface p-8 sm:p-12 rounded-3xl border border-white/10 bg-black/40">
+      <div
+        class="glass-surface p-8 sm:p-12 rounded-3xl border border-white/10 bg-black/40"
+      >
         <!-- IT Perspective -->
-        <div x-show="activePerspective === 'it'" class="grid md:grid-cols-2 gap-12 items-center animate-fadeIn">
+        <div
+          x-show="activePerspective === 'it'"
+          class="grid md:grid-cols-2 gap-12 items-center animate-fadeIn"
+        >
           <div class="space-y-6">
-            <span class="px-3 py-1 rounded bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 font-mono text-xs font-bold uppercase">
+            <span
+              class="px-3 py-1 rounded bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 font-mono text-xs font-bold uppercase"
+            >
               Zero-Trust IT Security
             </span>
-            <h3 class="text-3xl font-bold text-white font-outfit">Air-Gapped Local Security & Merkle Audits</h3>
+            <h3 class="text-3xl font-bold text-white font-outfit">
+              Air-Gapped Local Security & Merkle Audits
+            </h3>
             <p class="text-zinc-300 font-light leading-relaxed">
-              IT departments maintain 100% control over execution boundaries. All external network access can be disabled via the **Hard Privacy Gate**, while every single tool call generates an immutable Merkle-tree audit receipt logged in SQLite + LanceDB storage.
+              IT departments maintain 100% control over execution boundaries.
+              All external network access can be disabled via the **Hard Privacy
+              Gate**, while every single tool call generates an immutable
+              Merkle-tree audit receipt logged in SQLite + LanceDB storage.
             </p>
             <div class="space-y-3 font-mono text-xs">
-              <div class="p-3 rounded-xl bg-zinc-950 border border-white/5 flex items-center justify-between">
+              <div
+                class="p-3 rounded-xl bg-zinc-950 border border-white/5 flex items-center justify-between"
+              >
                 <span class="text-zinc-400">Zero Cloud Data Exfiltration</span>
-                <span class="text-emerald-400 font-bold">100% Air-Gapped Option</span>
+                <span class="text-emerald-400 font-bold"
+                  >100% Air-Gapped Option</span
+                >
               </div>
-              <div class="p-3 rounded-xl bg-zinc-950 border border-white/5 flex items-center justify-between">
-                <span class="text-zinc-400">Active Documentation Guard (ADG)</span>
-                <span class="text-cyan-400 font-bold">Symbol Gate Enforcement</span>
+              <div
+                class="p-3 rounded-xl bg-zinc-950 border border-white/5 flex items-center justify-between"
+              >
+                <span class="text-zinc-400"
+                  >Active Documentation Guard (ADG)</span
+                >
+                <span class="text-cyan-400 font-bold"
+                  >Symbol Gate Enforcement</span
+                >
               </div>
-              <div class="p-3 rounded-xl bg-zinc-950 border border-white/5 flex items-center justify-between">
+              <div
+                class="p-3 rounded-xl bg-zinc-950 border border-white/5 flex items-center justify-between"
+              >
                 <span class="text-zinc-400">Audit Ledger Integrity</span>
-                <span class="text-purple-400 font-bold">OBLITERATUS Cryptographic Trail</span>
+                <span class="text-purple-400 font-bold"
+                  >OBLITERATUS Cryptographic Trail</span
+                >
               </div>
             </div>
           </div>
 
-          <div class="relative rounded-2xl overflow-hidden border border-white/10 shadow-2xl group bg-black">
-            <img src={`${basePath}/assets/real_os_oversight.png`} alt="IT Security Controls" class="w-full h-auto object-cover cursor-pointer" @click={`openLightbox('${basePath}/assets/real_os_oversight.png')`} />
+          <div
+            class="relative rounded-2xl overflow-hidden border border-white/10 shadow-2xl group bg-black"
+          >
+            <img
+              src={`${basePath}/assets/real_os_oversight.png`}
+              alt="IT Security Controls"
+              class="w-full h-auto object-cover cursor-pointer"
+              @click={`openLightbox('${basePath}/assets/real_os_oversight.png')`}
+            />
             <button
               @click={`openLightbox('${basePath}/assets/real_os_oversight.png')`}
               class="absolute bottom-3 right-3 bg-zinc-950/85 hover:bg-zinc-950 border border-white/20 text-white px-3 py-1.5 rounded-lg text-xs font-mono flex items-center gap-1.5 opacity-90 hover:opacity-100 transition-all backdrop-blur shadow-lg cursor-pointer"
@@ -246,29 +377,54 @@ const basePath = '/AI-Tadpole-OS-Marketing';
         </div>
 
         <!-- Manager Perspective -->
-        <div x-show="activePerspective === 'manager'" class="grid md:grid-cols-2 gap-12 items-center animate-fadeIn">
+        <div
+          x-show="activePerspective === 'manager'"
+          class="grid md:grid-cols-2 gap-12 items-center animate-fadeIn"
+        >
           <div class="space-y-6">
-            <span class="px-3 py-1 rounded bg-purple-500/10 border border-purple-500/30 text-purple-400 font-mono text-xs font-bold uppercase">
+            <span
+              class="px-3 py-1 rounded bg-purple-500/10 border border-purple-500/30 text-purple-400 font-mono text-xs font-bold uppercase"
+            >
               Operational Governance
             </span>
-            <h3 class="text-3xl font-bold text-white font-outfit">Continuous Telemetry & Human-In-The-Loop</h3>
+            <h3 class="text-3xl font-bold text-white font-outfit">
+              Continuous Telemetry & Human-In-The-Loop
+            </h3>
             <p class="text-zinc-300 font-light leading-relaxed">
-              Managers gain complete visibility over multi-agent workflows with **10Hz MessagePack telemetry streams** and WebSocket HITL gates. High-risk capabilities (`shell:execute`, `budget:spend`) are frozen until signed by management.
+              Managers gain complete visibility over multi-agent workflows with
+              **10Hz MessagePack telemetry streams** and WebSocket HITL gates.
+              High-risk capabilities (`shell:execute`, `budget:spend`) are
+              frozen until signed by management.
             </p>
             <div class="space-y-3 font-mono text-xs">
-              <div class="p-3 rounded-xl bg-zinc-950 border border-white/5 flex items-center justify-between">
+              <div
+                class="p-3 rounded-xl bg-zinc-950 border border-white/5 flex items-center justify-between"
+              >
                 <span class="text-zinc-400">Swarm Pulse Frequency</span>
-                <span class="text-emerald-400 font-bold">10Hz Binary Stream</span>
+                <span class="text-emerald-400 font-bold"
+                  >10Hz Binary Stream</span
+                >
               </div>
-              <div class="p-3 rounded-xl bg-zinc-950 border border-white/5 flex items-center justify-between">
+              <div
+                class="p-3 rounded-xl bg-zinc-950 border border-white/5 flex items-center justify-between"
+              >
                 <span class="text-zinc-400">Sapphire Shield Intercept</span>
-                <span class="text-amber-400 font-bold">WebSocket HITL Prompt</span>
+                <span class="text-amber-400 font-bold"
+                  >WebSocket HITL Prompt</span
+                >
               </div>
             </div>
           </div>
 
-          <div class="relative rounded-2xl overflow-hidden border border-white/10 shadow-2xl group bg-black">
-            <img src={`${basePath}/assets/real_os_dashboard.png`} alt="Operations Dashboard" class="w-full h-auto object-cover cursor-pointer" @click={`openLightbox('${basePath}/assets/real_os_dashboard.png')`} />
+          <div
+            class="relative rounded-2xl overflow-hidden border border-white/10 shadow-2xl group bg-black"
+          >
+            <img
+              src={`${basePath}/assets/real_os_dashboard.png`}
+              alt="Operations Dashboard"
+              class="w-full h-auto object-cover cursor-pointer"
+              @click={`openLightbox('${basePath}/assets/real_os_dashboard.png')`}
+            />
             <button
               @click={`openLightbox('${basePath}/assets/real_os_dashboard.png')`}
               class="absolute bottom-3 right-3 bg-zinc-950/85 hover:bg-zinc-950 border border-white/20 text-white px-3 py-1.5 rounded-lg text-xs font-mono flex items-center gap-1.5 opacity-90 hover:opacity-100 transition-all backdrop-blur shadow-lg cursor-pointer"
@@ -279,29 +435,51 @@ const basePath = '/AI-Tadpole-OS-Marketing';
         </div>
 
         <!-- Executive Perspective -->
-        <div x-show="activePerspective === 'exec'" class="grid md:grid-cols-2 gap-12 items-center animate-fadeIn">
+        <div
+          x-show="activePerspective === 'exec'"
+          class="grid md:grid-cols-2 gap-12 items-center animate-fadeIn"
+        >
           <div class="space-y-6">
-            <span class="px-3 py-1 rounded bg-amber-500/10 border border-amber-500/30 text-amber-400 font-mono text-xs font-bold uppercase">
+            <span
+              class="px-3 py-1 rounded bg-amber-500/10 border border-amber-500/30 text-amber-400 font-mono text-xs font-bold uppercase"
+            >
               Enterprise EBITDA Moat
             </span>
-            <h3 class="text-3xl font-bold text-white font-outfit">Sovereignty as the Ultimate Enterprise Advantage</h3>
+            <h3 class="text-3xl font-bold text-white font-outfit">
+              Sovereignty as the Ultimate Enterprise Advantage
+            </h3>
             <p class="text-zinc-300 font-light leading-relaxed">
-              By deploying Tadpole OS locally on hardware nodes, enterprises eliminate API vendor lock-in, protect proprietary trade secrets, and expand EBITDA margins through autonomous swarm scaling.
+              By deploying Tadpole OS locally on hardware nodes, enterprises
+              eliminate API vendor lock-in, protect proprietary trade secrets,
+              and expand EBITDA margins through autonomous swarm scaling.
             </p>
             <div class="grid grid-cols-2 gap-4 font-mono text-xs">
-              <div class="p-4 rounded-xl bg-zinc-950 border border-emerald-500/30 text-center space-y-1">
+              <div
+                class="p-4 rounded-xl bg-zinc-950 border border-emerald-500/30 text-center space-y-1"
+              >
                 <div class="text-2xl text-emerald-400 font-bold">100%</div>
                 <div class="text-zinc-400 text-[10px]">Data & IP Ownership</div>
               </div>
-              <div class="p-4 rounded-xl bg-zinc-950 border border-cyan-500/30 text-center space-y-1">
+              <div
+                class="p-4 rounded-xl bg-zinc-950 border border-cyan-500/30 text-center space-y-1"
+              >
                 <div class="text-2xl text-cyan-400 font-bold">0 $</div>
-                <div class="text-zinc-400 text-[10px]">Cloud API Exfiltration Risk</div>
+                <div class="text-zinc-400 text-[10px]">
+                  Cloud API Exfiltration Risk
+                </div>
               </div>
             </div>
           </div>
 
-          <div class="relative rounded-2xl overflow-hidden border border-white/10 shadow-2xl group bg-black">
-            <img src={`${basePath}/assets/moat-visual.png`} alt="Sovereign Moat" class="w-full h-auto object-cover cursor-pointer" @click={`openLightbox('${basePath}/assets/moat-visual.png')`} />
+          <div
+            class="relative rounded-2xl overflow-hidden border border-white/10 shadow-2xl group bg-black"
+          >
+            <img
+              src={`${basePath}/assets/moat-visual.png`}
+              alt="Sovereign Moat"
+              class="w-full h-auto object-cover cursor-pointer"
+              @click={`openLightbox('${basePath}/assets/moat-visual.png')`}
+            />
             <button
               @click={`openLightbox('${basePath}/assets/moat-visual.png')`}
               class="absolute bottom-3 right-3 bg-zinc-950/85 hover:bg-zinc-950 border border-white/20 text-white px-3 py-1.5 rounded-lg text-xs font-mono flex items-center gap-1.5 opacity-90 hover:opacity-100 transition-all backdrop-blur shadow-lg cursor-pointer"
@@ -312,23 +490,46 @@ const basePath = '/AI-Tadpole-OS-Marketing';
         </div>
 
         <!-- Operator Perspective -->
-        <div x-show="activePerspective === 'operator'" class="grid md:grid-cols-2 gap-12 items-center animate-fadeIn">
+        <div
+          x-show="activePerspective === 'operator'"
+          class="grid md:grid-cols-2 gap-12 items-center animate-fadeIn"
+        >
           <div class="space-y-6">
-            <span class="px-3 py-1 rounded bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 font-mono text-xs font-bold uppercase">
+            <span
+              class="px-3 py-1 rounded bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 font-mono text-xs font-bold uppercase"
+            >
               Supercharged Workforce
             </span>
-            <h3 class="text-3xl font-bold text-white font-outfit">Transition from Manual Drudgery to Swarm Director</h3>
+            <h3 class="text-3xl font-bold text-white font-outfit">
+              Transition from Manual Drudgery to Swarm Director
+            </h3>
             <p class="text-zinc-300 font-light leading-relaxed">
-              Operators turn routine SOPs into executable Markdown directives (`directives/`), multiplying individual output by 10x to 100x while maintaining full human oversight over execution outcomes.
+              Operators turn routine SOPs into executable Markdown directives
+              (`directives/`), multiplying individual output by 10x to 100x
+              while maintaining full human oversight over execution outcomes.
             </p>
-            <div class="p-4 rounded-xl bg-zinc-950 border border-white/5 font-mono text-xs space-y-2 text-zinc-300">
-              <div class="text-emerald-400 font-bold">1 Employee + Tadpole Swarm = 50 Specialist Hours / Day</div>
-              <p class="text-zinc-500 text-[11px] font-light">Ingest playbooks, run parallel audits, and synthesize executive findings automatically.</p>
+            <div
+              class="p-4 rounded-xl bg-zinc-950 border border-white/5 font-mono text-xs space-y-2 text-zinc-300"
+            >
+              <div class="text-emerald-400 font-bold">
+                1 Employee + Tadpole Swarm = 50 Specialist Hours / Day
+              </div>
+              <p class="text-zinc-500 text-[11px] font-light">
+                Ingest playbooks, run parallel audits, and synthesize executive
+                findings automatically.
+              </p>
             </div>
           </div>
 
-          <div class="relative rounded-2xl overflow-hidden border border-white/10 shadow-2xl group bg-black">
-            <img src={`${basePath}/assets/real_os_nodes.png`} alt="Operator Node Management" class="w-full h-auto object-cover cursor-pointer" @click={`openLightbox('${basePath}/assets/real_os_nodes.png')`} />
+          <div
+            class="relative rounded-2xl overflow-hidden border border-white/10 shadow-2xl group bg-black"
+          >
+            <img
+              src={`${basePath}/assets/real_os_nodes.png`}
+              alt="Operator Node Management"
+              class="w-full h-auto object-cover cursor-pointer"
+              @click={`openLightbox('${basePath}/assets/real_os_nodes.png')`}
+            />
             <button
               @click={`openLightbox('${basePath}/assets/real_os_nodes.png')`}
               class="absolute bottom-3 right-3 bg-zinc-950/85 hover:bg-zinc-950 border border-white/20 text-white px-3 py-1.5 rounded-lg text-xs font-mono flex items-center gap-1.5 opacity-90 hover:opacity-100 transition-all backdrop-blur shadow-lg cursor-pointer"
@@ -341,59 +542,95 @@ const basePath = '/AI-Tadpole-OS-Marketing';
     </section>
 
     <!-- SECTION 3: TRI-SLOT MODEL ROUTER INTERACTIVE DEMO -->
-    <section class="glass-surface rounded-3xl border border-white/10 p-8 sm:p-12 space-y-8 bg-gradient-to-b from-black/60 to-zinc-950">
+    <section
+      class="glass-surface rounded-3xl border border-white/10 p-8 sm:p-12 space-y-8 bg-gradient-to-b from-black/60 to-zinc-950"
+    >
       <div class="text-center space-y-3 max-w-3xl mx-auto">
-        <span class="px-3 py-1 rounded bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 font-mono text-xs font-bold uppercase">
+        <span
+          class="px-3 py-1 rounded bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 font-mono text-xs font-bold uppercase"
+        >
           Dynamic Redundancy Engine
         </span>
-        <h2 class="text-3xl sm:text-4xl font-bold text-white font-outfit">Tri-Slot Model Routing Architecture</h2>
+        <h2 class="text-3xl sm:text-4xl font-bold text-white font-outfit">
+          Tri-Slot Model Routing Architecture
+        </h2>
         <p class="text-sm text-zinc-400 font-light leading-relaxed">
-          AI-Tadpole-OS decouples model selection from application logic. The engine automatically routes prompts across three fallback slots to guarantee 100% mission uptime.
+          AI-Tadpole-OS decouples model selection from application logic. The
+          engine automatically routes prompts across three fallback slots to
+          guarantee 100% mission uptime.
         </p>
       </div>
 
       <div class="grid md:grid-cols-3 gap-6 font-mono text-xs">
         <!-- Primary Slot -->
-        <div class="p-6 rounded-2xl bg-zinc-950 border border-emerald-500/40 space-y-4 shadow-[0_0_25px_rgba(16,185,129,0.1)]">
+        <div
+          class="p-6 rounded-2xl bg-zinc-950 border border-emerald-500/40 space-y-4 shadow-[0_0_25px_rgba(16,185,129,0.1)]"
+        >
           <div class="flex items-center justify-between">
-            <span class="text-emerald-400 font-bold uppercase text-[10px]">Slot 1: Primary</span>
-            <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
+            <span class="text-emerald-400 font-bold uppercase text-[10px]"
+              >Slot 1: Primary</span
+            >
+            <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"
+            ></span>
           </div>
-          <h3 class="text-lg font-bold text-white font-outfit">Local Ollama Engine</h3>
+          <h3 class="text-lg font-bold text-white font-outfit">
+            Local Ollama Engine
+          </h3>
           <p class="text-zinc-400 text-xs font-light leading-relaxed">
-            Local qwen2.5-coder / llama3.3 models running air-gapped on hardware GPU/NPU acceleration.
+            Local qwen2.5-coder / llama3.3 models running air-gapped on hardware
+            GPU/NPU acceleration.
           </p>
-          <div class="p-3 rounded bg-black border border-white/5 text-[11px] text-emerald-300">
+          <div
+            class="p-3 rounded bg-black border border-white/5 text-[11px] text-emerald-300"
+          >
             Latency: ~12ms | Cost: $0.00
           </div>
         </div>
 
         <!-- Secondary Slot -->
-        <div class="p-6 rounded-2xl bg-zinc-950 border border-cyan-500/40 space-y-4 shadow-[0_0_25px_rgba(6,182,212,0.1)]">
+        <div
+          class="p-6 rounded-2xl bg-zinc-950 border border-cyan-500/40 space-y-4 shadow-[0_0_25px_rgba(6,182,212,0.1)]"
+        >
           <div class="flex items-center justify-between">
-            <span class="text-cyan-400 font-bold uppercase text-[10px]">Slot 2: Secondary</span>
+            <span class="text-cyan-400 font-bold uppercase text-[10px]"
+              >Slot 2: Secondary</span
+            >
             <span class="w-2.5 h-2.5 rounded-full bg-cyan-400"></span>
           </div>
-          <h3 class="text-lg font-bold text-white font-outfit">Groq Ultra-Speed LPU</h3>
+          <h3 class="text-lg font-bold text-white font-outfit">
+            Groq Ultra-Speed LPU
+          </h3>
           <p class="text-zinc-400 text-xs font-light leading-relaxed">
-            Ultra-fast cloud inference fallback (500+ tokens/sec) for complex multi-agent reasoning tasks.
+            Ultra-fast cloud inference fallback (500+ tokens/sec) for complex
+            multi-agent reasoning tasks.
           </p>
-          <div class="p-3 rounded bg-black border border-white/5 text-[11px] text-cyan-300">
+          <div
+            class="p-3 rounded bg-black border border-white/5 text-[11px] text-cyan-300"
+          >
             Latency: ~80ms | Fallback Ready
           </div>
         </div>
 
         <!-- Tertiary Slot -->
-        <div class="p-6 rounded-2xl bg-zinc-950 border border-purple-500/40 space-y-4 shadow-[0_0_25px_rgba(168,85,247,0.1)]">
+        <div
+          class="p-6 rounded-2xl bg-zinc-950 border border-purple-500/40 space-y-4 shadow-[0_0_25px_rgba(168,85,247,0.1)]"
+        >
           <div class="flex items-center justify-between">
-            <span class="text-purple-400 font-bold uppercase text-[10px]">Slot 3: Tertiary</span>
+            <span class="text-purple-400 font-bold uppercase text-[10px]"
+              >Slot 3: Tertiary</span
+            >
             <span class="w-2.5 h-2.5 rounded-full bg-purple-400"></span>
           </div>
-          <h3 class="text-lg font-bold text-white font-outfit">Google Gemini 1.5 Flash</h3>
+          <h3 class="text-lg font-bold text-white font-outfit">
+            Google Gemini 1.5 Flash
+          </h3>
           <p class="text-zinc-400 text-xs font-light leading-relaxed">
-            Massive 2M token context window slot for large document ingestion & deep architectural synthesis.
+            Massive 2M token context window slot for large document ingestion &
+            deep architectural synthesis.
           </p>
-          <div class="p-3 rounded bg-black border border-white/5 text-[11px] text-purple-300">
+          <div
+            class="p-3 rounded bg-black border border-white/5 text-[11px] text-purple-300"
+          >
             Context: 2M Tokens | Sovereign Backup
           </div>
         </div>
@@ -403,12 +640,20 @@ const basePath = '/AI-Tadpole-OS-Marketing';
     <!-- SECTION 4: PROTOCOL SPECIFICATIONS TABLE -->
     <section class="space-y-8">
       <div class="text-center space-y-3">
-        <h2 class="text-3xl font-bold text-white font-outfit">Core Protocol Performance Metrics</h2>
-        <p class="text-sm text-zinc-400 font-light">Verified metrics across Rust `server-rs` and Tauri desktop builds.</p>
+        <h2 class="text-3xl font-bold text-white font-outfit">
+          Core Protocol Performance Metrics
+        </h2>
+        <p class="text-sm text-zinc-400 font-light">
+          Verified metrics across Rust `server-rs` and Tauri desktop builds.
+        </p>
       </div>
 
-      <div class="glass-surface rounded-2xl border border-white/10 overflow-hidden font-mono text-xs">
-        <div class="grid grid-cols-3 bg-zinc-950 p-4 border-b border-white/10 text-zinc-400 font-bold uppercase text-[10px]">
+      <div
+        class="glass-surface rounded-2xl border border-white/10 overflow-hidden font-mono text-xs"
+      >
+        <div
+          class="grid grid-cols-3 bg-zinc-950 p-4 border-b border-white/10 text-zinc-400 font-bold uppercase text-[10px]"
+        >
           <div>Component / Subsystem</div>
           <div>Target Specification</div>
           <div>Runtime Performance</div>
@@ -417,7 +662,9 @@ const basePath = '/AI-Tadpole-OS-Marketing';
           <div class="grid grid-cols-3 p-4 items-center">
             <div class="font-bold text-white">Swarm Pulse Telemetry</div>
             <div>MessagePack over WebSockets</div>
-            <div class="text-emerald-400 font-bold">10Hz Stream (100ms interval)</div>
+            <div class="text-emerald-400 font-bold">
+              10Hz Stream (100ms interval)
+            </div>
           </div>
           <div class="grid grid-cols-3 p-4 items-center">
             <div class="font-bold text-white">Vector Search (LanceDB)</div>
@@ -439,16 +686,27 @@ const basePath = '/AI-Tadpole-OS-Marketing';
     </section>
 
     <!-- CTA -->
-    <section class="py-16 glass-surface rounded-3xl p-8 sm:p-12 text-center space-y-6 border border-emerald-500/20 bg-gradient-to-r from-emerald-500/5 to-cyan-500/5">
-      <h2 class="text-3xl sm:text-4xl font-extrabold text-white font-outfit">Ready to Deploy Sovereign Swarms?</h2>
+    <section
+      class="py-16 glass-surface rounded-3xl p-8 sm:p-12 text-center space-y-6 border border-emerald-500/20 bg-gradient-to-r from-emerald-500/5 to-cyan-500/5"
+    >
+      <h2 class="text-3xl sm:text-4xl font-extrabold text-white font-outfit">
+        Ready to Deploy Sovereign Swarms?
+      </h2>
       <p class="text-zinc-400 max-w-xl mx-auto font-light text-sm">
-        Clone the runtime repository and start building autonomous, privacy-first multi-agent systems on your own hardware.
+        Clone the runtime repository and start building autonomous,
+        privacy-first multi-agent systems on your own hardware.
       </p>
       <div class="flex justify-center gap-4 pt-2 font-mono text-xs font-bold">
-        <a href="https://github.com/DDS-Solutions/AI-TadPole-OS" class="px-8 py-3.5 bg-white text-zinc-950 rounded-xl hover:bg-zinc-200 transition-all uppercase tracking-wider">
+        <a
+          href="https://github.com/DDS-Solutions/AI-TadPole-OS"
+          class="px-8 py-3.5 bg-white text-zinc-950 rounded-xl hover:bg-zinc-200 transition-all uppercase tracking-wider"
+        >
           Clone Runtime Repo
         </a>
-        <a href={`${basePath}/mission`} class="px-8 py-3.5 border border-white/20 bg-white/5 text-white rounded-xl hover:border-emerald-400 hover:text-emerald-300 transition-all uppercase tracking-wider">
+        <a
+          href={`${basePath}/mission`}
+          class="px-8 py-3.5 border border-white/20 bg-white/5 text-white rounded-xl hover:border-emerald-400 hover:text-emerald-300 transition-all uppercase tracking-wider"
+        >
           Launch Mission Demo ➔
         </a>
       </div>
@@ -469,9 +727,14 @@ const basePath = '/AI-Tadpole-OS-Marketing';
       @keydown.escape.window="lightboxOpen = false"
     >
       <!-- Top Floating Controls Header -->
-      <div class="w-full max-w-6xl flex items-center justify-between pb-4 font-mono text-xs z-10" @click.stop>
+      <div
+        class="w-full max-w-6xl flex items-center justify-between pb-4 font-mono text-xs z-10"
+        @click.stop
+      >
         <div class="flex items-center gap-2 text-zinc-400">
-          <span class="text-emerald-400 font-bold">🔍 High-Resolution Preview</span>
+          <span class="text-emerald-400 font-bold"
+            >🔍 High-Resolution Preview</span
+          >
           <span class="text-zinc-600">|</span>
           <span class="text-zinc-500">Press ESC or click anywhere to exit</span>
         </div>
@@ -485,7 +748,10 @@ const basePath = '/AI-Tadpole-OS-Marketing';
       </div>
 
       <!-- Image Container -->
-      <div class="relative max-w-6xl max-h-[82vh] flex items-center justify-center overflow-hidden rounded-2xl border border-white/20 shadow-2xl bg-zinc-950" @click.stop>
+      <div
+        class="relative max-w-6xl max-h-[82vh] flex items-center justify-center overflow-hidden rounded-2xl border border-white/20 shadow-2xl bg-zinc-950"
+        @click.stop
+      >
         <img
           :src="lightboxImg"
           class="max-h-[82vh] max-w-full w-auto h-auto object-contain rounded-2xl select-none"
@@ -493,17 +759,16 @@ const basePath = '/AI-Tadpole-OS-Marketing';
         />
       </div>
     </div>
-
   </main>
 
   <script is:inline>
     function howItWorksPage() {
       return {
-        selectedNode: 'directive',
-        activePerspective: 'it',
+        selectedNode: "directive",
+        activePerspective: "it",
 
         lightboxOpen: false,
-        lightboxImg: '',
+        lightboxImg: "",
         openLightbox(imgUrl) {
           this.lightboxImg = imgUrl;
           this.lightboxOpen = true;
@@ -519,103 +784,115 @@ const basePath = '/AI-Tadpole-OS-Marketing';
 
         getNodeClass(key) {
           if (this.selectedNode === key) {
-            return 'border-emerald-500 bg-emerald-500/20 text-white font-bold shadow-lg';
+            return "border-emerald-500 bg-emerald-500/20 text-white font-bold shadow-lg";
           }
-          return 'border-white/10 bg-black/40 text-zinc-400 hover:border-white/20';
+          return "border-white/10 bg-black/40 text-zinc-400 hover:border-white/20";
         },
 
         getPerspectiveClass(key) {
           if (this.activePerspective === key) {
-            return 'bg-emerald-500 text-zinc-950 font-bold border-emerald-400 shadow-lg';
+            return "bg-emerald-500 text-zinc-950 font-bold border-emerald-400 shadow-lg";
           }
-          return 'bg-black/40 text-zinc-400 border-white/10 hover:border-white/20';
+          return "bg-black/40 text-zinc-400 border-white/10 hover:border-white/20";
         },
 
         nodes: {
           directive: {
-            icon: '📄',
-            title: 'Layer 1: Directive SOP Engine',
-            subTitle: 'Human Intent & SOP Source of Truth',
-            badge: 'Layer 1',
-            description: 'Directives are versioned Markdown SOP documents living in directives/. They define clear goals, parameters, tool bindings, and edge cases. Directives represent human intent—keeping AI agents grounded without probabilistic drift.',
+            icon: "📄",
+            title: "Layer 1: Directive SOP Engine",
+            subTitle: "Human Intent & SOP Source of Truth",
+            badge: "Layer 1",
+            description:
+              "Directives are versioned Markdown SOP documents living in directives/. They define clear goals, parameters, tool bindings, and edge cases. Directives represent human intent—keeping AI agents grounded without probabilistic drift.",
             specs: [
-              { label: 'File Storage Location', val: 'directives/*.md' },
-              { label: 'Metadata Schema', val: 'YAML Frontmatter' },
-              { label: 'Validation Protocol', val: 'ADG-01 Static Analysis' }
+              { label: "File Storage Location", val: "directives/*.md" },
+              { label: "Metadata Schema", val: "YAML Frontmatter" },
+              { label: "Validation Protocol", val: "ADG-01 Static Analysis" },
             ],
             code: `---
 name: "Security Audit Directive"
 version: "1.2.0"
 capabilities_required: ["shell:execute", "read_file"]
 ---
-# Objective: Audit Rust FFI bindings for memory safety.`
+# Objective: Audit Rust FFI bindings for memory safety.`,
           },
           orchestration: {
-            icon: '🧠',
-            title: 'Layer 2: Agent 99 Orchestrator',
-            subTitle: 'Swarm Commander & Tri-Slot Router',
-            badge: 'Layer 2',
-            description: 'Agent 99 acts as the master swarm orchestrator. It decomposes high-level SOP goals into subagent tasks, manages model routing across primary (Ollama), secondary (Groq), and tertiary (Gemini) slots, and writes to long-term memory via Self-Annealing loops.',
+            icon: "🧠",
+            title: "Layer 2: Agent 99 Orchestrator",
+            subTitle: "Swarm Commander & Tri-Slot Router",
+            badge: "Layer 2",
+            description:
+              "Agent 99 acts as the master swarm orchestrator. It decomposes high-level SOP goals into subagent tasks, manages model routing across primary (Ollama), secondary (Groq), and tertiary (Gemini) slots, and writes to long-term memory via Self-Annealing loops.",
             specs: [
-              { label: 'Swarm Commander', val: 'Agent 99 (ID 1)' },
-              { label: 'Model Fallback Routing', val: 'Tri-Slot Auto Failover' },
-              { label: 'Memory Retention', val: 'LONG_TERM_MEMORY.md' }
+              { label: "Swarm Commander", val: "Agent 99 (ID 1)" },
+              {
+                label: "Model Fallback Routing",
+                val: "Tri-Slot Auto Failover",
+              },
+              { label: "Memory Retention", val: "LONG_TERM_MEMORY.md" },
             ],
             code: `async fn route_task(prompt: &str) -> TaskPlan {
     let model = router.select_primary().unwrap_or(router.fallback());
     model.decompose_and_plan(prompt).await
-}`
+}`,
           },
           execution: {
-            icon: '⚡',
-            title: 'Layer 3: Rust Core Engine',
-            subTitle: 'Axum, Tokio Async & FuturesUnordered',
-            badge: 'Layer 3',
-            description: 'The execution layer is built in high-performance Rust (server-rs). Tokio task loops run subagent tool execution in parallel using FuturesUnordered for sub-millisecond execution speeds with zero memory leaks.',
+            icon: "⚡",
+            title: "Layer 3: Rust Core Engine",
+            subTitle: "Axum, Tokio Async & FuturesUnordered",
+            badge: "Layer 3",
+            description:
+              "The execution layer is built in high-performance Rust (server-rs). Tokio task loops run subagent tool execution in parallel using FuturesUnordered for sub-millisecond execution speeds with zero memory leaks.",
             specs: [
-              { label: 'Web Server Framework', val: 'Axum (Async Tokio)' },
-              { label: 'Parallel Task Driver', val: 'FuturesUnordered' },
-              { label: 'Tool Interface Standard', val: 'Model Context Protocol (MCP)' }
+              { label: "Web Server Framework", val: "Axum (Async Tokio)" },
+              { label: "Parallel Task Driver", val: "FuturesUnordered" },
+              {
+                label: "Tool Interface Standard",
+                val: "Model Context Protocol (MCP)",
+              },
             ],
             code: `let mut tasks = FuturesUnordered::new();
 for tool_call in tool_calls {
     tasks.push(tokio::spawn(execute_mcp_tool(tool_call)));
-}`
+}`,
           },
           governance: {
-            icon: '🛡️',
-            title: 'Sapphire Shield Zero-Trust Gate',
-            subTitle: 'Human-in-the-Loop & Merkle Proofs',
-            badge: 'Governance',
-            description: 'Zero-trust governance boundary protecting sensitive systems. Whenever an agent requests high-risk tool calls (such as shell execution or budget spending), execution is frozen until an Overlord signs a cryptographic Merkle-proof authorization.',
+            icon: "🛡️",
+            title: "Sapphire Shield Zero-Trust Gate",
+            subTitle: "Human-in-the-Loop & Merkle Proofs",
+            badge: "Governance",
+            description:
+              "Zero-trust governance boundary protecting sensitive systems. Whenever an agent requests high-risk tool calls (such as shell execution or budget spending), execution is frozen until an Overlord signs a cryptographic Merkle-proof authorization.",
             specs: [
-              { label: 'Gate Intercept Standard', val: 'WebSocket HITL' },
-              { label: 'Audit Proof Ledger', val: 'Merkle Hash (OBLITERATUS)' },
-              { label: 'Privacy Boundary', val: 'Hard Privacy Air-Gap' }
+              { label: "Gate Intercept Standard", val: "WebSocket HITL" },
+              { label: "Audit Proof Ledger", val: "Merkle Hash (OBLITERATUS)" },
+              { label: "Privacy Boundary", val: "Hard Privacy Air-Gap" },
             ],
             code: `if tool.requires_approval() {
     sapphire_shield.freeze_and_prompt(tool_name).await?;
     let merkele_proof = overlord_signature.verify()?;
-}`
+}`,
           },
           memory: {
-            icon: '🧠',
-            title: 'LanceDB GraphRAG Memory Store',
-            subTitle: 'Institutional Knowledge Store (IKS)',
-            badge: 'Memory Store',
-            description: 'Multi-modal vector database and entity-relationship graph. SOP playbooks, code symbols, and run histories are vectorized into local 768-dimensional embeddings for instantaneous, cloud-free GraphRAG context retrieval.',
+            icon: "🧠",
+            title: "LanceDB GraphRAG Memory Store",
+            subTitle: "Institutional Knowledge Store (IKS)",
+            badge: "Memory Store",
+            description:
+              "Multi-modal vector database and entity-relationship graph. SOP playbooks, code symbols, and run histories are vectorized into local 768-dimensional embeddings for instantaneous, cloud-free GraphRAG context retrieval.",
             specs: [
-              { label: 'Vector Database Engine', val: 'LanceDB Local' },
-              { label: 'Embedding Model', val: 'text-embedding-004' },
-              { label: 'Telemetry Privacy', val: 'Secret Scrubbing Active' }
+              { label: "Vector Database Engine", val: "LanceDB Local" },
+              { label: "Embedding Model", val: "text-embedding-004" },
+              { label: "Telemetry Privacy", val: "Secret Scrubbing Active" },
             ],
             code: `let vector_store = LanceDb::connect("./.tmp/iks.db").await?;
-let context = vector_store.query_graph_rag(prompt_embedding).await?;`
-          }
-        }
+let context = vector_store.query_graph_rag(prompt_embedding).await?;`,
+          },
+        },
       };
     }
   </script>
 
-  <script is:inline src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script is:inline src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"
+  ></script>
 </BaseLayout>

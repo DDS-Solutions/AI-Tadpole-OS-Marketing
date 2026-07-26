@@ -225,7 +225,7 @@ const screenshots = [
       </div>
     </section>
 
-    <!-- SECTION: DECLARATIVE SWARM TEMPLATES -->
+    <!-- SECTION: DECLARATIVE SWARM TEMPLATES & SWARM ARCHITECT -->
     <section id="templates" class="mx-auto max-w-7xl px-5 sm:px-8 space-y-12">
       <div class="text-center space-y-4 max-w-3xl mx-auto">
         <span class="font-mono text-xs font-bold uppercase tracking-widest text-emerald-400">
@@ -237,6 +237,48 @@ const screenshots = [
         <p class="text-lg leading-8 text-zinc-400 font-light">
           Instantly initialize autonomous multi-agent teams configured with predefined directives, MCP tool bindings, and zero-trust security profiles.
         </p>
+      </div>
+
+      <!-- SWARM ARCHITECT FEATURE HIGHLIGHT BOX -->
+      <div class="glass-surface p-8 sm:p-10 rounded-3xl border border-emerald-500/30 bg-gradient-to-r from-emerald-950/40 via-zinc-950 to-cyan-950/40 grid lg:grid-cols-[1.2fr_0.8fr] gap-8 items-center shadow-2xl">
+        <div class="space-y-5">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 font-mono text-xs font-bold uppercase">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+            Swarm Architect Visual Composer
+          </div>
+          <h3 class="text-3xl sm:text-4xl font-extrabold text-white font-outfit">
+            Compose & Tailor Enterprise Swarms
+          </h3>
+          <p class="text-zinc-300 text-sm font-light leading-relaxed">
+            Need specialized industry workflows? The **Swarm Architect** visual studio allows enterprise directors to visually construct agent topologies, bind custom SOP Markdown directives, bind Model Context Protocol (MCP) execution tools, and export zero-trust YAML swarm specifications.
+          </p>
+          <div class="pt-2 font-mono text-xs">
+            <a
+              href="https://dds-solutions.github.io/AI-Tadpole-OS-Industry-Templates/"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-2 px-6 py-3.5 bg-gradient-to-r from-emerald-500 to-teal-400 text-zinc-950 rounded-xl hover:from-emerald-400 hover:to-teal-300 font-bold uppercase tracking-wider transition-all duration-300 hover:scale-105 shadow-[0_0_25px_rgba(16,185,129,0.3)] cursor-pointer"
+            >
+              <span>🛠️ Explore Industry Swarm Templates Catalog</span>
+              <span>➔</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="relative rounded-2xl overflow-hidden border border-white/15 shadow-2xl group bg-black">
+          <img
+            src={`${basePath}/assets/real_os_templates.png`}
+            alt="Swarm Architect Interface"
+            class="w-full h-auto object-cover cursor-pointer group-hover:scale-[1.02] transition-transform duration-500"
+            @click={`openLightbox('${basePath}/assets/real_os_templates.png')`}
+          />
+          <button
+            @click={`openLightbox('${basePath}/assets/real_os_templates.png')`}
+            class="absolute bottom-3 right-3 bg-zinc-950/85 hover:bg-zinc-950 border border-white/20 text-white px-3 py-1.5 rounded-lg text-xs font-mono flex items-center gap-1.5 opacity-90 hover:opacity-100 transition-all backdrop-blur shadow-lg cursor-pointer"
+          >
+            <span>🔍 Zoom Full Resolution</span>
+          </button>
+        </div>
       </div>
 
       <div class="grid md:grid-cols-3 gap-6 font-mono text-xs">

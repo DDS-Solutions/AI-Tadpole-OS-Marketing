@@ -4,787 +4,526 @@ const basePath = '/AI-Tadpole-OS-Marketing';
 ---
 
 <style>
-  .neural-line {
-    stroke-dasharray: 1000;
-    stroke-dashoffset: 1000;
-    animation: dash 5s linear infinite;
+  .font-mono-code {
+    font-family: "JetBrains Mono", monospace;
   }
-  @keyframes dash {
-    to {
-      stroke-dashoffset: 0;
-    }
+
+  .neural-pulse-line {
+    stroke-dasharray: 20;
+    animation: dashPulse 2s linear infinite;
   }
-  .data-pulse {
-    animation: pulse 2s ease-in-out infinite;
+  @keyframes dashPulse {
+    to { stroke-dashoffset: -40; }
   }
-  @keyframes pulse {
-    0%,
-    100% {
-      opacity: 0.2;
-      transform: scale(1);
-    }
-    50% {
-      opacity: 0.8;
-      transform: scale(1.2);
-    }
+
+  .scanline-bg {
+    background: linear-gradient(
+      to bottom,
+      rgba(255,255,255,0),
+      rgba(255,255,255,0) 50%,
+      rgba(16, 185, 129, 0.02) 50%,
+      rgba(16, 185, 129, 0.02)
+    );
+    background-size: 100% 4px;
+  }
+
+  .glow-box-emerald {
+    box-shadow: 0 0 30px rgba(16, 185, 129, 0.15);
+  }
+  .glow-box-cyan {
+    box-shadow: 0 0 30px rgba(6, 182, 212, 0.15);
   }
 </style>
 
 <BaseLayout
-  title="How It Works | AI-Tadpole-OS Top-Tier Infographics"
-  description="A deep-dive into the sovereign engine architecture. Visualizing the 3-layer orchestration and human-centric security of AI-Tadpole-OS."
+  title="Engine Mechanics & Architecture | AI-Tadpole-OS Sovereign Protocol"
+  description="Deep-dive into the AI-Tadpole-OS technical architecture: 3-layer orchestration stack, Rust Axum/Tokio execution engine, Sapphire Shield zero-trust HITL gate, and LanceDB GraphRAG memory."
 >
   <main
-    class="relative z-10 max-w-7xl mx-auto px-6 py-24 md:py-32 overflow-hidden"
-    x-data="{ activeTab: 'exec' }"
+    class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 py-20 md:py-28 space-y-24"
+    x-data="howItWorksPage()"
   >
     <!-- Header -->
-    <header class="text-center space-y-8 mb-24 relative">
-      <a
-        href={`${basePath}/`}
-        class="text-[10px] font-mono text-zinc-500 hover:text-emerald-400 transition-colors flex items-center justify-center gap-2 tracking-widest uppercase"
-      >
-        ← Return to Base
-      </a>
-      <h1
-        class="text-5xl md:text-9xl font-bold tracking-tighter text-white leading-[0.9] font-outfit"
-      >
-        High-Fidelity <span class="text-zinc-700">Mechanics</span>
+    <header class="text-center space-y-6 max-w-4xl mx-auto">
+      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-emerald-500/20 bg-emerald-500/10 text-emerald-400 font-mono text-xs uppercase tracking-widest backdrop-blur">
+        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+        Technical Architecture & Mechanics
+      </div>
+      <h1 class="text-5xl sm:text-7xl lg:text-8xl font-extrabold tracking-tight text-white font-outfit leading-[0.95]">
+        High-Fidelity <span class="bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400 bg-clip-text text-transparent">Architecture</span>
       </h1>
-      <p
-        class="text-lg md:text-xl text-zinc-400 max-w-2xl mx-auto font-light leading-relaxed font-inter"
-      >
-        Complex systems explained through sovereign design. Select a perspective
-        to visualize the flow of intelligence.
+      <p class="text-base sm:text-lg text-zinc-400 font-light leading-relaxed max-w-2xl mx-auto">
+        A comprehensive technical deep-dive into the sovereign engine: **3-Layer Separation of Concerns**, 
+        **Axum/Tokio Async Execution**, **Sapphire Shield Governance**, and **LanceDB GraphRAG Memory**.
       </p>
     </header>
 
-    <!-- Persona Selector (Tabs) -->
-    <div class="flex flex-wrap justify-center gap-4 mb-24">
-      <button
-        @click="activeTab = 'it'"
-        :class="activeTab === 'it' ? 'bg-white text-zinc-950 border-white' : 'glass-surface text-zinc-400 border-white/5 hover:border-white/20'"
-        class="px-8 py-4 rounded-xl border text-xs font-bold tracking-widest uppercase transition-all shadow-xl"
-      >
-        IT Department
-      </button>
-      <button
-        @click="activeTab = 'manager'"
-        :class="activeTab === 'manager' ? 'bg-white text-zinc-950 border-white' : 'glass-surface text-zinc-400 border-white/5 hover:border-white/20'"
-        class="px-8 py-4 rounded-xl border text-xs font-bold tracking-widest uppercase transition-all shadow-xl"
-      >
-        Manager
-      </button>
-      <button
-        @click="activeTab = 'exec'"
-        :class="activeTab === 'exec' ? 'bg-white text-zinc-950 border-white' : 'glass-surface text-zinc-400 border-white/5 hover:border-white/20'"
-        class="px-8 py-4 rounded-xl border text-xs font-bold tracking-widest uppercase transition-all shadow-xl"
-      >
-        Executive
-      </button>
-      <button
-        @click="activeTab = 'employee'"
-        :class="activeTab === 'employee' ? 'bg-white text-zinc-950 border-white' : 'glass-surface text-zinc-400 border-white/5 hover:border-white/20'"
-        class="px-8 py-4 rounded-xl border text-xs font-bold tracking-widest uppercase transition-all shadow-xl"
-      >
-        Employee
-      </button>
-    </div>
-
-    <!-- JOURNEY CONTENT -->
-    <div class="w-full">
-      <!-- POV: IT Department (Architecture Deep-Dive) -->
-      <div
-        x-show="activeTab === 'it'"
-        class="space-y-24 animate-in fade-in slide-in-from-bottom-8 duration-1000"
-      >
-        <div class="grid md:grid-cols-2 gap-16 items-center">
-          <div class="space-y-8">
-            <h2
-              class="text-4xl md:text-6xl font-bold text-white tracking-tight leading-tight"
-            >
-              3-Layer <br /><span class="text-emerald-500"
-                >Autonomous Stack</span>
-            </h2>
-            <p class="text-zinc-400 font-light leading-relaxed text-lg">
-              IT infrastructure reimagined for zero-trust intelligence. Our
-              stack separates intent from execution to ensure deterministic
-              results.
-            </p>
-            <div class="space-y-4">
-              <div
-                class="p-6 glass-surface rounded-2xl border border-white/5 hover:border-emerald-500/30 transition-all"
-              >
-                <h4
-                  class="text-emerald-400 font-mono text-[10px] uppercase tracking-widest mb-1"
-                >
-                  Layer 1
-                </h4>
-                <h3 class="font-bold text-white">Directives (The Context)</h3>
-                <p class="text-xs text-zinc-500 mt-2">
-                  Human-authored Markdown directives and strict rulesets. The absolute source of truth for agent behavior and swarm limits.
-                </p>
-              </div>
-              <div
-                class="p-6 glass-surface rounded-2xl border border-white/5 hover:border-emerald-500/30 transition-all"
-              >
-                <h4
-                  class="text-emerald-400 font-mono text-[10px] uppercase tracking-widest mb-1"
-                >
-                  Layer 2
-                </h4>
-                <h3 class="font-bold text-white">Orchestration (Agent 99 Router)</h3>
-                <p class="text-xs text-zinc-500 mt-2">
-                  Multi-model routing, dynamic intent decomposition, and **Agent 99 Self-Annealing** to extract operational wisdom and write to long-term memory.
-                </p>
-              </div>
-              <div
-                class="p-6 glass-surface rounded-2xl border border-white/5 hover:border-emerald-500/30 transition-all"
-              >
-                <h4
-                  class="text-emerald-400 font-mono text-[10px] uppercase tracking-widest mb-1"
-                >
-                  Layer 3
-                </h4>
-                <h3 class="font-bold text-white">
-                  Execution (Rust & FuturesUnordered)
-                </h3>
-                <p class="text-xs text-zinc-500 mt-2">
-                  Native Rust-powered tools and Model Context Protocol (MCP) skills. Runs parallel swarms safely with zero context decay.
-                </p>
-              </div>
-              <div
-                class="p-6 glass-surface rounded-2xl border border-white/5 hover:border-emerald-500/30 transition-all"
-              >
-                <h4
-                  class="text-emerald-400 font-mono text-[10px] uppercase tracking-widest mb-1"
-                >
-                  Knowledge Vault
-                </h4>
-                <h3 class="font-bold text-white">
-                  Institutional Memory (OKF & LanceDB)
-                </h3>
-                <p class="text-xs text-zinc-500 mt-2">
-                  Ingests playbooks and corporate SOPs in Markdown or JSON formatting. Embeds and indexes documents dynamically into the local Open Knowledge Foundation vector database for secure, cloud-free retrieval.
-                </p>
-              </div>
-            </div>
+    <!-- INTERACTIVE ARCHITECTURE EXPLORER HUD -->
+    <section class="glass-surface rounded-3xl border border-white/10 overflow-hidden shadow-2xl p-6 sm:p-10 space-y-8 scanline-bg glow-box-emerald">
+      <div class="flex flex-wrap items-center justify-between gap-4 border-b border-white/10 pb-6">
+        <div>
+          <div class="flex items-center gap-3">
+            <span class="text-2xl">⚙️</span>
+            <h2 class="text-2xl font-bold text-white font-outfit">Sovereign Protocol Core Stack</h2>
           </div>
-          <div class="relative group">
-            <div
-              class="absolute -inset-1 bg-gradient-to-tr from-emerald-500/20 to-zinc-500/20 blur-2xl opacity-25 group-hover:opacity-50 transition-opacity"
-            >
-            </div>
-            <div
-              class="relative glass-surface p-12 rounded-3xl overflow-hidden aspect-[4/5] flex flex-col justify-between bg-black/40 border border-white/10"
-            >
-              <img
-                src="/AI-Tadpole-OS-Marketing/assets/arch-bg.png"
-                alt="Architecture Background"
-                class="absolute inset-0 w-full h-full object-cover opacity-30 mix-blend-overlay"
-              />
+          <p class="text-xs text-zinc-400 mt-1 font-mono">
+            Click any component below to inspect runtime specs, data flows, and code contracts.
+          </p>
+        </div>
 
-              <!-- SVG Architecture Flowchart -->
-              <svg
-                viewBox="0 0 300 500"
-                class="relative z-10 w-full h-full drop-shadow-2xl"
-              >
-                <!-- Layer Blocks -->
-                <rect
-                  x="50"
-                  y="50"
-                  width="200"
-                  height="80"
-                  rx="4"
-                  fill="rgba(24, 24, 27, 0.8)"
-                  stroke="#3f3f46"
-                  stroke-width="1"></rect>
-                <rect
-                  x="50"
-                  y="210"
-                  width="200"
-                  height="80"
-                  rx="4"
-                  fill="rgba(24, 24, 27, 0.8)"
-                  stroke="#3f3f46"
-                  stroke-width="1"></rect>
-                <rect
-                  x="50"
-                  y="370"
-                  width="200"
-                  height="80"
-                  rx="4"
-                  fill="rgba(16, 185, 129, 0.1)"
-                  stroke="#10b981"
-                  stroke-width="1"></rect>
-
-                <!-- Connection Lines -->
-                <path
-                  d="M150 130 L150 210"
-                  stroke="#3f3f46"
-                  stroke-width="2"
-                  marker-end="url(#arrowhead)"></path>
-                <path
-                  d="M150 290 L150 370"
-                  stroke="#10b981"
-                  stroke-width="2"
-                  marker-end="url(#arrowhead)"
-                  class="neural-line"
-                  stroke-dasharray="10 10"></path>
-
-                <!-- Text Labels -->
-                <text
-                  x="150"
-                  y="95"
-                  text-anchor="middle"
-                  fill="#71717a"
-                  font-family="monospace"
-                  font-size="12">DIRECTIVE</text
-                >
-                <text
-                  x="150"
-                  y="255"
-                  text-anchor="middle"
-                  fill="#71717a"
-                  font-family="monospace"
-                  font-size="12">ORCHESTRATOR</text
-                >
-                <text
-                  x="150"
-                  y="415"
-                  text-anchor="middle"
-                  fill="#10b981"
-                  font-family="monospace"
-                  font-size="12"
-                  font-weight="bold">EXECUTION</text
-                >
-
-                <!-- Markers -->
-                <defs>
-                  <marker
-                    id="arrowhead"
-                    markerWidth="10"
-                    markerHeight="7"
-                    refX="0"
-                    refY="3.5"
-                    orient="auto"
-                  >
-                    <polygon points="0 0, 10 3.5, 0 7" fill="currentColor"
-                    ></polygon>
-                  </marker>
-                </defs>
-              </svg>
-            </div>
-          </div>
+        <div class="flex items-center gap-2 font-mono text-xs text-emerald-400 bg-emerald-500/10 px-3 py-1.5 rounded-xl border border-emerald-500/20">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+          <span>Version 1.1.307 Active</span>
         </div>
       </div>
 
-      <!-- POV: Manager (Oversight Flow) -->
-      <div
-        x-show="activeTab === 'manager'"
-        class="space-y-24 animate-in fade-in slide-in-from-bottom-8 duration-1000"
-      >
-        <div class="grid md:grid-cols-2 gap-16 items-center">
-          <div class="relative group order-2 md:order-1">
-            <div
-              class="absolute -inset-1 bg-gradient-to-tr from-emerald-500/20 to-zinc-500/20 blur-2xl opacity-25 group-hover:opacity-50 transition-opacity"
-            >
-            </div>
-            <div
-              class="relative glass-surface p-12 rounded-3xl overflow-hidden aspect-[4/5] flex flex-col items-center justify-center bg-black/40 border border-white/10"
-            >
-              <img
-                src="/AI-Tadpole-OS-Marketing/assets/gate-icon.png"
-                alt="Oversight Gate Icon"
-                class="w-64 h-64 mb-12 drop-shadow-[0_0_30px_rgba(16,185,129,0.2)]"
-              />
-
-              <div class="w-full space-y-4">
-                <div
-                  class="h-2 flex w-full bg-zinc-900 rounded-full overflow-hidden"
-                >
-                  <div
-                    class="h-full bg-emerald-500 data-pulse"
-                    style="width: 75%"
-                  >
-                  </div>
-                </div>
-                <div
-                  class="flex justify-between font-mono text-[8px] tracking-widest text-zinc-600 uppercase"
-                >
-                  <span>Input: Multi-Agent Intent</span>
-                  <span>Status: Pending Approval</span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="space-y-8 order-1 md:order-2">
-            <h2
-              class="text-4xl md:text-6xl font-bold text-white tracking-tight leading-tight"
-            >
-              The <br /><span class="text-emerald-500">Oversight Gate</span>
-            </h2>
-            <p class="text-zinc-400 font-light leading-relaxed text-lg">
-              Manage swarm complexity without losing control. The Oversight Gate
-              ensures every high-risk action is vetted by human intelligence.
-            </p>
-            <div class="space-y-6">
-              <div
-                class="flex gap-6 p-6 glass-surface rounded-2xl border-l-4 border-emerald-500 items-start"
-              >
-                <div
-                  class="w-10 h-10 rounded-full bg-zinc-900 flex items-center justify-center text-xl"
-                >
-                  ✋
-                </div>
-                <div>
-                  <h4 class="font-bold text-white">Manual Intervention</h4>
-                  <p class="text-sm text-zinc-500 mt-1">
-                    Actions are paused at the neural threshold until Entity 0
-                    (Manager) approves the execution path.
-                  </p>
-                </div>
-              </div>
-              <div
-                class="flex gap-6 p-6 glass-surface rounded-2xl border-l-4 border-zinc-700 items-start"
-              >
-                <div
-                  class="w-10 h-10 rounded-full bg-zinc-900 flex items-center justify-center text-xl"
-                >
-                  📊
-                </div>
-                <div>
-                  <h4 class="font-bold text-white">Real-Time Telemetry</h4>
-                  <p class="text-sm text-zinc-500 mt-1">
-                    Watch agents work in real-time. Full visibility into every
-                    thought, tool call, and result.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- POV: Executive (The Moat) -->
-      <div
-        x-show="activeTab === 'exec'"
-        class="space-y-24 animate-in fade-in slide-in-from-bottom-8 duration-1000"
-      >
-        <div class="grid md:grid-cols-2 gap-16 items-center">
-          <div class="space-y-8">
-            <h2
-              class="text-4xl md:text-6xl font-bold text-white tracking-tight leading-tight"
-            >
-              The <br /><span class="text-emerald-500">Sovereign Moat</span>
-            </h2>
-            <p class="text-zinc-400 font-light leading-relaxed text-lg">
-              Owning your intelligence infrastructure is the ultimate
-              competitive advantage. Stop feeding your strategy to the generic
-              cloud.
-            </p>
-            <div class="grid grid-cols-2 gap-4">
-              <div class="p-6 glass-surface rounded-2xl text-center space-y-2">
-                <div class="text-2xl">☁️</div>
-                <h4
-                  class="text-zinc-500 font-mono text-[8px] uppercase tracking-widest"
-                >
-                  Generic Cloud
-                </h4>
-                <p class="text-white font-bold text-sm">Leaky Data</p>
-              </div>
-              <div
-                class="p-6 glass-surface rounded-2xl text-center space-y-2 border-emerald-500/50 bg-emerald-500/5"
-              >
-                <div class="text-2xl">🏰</div>
-                <h4
-                  class="text-emerald-400 font-mono text-[8px] uppercase tracking-widest"
-                >
-                  Swarm Bunker
-                </h4>
-                <p class="text-white font-bold text-sm">Sovereign Lock</p>
-              </div>
-            </div>
-            <p class="text-xs text-zinc-600 italic font-light">
-              "In 2026, the only companies that survive are those that own their
-              own brains."
-            </p>
-          </div>
-          <div class="relative group">
-            <div
-              class="absolute -inset-1 bg-gradient-to-tr from-emerald-500/20 to-zinc-500/20 blur-2xl opacity-25 group-hover:opacity-50 transition-opacity"
-            >
-            </div>
-            <div
-              class="relative glass-surface p-12 rounded-3xl overflow-hidden aspect-[4/5] flex flex-col items-center justify-center bg-black/40 border border-white/10"
-            >
-              <img
-                src="/AI-Tadpole-OS-Marketing/assets/moat-visual.png"
-                alt="AI Moat Visual"
-                class="absolute inset-0 w-full h-full object-cover opacity-40"
-              />
-              <div class="relative z-10 text-center space-y-4">
-                <div
-                  class="w-32 h-32 mx-auto rounded-full bg-emerald-500/10 border border-emerald-400 p-1 flex items-center justify-center relative"
-                >
-                  <div
-                    class="absolute inset-0 rounded-full border border-emerald-500/20 animate-ping"
-                  >
-                  </div>
-                  <span class="text-4xl">🔱</span>
-                </div>
-                <h3 class="text-2xl font-bold text-white tracking-tighter">
-                  Sovereignty: Absolute
-                </h3>
-                <p
-                  class="text-[10px] font-mono text-emerald-400 uppercase tracking-widest"
-                >
-                  Enterprise Fortress Level 10
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- POV: Employee (The Transformation) -->
-      <div
-        x-show="activeTab === 'employee'"
-        class="space-y-24 animate-in fade-in slide-in-from-bottom-8 duration-1000"
-      >
-        <div class="grid md:grid-cols-2 gap-16 items-center">
-          <div class="relative group order-2 md:order-1">
-            <div
-              class="absolute -inset-1 bg-gradient-to-tr from-emerald-500/20 to-zinc-500/20 blur-2xl opacity-25 group-hover:opacity-50 transition-opacity"
-            >
-            </div>
-            <div
-              class="relative glass-surface p-12 rounded-3xl overflow-hidden aspect-[4/5] flex flex-col justify-between bg-black/40 border border-white/10"
-            >
-              <div class="space-y-12">
-                <div class="space-y-2">
-                  <div
-                    class="flex justify-between text-[8px] font-mono text-zinc-700 uppercase"
-                  >
-                    <span>Manual Drudgery</span>
-                    <span>100% Volume</span>
-                  </div>
-                  <div
-                    class="h-1 w-full bg-zinc-900 rounded-full overflow-hidden"
-                  >
-                    <div class="h-full bg-zinc-700" style="width: 100%"></div>
-                  </div>
-                </div>
-                <div class="flex justify-center text-4xl animate-bounce">↓</div>
-                <div class="space-y-2">
-                  <div
-                    class="flex justify-between text-[8px] font-mono text-emerald-500 uppercase"
-                  >
-                    <span>Strategic Oversight</span>
-                    <span>100% Value</span>
-                  </div>
-                  <div
-                    class="h-1 w-full bg-zinc-900 rounded-full overflow-hidden"
-                  >
-                    <div class="h-full bg-emerald-500" style="width: 100%">
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="text-center">
-                <p class="text-xs text-zinc-500 italic">
-                  "Tadpole handles the volume, you handle the value."
-                </p>
-              </div>
-            </div>
-          </div>
-          <div class="space-y-8 order-1 md:order-2">
-            <h2
-              class="text-4xl md:text-6xl font-bold text-white tracking-tight leading-tight"
-            >
-              Shared <br /><span class="text-emerald-500">Prosperity</span>
-            </h2>
-            <p class="text-zinc-400 font-light leading-relaxed text-lg">
-              We build for the people who build the business. Transition from
-              manual workflows to overseeing a portfolio of AI specialists.
-            </p>
-            <div class="space-y-4">
-              <div
-                class="p-6 glass-surface rounded-2xl flex gap-6 items-center"
-              >
-                <div
-                  class="w-12 h-12 rounded-full border border-emerald-500/30 flex items-center justify-center text-xl bg-emerald-500/5"
-                >
-                  ⚡
-                </div>
-                <div class="flex-1">
-                  <h4 class="font-bold text-white">Infinite Leverage</h4>
-                  <p class="text-xs text-zinc-500">
-                    One employee can now manage a month's worth of documentation
-                    in an afternoon.
-                  </p>
-                </div>
-              </div>
-              <div
-                class="p-6 glass-surface rounded-2xl flex gap-6 items-center"
-              >
-                <div
-                  class="w-12 h-12 rounded-full border border-emerald-500/30 flex items-center justify-center text-xl bg-emerald-500/5"
-                >
-                  🎁
-                </div>
-                <div class="flex-1">
-                  <h4 class="font-bold text-white">Profit Sharing</h4>
-                  <p class="text-xs text-zinc-500">
-                    Growth driven by AI-Tadpole-OS is designed to reward the
-                    human workforce.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- SOVEREIGN ECOSYSTEM DEEP-DIVE -->
-    <section class="mt-48 space-y-24">
-      <div class="text-center space-y-4">
-        <h2 class="text-4xl md:text-6xl font-bold text-white tracking-tighter">
-          Sovereign <span class="text-zinc-600">Ecosystem</span>
-        </h2>
-        <p class="text-zinc-400 max-w-2xl mx-auto font-light leading-relaxed">
-          The technical foundation for enterprise-grade autonomous swarms.
-        </p>
-      </div>
-
-      <div class="grid md:grid-cols-3 gap-8">
-        <!-- Hardware Tiers -->
-        <div
-          class="glass-surface p-10 rounded-3xl border border-white/5 space-y-8 h-full bg-gradient-to-b from-white/[0.02] to-transparent"
+      <!-- Interactive 5-Component Architecture Pipeline -->
+      <div class="grid grid-cols-1 md:grid-cols-5 gap-3 font-mono text-xs">
+        <button
+          @click="selectedNode = 'directive'"
+          :class="selectedNode === 'directive' ? 'border-emerald-500 bg-emerald-500/15 shadow-[0_0_20px_rgba(16,185,129,0.2)] text-white' : 'border-white/10 bg-black/40 text-zinc-400 hover:border-white/20'"
+          class="p-4 rounded-2xl border text-left transition-all duration-200 space-y-2 relative overflow-hidden group"
         >
-          <div class="space-y-2">
-            <h3 class="text-xl font-bold text-white tracking-tighter uppercase">
-              Hardware Tiers
-            </h3>
-            <p
-              class="text-[10px] font-mono text-zinc-600 uppercase tracking-widest"
-            >
-              Scaling Footprint
-            </p>
+          <div class="text-[10px] text-emerald-400 font-bold uppercase tracking-widest">Layer 1</div>
+          <div class="text-sm font-bold text-white font-outfit">Directives SOP</div>
+          <div class="text-[11px] text-zinc-400 font-light">Markdown SOPs & YAML Parameters</div>
+        </button>
+
+        <button
+          @click="selectedNode = 'orchestration'"
+          :class="selectedNode === 'orchestration' ? 'border-purple-500 bg-purple-500/15 shadow-[0_0_20px_rgba(168,85,247,0.2)] text-white' : 'border-white/10 bg-black/40 text-zinc-400 hover:border-white/20'"
+          class="p-4 rounded-2xl border text-left transition-all duration-200 space-y-2 relative overflow-hidden group"
+        >
+          <div class="text-[10px] text-purple-400 font-bold uppercase tracking-widest">Layer 2</div>
+          <div class="text-sm font-bold text-white font-outfit">Agent 99 Router</div>
+          <div class="text-[11px] text-zinc-400 font-light">Tri-Slot Fallback & Swarm Hierarchy</div>
+        </button>
+
+        <button
+          @click="selectedNode = 'execution'"
+          :class="selectedNode === 'execution' ? 'border-cyan-500 bg-cyan-500/15 shadow-[0_0_20px_rgba(6,182,212,0.2)] text-white' : 'border-white/10 bg-black/40 text-zinc-400 hover:border-white/20'"
+          class="p-4 rounded-2xl border text-left transition-all duration-200 space-y-2 relative overflow-hidden group"
+        >
+          <div class="text-[10px] text-cyan-400 font-bold uppercase tracking-widest">Layer 3</div>
+          <div class="text-sm font-bold text-white font-outfit">Rust Core Engine</div>
+          <div class="text-[11px] text-zinc-400 font-light">Axum/Tokio & FuturesUnordered</div>
+        </button>
+
+        <button
+          @click="selectedNode = 'governance'"
+          :class="selectedNode === 'governance' ? 'border-amber-500 bg-amber-500/15 shadow-[0_0_20px_rgba(245,158,11,0.2)] text-white' : 'border-white/10 bg-black/40 text-zinc-400 hover:border-white/20'"
+          class="p-4 rounded-2xl border text-left transition-all duration-200 space-y-2 relative overflow-hidden group"
+        >
+          <div class="text-[10px] text-amber-400 font-bold uppercase tracking-widest">Governance</div>
+          <div class="text-sm font-bold text-white font-outfit">Sapphire Shield</div>
+          <div class="text-[11px] text-zinc-400 font-light">Zero-Trust HITL & Merkle Proofs</div>
+        </button>
+
+        <button
+          @click="selectedNode = 'memory'"
+          :class="selectedNode === 'memory' ? 'border-blue-500 bg-blue-500/15 shadow-[0_0_20px_rgba(59,130,246,0.2)] text-white' : 'border-white/10 bg-black/40 text-zinc-400 hover:border-white/20'"
+          class="p-4 rounded-2xl border text-left transition-all duration-200 space-y-2 relative overflow-hidden group"
+        >
+          <div class="text-[10px] text-blue-400 font-bold uppercase tracking-widest">Memory Store</div>
+          <div class="text-sm font-bold text-white font-outfit">LanceDB GraphRAG</div>
+          <div class="text-[11px] text-zinc-400 font-light">IKS Vectors & 768-dim Embeddings</div>
+        </button>
+      </div>
+
+      <!-- Node Technical Spec Detail Card -->
+      <div class="p-6 sm:p-8 rounded-2xl bg-zinc-950/90 border border-white/10 space-y-6">
+        <div class="flex flex-wrap items-center justify-between gap-4 border-b border-white/10 pb-4">
+          <div class="flex items-center gap-3">
+            <span class="text-3xl" x-text="nodes[selectedNode].icon"></span>
+            <div>
+              <h3 class="text-2xl font-bold text-white font-outfit" x-text="nodes[selectedNode].title"></h3>
+              <p class="text-xs font-mono text-emerald-400" x-text="nodes[selectedNode].subTitle"></p>
+            </div>
           </div>
-          <div class="space-y-6">
-            <div
-              class="flex justify-between items-center pb-4 border-b border-white/5"
-            >
-              <span class="text-zinc-400 font-light text-sm">Micro (Demo)</span>
-              <span class="text-white font-mono text-[10px]"
-                >1GB RAM / 1 vCPU</span
-              >
-            </div>
-            <div
-              class="flex justify-between items-center pb-4 border-b border-white/5"
-            >
-              <span class="text-zinc-400 font-light text-sm"
-                >Standard (Bunker)</span
-              >
-              <span class="text-white font-mono text-[10px]"
-                >2GB RAM / 2 vCPU</span
-              >
-            </div>
-            <div
-              class="flex justify-between items-center pb-4 border-b border-white/5"
-            >
-              <span class="text-emerald-500 font-bold text-sm"
-                >Robust (PRO)</span
-              >
-              <span class="text-emerald-500 font-mono text-[10px]"
-                >8GB RAM / 4 vCPU+</span
-              >
-            </div>
-          </div>
+
+          <span class="px-3 py-1 rounded-full bg-white/5 border border-white/10 font-mono text-xs text-zinc-300 font-bold" x-text="nodes[selectedNode].badge"></span>
         </div>
 
-        <!-- Model Registry -->
-        <div
-          class="glass-surface p-10 rounded-3xl border border-white/5 space-y-8 h-full bg-gradient-to-b from-white/[0.02] to-transparent"
-        >
-          <div class="space-y-2">
-            <h3 class="text-xl font-bold text-white tracking-tighter uppercase">
-              Provider Support
-            </h3>
-            <p
-              class="text-[10px] font-mono text-zinc-600 uppercase tracking-widest"
-            >
-              Neural Diversity
-            </p>
-          </div>
-          <div class="space-y-4">
-            <div
-              class="p-4 bg-black/40 rounded-xl border border-white/5 flex gap-4 items-center"
-            >
-              <span class="text-2xl">⚡</span>
-              <div>
-                <p class="text-white text-xs font-bold">Groq & Google</p>
-                <p class="text-[8px] text-zinc-500 uppercase font-mono">
-                  Ultra-low latency reasoning nodes
-                </p>
-              </div>
-            </div>
-            <div
-              class="p-4 bg-black/40 rounded-xl border border-white/5 flex gap-4 items-center"
-            >
-              <span class="text-2xl">🌐</span>
-              <div>
-                <p class="text-white text-xs font-bold">Local-Core (Ollama)</p>
-                <p class="text-[8px] text-zinc-500 uppercase font-mono">
-                  100% Offline AI Security Shield
-                </p>
-              </div>
-            </div>
-            <div
-              class="p-4 bg-black/40 rounded-xl border border-white/5 flex gap-4 items-center"
-            >
-              <span class="text-2xl">🦾</span>
-              <div>
-                <p class="text-white text-xs font-bold">Unified MCP Provider</p>
-                <p class="text-[8px] text-emerald-400 uppercase font-mono">
-                  Standardized cross-platform tool calls
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
+        <p class="text-base text-zinc-300 font-light leading-relaxed" x-text="nodes[selectedNode].description"></p>
 
-        <!-- Agent Roster -->
-        <div
-          class="glass-surface p-10 rounded-3xl border border-white/5 space-y-8 h-full bg-gradient-to-b from-white/[0.02] to-transparent"
-        >
-          <div class="space-y-2">
-            <h3 class="text-xl font-bold text-white tracking-tighter uppercase">
-              Core Roster
-            </h3>
-            <p
-              class="text-[10px] font-mono text-zinc-600 uppercase tracking-widest"
-            >
-              Specialized Nodes
-            </p>
+        <div class="grid md:grid-cols-2 gap-6">
+          <div class="space-y-3 font-mono text-xs">
+            <div class="text-zinc-500 font-bold uppercase text-[10px] tracking-wider">Key Engineering Specifications</div>
+            <template x-for="(spec, sIdx) in nodes[selectedNode].specs" :key="sIdx">
+              <div class="flex justify-between items-center py-2 border-b border-white/5">
+                <span class="text-zinc-400" x-text="spec.label"></span>
+                <span class="text-white font-bold" x-text="spec.val"></span>
+              </div>
+            </template>
           </div>
-          <div class="space-y-6">
-            <div class="flex gap-4 items-start">
-              <div class="w-2 h-2 rounded-full bg-emerald-500 mt-2"></div>
-              <div>
-                <h4 class="text-white text-sm font-bold">
-                  Agent of Nine (ID 1)
-                </h4>
-                <p class="text-[10px] text-zinc-500 font-light">
-                  The supreme strategic orchestrator and mission lead.
-                </p>
-              </div>
-            </div>
-            <div class="flex gap-4 items-start">
-              <div class="w-2 h-2 rounded-full bg-zinc-700 mt-2"></div>
-              <div>
-                <h4 class="text-zinc-400 text-sm font-bold">Tadpole (ID 2)</h4>
-                <p class="text-[10px] text-zinc-600 font-light">
-                  Operational coordinator and primary swarm dispatcher.
-                </p>
-              </div>
-            </div>
-            <div class="flex gap-4 items-start">
-              <div class="w-2 h-2 rounded-full bg-zinc-700 mt-2"></div>
-              <div>
-                <h4 class="text-zinc-400 text-sm font-bold">Elon (ID 3)</h4>
-                <p class="text-[10px] text-zinc-600 font-light">
-                  Hardened Engineering and Architecture Alpha node.
-                </p>
-              </div>
-            </div>
+
+          <div class="space-y-2">
+            <div class="text-zinc-500 font-mono text-[10px] font-bold uppercase tracking-wider">Architecture Code Contract</div>
+            <pre class="p-4 rounded-xl bg-black border border-white/10 font-mono text-xs text-emerald-300 overflow-x-auto leading-relaxed" x-text="nodes[selectedNode].code"></pre>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Final Infrastructure Stats -->
-    <section
-      class="mt-48 grid md:grid-cols-4 gap-8 border-t border-white/5 pt-24"
-    >
-      <div class="text-center space-y-2">
-        <h4 class="text-4xl font-bold text-white tracking-tighter">O(1)</h4>
-        <p
-          class="text-[10px] font-mono text-zinc-600 uppercase tracking-widest"
-        >
-          Swarm Startup
+    <!-- SECTION 2: AUDIENCE PERSPECTIVES (IT, MANAGER, EXECUTIVE, OPERATOR) -->
+    <section class="space-y-12">
+      <div class="text-center space-y-4 max-w-2xl mx-auto">
+        <h2 class="text-4xl sm:text-5xl font-extrabold text-white font-outfit">
+          Operational Perspectives
+        </h2>
+        <p class="text-zinc-400 font-light leading-relaxed">
+          Select a role to see how AI-Tadpole-OS transforms security, governance, EBITDA protection, and daily execution.
         </p>
       </div>
-      <div class="text-center space-y-2">
-        <h4 class="text-4xl font-bold text-white tracking-tighter">46+</h4>
-        <p
-          class="text-[10px] font-mono text-zinc-600 uppercase tracking-widest"
+
+      <!-- Tab Buttons -->
+      <div class="flex flex-wrap justify-center gap-3 font-mono text-xs">
+        <button
+          @click="activePerspective = 'it'"
+          :class="activePerspective === 'it' ? 'bg-emerald-500 text-zinc-950 font-bold border-emerald-400 shadow-[0_0_20px_rgba(16,185,129,0.3)]' : 'bg-black/40 text-zinc-400 border-white/10 hover:border-white/20'"
+          class="px-6 py-3 rounded-xl border uppercase tracking-wider transition-all"
         >
-          Specialized Swarms
-        </p>
+          🛡️ IT & Infrastructure
+        </button>
+        <button
+          @click="activePerspective = 'manager'"
+          :class="activePerspective === 'manager' ? 'bg-emerald-500 text-zinc-950 font-bold border-emerald-400 shadow-[0_0_20px_rgba(16,185,129,0.3)]' : 'bg-black/40 text-zinc-400 border-white/10 hover:border-white/20'"
+          class="px-6 py-3 rounded-xl border uppercase tracking-wider transition-all"
+        >
+          📊 Operations Manager
+        </button>
+        <button
+          @click="activePerspective = 'exec'"
+          :class="activePerspective === 'exec' ? 'bg-emerald-500 text-zinc-950 font-bold border-emerald-400 shadow-[0_0_20px_rgba(16,185,129,0.3)]' : 'bg-black/40 text-zinc-400 border-white/10 hover:border-white/20'"
+          class="px-6 py-3 rounded-xl border uppercase tracking-wider transition-all"
+        >
+          🏰 C-Suite Executive
+        </button>
+        <button
+          @click="activePerspective = 'operator'"
+          :class="activePerspective === 'operator' ? 'bg-emerald-500 text-zinc-950 font-bold border-emerald-400 shadow-[0_0_20px_rgba(16,185,129,0.3)]' : 'bg-black/40 text-zinc-400 border-white/10 hover:border-white/20'"
+          class="px-6 py-3 rounded-xl border uppercase tracking-wider transition-all"
+        >
+          ⚡ Operator Employee
+        </button>
       </div>
-      <div class="text-center space-y-2">
-        <h4 class="text-4xl font-bold text-emerald-500 tracking-tighter">
-          0.0
-        </h4>
-        <p
-          class="text-[10px] font-mono text-zinc-600 uppercase tracking-widest"
-        >
-          Memory Violations
-        </p>
-      </div>
-      <div class="text-center space-y-2">
-        <h4 class="text-4xl font-bold text-white tracking-tighter">100%</h4>
-        <p
-          class="text-[10px] font-mono text-zinc-600 uppercase tracking-widest"
-        >
-          Data Ownership
-        </p>
+
+      <!-- Perspective Content Cards -->
+      <div class="glass-surface p-8 sm:p-12 rounded-3xl border border-white/10 bg-black/40">
+        <!-- IT Perspective -->
+        <div x-show="activePerspective === 'it'" class="grid md:grid-cols-2 gap-12 items-center animate-fadeIn">
+          <div class="space-y-6">
+            <span class="px-3 py-1 rounded bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 font-mono text-xs font-bold uppercase">
+              Zero-Trust IT Security
+            </span>
+            <h3 class="text-3xl font-bold text-white font-outfit">Air-Gapped Local Security & Merkle Audits</h3>
+            <p class="text-zinc-300 font-light leading-relaxed">
+              IT departments maintain 100% control over execution boundaries. All external network access can be disabled via the **Hard Privacy Gate**, while every single tool call generates an immutable Merkle-tree audit receipt logged in SQLite + LanceDB storage.
+            </p>
+            <div class="space-y-3 font-mono text-xs">
+              <div class="p-3 rounded-xl bg-zinc-950 border border-white/5 flex items-center justify-between">
+                <span class="text-zinc-400">Zero Cloud Data Exfiltration</span>
+                <span class="text-emerald-400 font-bold">100% Air-Gapped Option</span>
+              </div>
+              <div class="p-3 rounded-xl bg-zinc-950 border border-white/5 flex items-center justify-between">
+                <span class="text-zinc-400">Active Documentation Guard (ADG)</span>
+                <span class="text-cyan-400 font-bold">Symbol Gate Enforcement</span>
+              </div>
+              <div class="p-3 rounded-xl bg-zinc-950 border border-white/5 flex items-center justify-between">
+                <span class="text-zinc-400">Audit Ledger Integrity</span>
+                <span class="text-purple-400 font-bold">OBLITERATUS Cryptographic Trail</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="rounded-2xl overflow-hidden border border-white/10 shadow-2xl">
+            <img src={`${basePath}/assets/real_os_oversight.png`} alt="IT Security Controls" class="w-full h-auto object-cover" />
+          </div>
+        </div>
+
+        <!-- Manager Perspective -->
+        <div x-show="activePerspective === 'manager'" class="grid md:grid-cols-2 gap-12 items-center animate-fadeIn">
+          <div class="space-y-6">
+            <span class="px-3 py-1 rounded bg-purple-500/10 border border-purple-500/30 text-purple-400 font-mono text-xs font-bold uppercase">
+              Operational Governance
+            </span>
+            <h3 class="text-3xl font-bold text-white font-outfit">Continuous Telemetry & Human-In-The-Loop</h3>
+            <p class="text-zinc-300 font-light leading-relaxed">
+              Managers gain complete visibility over multi-agent workflows with **10Hz MessagePack telemetry streams** and WebSocket HITL gates. High-risk capabilities (`shell:execute`, `budget:spend`) are frozen until signed by management.
+            </p>
+            <div class="space-y-3 font-mono text-xs">
+              <div class="p-3 rounded-xl bg-zinc-950 border border-white/5 flex items-center justify-between">
+                <span class="text-zinc-400">Swarm Pulse Frequency</span>
+                <span class="text-emerald-400 font-bold">10Hz Binary Stream</span>
+              </div>
+              <div class="p-3 rounded-xl bg-zinc-950 border border-white/5 flex items-center justify-between">
+                <span class="text-zinc-400">Sapphire Shield Intercept</span>
+                <span class="text-amber-400 font-bold">WebSocket HITL Prompt</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="rounded-2xl overflow-hidden border border-white/10 shadow-2xl">
+            <img src={`${basePath}/assets/real_os_dashboard.png`} alt="Operations Dashboard" class="w-full h-auto object-cover" />
+          </div>
+        </div>
+
+        <!-- Executive Perspective -->
+        <div x-show="activePerspective === 'exec'" class="grid md:grid-cols-2 gap-12 items-center animate-fadeIn">
+          <div class="space-y-6">
+            <span class="px-3 py-1 rounded bg-amber-500/10 border border-amber-500/30 text-amber-400 font-mono text-xs font-bold uppercase">
+              Enterprise EBITDA Moat
+            </span>
+            <h3 class="text-3xl font-bold text-white font-outfit">Sovereignty as the Ultimate Enterprise Advantage</h3>
+            <p class="text-zinc-300 font-light leading-relaxed">
+              By deploying Tadpole OS locally on hardware nodes, enterprises eliminate API vendor lock-in, protect proprietary trade secrets, and expand EBITDA margins through autonomous swarm scaling.
+            </p>
+            <div class="grid grid-cols-2 gap-4 font-mono text-xs">
+              <div class="p-4 rounded-xl bg-zinc-950 border border-emerald-500/30 text-center space-y-1">
+                <div class="text-2xl text-emerald-400 font-bold">100%</div>
+                <div class="text-zinc-400 text-[10px]">Data & IP Ownership</div>
+              </div>
+              <div class="p-4 rounded-xl bg-zinc-950 border border-cyan-500/30 text-center space-y-1">
+                <div class="text-2xl text-cyan-400 font-bold">0 $</div>
+                <div class="text-zinc-400 text-[10px]">Cloud API Exfiltration Risk</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="rounded-2xl overflow-hidden border border-white/10 shadow-2xl">
+            <img src={`${basePath}/assets/moat-visual.png`} alt="Sovereign Moat" class="w-full h-auto object-cover" />
+          </div>
+        </div>
+
+        <!-- Operator Perspective -->
+        <div x-show="activePerspective === 'operator'" class="grid md:grid-cols-2 gap-12 items-center animate-fadeIn">
+          <div class="space-y-6">
+            <span class="px-3 py-1 rounded bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 font-mono text-xs font-bold uppercase">
+              Supercharged Workforce
+            </span>
+            <h3 class="text-3xl font-bold text-white font-outfit">Transition from Manual Drudgery to Swarm Director</h3>
+            <p class="text-zinc-300 font-light leading-relaxed">
+              Operators turn routine SOPs into executable Markdown directives (`directives/`), multiplying individual output by 10x to 100x while maintaining full human oversight over execution outcomes.
+            </p>
+            <div class="p-4 rounded-xl bg-zinc-950 border border-white/5 font-mono text-xs space-y-2 text-zinc-300">
+              <div class="text-emerald-400 font-bold">1 Employee + Tadpole Swarm = 50 Specialist Hours / Day</div>
+              <p class="text-zinc-500 text-[11px] font-light">Ingest playbooks, run parallel audits, and synthesize executive findings automatically.</p>
+            </div>
+          </div>
+
+          <div class="rounded-2xl overflow-hidden border border-white/10 shadow-2xl">
+            <img src={`${basePath}/assets/real_os_nodes.png`} alt="Operator Node Management" class="w-full h-auto object-cover" />
+          </div>
+        </div>
       </div>
     </section>
 
-    <!-- Call to Action -->
-    <section
-      class="mt-32 py-24 glass-surface rounded-3xl p-12 text-center space-y-8 relative overflow-hidden border border-emerald-500/10"
-    >
-      <div
-        class="absolute inset-0 bg-emerald-500/5 blur-3xl pointer-events-none"
-      >
-      </div>
-      <div class="space-y-4 relative">
-        <h2 class="text-3xl font-bold text-white">
-          Initiate Sovereign Operations
-        </h2>
-        <p class="text-zinc-400 max-w-xl mx-auto font-light">
-          Join the elite SMEs who own their own intelligence. Start your local
-          pilot today.
+    <!-- SECTION 3: TRI-SLOT MODEL ROUTER INTERACTIVE DEMO -->
+    <section class="glass-surface rounded-3xl border border-white/10 p-8 sm:p-12 space-y-8 bg-gradient-to-b from-black/60 to-zinc-950">
+      <div class="text-center space-y-3 max-w-3xl mx-auto">
+        <span class="px-3 py-1 rounded bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 font-mono text-xs font-bold uppercase">
+          Dynamic Redundancy Engine
+        </span>
+        <h2 class="text-3xl sm:text-4xl font-bold text-white font-outfit">Tri-Slot Model Routing Architecture</h2>
+        <p class="text-sm text-zinc-400 font-light leading-relaxed">
+          AI-Tadpole-OS decouples model selection from application logic. The engine automatically routes prompts across three fallback slots to guarantee 100% mission uptime.
         </p>
       </div>
-      <div
-        class="flex flex-col sm:flex-row items-center justify-center gap-4 relative"
-      >
-        <a
-          href="https://github.com/DDS-Solutions/AI-TadPole-OS"
-          class="w-full sm:w-auto px-10 py-4 bg-white text-zinc-950 font-bold rounded-xl hover:bg-zinc-200 transition-all hover:scale-105 active:scale-95 shadow-[0_0_20px_rgba(255,255,255,0.1)] text-sm"
-        >
-          Get Started
+
+      <div class="grid md:grid-cols-3 gap-6 font-mono text-xs">
+        <!-- Primary Slot -->
+        <div class="p-6 rounded-2xl bg-zinc-950 border border-emerald-500/40 space-y-4 shadow-[0_0_25px_rgba(16,185,129,0.1)]">
+          <div class="flex items-center justify-between">
+            <span class="text-emerald-400 font-bold uppercase text-[10px]">Slot 1: Primary</span>
+            <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
+          </div>
+          <h3 class="text-lg font-bold text-white font-outfit">Local Ollama Engine</h3>
+          <p class="text-zinc-400 text-xs font-light leading-relaxed">
+            Local qwen2.5-coder / llama3.3 models running air-gapped on hardware GPU/NPU acceleration.
+          </p>
+          <div class="p-3 rounded bg-black border border-white/5 text-[11px] text-emerald-300">
+            Latency: ~12ms | Cost: $0.00
+          </div>
+        </div>
+
+        <!-- Secondary Slot -->
+        <div class="p-6 rounded-2xl bg-zinc-950 border border-cyan-500/40 space-y-4 shadow-[0_0_25px_rgba(6,182,212,0.1)]">
+          <div class="flex items-center justify-between">
+            <span class="text-cyan-400 font-bold uppercase text-[10px]">Slot 2: Secondary</span>
+            <span class="w-2.5 h-2.5 rounded-full bg-cyan-400"></span>
+          </div>
+          <h3 class="text-lg font-bold text-white font-outfit">Groq Ultra-Speed LPU</h3>
+          <p class="text-zinc-400 text-xs font-light leading-relaxed">
+            Ultra-fast cloud inference fallback (500+ tokens/sec) for complex multi-agent reasoning tasks.
+          </p>
+          <div class="p-3 rounded bg-black border border-white/5 text-[11px] text-cyan-300">
+            Latency: ~80ms | Fallback Ready
+          </div>
+        </div>
+
+        <!-- Tertiary Slot -->
+        <div class="p-6 rounded-2xl bg-zinc-950 border border-purple-500/40 space-y-4 shadow-[0_0_25px_rgba(168,85,247,0.1)]">
+          <div class="flex items-center justify-between">
+            <span class="text-purple-400 font-bold uppercase text-[10px]">Slot 3: Tertiary</span>
+            <span class="w-2.5 h-2.5 rounded-full bg-purple-400"></span>
+          </div>
+          <h3 class="text-lg font-bold text-white font-outfit">Google Gemini 1.5 Flash</h3>
+          <p class="text-zinc-400 text-xs font-light leading-relaxed">
+            Massive 2M token context window slot for large document ingestion & deep architectural synthesis.
+          </p>
+          <div class="p-3 rounded bg-black border border-white/5 text-[11px] text-purple-300">
+            Context: 2M Tokens | Sovereign Backup
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 4: PROTOCOL SPECIFICATIONS TABLE -->
+    <section class="space-y-8">
+      <div class="text-center space-y-3">
+        <h2 class="text-3xl font-bold text-white font-outfit">Core Protocol Performance Metrics</h2>
+        <p class="text-sm text-zinc-400 font-light">Verified metrics across Rust `server-rs` and Tauri desktop builds.</p>
+      </div>
+
+      <div class="glass-surface rounded-2xl border border-white/10 overflow-hidden font-mono text-xs">
+        <div class="grid grid-cols-3 bg-zinc-950 p-4 border-b border-white/10 text-zinc-400 font-bold uppercase text-[10px]">
+          <div>Component / Subsystem</div>
+          <div>Target Specification</div>
+          <div>Runtime Performance</div>
+        </div>
+        <div class="divide-y divide-white/5 bg-black/40 text-zinc-300">
+          <div class="grid grid-cols-3 p-4 items-center">
+            <div class="font-bold text-white">Swarm Pulse Telemetry</div>
+            <div>MessagePack over WebSockets</div>
+            <div class="text-emerald-400 font-bold">10Hz Stream (100ms interval)</div>
+          </div>
+          <div class="grid grid-cols-3 p-4 items-center">
+            <div class="font-bold text-white">Vector Search (LanceDB)</div>
+            <div>768-dim text-embedding-004</div>
+            <div class="text-cyan-400 font-bold">&lt; 8ms Nearest Neighbor</div>
+          </div>
+          <div class="grid grid-cols-3 p-4 items-center">
+            <div class="font-bold text-white">Active Doc Guard (ADG-01)</div>
+            <div>Symbol Gate Static Analysis</div>
+            <div class="text-purple-400 font-bold">100% Symbol Validation</div>
+          </div>
+          <div class="grid grid-cols-3 p-4 items-center">
+            <div class="font-bold text-white">Governance Authorization</div>
+            <div>Sapphire Shield HITL Gate</div>
+            <div class="text-amber-400 font-bold">Zero-Trust Merkle Proof</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="py-16 glass-surface rounded-3xl p-8 sm:p-12 text-center space-y-6 border border-emerald-500/20 bg-gradient-to-r from-emerald-500/5 to-cyan-500/5">
+      <h2 class="text-3xl sm:text-4xl font-extrabold text-white font-outfit">Ready to Deploy Sovereign Swarms?</h2>
+      <p class="text-zinc-400 max-w-xl mx-auto font-light text-sm">
+        Clone the runtime repository and start building autonomous, privacy-first multi-agent systems on your own hardware.
+      </p>
+      <div class="flex justify-center gap-4 pt-2 font-mono text-xs font-bold">
+        <a href="https://github.com/DDS-Solutions/AI-TadPole-OS" class="px-8 py-3.5 bg-white text-zinc-950 rounded-xl hover:bg-zinc-200 transition-all uppercase tracking-wider">
+          Clone Runtime Repo
+        </a>
+        <a href={`${basePath}/mission`} class="px-8 py-3.5 border border-white/20 bg-white/5 text-white rounded-xl hover:border-emerald-400 hover:text-emerald-300 transition-all uppercase tracking-wider">
+          Launch Mission Demo ➔
         </a>
       </div>
     </section>
-
-    <!-- Footer -->
-    <footer
-      class="mt-32 pt-12 border-t border-white/5 text-center space-y-4 pb-12"
-    >
-      <p class="text-zinc-600 font-mono text-[10px] tracking-[0.4em] uppercase">
-        © 2026 AI-Tadpole-OS | Sovereign Mechanics Trademarked
-      </p>
-    </footer>
   </main>
 
-  <!-- Script for Tab Logic -->
-  <script is:inline src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"
-  ></script>
+  <script is:inline>
+    function howItWorksPage() {
+      return {
+        selectedNode: 'directive',
+        activePerspective: 'it',
+
+        nodes: {
+          directive: {
+            icon: '📄',
+            title: 'Layer 1: Directive SOP Engine',
+            subTitle: 'Human Intent & SOP Source of Truth',
+            badge: 'Layer 1',
+            description: 'Directives are versioned Markdown SOP documents living in directives/. They define clear goals, parameters, tool bindings, and edge cases. Directives represent human intent—keeping AI agents grounded without probabilistic drift.',
+            specs: [
+              { label: 'File Storage Location', val: 'directives/*.md' },
+              { label: 'Metadata Schema', val: 'YAML Frontmatter' },
+              { label: 'Validation Protocol', val: 'ADG-01 Static Analysis' }
+            ],
+            code: `---
+name: "Security Audit Directive"
+version: "1.2.0"
+capabilities_required: ["shell:execute", "read_file"]
+---
+# Objective: Audit Rust FFI bindings for memory safety.`
+          },
+          orchestration: {
+            icon: '🧠',
+            title: 'Layer 2: Agent 99 Orchestrator',
+            subTitle: 'Swarm Commander & Tri-Slot Router',
+            badge: 'Layer 2',
+            description: 'Agent 99 acts as the master swarm orchestrator. It decomposes high-level SOP goals into subagent tasks, manages model routing across primary (Ollama), secondary (Groq), and tertiary (Gemini) slots, and writes to long-term memory via Self-Annealing loops.',
+            specs: [
+              { label: 'Swarm Commander', val: 'Agent 99 (ID 1)' },
+              { label: 'Model Fallback Routing', val: 'Tri-Slot Auto Failover' },
+              { label: 'Memory Retention', val: 'LONG_TERM_MEMORY.md' }
+            ],
+            code: `async fn route_task(prompt: &str) -> TaskPlan {
+    let model = router.select_primary().unwrap_or(router.fallback());
+    model.decompose_and_plan(prompt).await
+}`
+          },
+          execution: {
+            icon: '⚡',
+            title: 'Layer 3: Rust Core Engine',
+            subTitle: 'Axum, Tokio Async & FuturesUnordered',
+            badge: 'Layer 3',
+            description: 'The execution layer is built in high-performance Rust (server-rs). Tokio task loops run subagent tool execution in parallel using FuturesUnordered for sub-millisecond execution speeds with zero memory leaks.',
+            specs: [
+              { label: 'Web Server Framework', val: 'Axum (Async Tokio)' },
+              { label: 'Parallel Task Driver', val: 'FuturesUnordered' },
+              { label: 'Tool Interface Standard', val: 'Model Context Protocol (MCP)' }
+            ],
+            code: `let mut tasks = FuturesUnordered::new();
+for tool_call in tool_calls {
+    tasks.push(tokio::spawn(execute_mcp_tool(tool_call)));
+}`
+          },
+          governance: {
+            icon: '🛡️',
+            title: 'Sapphire Shield Zero-Trust Gate',
+            subTitle: 'Human-in-the-Loop & Merkle Proofs',
+            badge: 'Governance',
+            description: 'Zero-trust governance boundary protecting sensitive systems. Whenever an agent requests high-risk tool calls (such as shell execution or budget spending), execution is frozen until an Overlord signs a cryptographic Merkle-proof authorization.',
+            specs: [
+              { label: 'Gate Intercept Standard', val: 'WebSocket HITL' },
+              { label: 'Audit Proof Ledger', val: 'Merkle Hash (OBLITERATUS)' },
+              { label: 'Privacy Boundary', val: 'Hard Privacy Air-Gap' }
+            ],
+            code: `if tool.requires_approval() {
+    sapphire_shield.freeze_and_prompt(tool_name).await?;
+    let merkele_proof = overlord_signature.verify()?;
+}`
+          },
+          memory: {
+            icon: '🧠',
+            title: 'LanceDB GraphRAG Memory Store',
+            subTitle: 'Institutional Knowledge Store (IKS)',
+            badge: 'Memory Store',
+            description: 'Multi-modal vector database and entity-relationship graph. SOP playbooks, code symbols, and run histories are vectorized into local 768-dimensional embeddings for instantaneous, cloud-free GraphRAG context retrieval.',
+            specs: [
+              { label: 'Vector Database Engine', val: 'LanceDB Local' },
+              { label: 'Embedding Model', val: 'text-embedding-004' },
+              { label: 'Telemetry Privacy', val: 'Secret Scrubbing Active' }
+            ],
+            code: `let vector_store = LanceDb::connect("./.tmp/iks.db").await?;
+let context = vector_store.query_graph_rag(prompt_embedding).await?;`
+          }
+        }
+      };
+    }
+  </script>
+
+  <script is:inline src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </BaseLayout>

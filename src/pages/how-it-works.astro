@@ -30,9 +30,6 @@ const basePath = '/AI-Tadpole-OS-Marketing';
   .glow-box-emerald {
     box-shadow: 0 0 30px rgba(16, 185, 129, 0.15);
   }
-  .glow-box-cyan {
-    box-shadow: 0 0 30px rgba(6, 182, 212, 0.15);
-  }
 </style>
 
 <BaseLayout
@@ -80,9 +77,9 @@ const basePath = '/AI-Tadpole-OS-Marketing';
       <!-- Interactive 5-Component Architecture Pipeline -->
       <div class="grid grid-cols-1 md:grid-cols-5 gap-3 font-mono text-xs">
         <button
-          @click="selectedNode = 'directive'"
-          :class="selectedNode === 'directive' ? 'border-emerald-500 bg-emerald-500/15 shadow-[0_0_20px_rgba(16,185,129,0.2)] text-white' : 'border-white/10 bg-black/40 text-zinc-400 hover:border-white/20'"
-          class="p-4 rounded-2xl border text-left transition-all duration-200 space-y-2 relative overflow-hidden group"
+          @click="selectNode('directive')"
+          :class="getNodeClass('directive')"
+          class="p-4 rounded-2xl border text-left transition-all duration-200 space-y-2 relative overflow-hidden group cursor-pointer"
         >
           <div class="text-[10px] text-emerald-400 font-bold uppercase tracking-widest">Layer 1</div>
           <div class="text-sm font-bold text-white font-outfit">Directives SOP</div>
@@ -90,9 +87,9 @@ const basePath = '/AI-Tadpole-OS-Marketing';
         </button>
 
         <button
-          @click="selectedNode = 'orchestration'"
-          :class="selectedNode === 'orchestration' ? 'border-purple-500 bg-purple-500/15 shadow-[0_0_20px_rgba(168,85,247,0.2)] text-white' : 'border-white/10 bg-black/40 text-zinc-400 hover:border-white/20'"
-          class="p-4 rounded-2xl border text-left transition-all duration-200 space-y-2 relative overflow-hidden group"
+          @click="selectNode('orchestration')"
+          :class="getNodeClass('orchestration')"
+          class="p-4 rounded-2xl border text-left transition-all duration-200 space-y-2 relative overflow-hidden group cursor-pointer"
         >
           <div class="text-[10px] text-purple-400 font-bold uppercase tracking-widest">Layer 2</div>
           <div class="text-sm font-bold text-white font-outfit">Agent 99 Router</div>
@@ -100,9 +97,9 @@ const basePath = '/AI-Tadpole-OS-Marketing';
         </button>
 
         <button
-          @click="selectedNode = 'execution'"
-          :class="selectedNode === 'execution' ? 'border-cyan-500 bg-cyan-500/15 shadow-[0_0_20px_rgba(6,182,212,0.2)] text-white' : 'border-white/10 bg-black/40 text-zinc-400 hover:border-white/20'"
-          class="p-4 rounded-2xl border text-left transition-all duration-200 space-y-2 relative overflow-hidden group"
+          @click="selectNode('execution')"
+          :class="getNodeClass('execution')"
+          class="p-4 rounded-2xl border text-left transition-all duration-200 space-y-2 relative overflow-hidden group cursor-pointer"
         >
           <div class="text-[10px] text-cyan-400 font-bold uppercase tracking-widest">Layer 3</div>
           <div class="text-sm font-bold text-white font-outfit">Rust Core Engine</div>
@@ -110,9 +107,9 @@ const basePath = '/AI-Tadpole-OS-Marketing';
         </button>
 
         <button
-          @click="selectedNode = 'governance'"
-          :class="selectedNode === 'governance' ? 'border-amber-500 bg-amber-500/15 shadow-[0_0_20px_rgba(245,158,11,0.2)] text-white' : 'border-white/10 bg-black/40 text-zinc-400 hover:border-white/20'"
-          class="p-4 rounded-2xl border text-left transition-all duration-200 space-y-2 relative overflow-hidden group"
+          @click="selectNode('governance')"
+          :class="getNodeClass('governance')"
+          class="p-4 rounded-2xl border text-left transition-all duration-200 space-y-2 relative overflow-hidden group cursor-pointer"
         >
           <div class="text-[10px] text-amber-400 font-bold uppercase tracking-widest">Governance</div>
           <div class="text-sm font-bold text-white font-outfit">Sapphire Shield</div>
@@ -120,9 +117,9 @@ const basePath = '/AI-Tadpole-OS-Marketing';
         </button>
 
         <button
-          @click="selectedNode = 'memory'"
-          :class="selectedNode === 'memory' ? 'border-blue-500 bg-blue-500/15 shadow-[0_0_20px_rgba(59,130,246,0.2)] text-white' : 'border-white/10 bg-black/40 text-zinc-400 hover:border-white/20'"
-          class="p-4 rounded-2xl border text-left transition-all duration-200 space-y-2 relative overflow-hidden group"
+          @click="selectNode('memory')"
+          :class="getNodeClass('memory')"
+          class="p-4 rounded-2xl border text-left transition-all duration-200 space-y-2 relative overflow-hidden group cursor-pointer"
         >
           <div class="text-[10px] text-blue-400 font-bold uppercase tracking-widest">Memory Store</div>
           <div class="text-sm font-bold text-white font-outfit">LanceDB GraphRAG</div>
@@ -179,30 +176,30 @@ const basePath = '/AI-Tadpole-OS-Marketing';
       <!-- Tab Buttons -->
       <div class="flex flex-wrap justify-center gap-3 font-mono text-xs">
         <button
-          @click="activePerspective = 'it'"
-          :class="activePerspective === 'it' ? 'bg-emerald-500 text-zinc-950 font-bold border-emerald-400 shadow-[0_0_20px_rgba(16,185,129,0.3)]' : 'bg-black/40 text-zinc-400 border-white/10 hover:border-white/20'"
-          class="px-6 py-3 rounded-xl border uppercase tracking-wider transition-all"
+          @click="selectPerspective('it')"
+          :class="getPerspectiveClass('it')"
+          class="px-6 py-3 rounded-xl border uppercase tracking-wider transition-all cursor-pointer"
         >
           🛡️ IT & Infrastructure
         </button>
         <button
-          @click="activePerspective = 'manager'"
-          :class="activePerspective === 'manager' ? 'bg-emerald-500 text-zinc-950 font-bold border-emerald-400 shadow-[0_0_20px_rgba(16,185,129,0.3)]' : 'bg-black/40 text-zinc-400 border-white/10 hover:border-white/20'"
-          class="px-6 py-3 rounded-xl border uppercase tracking-wider transition-all"
+          @click="selectPerspective('manager')"
+          :class="getPerspectiveClass('manager')"
+          class="px-6 py-3 rounded-xl border uppercase tracking-wider transition-all cursor-pointer"
         >
           📊 Operations Manager
         </button>
         <button
-          @click="activePerspective = 'exec'"
-          :class="activePerspective === 'exec' ? 'bg-emerald-500 text-zinc-950 font-bold border-emerald-400 shadow-[0_0_20px_rgba(16,185,129,0.3)]' : 'bg-black/40 text-zinc-400 border-white/10 hover:border-white/20'"
-          class="px-6 py-3 rounded-xl border uppercase tracking-wider transition-all"
+          @click="selectPerspective('exec')"
+          :class="getPerspectiveClass('exec')"
+          class="px-6 py-3 rounded-xl border uppercase tracking-wider transition-all cursor-pointer"
         >
           🏰 C-Suite Executive
         </button>
         <button
-          @click="activePerspective = 'operator'"
-          :class="activePerspective === 'operator' ? 'bg-emerald-500 text-zinc-950 font-bold border-emerald-400 shadow-[0_0_20px_rgba(16,185,129,0.3)]' : 'bg-black/40 text-zinc-400 border-white/10 hover:border-white/20'"
-          class="px-6 py-3 rounded-xl border uppercase tracking-wider transition-all"
+          @click="selectPerspective('operator')"
+          :class="getPerspectiveClass('operator')"
+          class="px-6 py-3 rounded-xl border uppercase tracking-wider transition-all cursor-pointer"
         >
           ⚡ Operator Employee
         </button>
@@ -438,6 +435,28 @@ const basePath = '/AI-Tadpole-OS-Marketing';
       return {
         selectedNode: 'directive',
         activePerspective: 'it',
+
+        selectNode(key) {
+          this.selectedNode = key;
+        },
+
+        selectPerspective(key) {
+          this.activePerspective = key;
+        },
+
+        getNodeClass(key) {
+          if (this.selectedNode === key) {
+            return 'border-emerald-500 bg-emerald-500/20 text-white font-bold shadow-lg';
+          }
+          return 'border-white/10 bg-black/40 text-zinc-400 hover:border-white/20';
+        },
+
+        getPerspectiveClass(key) {
+          if (this.activePerspective === key) {
+            return 'bg-emerald-500 text-zinc-950 font-bold border-emerald-400 shadow-lg';
+          }
+          return 'bg-black/40 text-zinc-400 border-white/10 hover:border-white/20';
+        },
 
         nodes: {
           directive: {

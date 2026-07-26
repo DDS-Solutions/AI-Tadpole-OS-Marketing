@@ -95,11 +95,12 @@ const screenshots = [
       <img
         src={`${basePath}/assets/real_os_dashboard.png`}
         alt="AI-Tadpole-OS Real Dashboard"
-        class="absolute inset-0 h-full w-full object-cover opacity-20"
+        class="absolute inset-0 h-full w-full object-cover opacity-20 cursor-pointer"
         loading="eager"
+        @click={`openLightbox('${basePath}/assets/real_os_dashboard.png')`}
       />
-      <div class="absolute inset-0 bg-[linear-gradient(90deg,#09090b_0%,rgba(9,9,11,0.92)_42%,rgba(9,9,11,0.62)_100%)]"></div>
-      <div class="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-zinc-950 to-transparent"></div>
+      <div class="absolute inset-0 bg-[linear-gradient(90deg,#09090b_0%,rgba(9,9,11,0.92)_42%,rgba(9,9,11,0.62)_100%)] pointer-events-none"></div>
+      <div class="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-zinc-950 to-transparent pointer-events-none"></div>
 
       <div class="relative mx-auto flex min-h-[calc(88vh-7rem)] max-w-7xl flex-col justify-center px-5 py-16 sm:px-8">
         <div class="max-w-4xl space-y-8">
@@ -202,8 +203,15 @@ const screenshots = [
                   <img
                     src={shot.src}
                     alt={shot.title}
-                    class="w-full h-auto object-cover group-hover:scale-[1.02] transition-transform duration-500"
+                    class="w-full h-auto object-cover group-hover:scale-[1.02] transition-transform duration-500 cursor-pointer"
+                    @click={`openLightbox('${shot.src}')`}
                   />
+                  <button
+                    @click={`openLightbox('${shot.src}')`}
+                    class="absolute bottom-3 right-3 bg-zinc-950/85 hover:bg-zinc-950 border border-white/20 text-white px-3 py-1.5 rounded-lg text-xs font-mono flex items-center gap-1.5 opacity-90 hover:opacity-100 transition-all backdrop-blur shadow-lg cursor-pointer"
+                  >
+                    <span>🔍 Zoom Full Resolution</span>
+                  </button>
                 </div>
                 <div>
                   <h3 class="font-bold text-white text-lg font-outfit">{shot.title}</h3>
@@ -245,11 +253,42 @@ const screenshots = [
       </div>
     </section>
 
+    <!-- LIGHTBOX MODAL FOR FULL RESOLUTION SCREENSHOTS -->
+    <div
+      x-show="lightboxOpen"
+      x-transition:enter="transition ease-out duration-300"
+      x-transition:enter-start="opacity-0 scale-95"
+      x-transition:enter-end="opacity-100 scale-100"
+      x-transition:leave="transition ease-in duration-200"
+      x-transition:leave-start="opacity-100 scale-100"
+      x-transition:leave-end="opacity-0 scale-95"
+      class="fixed inset-0 z-50 bg-black/90 backdrop-blur-xl flex items-center justify-center p-4 sm:p-8"
+      @click.self="lightboxOpen = false"
+      @keydown.escape.window="lightboxOpen = false"
+    >
+      <div class="relative max-w-6xl max-h-[90vh] w-full flex flex-col items-center">
+        <button
+          @click="lightboxOpen = false"
+          class="absolute -top-12 right-0 text-zinc-400 hover:text-white font-mono text-sm uppercase px-3 py-1 bg-white/10 rounded-lg border border-white/10 cursor-pointer"
+        >
+          ✕ Close Full Screen
+        </button>
+        <img :src="lightboxImg" class="max-h-[85vh] w-auto object-contain rounded-xl border border-white/20 shadow-2xl" />
+      </div>
+    </div>
+
   </main>
 
   <script is:inline>
     function homepage() {
-      return {};
+      return {
+        lightboxOpen: false,
+        lightboxImg: '',
+        openLightbox(imgUrl) {
+          this.lightboxImg = imgUrl;
+          this.lightboxOpen = true;
+        }
+      };
     }
   </script>
 </BaseLayout>

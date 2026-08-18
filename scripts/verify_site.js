@@ -87,7 +87,15 @@ const requiredAssets = [
   'assets/real_os_nodes.png',
   'assets/real_os_oversight.png',
   'assets/real_os_templates.png',
-  'assets/industry_templates_catalog.png'
+  'assets/industry_templates_catalog.png',
+  'assets/moat-visual.png',
+  'assets/program-logo.png',
+  'assets/real_mission/step1_initial_state.png',
+  'assets/real_mission/step2_neural_proposal.png',
+  'assets/real_mission/step3_execution_started.png',
+  'assets/real_mission/step4_execution_streaming.png',
+  'assets/real_mission/step5_execution_paused.png',
+  'assets/real_mission/step6_execution_resumed.png'
 ];
 
 requiredAssets.forEach(asset => {

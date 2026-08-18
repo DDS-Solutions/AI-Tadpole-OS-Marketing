@@ -26,7 +26,7 @@ pages.forEach(page => {
   }
 });
 
-// 2. Verify Crucial Target IDs in index.html
+// 2. Verify crucial target IDs in index.html
 const indexPath = path.join(distDir, 'index.html');
 if (fs.existsSync(indexPath)) {
   const indexHtml = fs.readFileSync(indexPath, 'utf-8');
@@ -41,7 +41,47 @@ if (fs.existsSync(indexPath)) {
   });
 }
 
-// 3. Verify Key Image Assets
+// 3. Verify every page has an accessible main-content target and contains no
+// unrendered Markdown or dependency on the previous remote Alpine CDN.
+pages.forEach(page => {
+  const filePath = path.join(distDir, page);
+  if (!fs.existsSync(filePath)) return;
+
+  const html = fs.readFileSync(filePath, 'utf-8');
+  if (!html.includes('id="main"')) {
+    console.error(`  ❌ MISSING MAIN TARGET: dist/${page}`);
+    errors++;
+  } else {
+    console.log(`  ✓ Main Content Target Exists: dist/${page}`);
+  }
+
+  if (html.includes('**')) {
+    console.error(`  ❌ UNRENDERED MARKDOWN: dist/${page}`);
+    errors++;
+  } else {
+    console.log(`  ✓ No Unrendered Markdown: dist/${page}`);
+  }
+
+  if (html.includes('unpkg.com/alpinejs')) {
+    console.error(`  ❌ REMOTE ALPINE CDN FOUND: dist/${page}`);
+    errors++;
+  } else {
+    console.log(`  ✓ Alpine Bundled Locally: dist/${page}`);
+  }
+});
+
+const llmsPath = path.join(distDir, 'llms.txt');
+if (fs.existsSync(llmsPath)) {
+  const llms = fs.readFileSync(llmsPath, 'utf-8');
+  if (llms.includes('223 specialized agent roles across 25 industry template collections')) {
+    console.log('  ✓ Template Catalog Claim Is Aligned: dist/llms.txt');
+  } else {
+    console.error('  ❌ OUTDATED TEMPLATE CATALOG CLAIM: dist/llms.txt');
+    errors++;
+  }
+}
+
+// 4. Verify key image assets
 const requiredAssets = [
   'assets/real_os_dashboard.png',
   'assets/real_os_nodes.png',

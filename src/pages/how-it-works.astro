@@ -42,6 +42,7 @@ const basePath = "/AI-Tadpole-OS-Marketing";
   description="Deep-dive into the AI-Tadpole-OS technical architecture: 3-layer orchestration stack, Rust Axum/Tokio execution engine, Sapphire Shield zero-trust HITL gate, and LanceDB GraphRAG memory."
 >
   <main
+    id="main"
     class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 py-20 md:py-28 space-y-24"
     x-data="howItWorksPage()"
   >
@@ -64,9 +65,10 @@ const basePath = "/AI-Tadpole-OS-Marketing";
       <p
         class="text-base sm:text-lg text-zinc-400 font-light leading-relaxed max-w-2xl mx-auto"
       >
-        A comprehensive technical deep-dive into the sovereign engine: **3-Layer
-        Separation of Concerns**, **Axum/Tokio Async Execution**, **Sapphire
-        Shield Governance**, and **LanceDB GraphRAG Memory**.
+        A comprehensive technical deep-dive into the sovereign engine:
+        <strong>3-Layer Separation of Concerns</strong>, <strong>Axum/Tokio
+        Async Execution</strong>, <strong>Sapphire Shield Governance</strong>,
+        and <strong>LanceDB GraphRAG Memory</strong>.
       </p>
     </header>
 
@@ -94,7 +96,7 @@ const basePath = "/AI-Tadpole-OS-Marketing";
           class="flex items-center gap-2 font-mono text-xs text-emerald-400 bg-emerald-500/10 px-3 py-1.5 rounded-xl border border-emerald-500/20"
         >
           <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-          <span>Version 1.1.307 Active</span>
+          <span>Version 1.1.427 Reference</span>
         </div>
       </div>
 
@@ -323,10 +325,10 @@ const basePath = "/AI-Tadpole-OS-Marketing";
               Air-Gapped Local Security & Merkle Audits
             </h3>
             <p class="text-zinc-300 font-light leading-relaxed">
-              IT departments maintain 100% control over execution boundaries.
-              All external network access can be disabled via the **Hard Privacy
-              Gate**, while every single tool call generates an immutable
-              Merkle-tree audit receipt logged in SQLite + LanceDB storage.
+              IT departments define execution boundaries. When configured for
+              air-gapped operation, the <strong>Hard Privacy Gate</strong> can
+              disable external network access while tool activity is recorded
+              for audit review.
             </p>
             <div class="space-y-3 font-mono text-xs">
               <div
@@ -334,7 +336,7 @@ const basePath = "/AI-Tadpole-OS-Marketing";
               >
                 <span class="text-zinc-400">Zero Cloud Data Exfiltration</span>
                 <span class="text-emerald-400 font-bold"
-                  >100% Air-Gapped Option</span
+                  >Air-Gapped Mode</span
                 >
               </div>
               <div
@@ -391,10 +393,11 @@ const basePath = "/AI-Tadpole-OS-Marketing";
               Continuous Telemetry & Human-In-The-Loop
             </h3>
             <p class="text-zinc-300 font-light leading-relaxed">
-              Managers gain complete visibility over multi-agent workflows with
-              **10Hz MessagePack telemetry streams** and WebSocket HITL gates.
-              High-risk capabilities (`shell:execute`, `budget:spend`) are
-              frozen until signed by management.
+              Managers gain visibility over multi-agent workflows with
+              <strong>10Hz MessagePack telemetry streams</strong> and WebSocket
+              HITL gates. High-risk capabilities such as
+              <code>shell:execute</code> and <code>budget:spend</code> require
+              management approval.
             </p>
             <div class="space-y-3 font-mono text-xs">
               <div
@@ -505,8 +508,8 @@ const basePath = "/AI-Tadpole-OS-Marketing";
             </h3>
             <p class="text-zinc-300 font-light leading-relaxed">
               Operators turn routine SOPs into executable Markdown directives
-              (`directives/`), multiplying individual output by 10x to 100x
-              while maintaining full human oversight over execution outcomes.
+              in <code>directives/</code>, supporting scaled work while
+              maintaining human oversight over execution outcomes.
             </p>
             <div
               class="p-4 rounded-xl bg-zinc-950 border border-white/5 font-mono text-xs space-y-2 text-zinc-300"
@@ -556,8 +559,8 @@ const basePath = "/AI-Tadpole-OS-Marketing";
         </h2>
         <p class="text-sm text-zinc-400 font-light leading-relaxed">
           AI-Tadpole-OS decouples model selection from application logic. The
-          engine automatically routes prompts across three fallback slots to
-          guarantee 100% mission uptime.
+          engine can route prompts across three fallback slots to improve
+          resilience when a provider or model is unavailable.
         </p>
       </div>
 
@@ -644,7 +647,8 @@ const basePath = "/AI-Tadpole-OS-Marketing";
           Core Protocol Performance Metrics
         </h2>
         <p class="text-sm text-zinc-400 font-light">
-          Verified metrics across Rust `server-rs` and Tauri desktop builds.
+          Representative runtime targets for the Rust <code>server-rs</code>
+          and Tauri desktop builds.
         </p>
       </div>
 
@@ -674,7 +678,7 @@ const basePath = "/AI-Tadpole-OS-Marketing";
           <div class="grid grid-cols-3 p-4 items-center">
             <div class="font-bold text-white">Active Doc Guard (ADG-01)</div>
             <div>Symbol Gate Static Analysis</div>
-            <div class="text-purple-400 font-bold">100% Symbol Validation</div>
+            <div class="text-purple-400 font-bold">Symbol Gate Validation</div>
           </div>
           <div class="grid grid-cols-3 p-4 items-center">
             <div class="font-bold text-white">Governance Authorization</div>
@@ -723,8 +727,11 @@ const basePath = "/AI-Tadpole-OS-Marketing";
       x-transition:leave-start="opacity-100 scale-100"
       x-transition:leave-end="opacity-0 scale-95"
       class="fixed inset-0 z-[100] bg-black/95 backdrop-blur-2xl flex flex-col items-center justify-center p-4 sm:p-6"
-      @click="lightboxOpen = false"
-      @keydown.escape.window="lightboxOpen = false"
+      @click="closeLightbox()"
+      @keydown.escape.window="closeLightbox()"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="architecture-lightbox-title"
     >
       <!-- Top Floating Controls Header -->
       <div
@@ -732,7 +739,7 @@ const basePath = "/AI-Tadpole-OS-Marketing";
         @click.stop
       >
         <div class="flex items-center gap-2 text-zinc-400">
-          <span class="text-emerald-400 font-bold"
+          <span id="architecture-lightbox-title" class="text-emerald-400 font-bold"
             >🔍 High-Resolution Preview</span
           >
           <span class="text-zinc-600">|</span>
@@ -740,7 +747,8 @@ const basePath = "/AI-Tadpole-OS-Marketing";
         </div>
 
         <button
-          @click="lightboxOpen = false"
+          @click="closeLightbox()"
+          x-ref="closeButton"
           class="px-4 py-2 bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-bold rounded-xl border border-emerald-400 shadow-xl transition-all hover:scale-105 active:scale-95 cursor-pointer flex items-center gap-2"
         >
           <span>✕</span> Close Full Screen
@@ -769,9 +777,16 @@ const basePath = "/AI-Tadpole-OS-Marketing";
 
         lightboxOpen: false,
         lightboxImg: "",
+        lastFocusedElement: null,
         openLightbox(imgUrl) {
+          this.lastFocusedElement = document.activeElement;
           this.lightboxImg = imgUrl;
           this.lightboxOpen = true;
+          this.$nextTick(() => this.$refs.closeButton?.focus());
+        },
+        closeLightbox() {
+          this.lightboxOpen = false;
+          this.$nextTick(() => this.lastFocusedElement?.focus());
         },
 
         selectNode(key) {
@@ -842,7 +857,7 @@ capabilities_required: ["shell:execute", "read_file"]
             subTitle: "Axum, Tokio Async & FuturesUnordered",
             badge: "Layer 3",
             description:
-              "The execution layer is built in high-performance Rust (server-rs). Tokio task loops run subagent tool execution in parallel using FuturesUnordered for sub-millisecond execution speeds with zero memory leaks.",
+              "The execution layer is built in high-performance Rust (server-rs). Tokio task loops run subagent tool execution in parallel using FuturesUnordered for concurrent, low-latency execution.",
             specs: [
               { label: "Web Server Framework", val: "Axum (Async Tokio)" },
               { label: "Parallel Task Driver", val: "FuturesUnordered" },
@@ -893,6 +908,4 @@ let context = vector_store.query_graph_rag(prompt_embedding).await?;`,
     }
   </script>
 
-  <script is:inline src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"
-  ></script>
 </BaseLayout>

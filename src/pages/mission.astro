@@ -37,6 +37,7 @@ const basePath = '/AI-Tadpole-OS-Marketing';
   description="Explore authentic screenshots and step-by-step walkthrough of the AI-Tadpole-OS mission runtime, captured directly from the live React desktop engine."
 >
   <main
+    id="main"
     class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 py-20 md:py-28 space-y-20"
     x-data="missionPage()"
   >
@@ -50,7 +51,8 @@ const basePath = '/AI-Tadpole-OS-Marketing';
         Sovereign Swarm <span class="bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400 bg-clip-text text-transparent">Missions</span>
       </h1>
       <p class="text-base sm:text-lg text-zinc-400 font-light leading-relaxed max-w-2xl mx-auto">
-        Step inside the authentic **Tadpole OS Runtime** captured live from <code class="text-emerald-400 font-mono text-xs bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">http://localhost:5173/missions</code>. 
+        Step inside the authentic <strong>Tadpole OS Runtime</strong> captured
+        from <code class="text-emerald-400 font-mono text-xs bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">http://localhost:5173/missions</code>.
         Witness multi-agent orchestration, OTel neural traces, and zero-trust execution controls.
       </p>
     </header>
@@ -192,19 +194,23 @@ const basePath = '/AI-Tadpole-OS-Marketing';
       x-transition:leave-start="opacity-100 scale-100"
       x-transition:leave-end="opacity-0 scale-95"
       class="fixed inset-0 z-[100] bg-black/95 backdrop-blur-2xl flex flex-col items-center justify-center p-4 sm:p-6"
-      @click="lightboxOpen = false"
-      @keydown.escape.window="lightboxOpen = false"
+      @click="closeLightbox()"
+      @keydown.escape.window="closeLightbox()"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="mission-lightbox-title"
     >
       <!-- Top Floating Controls Header -->
       <div class="w-full max-w-6xl flex items-center justify-between pb-4 font-mono text-xs z-10" @click.stop>
         <div class="flex items-center gap-2 text-zinc-400">
-          <span class="text-emerald-400 font-bold">🔍 High-Resolution Preview</span>
+          <span id="mission-lightbox-title" class="text-emerald-400 font-bold">🔍 High-Resolution Preview</span>
           <span class="text-zinc-600">|</span>
           <span class="text-zinc-500">Press ESC or click anywhere to exit</span>
         </div>
 
         <button
-          @click="lightboxOpen = false"
+          @click="closeLightbox()"
+          x-ref="closeButton"
           class="px-4 py-2 bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-bold rounded-xl border border-emerald-400 shadow-xl transition-all hover:scale-105 active:scale-95 cursor-pointer flex items-center gap-2"
         >
           <span>✕</span> Close Full Screen
@@ -229,14 +235,21 @@ const basePath = '/AI-Tadpole-OS-Marketing';
         currentSlide: 0,
         autoPlay: true,
         autoPlayProgress: 0,
-        autoPlayTimer: null,
         progressTimer: null,
+        keyHandler: null,
 
         lightboxOpen: false,
         lightboxImg: '',
+        lastFocusedElement: null,
         openLightbox(imgUrl) {
+          this.lastFocusedElement = document.activeElement;
           this.lightboxImg = imgUrl;
           this.lightboxOpen = true;
+          this.$nextTick(() => this.$refs.closeButton?.focus());
+        },
+        closeLightbox() {
+          this.lightboxOpen = false;
+          this.$nextTick(() => this.lastFocusedElement?.focus());
         },
 
         basePath: '/AI-Tadpole-OS-Marketing',
@@ -286,13 +299,13 @@ const basePath = '/AI-Tadpole-OS-Marketing';
             badge: 'Phase 4: Neural Trace Stream',
             title: 'OTel Neural Trace Waterfall Stream',
             image: '/AI-Tadpole-OS-Marketing/assets/real_mission/step4_execution_streaming.png',
-            description: 'The OpenTelemetry (OTel) waterfall trace panel provides sub-millisecond visibility into subagent tool calls, memory indexing, and token scrubbing during high-speed execution.',
+            description: 'The OpenTelemetry (OTel) waterfall trace panel provides detailed visibility into subagent tool calls, memory indexing, and token scrubbing during execution.',
             metrics: [
               { label: 'Trace Granularity', value: 'Observe-Call-Audit' },
-              { label: 'Token Scrubbing', value: '100% Real-Time' },
+              { label: 'Token Scrubbing', value: 'Real-Time' },
               { label: 'Subagent Concurrency', value: 'Parallel Futures' }
             ],
-            logSnippet: '<span class="text-purple-400">[OTEL]</span> Trace ID 0x8f3a2b1c attached. Subagent execution 100% verified.'
+            logSnippet: '<span class="text-purple-400">[OTEL]</span> Trace ID 0x8f3a2b1c attached. Subagent execution trace available.'
           },
           {
             shortTitle: 'Zero-Trust Gate',
@@ -303,7 +316,7 @@ const basePath = '/AI-Tadpole-OS-Marketing';
             metrics: [
               { label: 'Gate Intercept Status', value: 'Operations Paused' },
               { label: 'Sapphire Shield', value: 'Armed & Freezing' },
-              { label: 'State Isolation', value: '100% Air-Gapped' }
+              { label: 'State Isolation', value: 'Air-Gapped Mode' }
             ],
             logSnippet: '<span class="text-amber-400">[PAUSE]</span> ⏸️ Strategic Command operations paused by manual override.'
           },
@@ -324,10 +337,16 @@ const basePath = '/AI-Tadpole-OS-Marketing';
 
         init() {
           this.startAutoPlayTimer();
-          window.addEventListener('keydown', (e) => {
+          this.keyHandler = (e) => {
             if (e.key === 'ArrowLeft') this.prevSlide();
             if (e.key === 'ArrowRight') this.nextSlide();
-          });
+          };
+          window.addEventListener('keydown', this.keyHandler);
+        },
+
+        destroy() {
+          this.clearAutoPlayTimers();
+          if (this.keyHandler) window.removeEventListener('keydown', this.keyHandler);
         },
 
         setSlide(idx) {
@@ -380,10 +399,10 @@ const basePath = '/AI-Tadpole-OS-Marketing';
 
         clearAutoPlayTimers() {
           if (this.progressTimer) clearInterval(this.progressTimer);
+          this.progressTimer = null;
         }
       };
     }
   </script>
 
-  <script is:inline src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </BaseLayout>

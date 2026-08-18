@@ -15,7 +15,7 @@ AI-Tadpole-OS (Tadpole OS) separates directives, orchestration, and execution in
 - **Agent Orchestration**: Swarm coordination at 10Hz frequency heartbeat.
 - **Agent Intelligence**: Self-annealing, self-debugging loop designed for runtime stability.
 - **Private Memory & RAG**: LanceDB vector database and SQLite indexing mapping the Open Knowledge Foundation (OKF) specification for structured institutional knowledge.
-- **Templates Ecosystem**: Visual Swarm Architect tool and 46+ specialized pre-configured swarms across 23+ industries.
+- **Templates Ecosystem**: Visual Swarm Architect tool and 223 specialized agent roles across 25 industry template collections.
 - **Safety & Security**: Sapphire Shield zero-trust capability gates requiring human Overlord approval, strict local-first data sandboxing, and OBLITERATUS hard reset/Merkle trail verification.
 
 ## Marketing Site Sitemap

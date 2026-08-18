@@ -26,6 +26,8 @@
 </div>
 
 <script>
+  let cleanupTelemetry = () => {};
+
   const logs = [
     "RECURSIVE_SWARM: Spawning sub-agent [Legal_4]...",
     "NEURAL_MEMORY: Syncing LanceDB vector segments...",
@@ -42,23 +44,25 @@
   ];
 
   function initTelemetry() {
+    cleanupTelemetry();
+
     const hud = document.getElementById('telemetry-hud');
     const logContainer = document.getElementById('telemetry-log');
     if (!hud || !logContainer) return;
 
-    // Reset if already running (for page transitions)
     logContainer.innerHTML = '';
     let logIndex = 0;
     let timeoutId: number | null = null;
+    let isActive = true;
 
-    // Show HUD after delay
-    setTimeout(() => {
+    const showTimer = window.setTimeout(() => {
+      if (!isActive) return;
       hud.classList.remove('translate-y-32', 'opacity-0', 'pointer-events-none');
       hud.classList.add('translate-y-0', 'opacity-100');
     }, 1500);
 
     function addLog() {
-      if (!logContainer) return;
+      if (!isActive) return;
 
       const entry = document.createElement('div');
       entry.className = 'opacity-0 translate-x-2 transition-all duration-400 border-l border-emerald-500/20 pl-2 py-0.5';
@@ -89,18 +93,20 @@
       timeoutId = window.setTimeout(addLog, 1500 + Math.random() * 4000);
     }
 
-    // Start logs after HUD starts appearing
-    setTimeout(addLog, 2000);
-    
-    // Cleanup on page hide
-    document.addEventListener('astro:before-preparation', () => {
-        if (timeoutId) clearTimeout(timeoutId);
-    }, { once: true });
+    const startTimer = window.setTimeout(addLog, 2000);
+
+    cleanupTelemetry = () => {
+      isActive = false;
+      window.clearTimeout(showTimer);
+      window.clearTimeout(startTimer);
+      if (timeoutId) window.clearTimeout(timeoutId);
+    };
   }
 
   // Support for both initial load and view transitions
   document.addEventListener('DOMContentLoaded', initTelemetry);
   document.addEventListener('astro:page-load', initTelemetry);
+  document.addEventListener('astro:before-preparation', () => cleanupTelemetry());
 </script>
 
 <style>

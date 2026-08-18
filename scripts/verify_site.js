@@ -94,6 +94,7 @@ const requiredAssets = [
   'assets/real_mission/step2_neural_proposal.png',
   'assets/real_mission/step3_execution_started.png',
   'assets/real_mission/step4_execution_streaming.png',
+  'assets/real_mission/step5_oversight_zero_trust_gate.png',
   'assets/real_mission/step5_execution_paused.png',
   'assets/real_mission/step6_execution_resumed.png'
 ];

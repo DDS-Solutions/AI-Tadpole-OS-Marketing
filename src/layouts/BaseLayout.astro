@@ -1,5 +1,4 @@
 ---
-import TelemetryHUD from "../components/TelemetryHUD.astro";
 import { ClientRouter } from "astro:transitions";
 
 interface Props {
@@ -524,6 +523,5 @@ const basePath = "/AI-Tadpole-OS-Marketing";
       document.addEventListener("astro:page-load", onPageLoad);
       document.addEventListener("astro:before-preparation", cleanupVisuals);
     </script>
-    <TelemetryHUD />
   </body>
 </html>

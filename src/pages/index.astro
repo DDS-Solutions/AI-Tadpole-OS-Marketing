@@ -647,25 +647,4 @@ const screenshots = [
       </div>
     </div>
   </main>
-
-  <script is:inline>
-    function homepage() {
-      return {
-        lightboxOpen: false,
-        lightboxImg: "",
-        lastFocusedElement: null,
-        openLightbox(imgUrl) {
-          this.lastFocusedElement = document.activeElement;
-          this.lightboxImg = imgUrl;
-          this.lightboxOpen = true;
-          this.$nextTick(() => this.$refs.closeButton?.focus());
-        },
-        closeLightbox() {
-          this.lightboxOpen = false;
-          this.$nextTick(() => this.lastFocusedElement?.focus());
-        },
-      };
-    }
-  </script>
-
 </BaseLayout>

@@ -250,9 +250,19 @@ const basePath = "/AI-Tadpole-OS-Marketing";
 
     <script>
       import Alpine from "alpinejs";
+      import { registerAlpineComponents } from "../scripts/alpine-stores";
 
-      window.Alpine = Alpine;
-      Alpine.start();
+      declare global {
+        interface Window {
+          Alpine: any;
+        }
+      }
+
+      if (!window.Alpine) {
+        window.Alpine = Alpine;
+        registerAlpineComponents(Alpine);
+        Alpine.start();
+      }
 
       let cleanups: (() => void)[] = [];
 
@@ -499,8 +509,15 @@ const basePath = "/AI-Tadpole-OS-Marketing";
         cleanups = [];
       }
 
-      document.addEventListener("DOMContentLoaded", setupVisuals);
-      document.addEventListener("astro:page-load", setupVisuals);
+      function onPageLoad() {
+        setupVisuals();
+        if (window.Alpine) {
+          window.Alpine.initTree(document.body);
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", onPageLoad);
+      document.addEventListener("astro:page-load", onPageLoad);
       document.addEventListener("astro:before-preparation", cleanupVisuals);
     </script>
     <TelemetryHUD />

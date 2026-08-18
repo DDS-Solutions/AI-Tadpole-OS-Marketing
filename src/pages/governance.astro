@@ -4,6 +4,9 @@ const basePath = '/AI-Tadpole-OS-Marketing';
 ---
 
 <style>
+  [x-cloak] {
+    display: none !important;
+  }
   .font-mono-code {
     font-family: "JetBrains Mono", monospace;
   }
@@ -53,44 +56,52 @@ const basePath = '/AI-Tadpole-OS-Marketing';
       <!-- Nav Tabs -->
       <div class="grid grid-cols-2 md:grid-cols-4 gap-3 font-mono text-xs" role="tablist" aria-label="Governance sections">
         <button
+          id="tab-overlord"
           @click="activeTab = 'overlord'"
           role="tab"
+          aria-controls="panel-overlord"
           :aria-selected="activeTab === 'overlord'"
           :class="activeTab === 'overlord' ? 'border-emerald-500 bg-emerald-500/15 text-white font-bold' : 'border-white/10 bg-black/40 text-zinc-400 hover:border-white/20'"
-          class="p-4 rounded-2xl border text-left transition-all duration-200 space-y-1"
+          class="p-4 rounded-2xl border text-left transition-all duration-200 space-y-1 cursor-pointer"
         >
           <div class="text-[10px] text-emerald-400 uppercase font-bold tracking-widest">Section I</div>
           <div class="text-sm font-bold text-white font-outfit">The Overlord (Entity 0)</div>
         </button>
 
         <button
+          id="tab-sovereignty"
           @click="activeTab = 'sovereignty'"
           role="tab"
+          aria-controls="panel-sovereignty"
           :aria-selected="activeTab === 'sovereignty'"
           :class="activeTab === 'sovereignty' ? 'border-cyan-500 bg-cyan-500/15 text-white font-bold' : 'border-white/10 bg-black/40 text-zinc-400 hover:border-white/20'"
-          class="p-4 rounded-2xl border text-left transition-all duration-200 space-y-1"
+          class="p-4 rounded-2xl border text-left transition-all duration-200 space-y-1 cursor-pointer"
         >
           <div class="text-[10px] text-cyan-400 uppercase font-bold tracking-widest">Section II</div>
           <div class="text-sm font-bold text-white font-outfit">Sovereign Execution</div>
         </button>
 
         <button
+          id="tab-sapphire"
           @click="activeTab = 'sapphire'"
           role="tab"
+          aria-controls="panel-sapphire"
           :aria-selected="activeTab === 'sapphire'"
           :class="activeTab === 'sapphire' ? 'border-amber-500 bg-amber-500/15 text-white font-bold' : 'border-white/10 bg-black/40 text-zinc-400 hover:border-white/20'"
-          class="p-4 rounded-2xl border text-left transition-all duration-200 space-y-1"
+          class="p-4 rounded-2xl border text-left transition-all duration-200 space-y-1 cursor-pointer"
         >
           <div class="text-[10px] text-amber-400 uppercase font-bold tracking-widest">Section III</div>
           <div class="text-sm font-bold text-white font-outfit">Sapphire Shield Gate</div>
         </button>
 
         <button
+          id="tab-scaling"
           @click="activeTab = 'scaling'"
           role="tab"
+          aria-controls="panel-scaling"
           :aria-selected="activeTab === 'scaling'"
           :class="activeTab === 'scaling' ? 'border-purple-500 bg-purple-500/15 text-white font-bold' : 'border-white/10 bg-black/40 text-zinc-400 hover:border-white/20'"
-          class="p-4 rounded-2xl border text-left transition-all duration-200 space-y-1"
+          class="p-4 rounded-2xl border text-left transition-all duration-200 space-y-1 cursor-pointer"
         >
           <div class="text-[10px] text-purple-400 uppercase font-bold tracking-widest">Section IV</div>
           <div class="text-sm font-bold text-white font-outfit">Scalability & EBITDA Moat</div>
@@ -101,7 +112,17 @@ const basePath = '/AI-Tadpole-OS-Marketing';
       <div class="p-6 sm:p-8 rounded-2xl bg-zinc-950/90 border border-white/10 space-y-8">
         
         <!-- SECTION I: OVERLORD -->
-        <div x-show="activeTab === 'overlord'" class="space-y-6 animate-fadeIn">
+        <div
+          x-show="activeTab === 'overlord'"
+          id="panel-overlord"
+          role="tabpanel"
+          aria-labelledby="tab-overlord"
+          x-cloak
+          x-transition:enter="transition ease-out duration-300"
+          x-transition:enter-start="opacity-0 translate-y-2"
+          x-transition:enter-end="opacity-100 translate-y-0"
+          class="space-y-6"
+        >
           <div class="flex items-center gap-3 border-b border-white/10 pb-4">
             <span class="text-3xl">👑</span>
             <div>
@@ -140,7 +161,17 @@ const basePath = '/AI-Tadpole-OS-Marketing';
         </div>
 
         <!-- SECTION II: SOVEREIGN EXECUTION -->
-        <div x-show="activeTab === 'sovereignty'" class="space-y-6 animate-fadeIn">
+        <div
+          x-show="activeTab === 'sovereignty'"
+          id="panel-sovereignty"
+          role="tabpanel"
+          aria-labelledby="tab-sovereignty"
+          x-cloak
+          x-transition:enter="transition ease-out duration-300"
+          x-transition:enter-start="opacity-0 translate-y-2"
+          x-transition:enter-end="opacity-100 translate-y-0"
+          class="space-y-6"
+        >
           <div class="flex items-center gap-3 border-b border-white/10 pb-4">
             <span class="text-3xl">🏰</span>
             <div>
@@ -172,7 +203,17 @@ const basePath = '/AI-Tadpole-OS-Marketing';
         </div>
 
         <!-- SECTION III: SAPPHIRE SHIELD -->
-        <div x-show="activeTab === 'sapphire'" class="space-y-6 animate-fadeIn">
+        <div
+          x-show="activeTab === 'sapphire'"
+          id="panel-sapphire"
+          role="tabpanel"
+          aria-labelledby="tab-sapphire"
+          x-cloak
+          x-transition:enter="transition ease-out duration-300"
+          x-transition:enter-start="opacity-0 translate-y-2"
+          x-transition:enter-end="opacity-100 translate-y-0"
+          class="space-y-6"
+        >
           <div class="flex items-center gap-3 border-b border-white/10 pb-4">
             <span class="text-3xl">🛡️</span>
             <div>
@@ -186,9 +227,17 @@ const basePath = '/AI-Tadpole-OS-Marketing';
             Any dynamic capability escalation freezes the runtime instantly until signed with an immutable <strong>Merkle-Proof Audit Receipt</strong>.
           </p>
 
-          <div class="p-4 rounded-xl bg-black border border-white/10 font-mono text-xs space-y-2 text-zinc-300">
-            <div class="text-amber-400 font-bold uppercase text-[10px]">Sample Merkle Proof Audit Contract</div>
-            <pre class="text-emerald-400 leading-relaxed overflow-x-auto p-2 bg-zinc-950 rounded">
+          <div class="rounded-2xl overflow-hidden border border-white/10 bg-black font-mono text-xs shadow-2xl space-y-0">
+            <div class="px-4 py-2.5 bg-zinc-900/90 border-b border-white/10 flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-red-500/80"></span>
+                <span class="w-2.5 h-2.5 rounded-full bg-amber-500/80"></span>
+                <span class="w-2.5 h-2.5 rounded-full bg-emerald-500/80"></span>
+                <span class="text-zinc-400 text-[11px] ml-2 font-mono">merkle_audit_proof.json</span>
+              </div>
+              <span class="text-amber-400 text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded bg-amber-500/10 border border-amber-500/20">Immutable Merkle Receipt</span>
+            </div>
+            <pre class="text-emerald-400 leading-relaxed overflow-x-auto p-4 bg-zinc-950/70 font-mono text-xs select-all">
 &#123;
   "governance_version": "1.2.1",
   "capability_requested": "shell:execute",
@@ -200,7 +249,17 @@ const basePath = '/AI-Tadpole-OS-Marketing';
         </div>
 
         <!-- SECTION IV: SCALABILITY & EBITDA MOAT -->
-        <div x-show="activeTab === 'scaling'" class="space-y-6 animate-fadeIn">
+        <div
+          x-show="activeTab === 'scaling'"
+          id="panel-scaling"
+          role="tabpanel"
+          aria-labelledby="tab-scaling"
+          x-cloak
+          x-transition:enter="transition ease-out duration-300"
+          x-transition:enter-start="opacity-0 translate-y-2"
+          x-transition:enter-end="opacity-100 translate-y-0"
+          class="space-y-6"
+        >
           <div class="flex items-center gap-3 border-b border-white/10 pb-4">
             <span class="text-3xl">🔱</span>
             <div>

@@ -21,6 +21,7 @@ const lightboxMixin = () => ({
 
   closeLightbox() {
     this.lightboxOpen = false;
+    this.lightboxImg = '';
     (this as unknown as AlpineComponent).$nextTick(() => {
       this.lastFocusedElement?.focus();
     });

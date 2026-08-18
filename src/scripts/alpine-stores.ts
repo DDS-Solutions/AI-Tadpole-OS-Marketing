@@ -219,95 +219,101 @@ export function registerAlpineComponents(Alpine: any) {
 
     nodes: {
       directive: {
-        icon: '📄',
-        title: 'Layer 1: Directive SOP Engine',
-        subTitle: 'Human Intent & SOP Source of Truth',
-        badge: 'Layer 1',
+        icon: "📜",
+        title: "Directives SOP",
+        subTitle: "Layer 1: Instruction Set",
+        badge: "INPUT_LAYER",
         description:
-          'Directives are versioned Markdown SOP documents living in directives/. They define clear goals, parameters, tool bindings, and edge cases. Directives represent human intent—keeping AI agents grounded without probabilistic drift.',
+          "The entry point of the sovereign engine. Directives are authored in Markdown and YAML, ensuring that business logic is human-readable but machine-executable. The engine parses these into a directed acyclic graph (DAG) of tasks.",
         specs: [
-          { label: 'File Storage Location', val: 'directives/*.md' },
-          { label: 'Metadata Schema', val: 'YAML Frontmatter' },
-          { label: 'Validation Protocol', val: 'ADG-01 Static Analysis' },
+          { label: "Parsing Engine", val: "Tree-sitter / YAML-rs" },
+          { label: "Validation", val: "Schema-Strict" },
+          { label: "Hot-Reload", val: "Instant (FS-Watch)" },
+          { label: "Compliance", val: "SOC2 / HIPAA Ready" },
         ],
-        code: `---
-name: "Security Audit Directive"
-version: "1.2.0"
-capabilities_required: ["shell:execute", "read_file"]
----
-# Objective: Audit Rust FFI bindings for memory safety.`,
+        code: `struct Directive {
+  id: Uuid,
+  sop_version: String,
+  parameters: HashMap<String, Value>,
+  constraints: Vec<Constraint>,
+}`,
       },
       orchestration: {
-        icon: '🧠',
-        title: 'Layer 2: Agent 99 Orchestrator',
-        subTitle: 'Swarm Commander & Tri-Slot Router',
-        badge: 'Layer 2',
+        icon: "🧠",
+        title: "Agent 99 Router",
+        subTitle: "Layer 2: Intelligence Orchestration",
+        badge: "LOGIC_LAYER",
         description:
-          'Agent 99 acts as the master swarm orchestrator. It decomposes high-level SOP goals into subagent tasks, manages model routing across primary (Ollama), secondary (Groq), and tertiary (Gemini) slots, and writes to long-term memory via Self-Annealing loops.',
+          "The brain of the operation. Agent 99 evaluates the Directive and routes the request to the optimal model slot. It manages the Swarm Hierarchy, deciding when to spawn sub-agents or call for human intervention.",
         specs: [
-          { label: 'Swarm Commander', val: 'Agent 99 (ID 1)' },
-          {
-            label: 'Model Fallback Routing',
-            val: 'Tri-Slot Auto Failover',
-          },
-          { label: 'Memory Retention', val: 'LONG_TERM_MEMORY.md' },
+          { label: "Routing Logic", val: "Semantic Intent Mapping" },
+          { label: "Fallback Chain", val: "Tri-Slot Redundancy" },
+          { label: "Concurrency", val: "Tokio Multi-threaded" },
+          { label: "State Mgmt", val: "Redis / In-Memory" },
         ],
-        code: `async fn route_task(prompt: &str) -> TaskPlan {
-    let model = router.select_primary().unwrap_or(router.fallback());
-    model.decompose_and_plan(prompt).await
+        code: `enum RoutingStrategy {
+  LowLatency(Slot1),
+  HighReasoning(Slot2),
+  MassiveContext(Slot3),
+  HumanInLoop(SapphireShield),
 }`,
       },
       execution: {
-        icon: '⚡',
-        title: 'Layer 3: Rust Core Engine',
-        subTitle: 'Axum, Tokio Async & FuturesUnordered',
-        badge: 'Layer 3',
+        icon: "⚙️",
+        title: "Rust Core Engine",
+        subTitle: "Layer 3: High-Performance Runtime",
+        badge: "EXECUTION_LAYER",
         description:
-          'The execution layer is built in high-performance Rust (server-rs). Tokio task loops run subagent tool execution in parallel using FuturesUnordered for concurrent, low-latency execution.',
+          "Built with Axum and Tokio, the execution engine handles asynchronous task processing. It ensures memory safety and zero-cost abstractions, allowing thousands of agent operations per second without leakage.",
         specs: [
-          { label: 'Web Server Framework', val: 'Axum (Async Tokio)' },
-          { label: 'Parallel Task Driver', val: 'FuturesUnordered' },
-          {
-            label: 'Tool Interface Standard',
-            val: 'Model Context Protocol (MCP)',
-          },
+          { label: "Runtime", val: "Tokio Async" },
+          { label: "Web Framework", val: "Axum 0.7" },
+          { label: "Throughput", val: "10k+ Req/sec" },
+          { label: "Memory", val: "Zero-Copy Deserialization" },
         ],
-        code: `let mut tasks = FuturesUnordered::new();
-for tool_call in tool_calls {
-    tasks.push(tokio::spawn(execute_mcp_tool(tool_call)));
+        code: `async fn execute_task(task: Task) -> Result<Output, Error> {
+  let handle = tokio::spawn(async move {
+    engine.process(task).await
+  });
+  handle.await
 }`,
       },
       governance: {
-        icon: '🛡️',
-        title: 'Sapphire Shield Zero-Trust Gate',
-        subTitle: 'Human-in-the-Loop & Merkle Proofs',
-        badge: 'Governance',
+        icon: "🛡️",
+        title: "Sapphire Shield",
+        subTitle: "Governance & Security",
+        badge: "TRUST_LAYER",
         description:
-          'Zero-trust governance boundary protecting sensitive systems. Whenever an agent requests high-risk tool calls (such as shell execution or budget spending), execution is frozen until an Overlord signs a cryptographic Merkle-proof authorization.',
+          "The zero-trust gatekeeper. Sapphire Shield intercepts any high-risk tool calls (e.g., file deletion, fund transfer) and triggers a WebSocket event to the Human-In-The-Loop (HITL) dashboard for cryptographically signed approval.",
         specs: [
-          { label: 'Gate Intercept Standard', val: 'WebSocket HITL' },
-          { label: 'Audit Proof Ledger', val: 'Merkle Hash (OBLITERATUS)' },
-          { label: 'Privacy Boundary', val: 'Hard Privacy Air-Gap' },
+          { label: "Auth Protocol", val: "Merkle-Proof Signed" },
+          { label: "Gate Type", val: "Hard Privacy Gate" },
+          { label: "Audit Log", val: "OBLITERATUS Ledger" },
+          { label: "Latency", val: "< 5ms Intercept" },
         ],
-        code: `if tool.requires_approval() {
-    sapphire_shield.freeze_and_prompt(tool_name).await?;
-    let merkele_proof = overlord_signature.verify()?;
+        code: `fn verify_governance(proof: MerkleProof) -> bool {
+  let root = state.get_root();
+  proof.verify(root, current_transaction)
 }`,
       },
       memory: {
-        icon: '🧠',
-        title: 'LanceDB GraphRAG Memory Store',
-        subTitle: 'Institutional Knowledge Store (IKS)',
-        badge: 'Memory Store',
+        icon: "💾",
+        title: "LanceDB GraphRAG",
+        subTitle: "Long-Term Sovereign Memory",
+        badge: "DATA_LAYER",
         description:
-          'Multi-modal vector database and entity-relationship graph. SOP playbooks, code symbols, and run histories are vectorized into local 768-dimensional embeddings for instantaneous, cloud-free GraphRAG context retrieval.',
+          "A serverless vector database that combines Graph structures with RAG. It allows the swarm to remember preferences, historical outcomes, and complex entity relationships across millions of documents.",
         specs: [
-          { label: 'Vector Database Engine', val: 'LanceDB Local' },
-          { label: 'Embedding Model', val: 'text-embedding-004' },
-          { label: 'Telemetry Privacy', val: 'Secret Scrubbing Active' },
+          { label: "Indexing", val: "IVF-PQ" },
+          { label: "Embeddings", val: "768-dim (text-004)" },
+          { label: "Query Speed", val: "< 8ms p99" },
+          { label: "Storage", val: "Disk-native / S3" },
         ],
-        code: `let vector_store = LanceDb::connect("./.tmp/iks.db").await?;
-let context = vector_store.query_graph_rag(prompt_embedding).await?;`,
+        code: `let table = lancedb.open_table("sovereign_mem")
+  .search(query_vector)
+  .limit(10)
+  .execute()
+  .await?;`,
       },
     },
   }));

@@ -101,9 +101,13 @@ const basePath = "/AI-Tadpole-OS-Marketing";
       </div>
 
       <!-- Interactive 5-Component Architecture Pipeline -->
-      <div class="grid grid-cols-1 md:grid-cols-5 gap-3 font-mono text-xs">
+      <div class="grid grid-cols-1 md:grid-cols-5 gap-3 font-mono text-xs" role="tablist" aria-label="Architecture pipeline layers">
         <button
+          id="arch-tab-directive"
           @click="selectNode('directive')"
+          role="tab"
+          aria-controls="arch-panel"
+          :aria-selected="selectedNode === 'directive'"
           :class="getNodeClass('directive')"
           class="p-4 rounded-2xl border text-left transition-all duration-200 space-y-2 relative overflow-hidden group cursor-pointer"
         >
@@ -121,7 +125,11 @@ const basePath = "/AI-Tadpole-OS-Marketing";
         </button>
 
         <button
+          id="arch-tab-orchestration"
           @click="selectNode('orchestration')"
+          role="tab"
+          aria-controls="arch-panel"
+          :aria-selected="selectedNode === 'orchestration'"
           :class="getNodeClass('orchestration')"
           class="p-4 rounded-2xl border text-left transition-all duration-200 space-y-2 relative overflow-hidden group cursor-pointer"
         >
@@ -139,7 +147,11 @@ const basePath = "/AI-Tadpole-OS-Marketing";
         </button>
 
         <button
+          id="arch-tab-execution"
           @click="selectNode('execution')"
+          role="tab"
+          aria-controls="arch-panel"
+          :aria-selected="selectedNode === 'execution'"
           :class="getNodeClass('execution')"
           class="p-4 rounded-2xl border text-left transition-all duration-200 space-y-2 relative overflow-hidden group cursor-pointer"
         >
@@ -157,7 +169,11 @@ const basePath = "/AI-Tadpole-OS-Marketing";
         </button>
 
         <button
+          id="arch-tab-governance"
           @click="selectNode('governance')"
+          role="tab"
+          aria-controls="arch-panel"
+          :aria-selected="selectedNode === 'governance'"
           :class="getNodeClass('governance')"
           class="p-4 rounded-2xl border text-left transition-all duration-200 space-y-2 relative overflow-hidden group cursor-pointer"
         >
@@ -175,7 +191,11 @@ const basePath = "/AI-Tadpole-OS-Marketing";
         </button>
 
         <button
+          id="arch-tab-memory"
           @click="selectNode('memory')"
+          role="tab"
+          aria-controls="arch-panel"
+          :aria-selected="selectedNode === 'memory'"
           :class="getNodeClass('memory')"
           class="p-4 rounded-2xl border text-left transition-all duration-200 space-y-2 relative overflow-hidden group cursor-pointer"
         >
@@ -195,6 +215,8 @@ const basePath = "/AI-Tadpole-OS-Marketing";
 
       <!-- Node Technical Spec Detail Card -->
       <div
+        id="arch-panel"
+        role="tabpanel"
         class="p-6 sm:p-8 rounded-2xl bg-zinc-950/90 border border-white/10 space-y-6"
       >
         <div
@@ -275,30 +297,46 @@ const basePath = "/AI-Tadpole-OS-Marketing";
       </div>
 
       <!-- Tab Buttons -->
-      <div class="flex flex-wrap justify-center gap-3 font-mono text-xs">
+      <div class="flex flex-wrap justify-center gap-3 font-mono text-xs" role="tablist" aria-label="Operational perspectives">
         <button
+          id="persp-tab-it"
           @click="selectPerspective('it')"
+          role="tab"
+          aria-controls="persp-panel-it"
+          :aria-selected="activePerspective === 'it'"
           :class="getPerspectiveClass('it')"
           class="px-6 py-3 rounded-xl border uppercase tracking-wider transition-all cursor-pointer"
         >
           🛡️ IT & Infrastructure
         </button>
         <button
+          id="persp-tab-manager"
           @click="selectPerspective('manager')"
+          role="tab"
+          aria-controls="persp-panel-manager"
+          :aria-selected="activePerspective === 'manager'"
           :class="getPerspectiveClass('manager')"
           class="px-6 py-3 rounded-xl border uppercase tracking-wider transition-all cursor-pointer"
         >
           📊 Operations Manager
         </button>
         <button
+          id="persp-tab-exec"
           @click="selectPerspective('exec')"
+          role="tab"
+          aria-controls="persp-panel-exec"
+          :aria-selected="activePerspective === 'exec'"
           :class="getPerspectiveClass('exec')"
           class="px-6 py-3 rounded-xl border uppercase tracking-wider transition-all cursor-pointer"
         >
           🏰 C-Suite Executive
         </button>
         <button
+          id="persp-tab-operator"
           @click="selectPerspective('operator')"
+          role="tab"
+          aria-controls="persp-panel-operator"
+          :aria-selected="activePerspective === 'operator'"
           :class="getPerspectiveClass('operator')"
           class="px-6 py-3 rounded-xl border uppercase tracking-wider transition-all cursor-pointer"
         >
@@ -313,7 +351,14 @@ const basePath = "/AI-Tadpole-OS-Marketing";
         <!-- IT Perspective -->
         <div
           x-show="activePerspective === 'it'"
-          class="grid md:grid-cols-2 gap-12 items-center animate-fadeIn"
+          id="persp-panel-it"
+          role="tabpanel"
+          aria-labelledby="persp-tab-it"
+          x-cloak
+          x-transition:enter="transition ease-out duration-300"
+          x-transition:enter-start="opacity-0 translate-y-2"
+          x-transition:enter-end="opacity-100 translate-y-0"
+          class="grid md:grid-cols-2 gap-12 items-center"
         >
           <div class="space-y-6">
             <span
@@ -381,7 +426,14 @@ const basePath = "/AI-Tadpole-OS-Marketing";
         <!-- Manager Perspective -->
         <div
           x-show="activePerspective === 'manager'"
-          class="grid md:grid-cols-2 gap-12 items-center animate-fadeIn"
+          id="persp-panel-manager"
+          role="tabpanel"
+          aria-labelledby="persp-tab-manager"
+          x-cloak
+          x-transition:enter="transition ease-out duration-300"
+          x-transition:enter-start="opacity-0 translate-y-2"
+          x-transition:enter-end="opacity-100 translate-y-0"
+          class="grid md:grid-cols-2 gap-12 items-center"
         >
           <div class="space-y-6">
             <span
@@ -440,7 +492,14 @@ const basePath = "/AI-Tadpole-OS-Marketing";
         <!-- Executive Perspective -->
         <div
           x-show="activePerspective === 'exec'"
-          class="grid md:grid-cols-2 gap-12 items-center animate-fadeIn"
+          id="persp-panel-exec"
+          role="tabpanel"
+          aria-labelledby="persp-tab-exec"
+          x-cloak
+          x-transition:enter="transition ease-out duration-300"
+          x-transition:enter-start="opacity-0 translate-y-2"
+          x-transition:enter-end="opacity-100 translate-y-0"
+          class="grid md:grid-cols-2 gap-12 items-center"
         >
           <div class="space-y-6">
             <span
@@ -495,7 +554,14 @@ const basePath = "/AI-Tadpole-OS-Marketing";
         <!-- Operator Perspective -->
         <div
           x-show="activePerspective === 'operator'"
-          class="grid md:grid-cols-2 gap-12 items-center animate-fadeIn"
+          id="persp-panel-operator"
+          role="tabpanel"
+          aria-labelledby="persp-tab-operator"
+          x-cloak
+          x-transition:enter="transition ease-out duration-300"
+          x-transition:enter-start="opacity-0 translate-y-2"
+          x-transition:enter-end="opacity-100 translate-y-0"
+          class="grid md:grid-cols-2 gap-12 items-center"
         >
           <div class="space-y-6">
             <span

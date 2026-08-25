@@ -38,6 +38,7 @@ All commands are run from the root of the project:
 | `npm run dev` | Starts local dev server at `localhost:4321` |
 | `npm run build` | Build your production site to `./dist/` |
 | `npm run check` | Type-check Astro templates and client code |
+| `npm run typecheck` | Type-check TypeScript modules without emitting files |
 | `npm test` | Verify the built routes, anchors, and key assets |
 | `npm run preview` | Preview your build locally |
 

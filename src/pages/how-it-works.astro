@@ -1,6 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-const basePath = "/AI-Tadpole-OS-Marketing";
+const basePath = import.meta.env.BASE_URL.replace(/\/$/, "");
 ---
 
 <style>
@@ -223,31 +223,28 @@ const basePath = "/AI-Tadpole-OS-Marketing";
           class="flex flex-wrap items-center justify-between gap-4 border-b border-white/10 pb-4"
         >
           <div class="flex items-center gap-3">
-            <span class="text-3xl" x-text="nodes[selectedNode].icon"></span>
+            <span class="text-3xl" x-text="nodes[selectedNode].icon">📜</span>
             <div>
               <h3
                 class="text-2xl font-bold text-white font-outfit"
                 x-text="nodes[selectedNode].title"
-              >
-              </h3>
+              >Directives SOP</h3>
               <p
                 class="text-xs font-mono text-emerald-400"
                 x-text="nodes[selectedNode].subTitle"
-              >
-              </p>
+              >Layer 1: Instruction Set</p>
             </div>
           </div>
 
           <span
             class="px-3 py-1 rounded-full bg-white/5 border border-white/10 font-mono text-xs text-zinc-300 font-bold"
-            x-text="nodes[selectedNode].badge"></span>
+            x-text="nodes[selectedNode].badge">INPUT_LAYER</span>
         </div>
 
         <p
           class="text-base text-zinc-300 font-light leading-relaxed"
           x-text="nodes[selectedNode].description"
-        >
-        </p>
+        >The entry point of the sovereign engine. Directives are authored in Markdown and YAML, ensuring business logic is human-readable and machine-executable.</p>
 
         <div class="grid md:grid-cols-2 gap-6">
           <div class="space-y-3 font-mono text-xs">
@@ -256,17 +253,22 @@ const basePath = "/AI-Tadpole-OS-Marketing";
             >
               Key Engineering Specifications
             </div>
-            <template
-              x-for="(spec, sIdx) in nodes[selectedNode].specs"
-              :key="sIdx"
-            >
-              <div
-                class="flex justify-between items-center py-2 border-b border-white/5"
-              >
-                <span class="text-zinc-400" x-text="spec.label"></span>
-                <span class="text-white font-bold" x-text="spec.val"></span>
-              </div>
-            </template>
+            <div class="flex justify-between items-center py-2 border-b border-white/5">
+              <span class="text-zinc-400" x-text="nodes[selectedNode].specs[0].label">Parsing Engine</span>
+              <span class="text-white font-bold" x-text="nodes[selectedNode].specs[0].val">Tree-sitter / YAML-rs</span>
+            </div>
+            <div class="flex justify-between items-center py-2 border-b border-white/5">
+              <span class="text-zinc-400" x-text="nodes[selectedNode].specs[1].label">Validation</span>
+              <span class="text-white font-bold" x-text="nodes[selectedNode].specs[1].val">Schema-Strict</span>
+            </div>
+            <div class="flex justify-between items-center py-2 border-b border-white/5">
+              <span class="text-zinc-400" x-text="nodes[selectedNode].specs[2].label">Hot-Reload</span>
+              <span class="text-white font-bold" x-text="nodes[selectedNode].specs[2].val">Instant (FS-Watch)</span>
+            </div>
+            <div class="flex justify-between items-center py-2 border-b border-white/5">
+              <span class="text-zinc-400" x-text="nodes[selectedNode].specs[3].label">Compliance</span>
+              <span class="text-white font-bold" x-text="nodes[selectedNode].specs[3].val">SOC2 / HIPAA Ready</span>
+            </div>
           </div>
 
           <div class="space-y-2">
@@ -277,8 +279,12 @@ const basePath = "/AI-Tadpole-OS-Marketing";
             </div>
             <pre
               class="p-4 rounded-xl bg-black border border-white/10 font-mono text-xs text-emerald-300 overflow-x-auto leading-relaxed"
-              x-text="nodes[selectedNode].code">
-            </pre>
+              x-text="nodes[selectedNode].code">struct Directive &lbrace;
+  id: Uuid,
+  sop_version: String,
+  parameters: HashMap&lt;String, Value&gt;,
+  constraints: Vec&lt;Constraint&gt;,
+&rbrace;</pre>
           </div>
         </div>
       </div>

@@ -7,19 +7,19 @@
   **Live Website**: [https://dds-solutions.github.io/AI-Tadpole-OS-Marketing/](https://dds-solutions.github.io/AI-Tadpole-OS-Marketing/)
 
   [![Astro](https://img.shields.io/badge/Astro-5.0-zinc?style=for-the-badge&logo=astro&logoColor=FF5D01)](https://astro.build/)
-  [![Tailwind](https://img.shields.io/badge/Tailwind-v4-zinc?style=for-the-badge&logo=tailwindcss&logoColor=38B2AC)](https://tailwindcss.com/)
+  [![Tailwind](https://img.shields.io/badge/Tailwind-v3-zinc?style=for-the-badge&logo=tailwindcss&logoColor=38B2AC)](https://tailwindcss.com/)
   [![GEO-Ready](https://img.shields.io/badge/GEO-Optimized-emerald?style=for-the-badge&logo=google-cloud&logoColor=white)](#geo-strategy)
   
   ---
 </div>
 
-This repository contains the source code for the official **AI-Tadpole-OS** marketing website, built with **Astro** for zero-JS performance and extreme search engine discoverability.
+This repository contains the source code for the official **AI-Tadpole-OS** marketing website, built with **Astro** for static-first delivery and search engine discoverability.
 
 ## 🌟 Key Features
 
-- **Zero-JS by Default**: Pure HTML/CSS output for near-instant load times and AI agent crawling.
+- **Progressively Enhanced**: Static HTML provides the core content, while Alpine.js, WebGL, and view transitions enhance the interactive experience.
 - **Sovereign Dark Theme**: Deep visual alignment with the core Tadpole OS engine.
-- **GEO Optimized**: Structured data (JSON-LD) and agent-friendly meta tags.
+- **GEO Optimized**: SoftwareApplication JSON-LD and agent-friendly meta tags.
 - **Governance Whitepaper**: Integrated Sovereign Protocol documentation.
 
 ## 🛠️ Tech Stack
@@ -37,13 +37,15 @@ All commands are run from the root of the project:
 | `npm install` | Installs dependencies |
 | `npm run dev` | Starts local dev server at `localhost:4321` |
 | `npm run build` | Build your production site to `./dist/` |
+| `npm run check` | Type-check Astro templates and client code |
+| `npm test` | Verify the built routes, anchors, and key assets |
 | `npm run preview` | Preview your build locally |
 
 ## 📐 GEO Strategy
 
 Tadpole OS Marketing is built with **Generative Engine Optimization** in mind. We prioritize:
 1. **Semantic HTML**: Clear heading hierarchies for LLM decomposition.
-2. **Structured Data**: Schema.org JSON-LD for SoftwareApplication and FAQ.
+2. **Structured Data**: Schema.org JSON-LD for the SoftwareApplication.
 3. **Flat Navigation**: Minimizing crawl depth for easier indexing.
 
 ---

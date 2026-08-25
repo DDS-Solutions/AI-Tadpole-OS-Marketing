@@ -75,6 +75,20 @@ if (fs.existsSync(missionPath)) {
   }
 }
 
+const bundledScripts = fs.readdirSync(path.join(distDir, '_astro'))
+  .filter(file => file.endsWith('.js'))
+  .map(file => fs.readFileSync(path.join(distDir, '_astro', file), 'utf-8'));
+const missionBundle = bundledScripts.find(script => script.includes('step1_initial_state.png'));
+if (
+  missionBundle?.includes('assets/real_mission/step1_initial_state.png') &&
+  !missionBundle.includes('Marketingassets/real_mission')
+) {
+  console.log('  ✓ Mission Client Screenshot URLs Are Valid');
+} else {
+  console.error('  ❌ INVALID MISSION CLIENT SCREENSHOT URL');
+  errors++;
+}
+
 const architecturePath = path.join(distDir, 'how-it-works/index.html');
 if (fs.existsSync(architecturePath)) {
   const architectureHtml = fs.readFileSync(architecturePath, 'utf-8');

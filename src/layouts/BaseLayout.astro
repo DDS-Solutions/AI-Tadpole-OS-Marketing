@@ -7,7 +7,22 @@ interface Props {
 }
 
 const { title, description } = Astro.props;
-const basePath = "/AI-Tadpole-OS-Marketing";
+const basePath = import.meta.env.BASE_URL.replace(/\/$/, "");
+const canonicalUrl = Astro.url.href;
+const socialImageUrl = new URL(
+  `${basePath}/assets/moat-visual.png`,
+  Astro.url.origin,
+).href;
+const softwareApplicationSchema = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  name: "AI-Tadpole-OS",
+  applicationCategory: "DeveloperApplication",
+  operatingSystem: "Windows, macOS, Linux",
+  description,
+  url: canonicalUrl,
+  sameAs: ["https://github.com/DDS-Solutions/AI-TadPole-OS"],
+};
 ---
 
 <!doctype html>
@@ -24,11 +39,14 @@ const basePath = "/AI-Tadpole-OS-Marketing";
     <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta
-      property="og:url"
-      content={`https://dds-solutions.github.io${Astro.url.pathname}`}
-    />
-    <link rel="canonical" href={`https://dds-solutions.github.io${Astro.url.pathname}`} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={socialImageUrl} />
+    <meta property="og:image:alt" content="AI-Tadpole-OS sovereign runtime interface" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={socialImageUrl} />
+    <link rel="canonical" href={canonicalUrl} />
     <link rel="icon" type="image/svg+xml" href={`${basePath}/favicon.svg`} />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
@@ -39,6 +57,7 @@ const basePath = "/AI-Tadpole-OS-Marketing";
       name="ai-intelligence-category"
       content="Local-first multi-agent swarm runtime"
     />
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(softwareApplicationSchema)} />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -296,6 +315,15 @@ const basePath = "/AI-Tadpole-OS-Marketing";
           observer.disconnect();
         });
 
+        // WebGL2 Background Swarm Fluid Shader
+        const bgCanvas = document.getElementById(
+          "bg-shader-canvas",
+        ) as HTMLCanvasElement | null;
+        if (!bgCanvas) return;
+
+        const gl = bgCanvas.getContext("webgl2");
+        if (!gl) return;
+
         const onResize = () => {
           resizeBgCanvas();
         };
@@ -305,15 +333,6 @@ const basePath = "/AI-Tadpole-OS-Marketing";
         cleanups.push(() => {
           window.removeEventListener("resize", onResize);
         });
-
-        // WebGL2 Background Swarm Fluid Shader
-        const bgCanvas = document.getElementById(
-          "bg-shader-canvas",
-        ) as HTMLCanvasElement | null;
-        if (!bgCanvas) return;
-
-        const gl = bgCanvas.getContext("webgl2");
-        if (!gl) return;
 
         const vertexShaderSource = `#version 300 es
           in vec2 position;
@@ -457,7 +476,7 @@ const basePath = "/AI-Tadpole-OS-Marketing";
         const timeLocation = gl.getUniformLocation(program, "u_time");
 
         function resizeBgCanvas() {
-          if (!bgCanvas) return;
+          if (!bgCanvas || !gl) return;
           bgCanvas.width = window.innerWidth;
           bgCanvas.height = window.innerHeight;
           gl.viewport(0, 0, bgCanvas.width, bgCanvas.height);
@@ -467,7 +486,7 @@ const basePath = "/AI-Tadpole-OS-Marketing";
 
         let bgAnimId = 0;
         function render(time: number) {
-          if (!gl || !program) return;
+          if (!bgCanvas || !gl || !program) return;
 
           if (
             bgCanvas.width !== window.innerWidth ||
@@ -493,18 +512,6 @@ const basePath = "/AI-Tadpole-OS-Marketing";
           gl.deleteBuffer(positionBuffer);
           gl.deleteVertexArray(vao);
         });
-      }
-
-      function resizeBgCanvas() {
-        const bgCanvas = document.getElementById(
-          "bg-shader-canvas",
-        ) as HTMLCanvasElement | null;
-        if (!bgCanvas) return;
-        const gl = bgCanvas.getContext("webgl2");
-        if (!gl) return;
-        bgCanvas.width = window.innerWidth;
-        bgCanvas.height = window.innerHeight;
-        gl.viewport(0, 0, bgCanvas.width, bgCanvas.height);
       }
 
       function cleanupVisuals() {

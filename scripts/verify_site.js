@@ -39,6 +39,54 @@ if (fs.existsSync(indexPath)) {
       errors++;
     }
   });
+
+  if (
+    indexHtml.includes('type="application/ld+json"') &&
+    indexHtml.includes('"@type":"SoftwareApplication"')
+  ) {
+    console.log('  ✓ SoftwareApplication JSON-LD Exists: dist/index.html');
+  } else {
+    console.error('  ❌ MISSING SOFTWAREAPPLICATION JSON-LD: dist/index.html');
+    errors++;
+  }
+
+  if (
+    indexHtml.includes('property="og:image"') &&
+    indexHtml.includes('name="twitter:card"')
+  ) {
+    console.log('  ✓ Social Sharing Metadata Exists: dist/index.html');
+  } else {
+    console.error('  ❌ MISSING SOCIAL SHARING METADATA: dist/index.html');
+    errors++;
+  }
+}
+
+const missionPath = path.join(distDir, 'mission/index.html');
+if (fs.existsSync(missionPath)) {
+  const missionHtml = fs.readFileSync(missionPath, 'utf-8');
+  if (
+    missionHtml.includes('step1_initial_state.png') &&
+    missionHtml.includes('Swarm &amp; Cluster Initialization')
+  ) {
+    console.log('  ✓ Mission Default Slide Is Server-Rendered: dist/mission/index.html');
+  } else {
+    console.error('  ❌ MISSING SERVER-RENDERED MISSION DEFAULT: dist/mission/index.html');
+    errors++;
+  }
+}
+
+const architecturePath = path.join(distDir, 'how-it-works/index.html');
+if (fs.existsSync(architecturePath)) {
+  const architectureHtml = fs.readFileSync(architecturePath, 'utf-8');
+  if (
+    architectureHtml.includes('Directives SOP') &&
+    architectureHtml.includes('Tree-sitter / YAML-rs')
+  ) {
+    console.log('  ✓ Architecture Default Card Is Server-Rendered: dist/how-it-works/index.html');
+  } else {
+    console.error('  ❌ MISSING SERVER-RENDERED ARCHITECTURE DEFAULT: dist/how-it-works/index.html');
+    errors++;
+  }
 }
 
 // 3. Verify every page has an accessible main-content target and contains no

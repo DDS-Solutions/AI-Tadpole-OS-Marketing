@@ -1,6 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-const basePath = "/AI-Tadpole-OS-Marketing";
+const basePath = import.meta.env.BASE_URL.replace(/\/$/, "");
 
 const architectureLayers = [
   {
@@ -21,13 +21,6 @@ const architectureLayers = [
     detail:
       "Rust-native engine and deterministic scripts execute tools in parallel using FuturesUnordered for absolute speed and security.",
   },
-];
-
-const interfaceSurfaces = [
-  "Operations dashboard with 10Hz Swarm Pulse (MessagePack telemetry) and detachable portals",
-  "Model manager with triple-slot routing (Primary, Secondary, Tertiary fallback slots)",
-  "Codebase Knowledge Graph HUD with dynamic traversal history and BFS Dependency Pathfinder",
-  "Security dashboard featuring the Sapphire Shield and OBLITERATUS Merkle audit trails",
 ];
 
 const screenshots = [

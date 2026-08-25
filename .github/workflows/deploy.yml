@@ -44,6 +44,8 @@ jobs:
         run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
       - name: Validate types and Astro templates
         run: npm run check
+      - name: Type-check client scripts
+        run: npm run typecheck
       - name: Build with Astro
         run: |
           ${{ steps.detect-package-manager.outputs.runner }} astro build

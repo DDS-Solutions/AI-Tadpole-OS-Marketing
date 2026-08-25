@@ -4,6 +4,8 @@ interface AlpineComponent {
   $refs: Record<string, HTMLElement | undefined>;
 }
 
+const assetBaseUrl = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/`;
+
 // 2. Extract shared lightbox logic into a reusable mixin
 const lightboxMixin = () => ({
   lightboxOpen: false,
@@ -50,7 +52,7 @@ export function registerAlpineComponents(Alpine: any) {
           shortTitle: 'Swarm Init',
           badge: 'Phase 1: Cluster Initialization',
           title: 'Swarm & Cluster Initialization',
-          image: `${import.meta.env.BASE_URL}assets/real_mission/step1_initial_state.png`,
+          image: `${assetBaseUrl}assets/real_mission/step1_initial_state.png`,
           description: 'The OS scans active swarm clusters. The Strategic Command cluster (cl-command) is initialized with 60 Nodes online and a $100.00 execution budget in workspace /workspaces/strategic-command.',
           metrics: [
             { label: 'Active Swarm Clusters', value: '4 / 5 Online' },
@@ -63,7 +65,7 @@ export function registerAlpineComponents(Alpine: any) {
           shortTitle: 'Neural Sync',
           badge: 'Phase 2: GraphRAG Optimization',
           title: 'Neural Graph Optimization Proposal',
-          image: `${import.meta.env.BASE_URL}assets/real_mission/step2_neural_proposal.png`,
+          image: `${assetBaseUrl}assets/real_mission/step2_neural_proposal.png`,
           description: 'When entering a mission objective ("Execute Sovereign Security Audit on server-rs"), the AI-Tadpole-OS neural engine automatically proposes GraphRAG context synchronization across local LanceDB vectors.',
           metrics: [
             { label: 'Embedding Vector Engine', value: 'LanceDB (768-dim)' },
@@ -76,7 +78,7 @@ export function registerAlpineComponents(Alpine: any) {
           shortTitle: 'Mission Launch',
           badge: 'Phase 3: Telemetry Stream',
           title: 'Mission Launch & 10Hz Telemetry',
-          image: `${import.meta.env.BASE_URL}assets/real_mission/step3_execution_started.png`,
+          image: `${assetBaseUrl}assets/real_mission/step3_execution_started.png`,
           description: 'Authorizing sync triggers the RUN MISSION command. The MessagePack 10Hz telemetry pipeline opens, streaming real-time status into the Run Log and Event Log.',
           metrics: [
             { label: 'Telemetry Transport', value: 'MessagePack 10Hz' },
@@ -89,7 +91,7 @@ export function registerAlpineComponents(Alpine: any) {
           shortTitle: 'OTel Waterfall',
           badge: 'Phase 4: Neural Trace Stream',
           title: 'OTel Neural Trace Waterfall Stream',
-          image: `${import.meta.env.BASE_URL}assets/real_mission/step4_execution_streaming.png`,
+          image: `${assetBaseUrl}assets/real_mission/step4_execution_streaming.png`,
           description: 'The OpenTelemetry (OTel) waterfall trace panel provides detailed visibility into subagent tool calls, memory indexing, and token scrubbing during execution.',
           metrics: [
             { label: 'Trace Granularity', value: 'Observe-Call-Audit' },
@@ -102,7 +104,7 @@ export function registerAlpineComponents(Alpine: any) {
           shortTitle: 'Oversight Gate',
           badge: 'Phase 5: Oversight & Zero-Trust Gate',
           title: 'Swarm Intelligence Oversight & Action Ledger',
-          image: `${import.meta.env.BASE_URL}assets/real_mission/step5_oversight_zero_trust_gate.png`,
+          image: `${assetBaseUrl}assets/real_mission/step5_oversight_zero_trust_gate.png`,
           description: 'The Oversight surface provides real-time Zero-Trust governance. The Overlord inspects the Action Ledger for all HITL approvals, verifies parameter payloads, monitors agent decisions, or executes HALT AGENTS and KILL ENGINE safeguards.',
           metrics: [
             { label: 'Action Ledger Status', value: '6 Approvals Certified' },
@@ -115,7 +117,7 @@ export function registerAlpineComponents(Alpine: any) {
           shortTitle: 'Reconciliation',
           badge: 'Phase 6: Sovereign Audit',
           title: 'Mission Resume & Audit Reconciliation',
-          image: `${import.meta.env.BASE_URL}assets/real_mission/step6_execution_resumed.png`,
+          image: `${assetBaseUrl}assets/real_mission/step6_execution_resumed.png`,
           description: 'Resuming operations completes the security audit, generating a signed Merkle-proof certificate and updating the permanent audit ledger.',
           metrics: [
             { label: 'Execution State', value: 'Resumed & Completed' },

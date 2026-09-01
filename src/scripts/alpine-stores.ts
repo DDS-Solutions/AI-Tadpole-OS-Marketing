@@ -10,29 +10,86 @@ const assetBaseUrl = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/`;
 const lightboxMixin = () => ({
   lightboxOpen: false,
   lightboxImg: '',
+  lightboxAlt: 'Full-resolution screenshot',
   lastFocusedElement: null as HTMLElement | null,
+  inertedElements: [] as HTMLElement[],
+  previousBodyOverflow: '',
 
-  openLightbox(imgUrl: string) {
+  openLightbox(imgUrl: string, altText = 'Full-resolution screenshot') {
     this.lastFocusedElement = document.activeElement as HTMLElement | null;
     this.lightboxImg = imgUrl;
+    this.lightboxAlt = altText;
     this.lightboxOpen = true;
+    this.previousBodyOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+
+    const backgroundElements = document.querySelectorAll<HTMLElement>(
+      'body > header, main > :not([role="dialog"])',
+    );
+    this.inertedElements = Array.from(backgroundElements).filter(
+      (element) => !element.hasAttribute('inert'),
+    );
+    this.inertedElements.forEach((element) => element.setAttribute('inert', ''));
+
     (this as unknown as AlpineComponent).$nextTick(() => {
       (this as unknown as AlpineComponent).$refs.closeButton?.focus();
     });
   },
 
   closeLightbox() {
+    const shouldRestoreFocus = this.lightboxOpen;
+    const focusTarget = this.lastFocusedElement;
     this.lightboxOpen = false;
     this.lightboxImg = '';
-    (this as unknown as AlpineComponent).$nextTick(() => {
-      this.lastFocusedElement?.focus();
-    });
+    this.lightboxAlt = 'Full-resolution screenshot';
+    this.lastFocusedElement = null;
+    document.body.style.overflow = this.previousBodyOverflow;
+    this.inertedElements.forEach((element) => element.removeAttribute('inert'));
+    this.inertedElements = [];
+    if (shouldRestoreFocus) {
+      (this as unknown as AlpineComponent).$nextTick(() => {
+        focusTarget?.focus();
+      });
+    }
+  },
+
+  trapLightboxFocus(event: KeyboardEvent) {
+    const dialog = (this as unknown as AlpineComponent).$refs.dialog;
+    if (!dialog) return;
+
+    const focusable = Array.from(
+      dialog.querySelectorAll<HTMLElement>(
+        'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])',
+      ),
+    ).filter((element) => element.offsetParent !== null);
+    if (focusable.length === 0) return;
+
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    if (event.shiftKey && document.activeElement === first) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && document.activeElement === last) {
+      event.preventDefault();
+      first.focus();
+    }
+  },
+
+  bindLightboxCleanup() {
+    document.addEventListener(
+      'astro:before-preparation',
+      () => this.closeLightbox(),
+      { once: true },
+    );
   },
 });
 
 export function registerAlpineComponents(Alpine: any) {
   Alpine.data('homepage', () => ({
     ...lightboxMixin(),
+    init() {
+      this.bindLightboxCleanup();
+    },
   }));
 
   Alpine.data('missionPage', () => {
@@ -40,13 +97,16 @@ export function registerAlpineComponents(Alpine: any) {
     const AUTO_PLAY_DURATION = 4500;
     const TIMER_INTERVAL = 50;
 
+    const prefersReducedMotion = window.matchMedia(
+      '(prefers-reduced-motion: reduce)',
+    ).matches;
+
     return {
       ...lightboxMixin(),
       currentSlide: 0,
-      autoPlay: true,
+      autoPlay: !prefersReducedMotion,
       autoPlayProgress: 0,
       progressTimer: null as ReturnType<typeof setInterval> | null,
-      keyHandler: null as ((e: KeyboardEvent) => void) | null,
       slides: [
         {
           shortTitle: 'Swarm Init',
@@ -129,22 +189,14 @@ export function registerAlpineComponents(Alpine: any) {
       ],
 
       init() {
+        this.bindLightboxCleanup();
         this.startAutoPlayTimer();
-        this.keyHandler = (e: KeyboardEvent) => {
-          if (this.lightboxOpen) return;
-          if (e.key === 'ArrowLeft') this.prevSlide();
-          if (e.key === 'ArrowRight') this.nextSlide();
-        };
-        window.addEventListener('keydown', this.keyHandler);
         document.addEventListener('astro:before-preparation', () => this.destroy(), { once: true });
       },
 
       destroy() {
         this.clearAutoPlayTimers();
-        if (this.keyHandler) {
-          window.removeEventListener('keydown', this.keyHandler);
-          this.keyHandler = null;
-        }
+        this.closeLightbox();
       },
 
       setSlide(idx: number) {
@@ -198,6 +250,12 @@ export function registerAlpineComponents(Alpine: any) {
     ...lightboxMixin(),
     selectedNode: 'directive',
     activePerspective: 'it',
+    nodeOrder: ['directive', 'orchestration', 'execution', 'governance', 'memory'],
+    perspectiveOrder: ['it', 'manager', 'exec', 'operator'],
+
+    init() {
+      this.bindLightboxCleanup();
+    },
 
     selectNode(key: string) {
       this.selectedNode = key;
@@ -205,6 +263,44 @@ export function registerAlpineComponents(Alpine: any) {
 
     selectPerspective(key: string) {
       this.activePerspective = key;
+    },
+
+    focusNodeTab(key: string) {
+      this.selectNode(key);
+      (this as unknown as AlpineComponent).$nextTick(() => {
+        document.getElementById(`arch-tab-${key}`)?.focus();
+      });
+    },
+
+    moveNodeFocus(offset: number) {
+      const index = this.nodeOrder.indexOf(this.selectedNode);
+      const nextIndex = (index + offset + this.nodeOrder.length) % this.nodeOrder.length;
+      this.focusNodeTab(this.nodeOrder[nextIndex]);
+    },
+
+    focusNodeBoundary(position: 'first' | 'last') {
+      this.focusNodeTab(position === 'first' ? this.nodeOrder[0] : this.nodeOrder[this.nodeOrder.length - 1]);
+    },
+
+    focusPerspectiveTab(key: string) {
+      this.selectPerspective(key);
+      (this as unknown as AlpineComponent).$nextTick(() => {
+        document.getElementById(`persp-tab-${key}`)?.focus();
+      });
+    },
+
+    movePerspectiveFocus(offset: number) {
+      const index = this.perspectiveOrder.indexOf(this.activePerspective);
+      const nextIndex = (index + offset + this.perspectiveOrder.length) % this.perspectiveOrder.length;
+      this.focusPerspectiveTab(this.perspectiveOrder[nextIndex]);
+    },
+
+    focusPerspectiveBoundary(position: 'first' | 'last') {
+      this.focusPerspectiveTab(
+        position === 'first'
+          ? this.perspectiveOrder[0]
+          : this.perspectiveOrder[this.perspectiveOrder.length - 1],
+      );
     },
 
     getNodeClass(key: string) {
@@ -231,7 +327,7 @@ export function registerAlpineComponents(Alpine: any) {
           { label: "Parsing Engine", val: "Tree-sitter / YAML-rs" },
           { label: "Validation", val: "Schema-Strict" },
           { label: "Hot-Reload", val: "Instant (FS-Watch)" },
-          { label: "Compliance", val: "SOC2 / HIPAA Ready" },
+          { label: "Control Mapping", val: "Deployment-Dependent" },
         ],
         code: `struct Directive {
   id: Uuid,
@@ -266,11 +362,11 @@ export function registerAlpineComponents(Alpine: any) {
         subTitle: "Layer 3: High-Performance Runtime",
         badge: "EXECUTION_LAYER",
         description:
-          "Built with Axum and Tokio, the execution engine handles asynchronous task processing. It ensures memory safety and zero-cost abstractions, allowing thousands of agent operations per second without leakage.",
+          "Built with Axum and Tokio, the execution engine handles asynchronous task processing using Rust's memory-safety model. Throughput depends on hardware, workload, model latency, and tool configuration.",
         specs: [
           { label: "Runtime", val: "Tokio Async" },
           { label: "Web Framework", val: "Axum 0.7" },
-          { label: "Throughput", val: "10k+ Req/sec" },
+          { label: "Throughput", val: "Benchmark per Deployment" },
           { label: "Memory", val: "Zero-Copy Deserialization" },
         ],
         code: `async fn execute_task(task: Task) -> Result<Output, Error> {
@@ -291,7 +387,7 @@ export function registerAlpineComponents(Alpine: any) {
           { label: "Auth Protocol", val: "Merkle-Proof Signed" },
           { label: "Gate Type", val: "Hard Privacy Gate" },
           { label: "Audit Log", val: "OBLITERATUS Ledger" },
-          { label: "Latency", val: "< 5ms Intercept" },
+          { label: "Latency", val: "Environment-Dependent" },
         ],
         code: `fn verify_governance(proof: MerkleProof) -> bool {
   let root = state.get_root();
@@ -308,7 +404,7 @@ export function registerAlpineComponents(Alpine: any) {
         specs: [
           { label: "Indexing", val: "IVF-PQ" },
           { label: "Embeddings", val: "768-dim (text-004)" },
-          { label: "Query Speed", val: "< 8ms p99" },
+          { label: "Query Speed", val: "Benchmark per Index" },
           { label: "Storage", val: "Disk-native / S3" },
         ],
         code: `let table = lancedb.open_table("sovereign_mem")
@@ -322,5 +418,31 @@ export function registerAlpineComponents(Alpine: any) {
 
   Alpine.data('governancePage', () => ({
     activeTab: 'overlord',
+    tabOrder: ['overlord', 'sovereignty', 'sapphire', 'scaling'],
+
+    selectTab(key: string) {
+      this.activeTab = key;
+    },
+
+    focusTab(key: string) {
+      this.selectTab(key);
+      (this as unknown as AlpineComponent).$nextTick(() => {
+        document.getElementById(`tab-${key}`)?.focus();
+      });
+    },
+
+    moveTabFocus(offset: number) {
+      const index = this.tabOrder.indexOf(this.activeTab);
+      const nextIndex = (index + offset + this.tabOrder.length) % this.tabOrder.length;
+      this.focusTab(this.tabOrder[nextIndex]);
+    },
+
+    focusTabBoundary(position: 'first' | 'last') {
+      this.focusTab(
+        position === 'first'
+          ? this.tabOrder[0]
+          : this.tabOrder[this.tabOrder.length - 1],
+      );
+    },
   }));
 }

@@ -18,6 +18,7 @@ This repository contains the source code for the official **AI-Tadpole-OS** mark
 ## 🌟 Key Features
 
 - **Progressively Enhanced**: Static HTML provides the core content, while Alpine.js, WebGL, and view transitions enhance the interactive experience.
+- **Privacy-Preserving Typography**: Local system font stacks avoid third-party font requests.
 - **Sovereign Dark Theme**: Deep visual alignment with the core Tadpole OS engine.
 - **GEO Optimized**: SoftwareApplication JSON-LD and agent-friendly meta tags.
 - **Governance Whitepaper**: Integrated Sovereign Protocol documentation.
@@ -32,6 +33,8 @@ This repository contains the source code for the official **AI-Tadpole-OS** mark
 
 All commands are run from the root of the project:
 
+Node.js 22 or newer is required. The browser verification uses an installed Chrome or Edge browser; set `CHROME_PATH` when it is installed in a non-standard location.
+
 | Command | Action |
 | :--- | :--- |
 | `npm install` | Installs dependencies |
@@ -39,7 +42,7 @@ All commands are run from the root of the project:
 | `npm run build` | Build your production site to `./dist/` |
 | `npm run check` | Type-check Astro templates and client code |
 | `npm run typecheck` | Type-check TypeScript modules without emitting files |
-| `npm test` | Verify the built routes, anchors, and key assets |
+| `npm test` | Verify built routes, links, assets, budgets, browser behavior, keyboard controls, and accessibility contracts |
 | `npm run preview` | Preview your build locally |
 
 ## 📐 GEO Strategy

@@ -19,28 +19,36 @@ const architectureLayers = [
     label: "L3",
     title: "Execution Layer",
     detail:
-      "Rust-native engine and deterministic scripts execute tools in parallel using FuturesUnordered for absolute speed and security.",
+      "Rust-native engine and deterministic scripts execute tools in parallel using FuturesUnordered for controlled, memory-safe concurrency.",
   },
 ];
 
 const screenshots = [
   {
     src: `${basePath}/assets/real_os_dashboard.png`,
+    width: 1662,
+    height: 905,
     title: "Operations Dashboard",
     desc: "10Hz Swarm Pulse MessagePack telemetry stream with detachable portals.",
   },
   {
     src: `${basePath}/assets/real_os_nodes.png`,
+    width: 1662,
+    height: 905,
     title: "Node Hierarchy & Swarms",
     desc: "Visual agent hierarchy traversal & active worker thread management.",
   },
   {
     src: `${basePath}/assets/real_os_oversight.png`,
+    width: 1662,
+    height: 905,
     title: "Sapphire Shield Governance",
     desc: "Zero-trust HITL gate & cryptographic Merkle proof decision history.",
   },
   {
     src: `${basePath}/assets/industry_templates_catalog.png`,
+    width: 1680,
+    height: 1050,
     title: "Industry Agent Swarm Catalog",
     desc: "223 specialized agent roles across 25 industry templates.",
   },
@@ -52,7 +60,7 @@ const screenshots = [
     display: none !important;
   }
   .font-mono-code {
-    font-family: "JetBrains Mono", monospace;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   }
   .scanline-bg {
     background: linear-gradient(
@@ -92,10 +100,13 @@ const screenshots = [
     >
       <img
         src={`${basePath}/assets/real_os_dashboard.png`}
-        alt="AI-Tadpole-OS Real Dashboard"
-        class="absolute inset-0 h-full w-full object-cover opacity-20 cursor-pointer"
+        alt=""
+        width="1662"
+        height="905"
+        class="absolute inset-0 h-full w-full object-cover opacity-20"
         loading="eager"
-        @click={`openLightbox('${basePath}/assets/real_os_dashboard.png')`}
+        decoding="async"
+        fetchpriority="high"
       />
       <div
         class="absolute inset-0 bg-[linear-gradient(90deg,#09090b_0%,rgba(9,9,11,0.92)_42%,rgba(9,9,11,0.62)_100%)] pointer-events-none"
@@ -238,11 +249,15 @@ const screenshots = [
                   <img
                     src={shot.src}
                     alt={shot.title}
-                    class="w-full h-auto object-cover group-hover:scale-[1.02] transition-transform duration-500 cursor-pointer"
-                    @click={`openLightbox('${shot.src}')`}
+                    width={shot.width}
+                    height={shot.height}
+                    loading="lazy"
+                    decoding="async"
+                    class="w-full h-auto object-cover group-hover:scale-[1.02] transition-transform duration-500"
                   />
                   <button
-                    @click={`openLightbox('${shot.src}')`}
+                    type="button"
+                    @click={`openLightbox('${shot.src}', '${shot.title}')`}
                     class="absolute bottom-3 right-3 bg-zinc-950/85 hover:bg-zinc-950 border border-white/20 text-white px-3 py-1.5 rounded-lg text-xs font-mono flex items-center gap-1.5 opacity-90 hover:opacity-100 transition-all backdrop-blur shadow-lg cursor-pointer"
                   >
                     <span>🔍 Zoom Full Resolution</span>
@@ -280,8 +295,8 @@ const screenshots = [
             223 Specialized Agent Roles Across 25 Industries
         </h2>
         <p class="text-lg leading-8 text-zinc-400 font-light">
-          Instantly search, customize, and deploy pre-configured autonomous
-          agent swarms from 25 industry template collections.
+          Search, customize, and deploy pre-configured agent roles from 25
+          industry template collections.
         </p>
       </div>
 
@@ -330,11 +345,15 @@ const screenshots = [
           <img
             src={`${basePath}/assets/industry_templates_catalog.png`}
             alt="Browse Agent Swarm Catalog UI"
-            class="w-full h-auto object-cover cursor-pointer group-hover:scale-[1.02] transition-transform duration-500"
-            @click={`openLightbox('${basePath}/assets/industry_templates_catalog.png')`}
+            width="1680"
+            height="1050"
+            loading="lazy"
+            decoding="async"
+            class="w-full h-auto object-cover group-hover:scale-[1.02] transition-transform duration-500"
           />
           <button
-            @click={`openLightbox('${basePath}/assets/industry_templates_catalog.png')`}
+            type="button"
+            @click={`openLightbox('${basePath}/assets/industry_templates_catalog.png', 'Industry agent swarm catalog')`}
             class="absolute bottom-3 right-3 bg-zinc-950/85 hover:bg-zinc-950 border border-white/20 text-white px-3 py-1.5 rounded-lg text-xs font-mono flex items-center gap-1.5 opacity-90 hover:opacity-100 transition-all backdrop-blur shadow-lg cursor-pointer"
           >
             <span>🔍 Zoom Full Resolution</span>
@@ -539,8 +558,8 @@ const screenshots = [
               Autonomous Enterprise Cluster
             </h3>
             <p class="text-zinc-400 text-xs font-light leading-relaxed">
-              ISO 9001 / ALCOA+ automated compliance ledger, OBLITERATUS Merkle
-              proofs, and enterprise cluster manager.
+              Audit-oriented records mapped to ISO 9001 and ALCOA+ concepts,
+              OBLITERATUS Merkle proofs, and an enterprise cluster manager.
             </p>
           </div>
         </div>
@@ -592,6 +611,7 @@ const screenshots = [
     <div
       x-show="lightboxOpen"
       x-cloak
+      x-ref="dialog"
       x-transition:enter="transition ease-out duration-300"
       x-transition:enter-start="opacity-0 scale-95"
       x-transition:enter-end="opacity-100 scale-100"
@@ -601,9 +621,11 @@ const screenshots = [
       class="fixed inset-0 z-[100] bg-black/95 backdrop-blur-2xl flex flex-col items-center justify-center p-4 sm:p-6"
       @click="closeLightbox()"
       @keydown.escape.window="closeLightbox()"
+      @keydown.tab="trapLightboxFocus($event)"
       role="dialog"
       aria-modal="true"
       aria-labelledby="homepage-lightbox-title"
+      :aria-hidden="!lightboxOpen"
     >
       <!-- Top Floating Controls Header -->
       <div
@@ -614,11 +636,12 @@ const screenshots = [
           <span id="homepage-lightbox-title" class="text-emerald-400 font-bold"
             >🔍 High-Resolution Preview</span
           >
-          <span class="text-zinc-600">|</span>
+          <span class="text-zinc-600" aria-hidden="true">|</span>
           <span class="text-zinc-500">Press ESC or click anywhere to exit</span>
         </div>
 
         <button
+          type="button"
           @click="closeLightbox()"
           x-ref="closeButton"
           class="px-4 py-2 bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-bold rounded-xl border border-emerald-400 shadow-xl transition-all hover:scale-105 active:scale-95 cursor-pointer flex items-center gap-2"
@@ -634,8 +657,10 @@ const screenshots = [
       >
         <img
           :src="lightboxImg"
+          :alt="lightboxAlt"
+          width="1680"
+          height="1050"
           class="max-h-[82vh] max-w-full w-auto h-auto object-contain rounded-2xl select-none"
-          alt="Full Resolution Screenshot"
         />
       </div>
     </div>

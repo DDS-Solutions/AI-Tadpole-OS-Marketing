@@ -1,0 +1,35 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const basePath = import.meta.env.BASE_URL.replace(/\/$/, "");
+---
+
+<BaseLayout
+  title="Page Not Found | AI-Tadpole-OS"
+  description="The requested AI-Tadpole-OS marketing page could not be found."
+  noIndex
+>
+  <main
+    id="main"
+    class="relative z-10 mx-auto flex min-h-screen max-w-4xl items-center px-5 py-32 sm:px-8"
+  >
+    <section class="glass-surface w-full rounded-3xl p-8 text-center sm:p-12">
+      <p class="font-mono text-xs font-bold uppercase tracking-[0.24em] text-emerald-300">
+        Route unavailable · 404
+      </p>
+      <h1 class="mt-5 text-5xl font-extrabold text-white sm:text-7xl">
+        This node is not in the graph.
+      </h1>
+      <p class="mx-auto mt-6 max-w-2xl text-lg leading-8 text-zinc-300">
+        The requested page may have moved or never existed. Return to the
+        runtime overview to continue exploring AI-Tadpole-OS.
+      </p>
+      <a
+        href={`${basePath}/`}
+        class="mt-8 inline-flex min-h-11 items-center rounded-xl bg-emerald-400 px-6 py-3 font-mono text-xs font-bold uppercase tracking-wider text-zinc-950 hover:bg-emerald-300"
+      >
+        Return to homepage
+      </a>
+    </section>
+  </main>
+</BaseLayout>

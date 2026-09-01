@@ -2,14 +2,19 @@
   "name": "tadpole-marketing",
   "type": "module",
   "version": "0.0.1",
+  "engines": {
+    "node": ">=22"
+  },
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "astro build && node scripts/generate_sitemap.js",
     "check": "astro check",
     "typecheck": "tsc --noEmit",
     "preview": "astro preview",
     "astro": "astro",
-    "test": "node scripts/verify_site.js"
+    "test:static": "node scripts/verify_site.js",
+    "test:browser": "node scripts/verify_browser.js",
+    "test": "npm run test:static && npm run test:browser"
   },
   "dependencies": {
     "@astrojs/tailwind": "^6.0.2",

@@ -8,7 +8,7 @@ const basePath = import.meta.env.BASE_URL.replace(/\/$/, "");
     display: none !important;
   }
   .font-mono-code {
-    font-family: "JetBrains Mono", monospace;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   }
 
   .neural-pulse-line {
@@ -101,13 +101,23 @@ const basePath = import.meta.env.BASE_URL.replace(/\/$/, "");
       </div>
 
       <!-- Interactive 5-Component Architecture Pipeline -->
-      <div class="grid grid-cols-1 md:grid-cols-5 gap-3 font-mono text-xs" role="tablist" aria-label="Architecture pipeline layers">
+      <div
+        class="grid grid-cols-1 md:grid-cols-5 gap-3 font-mono text-xs"
+        role="tablist"
+        aria-label="Architecture pipeline layers"
+        @keydown.right.prevent="moveNodeFocus(1)"
+        @keydown.left.prevent="moveNodeFocus(-1)"
+        @keydown.home.prevent="focusNodeBoundary('first')"
+        @keydown.end.prevent="focusNodeBoundary('last')"
+      >
         <button
+          type="button"
           id="arch-tab-directive"
           @click="selectNode('directive')"
           role="tab"
           aria-controls="arch-panel"
           :aria-selected="selectedNode === 'directive'"
+          :tabindex="selectedNode === 'directive' ? 0 : -1"
           :class="getNodeClass('directive')"
           class="p-4 rounded-2xl border text-left transition-all duration-200 space-y-2 relative overflow-hidden group cursor-pointer"
         >
@@ -125,11 +135,13 @@ const basePath = import.meta.env.BASE_URL.replace(/\/$/, "");
         </button>
 
         <button
+          type="button"
           id="arch-tab-orchestration"
           @click="selectNode('orchestration')"
           role="tab"
           aria-controls="arch-panel"
           :aria-selected="selectedNode === 'orchestration'"
+          :tabindex="selectedNode === 'orchestration' ? 0 : -1"
           :class="getNodeClass('orchestration')"
           class="p-4 rounded-2xl border text-left transition-all duration-200 space-y-2 relative overflow-hidden group cursor-pointer"
         >
@@ -147,11 +159,13 @@ const basePath = import.meta.env.BASE_URL.replace(/\/$/, "");
         </button>
 
         <button
+          type="button"
           id="arch-tab-execution"
           @click="selectNode('execution')"
           role="tab"
           aria-controls="arch-panel"
           :aria-selected="selectedNode === 'execution'"
+          :tabindex="selectedNode === 'execution' ? 0 : -1"
           :class="getNodeClass('execution')"
           class="p-4 rounded-2xl border text-left transition-all duration-200 space-y-2 relative overflow-hidden group cursor-pointer"
         >
@@ -169,11 +183,13 @@ const basePath = import.meta.env.BASE_URL.replace(/\/$/, "");
         </button>
 
         <button
+          type="button"
           id="arch-tab-governance"
           @click="selectNode('governance')"
           role="tab"
           aria-controls="arch-panel"
           :aria-selected="selectedNode === 'governance'"
+          :tabindex="selectedNode === 'governance' ? 0 : -1"
           :class="getNodeClass('governance')"
           class="p-4 rounded-2xl border text-left transition-all duration-200 space-y-2 relative overflow-hidden group cursor-pointer"
         >
@@ -191,11 +207,13 @@ const basePath = import.meta.env.BASE_URL.replace(/\/$/, "");
         </button>
 
         <button
+          type="button"
           id="arch-tab-memory"
           @click="selectNode('memory')"
           role="tab"
           aria-controls="arch-panel"
           :aria-selected="selectedNode === 'memory'"
+          :tabindex="selectedNode === 'memory' ? 0 : -1"
           :class="getNodeClass('memory')"
           class="p-4 rounded-2xl border text-left transition-all duration-200 space-y-2 relative overflow-hidden group cursor-pointer"
         >
@@ -217,6 +235,8 @@ const basePath = import.meta.env.BASE_URL.replace(/\/$/, "");
       <div
         id="arch-panel"
         role="tabpanel"
+        :aria-labelledby="'arch-tab-' + selectedNode"
+        tabindex="0"
         class="p-6 sm:p-8 rounded-2xl bg-zinc-950/90 border border-white/10 space-y-6"
       >
         <div
@@ -266,8 +286,8 @@ const basePath = import.meta.env.BASE_URL.replace(/\/$/, "");
               <span class="text-white font-bold" x-text="nodes[selectedNode].specs[2].val">Instant (FS-Watch)</span>
             </div>
             <div class="flex justify-between items-center py-2 border-b border-white/5">
-              <span class="text-zinc-400" x-text="nodes[selectedNode].specs[3].label">Compliance</span>
-              <span class="text-white font-bold" x-text="nodes[selectedNode].specs[3].val">SOC2 / HIPAA Ready</span>
+              <span class="text-zinc-400" x-text="nodes[selectedNode].specs[3].label">Control Mapping</span>
+              <span class="text-white font-bold" x-text="nodes[selectedNode].specs[3].val">Deployment-Dependent</span>
             </div>
           </div>
 
@@ -298,51 +318,67 @@ const basePath = import.meta.env.BASE_URL.replace(/\/$/, "");
         </h2>
         <p class="text-zinc-400 font-light leading-relaxed">
           Select a role to see how AI-Tadpole-OS transforms security,
-          governance, EBITDA protection, and daily execution.
+          governance, operational control, and daily execution.
         </p>
       </div>
 
       <!-- Tab Buttons -->
-      <div class="flex flex-wrap justify-center gap-3 font-mono text-xs" role="tablist" aria-label="Operational perspectives">
+      <div
+        class="flex flex-wrap justify-center gap-3 font-mono text-xs"
+        role="tablist"
+        aria-label="Operational perspectives"
+        @keydown.right.prevent="movePerspectiveFocus(1)"
+        @keydown.left.prevent="movePerspectiveFocus(-1)"
+        @keydown.home.prevent="focusPerspectiveBoundary('first')"
+        @keydown.end.prevent="focusPerspectiveBoundary('last')"
+      >
         <button
+          type="button"
           id="persp-tab-it"
           @click="selectPerspective('it')"
           role="tab"
           aria-controls="persp-panel-it"
           :aria-selected="activePerspective === 'it'"
+          :tabindex="activePerspective === 'it' ? 0 : -1"
           :class="getPerspectiveClass('it')"
           class="px-6 py-3 rounded-xl border uppercase tracking-wider transition-all cursor-pointer"
         >
           🛡️ IT & Infrastructure
         </button>
         <button
+          type="button"
           id="persp-tab-manager"
           @click="selectPerspective('manager')"
           role="tab"
           aria-controls="persp-panel-manager"
           :aria-selected="activePerspective === 'manager'"
+          :tabindex="activePerspective === 'manager' ? 0 : -1"
           :class="getPerspectiveClass('manager')"
           class="px-6 py-3 rounded-xl border uppercase tracking-wider transition-all cursor-pointer"
         >
           📊 Operations Manager
         </button>
         <button
+          type="button"
           id="persp-tab-exec"
           @click="selectPerspective('exec')"
           role="tab"
           aria-controls="persp-panel-exec"
           :aria-selected="activePerspective === 'exec'"
+          :tabindex="activePerspective === 'exec' ? 0 : -1"
           :class="getPerspectiveClass('exec')"
           class="px-6 py-3 rounded-xl border uppercase tracking-wider transition-all cursor-pointer"
         >
           🏰 C-Suite Executive
         </button>
         <button
+          type="button"
           id="persp-tab-operator"
           @click="selectPerspective('operator')"
           role="tab"
           aria-controls="persp-panel-operator"
           :aria-selected="activePerspective === 'operator'"
+          :tabindex="activePerspective === 'operator' ? 0 : -1"
           :class="getPerspectiveClass('operator')"
           class="px-6 py-3 rounded-xl border uppercase tracking-wider transition-all cursor-pointer"
         >
@@ -360,7 +396,7 @@ const basePath = import.meta.env.BASE_URL.replace(/\/$/, "");
           id="persp-panel-it"
           role="tabpanel"
           aria-labelledby="persp-tab-it"
-          x-cloak
+          tabindex="0"
           x-transition:enter="transition ease-out duration-300"
           x-transition:enter-start="opacity-0 translate-y-2"
           x-transition:enter-end="opacity-100 translate-y-0"
@@ -417,11 +453,15 @@ const basePath = import.meta.env.BASE_URL.replace(/\/$/, "");
             <img
               src={`${basePath}/assets/real_os_oversight.png`}
               alt="IT Security Controls"
-              class="w-full h-auto object-cover cursor-pointer"
-              @click={`openLightbox('${basePath}/assets/real_os_oversight.png')`}
+              width="1662"
+              height="905"
+              loading="lazy"
+              decoding="async"
+              class="w-full h-auto object-cover"
             />
             <button
-              @click={`openLightbox('${basePath}/assets/real_os_oversight.png')`}
+              type="button"
+              @click={`openLightbox('${basePath}/assets/real_os_oversight.png', 'IT security controls')`}
               class="absolute bottom-3 right-3 bg-zinc-950/85 hover:bg-zinc-950 border border-white/20 text-white px-3 py-1.5 rounded-lg text-xs font-mono flex items-center gap-1.5 opacity-90 hover:opacity-100 transition-all backdrop-blur shadow-lg cursor-pointer"
             >
               <span>🔍 Zoom Full Resolution</span>
@@ -435,7 +475,7 @@ const basePath = import.meta.env.BASE_URL.replace(/\/$/, "");
           id="persp-panel-manager"
           role="tabpanel"
           aria-labelledby="persp-tab-manager"
-          x-cloak
+          tabindex="0"
           x-transition:enter="transition ease-out duration-300"
           x-transition:enter-start="opacity-0 translate-y-2"
           x-transition:enter-end="opacity-100 translate-y-0"
@@ -483,11 +523,15 @@ const basePath = import.meta.env.BASE_URL.replace(/\/$/, "");
             <img
               src={`${basePath}/assets/real_os_dashboard.png`}
               alt="Operations Dashboard"
-              class="w-full h-auto object-cover cursor-pointer"
-              @click={`openLightbox('${basePath}/assets/real_os_dashboard.png')`}
+              width="1662"
+              height="905"
+              loading="lazy"
+              decoding="async"
+              class="w-full h-auto object-cover"
             />
             <button
-              @click={`openLightbox('${basePath}/assets/real_os_dashboard.png')`}
+              type="button"
+              @click={`openLightbox('${basePath}/assets/real_os_dashboard.png', 'Operations dashboard')`}
               class="absolute bottom-3 right-3 bg-zinc-950/85 hover:bg-zinc-950 border border-white/20 text-white px-3 py-1.5 rounded-lg text-xs font-mono flex items-center gap-1.5 opacity-90 hover:opacity-100 transition-all backdrop-blur shadow-lg cursor-pointer"
             >
               <span>🔍 Zoom Full Resolution</span>
@@ -501,7 +545,7 @@ const basePath = import.meta.env.BASE_URL.replace(/\/$/, "");
           id="persp-panel-exec"
           role="tabpanel"
           aria-labelledby="persp-tab-exec"
-          x-cloak
+          tabindex="0"
           x-transition:enter="transition ease-out duration-300"
           x-transition:enter-start="opacity-0 translate-y-2"
           x-transition:enter-end="opacity-100 translate-y-0"
@@ -511,29 +555,29 @@ const basePath = import.meta.env.BASE_URL.replace(/\/$/, "");
             <span
               class="px-3 py-1 rounded bg-amber-500/10 border border-amber-500/30 text-amber-400 font-mono text-xs font-bold uppercase"
             >
-              Enterprise EBITDA Moat
+              Enterprise Control
             </span>
             <h3 class="text-3xl font-bold text-white font-outfit">
               Sovereignty as the Ultimate Enterprise Advantage
             </h3>
             <p class="text-zinc-300 font-light leading-relaxed">
-              By deploying Tadpole OS locally on hardware nodes, enterprises
-              eliminate API vendor lock-in, protect proprietary trade secrets,
-              and expand EBITDA margins through autonomous swarm scaling.
+              Deploying Tadpole OS on organization-controlled hardware can
+              reduce API dependency and keep proprietary context within the
+              security boundaries selected for that deployment.
             </p>
             <div class="grid grid-cols-2 gap-4 font-mono text-xs">
               <div
                 class="p-4 rounded-xl bg-zinc-950 border border-emerald-500/30 text-center space-y-1"
               >
-                <div class="text-2xl text-emerald-400 font-bold">100%</div>
-                <div class="text-zinc-400 text-[10px]">Data & IP Ownership</div>
+                <div class="text-2xl text-emerald-400 font-bold">Local</div>
+                <div class="text-zinc-400 text-[10px]">Configurable Data Boundary</div>
               </div>
               <div
                 class="p-4 rounded-xl bg-zinc-950 border border-cyan-500/30 text-center space-y-1"
               >
-                <div class="text-2xl text-cyan-400 font-bold">0 $</div>
+                <div class="text-2xl text-cyan-400 font-bold">Optional</div>
                 <div class="text-zinc-400 text-[10px]">
-                  Cloud API Exfiltration Risk
+                  External Model Access
                 </div>
               </div>
             </div>
@@ -545,11 +589,15 @@ const basePath = import.meta.env.BASE_URL.replace(/\/$/, "");
             <img
               src={`${basePath}/assets/moat-visual.png`}
               alt="Sovereign Moat"
-              class="w-full h-auto object-cover cursor-pointer"
-              @click={`openLightbox('${basePath}/assets/moat-visual.png')`}
+              width="640"
+              height="640"
+              loading="lazy"
+              decoding="async"
+              class="w-full h-auto object-cover"
             />
             <button
-              @click={`openLightbox('${basePath}/assets/moat-visual.png')`}
+              type="button"
+              @click={`openLightbox('${basePath}/assets/moat-visual.png', 'Sovereign moat')`}
               class="absolute bottom-3 right-3 bg-zinc-950/85 hover:bg-zinc-950 border border-white/20 text-white px-3 py-1.5 rounded-lg text-xs font-mono flex items-center gap-1.5 opacity-90 hover:opacity-100 transition-all backdrop-blur shadow-lg cursor-pointer"
             >
               <span>🔍 Zoom Full Resolution</span>
@@ -563,7 +611,7 @@ const basePath = import.meta.env.BASE_URL.replace(/\/$/, "");
           id="persp-panel-operator"
           role="tabpanel"
           aria-labelledby="persp-tab-operator"
-          x-cloak
+          tabindex="0"
           x-transition:enter="transition ease-out duration-300"
           x-transition:enter-start="opacity-0 translate-y-2"
           x-transition:enter-end="opacity-100 translate-y-0"
@@ -587,11 +635,11 @@ const basePath = import.meta.env.BASE_URL.replace(/\/$/, "");
               class="p-4 rounded-xl bg-zinc-950 border border-white/5 font-mono text-xs space-y-2 text-zinc-300"
             >
               <div class="text-emerald-400 font-bold">
-                1 Employee + Tadpole Swarm = 50 Specialist Hours / Day
+                One Operator, Multiple Governed Workflows
               </div>
-              <p class="text-zinc-500 text-[11px] font-light">
-                Ingest playbooks, run parallel audits, and synthesize executive
-                findings automatically.
+              <p class="text-zinc-400 text-[11px] font-light">
+                Ingest playbooks, coordinate parallel reviews, and synthesize
+                findings with operator oversight.
               </p>
             </div>
           </div>
@@ -602,11 +650,15 @@ const basePath = import.meta.env.BASE_URL.replace(/\/$/, "");
             <img
               src={`${basePath}/assets/real_os_nodes.png`}
               alt="Operator Node Management"
-              class="w-full h-auto object-cover cursor-pointer"
-              @click={`openLightbox('${basePath}/assets/real_os_nodes.png')`}
+              width="1662"
+              height="905"
+              loading="lazy"
+              decoding="async"
+              class="w-full h-auto object-cover"
             />
             <button
-              @click={`openLightbox('${basePath}/assets/real_os_nodes.png')`}
+              type="button"
+              @click={`openLightbox('${basePath}/assets/real_os_nodes.png', 'Operator node management')`}
               class="absolute bottom-3 right-3 bg-zinc-950/85 hover:bg-zinc-950 border border-white/20 text-white px-3 py-1.5 rounded-lg text-xs font-mono flex items-center gap-1.5 opacity-90 hover:opacity-100 transition-all backdrop-blur shadow-lg cursor-pointer"
             >
               <span>🔍 Zoom Full Resolution</span>
@@ -682,7 +734,7 @@ const basePath = import.meta.env.BASE_URL.replace(/\/$/, "");
           <div
             class="p-3 rounded bg-black border border-white/5 text-[11px] text-cyan-300"
           >
-            Latency: ~80ms | Fallback Ready
+            Latency target: deployment-dependent | Fallback configured
           </div>
         </div>
 
@@ -792,6 +844,7 @@ const basePath = import.meta.env.BASE_URL.replace(/\/$/, "");
     <div
       x-show="lightboxOpen"
       x-cloak
+      x-ref="dialog"
       x-transition:enter="transition ease-out duration-300"
       x-transition:enter-start="opacity-0 scale-95"
       x-transition:enter-end="opacity-100 scale-100"
@@ -801,9 +854,11 @@ const basePath = import.meta.env.BASE_URL.replace(/\/$/, "");
       class="fixed inset-0 z-[100] bg-black/95 backdrop-blur-2xl flex flex-col items-center justify-center p-4 sm:p-6"
       @click="closeLightbox()"
       @keydown.escape.window="closeLightbox()"
+      @keydown.tab="trapLightboxFocus($event)"
       role="dialog"
       aria-modal="true"
       aria-labelledby="architecture-lightbox-title"
+      :aria-hidden="!lightboxOpen"
     >
       <!-- Top Floating Controls Header -->
       <div
@@ -814,11 +869,12 @@ const basePath = import.meta.env.BASE_URL.replace(/\/$/, "");
           <span id="architecture-lightbox-title" class="text-emerald-400 font-bold"
             >🔍 High-Resolution Preview</span
           >
-          <span class="text-zinc-600">|</span>
+          <span class="text-zinc-600" aria-hidden="true">|</span>
           <span class="text-zinc-500">Press ESC or click anywhere to exit</span>
         </div>
 
         <button
+          type="button"
           @click="closeLightbox()"
           x-ref="closeButton"
           class="px-4 py-2 bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-bold rounded-xl border border-emerald-400 shadow-xl transition-all hover:scale-105 active:scale-95 cursor-pointer flex items-center gap-2"
@@ -834,8 +890,10 @@ const basePath = import.meta.env.BASE_URL.replace(/\/$/, "");
       >
         <img
           :src="lightboxImg"
+          :alt="lightboxAlt"
+          width="1662"
+          height="905"
           class="max-h-[82vh] max-w-full w-auto h-auto object-contain rounded-2xl select-none"
-          alt="Full Resolution Screenshot"
         />
       </div>
     </div>

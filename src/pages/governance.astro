@@ -4,11 +4,8 @@ const basePath = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 
 <style>
-  [x-cloak] {
-    display: none !important;
-  }
   .font-mono-code {
-    font-family: "JetBrains Mono", monospace;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   }
 
   .scanline-bg {
@@ -54,13 +51,23 @@ const basePath = import.meta.env.BASE_URL.replace(/\/$/, '');
     <!-- INTERACTIVE GOVERNANCE CLAUSE SELECTOR -->
     <section class="glass-surface rounded-3xl border border-white/10 overflow-hidden shadow-2xl p-6 sm:p-10 space-y-8 scanline-bg glow-emerald-box">
       <!-- Nav Tabs -->
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-3 font-mono text-xs" role="tablist" aria-label="Governance sections">
+      <div
+        class="grid grid-cols-2 md:grid-cols-4 gap-3 font-mono text-xs"
+        role="tablist"
+        aria-label="Governance sections"
+        @keydown.right.prevent="moveTabFocus(1)"
+        @keydown.left.prevent="moveTabFocus(-1)"
+        @keydown.home.prevent="focusTabBoundary('first')"
+        @keydown.end.prevent="focusTabBoundary('last')"
+      >
         <button
+          type="button"
           id="tab-overlord"
-          @click="activeTab = 'overlord'"
+          @click="selectTab('overlord')"
           role="tab"
           aria-controls="panel-overlord"
           :aria-selected="activeTab === 'overlord'"
+          :tabindex="activeTab === 'overlord' ? 0 : -1"
           :class="activeTab === 'overlord' ? 'border-emerald-500 bg-emerald-500/15 text-white font-bold' : 'border-white/10 bg-black/40 text-zinc-400 hover:border-white/20'"
           class="p-4 rounded-2xl border text-left transition-all duration-200 space-y-1 cursor-pointer"
         >
@@ -69,11 +76,13 @@ const basePath = import.meta.env.BASE_URL.replace(/\/$/, '');
         </button>
 
         <button
+          type="button"
           id="tab-sovereignty"
-          @click="activeTab = 'sovereignty'"
+          @click="selectTab('sovereignty')"
           role="tab"
           aria-controls="panel-sovereignty"
           :aria-selected="activeTab === 'sovereignty'"
+          :tabindex="activeTab === 'sovereignty' ? 0 : -1"
           :class="activeTab === 'sovereignty' ? 'border-cyan-500 bg-cyan-500/15 text-white font-bold' : 'border-white/10 bg-black/40 text-zinc-400 hover:border-white/20'"
           class="p-4 rounded-2xl border text-left transition-all duration-200 space-y-1 cursor-pointer"
         >
@@ -82,11 +91,13 @@ const basePath = import.meta.env.BASE_URL.replace(/\/$/, '');
         </button>
 
         <button
+          type="button"
           id="tab-sapphire"
-          @click="activeTab = 'sapphire'"
+          @click="selectTab('sapphire')"
           role="tab"
           aria-controls="panel-sapphire"
           :aria-selected="activeTab === 'sapphire'"
+          :tabindex="activeTab === 'sapphire' ? 0 : -1"
           :class="activeTab === 'sapphire' ? 'border-amber-500 bg-amber-500/15 text-white font-bold' : 'border-white/10 bg-black/40 text-zinc-400 hover:border-white/20'"
           class="p-4 rounded-2xl border text-left transition-all duration-200 space-y-1 cursor-pointer"
         >
@@ -95,11 +106,13 @@ const basePath = import.meta.env.BASE_URL.replace(/\/$/, '');
         </button>
 
         <button
+          type="button"
           id="tab-scaling"
-          @click="activeTab = 'scaling'"
+          @click="selectTab('scaling')"
           role="tab"
           aria-controls="panel-scaling"
           :aria-selected="activeTab === 'scaling'"
+          :tabindex="activeTab === 'scaling' ? 0 : -1"
           :class="activeTab === 'scaling' ? 'border-purple-500 bg-purple-500/15 text-white font-bold' : 'border-white/10 bg-black/40 text-zinc-400 hover:border-white/20'"
           class="p-4 rounded-2xl border text-left transition-all duration-200 space-y-1 cursor-pointer"
         >
@@ -117,7 +130,7 @@ const basePath = import.meta.env.BASE_URL.replace(/\/$/, '');
           id="panel-overlord"
           role="tabpanel"
           aria-labelledby="tab-overlord"
-          x-cloak
+          tabindex="0"
           x-transition:enter="transition ease-out duration-300"
           x-transition:enter-start="opacity-0 translate-y-2"
           x-transition:enter-end="opacity-100 translate-y-0"
@@ -147,14 +160,14 @@ const basePath = import.meta.env.BASE_URL.replace(/\/$/, '');
             <div class="p-4 rounded-xl bg-black/50 border border-white/5 space-y-2">
               <div class="text-cyan-400 font-bold uppercase text-[10px]">2. Zero Context Decay</div>
               <p class="text-zinc-400 font-light text-[11px] leading-relaxed">
-                Autonomous missions persist beyond session boundaries with zero objective drift.
+                Mission state can persist beyond session boundaries while operators remain responsible for reviewing objective alignment.
               </p>
             </div>
 
             <div class="p-4 rounded-xl bg-black/50 border border-white/5 space-y-2">
               <div class="text-red-400 font-bold uppercase text-[10px]">3. Red Button Killswitch</div>
               <p class="text-zinc-400 font-light text-[11px] leading-relaxed">
-                Global cryptographic killswitch to freeze all Tokio execution loops instantly.
+                Global cryptographic killswitch designed to halt Tokio execution loops; response time depends on deployment conditions.
               </p>
             </div>
           </div>
@@ -166,7 +179,7 @@ const basePath = import.meta.env.BASE_URL.replace(/\/$/, '');
           id="panel-sovereignty"
           role="tabpanel"
           aria-labelledby="tab-sovereignty"
-          x-cloak
+          tabindex="0"
           x-transition:enter="transition ease-out duration-300"
           x-transition:enter-start="opacity-0 translate-y-2"
           x-transition:enter-end="opacity-100 translate-y-0"
@@ -182,7 +195,7 @@ const basePath = import.meta.env.BASE_URL.replace(/\/$/, '');
 
           <p class="text-base text-zinc-300 font-light leading-relaxed">
             AI-Tadpole-OS is built on the foundation of <strong>Hardware-Level Intelligence Ownership</strong>. 
-            Enterprises store all directives, vector databases, and execution histories locally—eliminating vendor lock-in and cloud data leaks.
+            Enterprises can store directives, vector databases, and execution histories locally, reducing vendor dependency and third-party data exposure when deployment controls are configured correctly.
           </p>
 
           <div class="grid md:grid-cols-2 gap-6">
@@ -208,7 +221,7 @@ const basePath = import.meta.env.BASE_URL.replace(/\/$/, '');
           id="panel-sapphire"
           role="tabpanel"
           aria-labelledby="tab-sapphire"
-          x-cloak
+          tabindex="0"
           x-transition:enter="transition ease-out duration-300"
           x-transition:enter-start="opacity-0 translate-y-2"
           x-transition:enter-end="opacity-100 translate-y-0"
@@ -224,7 +237,7 @@ const basePath = import.meta.env.BASE_URL.replace(/\/$/, '');
 
           <p class="text-base text-zinc-300 font-light leading-relaxed">
             All template swarms are strictly declarative (JSON/Markdown) with zero raw executable code allowed. 
-            Any dynamic capability escalation freezes the runtime instantly until signed with an immutable <strong>Merkle-Proof Audit Receipt</strong>.
+            Dynamic capability escalation can pause the runtime until an authorized operator records a <strong>Merkle-proof audit receipt</strong>; enforcement depends on the configured policy boundary.
           </p>
 
           <div class="rounded-2xl overflow-hidden border border-white/10 bg-black font-mono text-xs shadow-2xl space-y-0">
@@ -254,7 +267,7 @@ const basePath = import.meta.env.BASE_URL.replace(/\/$/, '');
           id="panel-scaling"
           role="tabpanel"
           aria-labelledby="tab-scaling"
-          x-cloak
+          tabindex="0"
           x-transition:enter="transition ease-out duration-300"
           x-transition:enter-start="opacity-0 translate-y-2"
           x-transition:enter-end="opacity-100 translate-y-0"
@@ -269,7 +282,7 @@ const basePath = import.meta.env.BASE_URL.replace(/\/$/, '');
           </div>
 
           <p class="text-base text-zinc-300 font-light leading-relaxed">
-            By leveraging Rust Tokio concurrency, small agile teams can orchestrate 50+ specialist agents simultaneously—delivering weeks of documentation, audits, and research in hours.
+            Rust Tokio concurrency is designed to help small teams coordinate multiple specialist agents. Supported concurrency and completion time depend on hardware, models, tools, and workload.
           </p>
 
           <blockquote class="border-l-4 border-emerald-500 pl-6 text-lg italic text-zinc-200 font-light font-outfit">
@@ -283,29 +296,29 @@ const basePath = import.meta.env.BASE_URL.replace(/\/$/, '');
     <!-- COMPLIANCE & STANDARDS MATRIX -->
     <section class="space-y-8">
       <div class="text-center space-y-3">
-        <h2 class="text-3xl font-bold text-white font-outfit">Sovereign Compliance Standards</h2>
-        <p class="text-xs font-mono text-zinc-400 uppercase tracking-widest">Built for ISO, GxP, and NIST AI Governance</p>
+        <h2 class="text-3xl font-bold text-white font-outfit">Governance Alignment Targets</h2>
+        <p class="text-xs font-mono text-zinc-400 uppercase tracking-widest">Control mappings are implementation aids, not certification</p>
       </div>
 
       <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 font-mono text-xs">
         <div class="p-6 rounded-2xl glass-surface border border-white/10 space-y-2">
           <div class="text-emerald-400 font-bold text-base">ISO 9001 / 42001</div>
-          <p class="text-zinc-400 text-xs font-light">Quality management & AI management systems compliance.</p>
+          <p class="text-zinc-400 text-xs font-light">Design references for quality and AI management control mapping.</p>
         </div>
 
         <div class="p-6 rounded-2xl glass-surface border border-white/10 space-y-2">
           <div class="text-cyan-400 font-bold text-base">NIST AI-RMF</div>
-          <p class="text-zinc-400 text-xs font-light">Risk Management Framework map & zero-trust boundaries.</p>
+          <p class="text-zinc-400 text-xs font-light">Risk Management Framework mapping and zero-trust boundary documentation.</p>
         </div>
 
         <div class="p-6 rounded-2xl glass-surface border border-white/10 space-y-2">
           <div class="text-purple-400 font-bold text-base">ALCOA+ Standard</div>
-          <p class="text-zinc-400 text-xs font-light">Attributable, legible, contemporaneous, original audit logs.</p>
+          <p class="text-zinc-400 text-xs font-light">Audit-record design informed by attributable, legible, contemporaneous, and original data principles.</p>
         </div>
 
         <div class="p-6 rounded-2xl glass-surface border border-white/10 space-y-2">
-          <div class="text-amber-400 font-bold text-base">GxP Regulatory</div>
-          <p class="text-zinc-400 text-xs font-light">Validated software execution for life sciences & medical.</p>
+          <div class="text-amber-400 font-bold text-base">GxP-Oriented Controls</div>
+          <p class="text-zinc-400 text-xs font-light">Deployment controls that may support a separate, documented validation process.</p>
         </div>
       </div>
     </section>

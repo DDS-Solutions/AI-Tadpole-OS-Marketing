@@ -6,7 +6,7 @@ const basePath = import.meta.env.BASE_URL.replace(/\/$/, '');
 <style>
   [x-cloak] { display: none !important; }
   .terminal-font {
-    font-family: "JetBrains Mono", monospace;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   }
   
   .terminal-scroll::-webkit-scrollbar {
@@ -58,7 +58,12 @@ const basePath = import.meta.env.BASE_URL.replace(/\/$/, '');
     </header>
 
     <!-- SECTION 1: REAL UI SLIDESHOW SHOWCASE -->
-    <section class="glass-surface rounded-3xl border border-white/10 overflow-hidden shadow-2xl relative scanline p-6 sm:p-8 space-y-8">
+    <section
+      class="glass-surface rounded-3xl border border-white/10 overflow-hidden shadow-2xl relative scanline p-6 sm:p-8 space-y-8"
+      role="region"
+      aria-roledescription="carousel"
+      aria-label="Mission runtime walkthrough"
+    >
       
       <!-- Top Title & Controls -->
       <div class="flex flex-wrap items-center justify-between gap-4 border-b border-white/10 pb-6">
@@ -77,16 +82,19 @@ const basePath = import.meta.env.BASE_URL.replace(/\/$/, '');
         <div class="flex items-center gap-3 font-mono text-xs">
           <!-- Auto-Play Toggle -->
           <button
+            type="button"
             @click="toggleAutoPlay()"
+            :aria-pressed="!autoPlay"
             :class="autoPlay ? 'border-emerald-500/40 bg-emerald-500/10 text-emerald-300' : 'border-white/10 bg-black/40 text-zinc-400'"
             class="px-3.5 py-2 rounded-xl border transition-all flex items-center gap-2 cursor-pointer"
           >
-            <span x-text="autoPlay ? '⏸ Pause Slideshow' : '▶ Auto-Play Slideshow'">⏸ Pause Slideshow</span>
+            <span x-text="autoPlay ? '⏸ Pause Slideshow' : '▶ Auto-Play Slideshow'">▶ Auto-Play Slideshow</span>
           </button>
 
           <!-- Prev/Next -->
           <div class="flex items-center gap-1.5 bg-black/40 p-1 rounded-xl border border-white/10">
             <button
+              type="button"
               @click="prevSlide()"
               class="px-3 py-1.5 rounded-lg hover:bg-white/10 text-white font-bold transition-colors cursor-pointer"
               title="Previous slide (Left Arrow)"
@@ -95,6 +103,7 @@ const basePath = import.meta.env.BASE_URL.replace(/\/$/, '');
             </button>
             <span class="text-zinc-500 px-2 font-mono" x-text="(currentSlide + 1) + ' / ' + slides.length">1 / 6</span>
             <button
+              type="button"
               @click="nextSlide()"
               class="px-3 py-1.5 rounded-lg hover:bg-white/10 text-white font-bold transition-colors cursor-pointer"
               title="Next slide (Right Arrow)"
@@ -109,7 +118,10 @@ const basePath = import.meta.env.BASE_URL.replace(/\/$/, '');
       <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2 font-mono text-xs">
         <template x-for="(slide, idx) in slides" :key="idx">
           <button
+            type="button"
             @click="setSlide(idx)"
+            :aria-current="currentSlide === idx ? 'step' : null"
+            :aria-label="'Show step ' + (idx + 1) + ': ' + slide.shortTitle"
             :class="currentSlide === idx ? 'border-emerald-500/60 bg-emerald-500/10 text-white shadow-[0_0_15px_rgba(16,185,129,0.15)] font-bold' : 'border-white/5 bg-black/30 text-zinc-400 hover:border-white/15 hover:text-zinc-200'"
             class="p-3 rounded-xl border text-left transition-all duration-200 space-y-1 cursor-pointer"
           >
@@ -120,7 +132,14 @@ const basePath = import.meta.env.BASE_URL.replace(/\/$/, '');
       </div>
 
       <!-- Main Active Slide Display -->
-      <div class="grid lg:grid-cols-12 gap-8 items-start pt-2">
+      <div
+        class="grid lg:grid-cols-12 gap-8 items-start pt-2"
+        role="group"
+        aria-label="Active mission walkthrough slide; use left and right arrow keys to change slides"
+        tabindex="0"
+        @keydown.left.prevent="prevSlide()"
+        @keydown.right.prevent="nextSlide()"
+      >
         <!-- Screenshot Container (8 cols) -->
         <div class="lg:col-span-8 space-y-4">
           <div class="relative group rounded-2xl overflow-hidden border border-white/15 shadow-2xl bg-black">
@@ -128,16 +147,19 @@ const basePath = import.meta.env.BASE_URL.replace(/\/$/, '');
             <img
               src={`${basePath}/assets/real_mission/step1_initial_state.png`}
               alt="Swarm & Cluster Initialization"
+              width="1680"
+              height="963"
               :src="slides[currentSlide].image"
               :alt="slides[currentSlide].title"
-              class="w-full h-auto object-cover rounded-2xl transition-transform duration-500 group-hover:scale-[1.01] cursor-pointer"
+              class="w-full h-auto object-cover rounded-2xl transition-transform duration-500 group-hover:scale-[1.01]"
               loading="eager"
-              @click="openLightbox(slides[currentSlide].image)"
+              decoding="async"
             />
 
             <!-- Lightbox Zoom Overlay Hint -->
             <button
-              @click="openLightbox(slides[currentSlide].image)"
+              type="button"
+              @click="openLightbox(slides[currentSlide].image, slides[currentSlide].title)"
               class="absolute bottom-4 right-4 bg-zinc-950/85 hover:bg-zinc-950 border border-white/20 text-white px-3 py-1.5 rounded-lg text-xs font-mono flex items-center gap-1.5 opacity-90 hover:opacity-100 transition-all backdrop-blur cursor-pointer shadow-lg"
             >
               <span>🔍 Zoom Full Resolution</span>
@@ -145,16 +167,25 @@ const basePath = import.meta.env.BASE_URL.replace(/\/$/, '');
           </div>
 
           <!-- Progress Bar for Auto Play -->
-          <div x-show="autoPlay" class="h-1 bg-zinc-900 rounded-full overflow-hidden border border-white/5">
+          <div x-show="autoPlay" x-cloak class="h-1 bg-zinc-900 rounded-full overflow-hidden border border-white/5">
             <div
               class="h-full bg-emerald-400 transition-all duration-100 ease-linear"
               :style="'width: ' + autoPlayProgress + '%'"
+              role="progressbar"
+              aria-label="Time until next slide"
+              aria-valuemin="0"
+              aria-valuemax="100"
+              :aria-valuenow="Math.round(autoPlayProgress)"
             ></div>
           </div>
         </div>
 
         <!-- Slide Detail Sidebar (4 cols) -->
-        <div class="lg:col-span-4 space-y-6 glass-surface p-6 rounded-2xl border border-white/10 bg-black/40">
+        <div
+          class="lg:col-span-4 space-y-6 glass-surface p-6 rounded-2xl border border-white/10 bg-black/40"
+          :aria-live="autoPlay ? 'off' : 'polite'"
+          aria-atomic="true"
+        >
           <div class="space-y-2">
             <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 font-mono text-[10px] uppercase font-bold">
               <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
@@ -195,6 +226,7 @@ const basePath = import.meta.env.BASE_URL.replace(/\/$/, '');
     <div
       x-show="lightboxOpen"
       x-cloak
+      x-ref="dialog"
       x-transition:enter="transition ease-out duration-300"
       x-transition:enter-start="opacity-0 scale-95"
       x-transition:enter-end="opacity-100 scale-100"
@@ -204,19 +236,22 @@ const basePath = import.meta.env.BASE_URL.replace(/\/$/, '');
       class="fixed inset-0 z-[100] bg-black/95 backdrop-blur-2xl flex flex-col items-center justify-center p-4 sm:p-6"
       @click="closeLightbox()"
       @keydown.escape.window="closeLightbox()"
+      @keydown.tab="trapLightboxFocus($event)"
       role="dialog"
       aria-modal="true"
       aria-labelledby="mission-lightbox-title"
+      :aria-hidden="!lightboxOpen"
     >
       <!-- Top Floating Controls Header -->
       <div class="w-full max-w-6xl flex items-center justify-between pb-4 font-mono text-xs z-10" @click.stop>
         <div class="flex items-center gap-2 text-zinc-400">
           <span id="mission-lightbox-title" class="text-emerald-400 font-bold">🔍 High-Resolution Preview</span>
-          <span class="text-zinc-600">|</span>
+          <span class="text-zinc-600" aria-hidden="true">|</span>
           <span class="text-zinc-500">Press ESC or click anywhere to exit</span>
         </div>
 
         <button
+          type="button"
           @click="closeLightbox()"
           x-ref="closeButton"
           class="px-4 py-2 bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-bold rounded-xl border border-emerald-400 shadow-xl transition-all hover:scale-105 active:scale-95 cursor-pointer flex items-center gap-2"
@@ -229,8 +264,10 @@ const basePath = import.meta.env.BASE_URL.replace(/\/$/, '');
       <div class="relative max-w-6xl max-h-[82vh] flex items-center justify-center overflow-hidden rounded-2xl border border-white/20 shadow-2xl bg-zinc-950" @click.stop>
         <img
           :src="lightboxImg"
+          :alt="lightboxAlt"
+          width="1680"
+          height="963"
           class="max-h-[82vh] max-w-full w-auto h-auto object-contain rounded-2xl select-none"
-          alt="Full Resolution Screenshot"
         />
       </div>
     </div>

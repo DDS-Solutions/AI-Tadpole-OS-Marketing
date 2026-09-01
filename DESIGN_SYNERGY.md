@@ -1,7 +1,7 @@
 > [!IMPORTANT]
 > **AI Assist Note (Sovereign Authority)**:
 > This document is **SUPPLEMENTARY**. 
-> The **Primary Source of Truth** for all design tokens, colors, component patterns, and typography specs is the **[design.md](file:///c:/Users/Home%20Office_PC/.gemini/antigravity/playground/tadpole-marketing/design.md)** file in the project root.
+> The **Primary Source of Truth** for all design tokens, colors, component patterns, and typography specs is the **[design.md](design.md)** file in the project root.
 > 
 > - **Primary Spec**: `design.md` (Root Spec v2.0)
 > - **Heritage Role**: Provides architectural rationale for "Neural Glass" effects, 10Hz telemetry visualization, and Astro + Tailwind design tokens.
@@ -45,9 +45,9 @@ Tadpole OS Marketing & Application Engine utilizes the following high-performanc
   --color-red-400:     #ef4444; /* Emergency Air-Gap Killswitch */
   
   /* Typography */
-  --font-display: "Outfit", "system-ui", sans-serif;
-  --font-sans:    "Inter", "system-ui", sans-serif;
-  --font-mono:    "JetBrains Mono", "monospace";
+  --font-display: system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-sans:    system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono:    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 
   /* Glassmorphism Tokens */
   --blur-neural: 16px;
@@ -103,8 +103,8 @@ Tadpole OS Marketing & Application Engine utilizes the following high-performanc
 
 ## 📏 Operational Governance & Do's / Don'ts
 
-1. **Maintain Type Parity**: Use `Outfit` for display headings, `Inter` for body copy, and `JetBrains Mono` for log streams and badges.
+1. **Maintain Type Parity**: Use the local system sans stack for headings/body copy and the local system monospace stack for log streams and badges.
 2. **Zero Unstyled Fallbacks**: Never output raw red/blue unstyled default browser components.
-3. **Cross-Reference Primary Spec**: Refer to [`design.md`](file:///c:/Users/Home%20Office_PC/.gemini/antigravity/playground/tadpole-marketing/design.md) for full component specs.
+3. **Cross-Reference Primary Spec**: Refer to [`design.md`](design.md) for full component specs.
 
 [//]: # (Metadata: [DESIGN_SYNERGY])

@@ -40,11 +40,11 @@ Tadpole OS Design System embodies **Sovereign Intelligence & Technical Precision
 
 | Role | Font Family | Weight | Size Range | Tailwind Classes |
 | :--- | :--- | :--- | :--- | :--- |
-| **Display Headers** | `Outfit` | 700 / 800 | 48px – 96px | `font-outfit font-extrabold tracking-tight` |
-| **Section Titles** | `Outfit` / `Inter` | 600 / 700 | 24px – 36px | `font-outfit font-bold text-white` |
-| **Body Paragraphs** | `Inter` | 300 / 400 | 14px – 18px | `font-inter font-light text-zinc-300 leading-relaxed` |
-| **Telemetry & Code** | `JetBrains Mono` | 400 / 700 | 10px – 13px | `font-mono text-xs text-zinc-400` |
-| **Status Badges** | `JetBrains Mono` | 700 | 10px – 11px | `font-mono text-[10px] font-bold uppercase tracking-widest` |
+| **Display Headers** | System UI | 700 / 800 | 48px – 96px | `font-outfit font-extrabold tracking-tight` |
+| **Section Titles** | System UI | 600 / 700 | 24px – 36px | `font-outfit font-bold text-white` |
+| **Body Paragraphs** | System UI | 300 / 400 | 14px – 18px | `font-inter font-light text-zinc-300 leading-relaxed` |
+| **Telemetry & Code** | System Monospace | 400 / 700 | 10px – 13px | `font-mono text-xs text-zinc-400` |
+| **Status Badges** | System Monospace | 700 | 10px – 11px | `font-mono text-[10px] font-bold uppercase tracking-widest` |
 
 ---
 
@@ -135,7 +135,7 @@ Interactive elements use synthesized Web Audio API sound (zero asset dependencie
 ## 🛑 7. Do's and Don'ts
 
 ### ✅ DO:
-- Maintain `font-outfit` for display headers and `JetBrains Mono` for log streams.
+- Maintain `font-outfit` for display headers and `font-mono` for log streams; both resolve to privacy-preserving local system font stacks.
 - Use `backdrop-blur-xl` and `border-white/10` on all floating glass containers.
 - Include live status badges with pulsing node rings (`animate-ping`).
 - Ensure all interactive tabs and buttons provide immediate visual feedback.

@@ -12,11 +12,13 @@ AI-Tadpole-OS (Tadpole OS) separates directives, orchestration, and execution in
 
 ## Key Technical Specifications
 - **Core Runtime**: Written in high-performance Rust for deterministic thread/process isolation.
-- **Agent Orchestration**: Swarm coordination at 10Hz frequency heartbeat.
+- **Agent Orchestration**: Swarm coordination with a configurable telemetry heartbeat; the reference interface uses a 10Hz stream.
 - **Agent Intelligence**: Self-annealing, self-debugging loop designed for runtime stability.
 - **Private Memory & RAG**: LanceDB vector database and SQLite indexing mapping the Open Knowledge Foundation (OKF) specification for structured institutional knowledge.
 - **Templates Ecosystem**: Visual Swarm Architect tool and 223 specialized agent roles across 25 industry template collections.
-- **Safety & Security**: Sapphire Shield zero-trust capability gates requiring human Overlord approval, strict local-first data sandboxing, and OBLITERATUS hard reset/Merkle trail verification.
+- **Safety & Security**: Sapphire Shield capability gates can require human operator approval, local-first data boundaries, and Merkle-trail audit records when those controls are enabled.
+
+Performance, security, and regulatory outcomes depend on deployment configuration, infrastructure, models, and operating procedures. References to ISO, NIST, HIPAA, SOC 2, ALCOA+, or GxP describe design mappings or intended control support; they are not certifications.
 
 ## Marketing Site Sitemap
 - **Homepage** (`https://dds-solutions.github.io/AI-Tadpole-OS-Marketing/`): High-level overview of runtime features, telemetry, templates ecosystem, visual Swarm Architect, and OS characteristics.

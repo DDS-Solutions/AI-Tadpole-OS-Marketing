@@ -4,8 +4,8 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Inter', 'system-ui', 'sans-serif'],
-                mono: ['JetBrains Mono', 'monospace'],
+                sans: ['system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'sans-serif'],
+                mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'monospace'],
             },
             colors: {
                 zinc: {
@@ -13,7 +13,7 @@ export default {
                     900: '#18181b',
                     800: '#27272a',
                     700: '#3f3f46',
-                    500: '#71717a',
+                    500: '#8f8f99',
                 },
                 background: '#09090b',
                 surface: '#18181b',

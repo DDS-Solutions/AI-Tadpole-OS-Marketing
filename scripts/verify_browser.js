@@ -255,10 +255,14 @@ try {
   await navigate(client, `${baseUrl}/governance/`);
   await evaluate(client, `document.getElementById('tab-overlord').focus()`);
   await pressKey(client, 'ArrowRight');
-  const governanceTabState = await evaluate(client, `({
-    focused: document.activeElement.id,
-    selected: document.querySelector('[role="tab"][aria-selected="true"]').id,
-  })`);
+  const governanceTabState = await waitFor(async () => {
+    const state = await evaluate(client, `({
+      focused: document.activeElement.id,
+      selected: document.querySelector('[role="tab"][aria-selected="true"]')?.id,
+    })`);
+    if (state.focused === 'tab-sovereignty' && state.selected === 'tab-sovereignty') return state;
+    return null;
+  }, 3000, 'governance tab focus change');
   assert.deepEqual(governanceTabState, {
     focused: 'tab-sovereignty',
     selected: 'tab-sovereignty',
@@ -268,10 +272,14 @@ try {
   await navigate(client, `${baseUrl}/how-it-works/`);
   await evaluate(client, `document.getElementById('arch-tab-directive').focus()`);
   await pressKey(client, 'End');
-  const architectureTabState = await evaluate(client, `({
-    focused: document.activeElement.id,
-    selected: document.querySelector('[aria-label="Architecture pipeline layers"] [role="tab"][aria-selected="true"]').id,
-  })`);
+  const architectureTabState = await waitFor(async () => {
+    const state = await evaluate(client, `({
+      focused: document.activeElement.id,
+      selected: document.querySelector('[aria-label="Architecture pipeline layers"] [role="tab"][aria-selected="true"]')?.id,
+    })`);
+    if (state.focused === 'arch-tab-memory' && state.selected === 'arch-tab-memory') return state;
+    return null;
+  }, 3000, 'architecture tab focus change');
   assert.deepEqual(architectureTabState, {
     focused: 'arch-tab-memory',
     selected: 'arch-tab-memory',
@@ -336,9 +344,19 @@ try {
 
   console.log('\n✅ BROWSER VERIFICATION PASSED');
 } finally {
-  client?.close();
-  browserProcess?.kill();
-  previewProcess.kill();
-  await delay(100);
-  fs.rmSync(profileDirectory, { recursive: true, force: true });
+  try {
+    client?.close();
+  } catch {}
+  try {
+    browserProcess?.kill();
+  } catch {}
+  try {
+    previewProcess?.kill();
+  } catch {}
+  await delay(300);
+  try {
+    fs.rmSync(profileDirectory, { recursive: true, force: true, maxRetries: 5, retryDelay: 100 });
+  } catch {
+    // Ignore profile directory deletion errors if the browser holds temporary locks
+  }
 }

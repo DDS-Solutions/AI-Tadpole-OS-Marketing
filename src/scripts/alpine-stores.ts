@@ -267,7 +267,8 @@ export function registerAlpineComponents(Alpine: any) {
 
     focusNodeTab(key: string) {
       this.selectNode(key);
-      (this as unknown as AlpineComponent).$nextTick(() => {
+      document.getElementById(`arch-tab-${key}`)?.focus();
+      (this as unknown as AlpineComponent).$nextTick?.(() => {
         document.getElementById(`arch-tab-${key}`)?.focus();
       });
     },
@@ -284,7 +285,8 @@ export function registerAlpineComponents(Alpine: any) {
 
     focusPerspectiveTab(key: string) {
       this.selectPerspective(key);
-      (this as unknown as AlpineComponent).$nextTick(() => {
+      document.getElementById(`persp-tab-${key}`)?.focus();
+      (this as unknown as AlpineComponent).$nextTick?.(() => {
         document.getElementById(`persp-tab-${key}`)?.focus();
       });
     },
@@ -426,7 +428,8 @@ export function registerAlpineComponents(Alpine: any) {
 
     focusTab(key: string) {
       this.selectTab(key);
-      (this as unknown as AlpineComponent).$nextTick(() => {
+      document.getElementById(`tab-${key}`)?.focus();
+      (this as unknown as AlpineComponent).$nextTick?.(() => {
         document.getElementById(`tab-${key}`)?.focus();
       });
     },

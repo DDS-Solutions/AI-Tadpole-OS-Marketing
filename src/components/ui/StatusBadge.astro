@@ -1,0 +1,54 @@
+---
+interface Props {
+  variant?: "emerald" | "cyan" | "purple" | "amber" | "red";
+  pulse?: boolean;
+  class?: string;
+}
+
+const {
+  variant = "emerald",
+  pulse = true,
+  class: className = "",
+} = Astro.props;
+
+const variantStyles = {
+  emerald: {
+    container: "border-emerald-500/20 bg-emerald-500/10 text-emerald-400",
+    dot: "bg-emerald-400",
+  },
+  cyan: {
+    container: "border-cyan-500/20 bg-cyan-500/10 text-cyan-400",
+    dot: "bg-cyan-400",
+  },
+  purple: {
+    container: "border-purple-500/20 bg-purple-500/10 text-purple-400",
+    dot: "bg-purple-400",
+  },
+  amber: {
+    container: "border-amber-500/20 bg-amber-500/10 text-amber-400",
+    dot: "bg-amber-400",
+  },
+  red: {
+    container: "border-red-500/20 bg-red-500/10 text-red-400",
+    dot: "bg-red-400",
+  },
+};
+
+const current = variantStyles[variant];
+---
+
+<div
+  class:list={[
+    "inline-flex items-center gap-2 px-3 py-1.5 rounded-full border font-mono text-xs uppercase tracking-widest backdrop-blur",
+    current.container,
+    className,
+  ]}
+>
+  {pulse && (
+    <span class="relative flex h-2 w-2">
+      <span class:list={["animate-ping absolute inline-flex h-full w-full rounded-full opacity-75", current.dot]}></span>
+      <span class:list={["relative inline-flex rounded-full h-2 w-2", current.dot]}></span>
+    </span>
+  )}
+  <slot />
+</div>

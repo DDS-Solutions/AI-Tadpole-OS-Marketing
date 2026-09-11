@@ -1,0 +1,45 @@
+---
+interface Props {
+  title?: string;
+  subtitle?: string;
+  class?: string;
+}
+
+const basePath = import.meta.env.BASE_URL.replace(/\/$/, "");
+const {
+  title = "Ready to Deploy Governed Swarms?",
+  subtitle = "Explore the core source code or launch a live simulation.",
+  class: className = "",
+} = Astro.props;
+---
+
+<footer
+  class:list={[
+    "pt-16 border-t border-white/10 text-center space-y-8 pb-12",
+    className,
+  ]}
+>
+  <div class="space-y-3">
+    <h3 class="text-2xl font-bold text-white font-outfit text-[var(--text-fluid-title)]">
+      {title}
+    </h3>
+    <p class="text-xs text-zinc-400 font-mono">
+      {subtitle}
+    </p>
+  </div>
+
+  <div class="flex flex-wrap justify-center gap-4 font-mono text-xs font-bold">
+    <a
+      href="https://github.com/DDS-Solutions/AI-TadPole-OS"
+      class="px-8 py-3.5 bg-white text-zinc-950 rounded-xl hover:bg-zinc-200 transition-all uppercase tracking-wider shadow-lg"
+    >
+      View GitHub Repository
+    </a>
+    <a
+      href={`${basePath}/mission`}
+      class="px-8 py-3.5 border border-white/20 bg-white/5 text-white rounded-xl hover:border-emerald-400 hover:text-emerald-300 transition-all uppercase tracking-wider"
+    >
+      Test Mission Simulator ➔
+    </a>
+  </div>
+</footer>

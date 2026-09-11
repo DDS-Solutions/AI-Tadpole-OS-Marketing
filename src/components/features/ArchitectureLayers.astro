@@ -1,0 +1,68 @@
+---
+const architectureLayers = [
+  {
+    label: "L1",
+    title: "Directive Layer",
+    detail:
+      "Human-authored SOPs in Markdown. Versioned directives serve as the absolute source of truth for agent behavior.",
+  },
+  {
+    label: "L2",
+    title: "Orchestration Layer",
+    detail:
+      "Agent 99 coordinates swarm hierarchy, decomposes objectives, and performs Self-Annealing to refine long-term memory.",
+  },
+  {
+    label: "L3",
+    title: "Execution Layer",
+    detail:
+      "Rust-native engine and deterministic scripts execute tools in parallel using FuturesUnordered for controlled, memory-safe concurrency.",
+  },
+];
+---
+
+<section
+  id="runtime"
+  class="scroll-mt-28 mx-auto max-w-7xl px-5 sm:px-8 space-y-12"
+>
+  <div class="grid lg:grid-cols-[0.9fr_1.1fr] gap-12 items-center">
+    <div class="space-y-5">
+      <span
+        class="font-mono text-xs font-bold uppercase tracking-[0.24em] text-emerald-400"
+      >
+        Runtime Architecture
+      </span>
+      <h2
+        class="text-4xl font-bold leading-tight text-white sm:text-5xl font-outfit text-[var(--text-fluid-title)]"
+      >
+        Built to keep strategy close to the machine.
+      </h2>
+      <p class="text-lg leading-8 text-zinc-400 font-light text-[var(--text-fluid-body)]">
+        AI-Tadpole-OS treats a clone as the unit of sovereignty. Directives,
+        orchestration, and execution remain inspectable so teams can run
+        missions without surrendering operational context to cloud
+        intermediaries.
+      </p>
+    </div>
+
+    <div class="grid gap-4">
+      {
+        architectureLayers.map((layer) => (
+          <article class="grid gap-5 rounded-2xl border border-white/10 bg-zinc-950/60 p-6 sm:grid-cols-[5rem_1fr] hover:border-emerald-500/30 transition-all">
+            <div class="font-mono text-3xl font-bold text-emerald-400 flex items-center justify-center rounded-xl bg-emerald-500/10 border border-emerald-500/20 h-16">
+              {layer.label}
+            </div>
+            <div class="space-y-2">
+              <h3 class="text-2xl font-bold text-white font-outfit">
+                {layer.title}
+              </h3>
+              <p class="leading-relaxed text-zinc-400 text-sm font-light">
+                {layer.detail}
+              </p>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>

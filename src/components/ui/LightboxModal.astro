@@ -1,0 +1,72 @@
+---
+interface Props {
+  titleId?: string;
+  titleText?: string;
+  width?: number;
+  height?: number;
+}
+
+const {
+  titleId = "homepage-lightbox-title",
+  titleText = "🔍 High-Resolution Preview",
+  width = 1680,
+  height = 1050,
+} = Astro.props;
+---
+
+<div
+  x-show="lightboxOpen"
+  x-cloak
+  x-ref="dialog"
+  x-transition:enter="transition ease-out duration-300"
+  x-transition:enter-start="opacity-0 scale-95"
+  x-transition:enter-end="opacity-100 scale-100"
+  x-transition:leave="transition ease-in duration-200"
+  x-transition:leave-start="opacity-100 scale-100"
+  x-transition:leave-end="opacity-0 scale-95"
+  class="fixed inset-0 z-[100] bg-black/95 backdrop-blur-2xl flex flex-col items-center justify-center p-4 sm:p-6"
+  @click="closeLightbox()"
+  @keydown.escape.window="closeLightbox()"
+  @keydown.tab="trapLightboxFocus($event)"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby={titleId}
+  :aria-hidden="!lightboxOpen"
+>
+  <!-- Top Floating Controls Header -->
+  <div
+    class="w-full max-w-6xl flex items-center justify-between pb-4 font-mono text-xs z-10"
+    @click.stop
+  >
+    <div class="flex items-center gap-2 text-zinc-400">
+      <span id={titleId} class="text-emerald-400 font-bold"
+        >{titleText}</span
+      >
+      <span class="text-zinc-600" aria-hidden="true">|</span>
+      <span class="text-zinc-500">Press ESC or click anywhere to exit</span>
+    </div>
+
+    <button
+      type="button"
+      @click="closeLightbox()"
+      x-ref="closeButton"
+      class="px-4 py-2 bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-bold rounded-xl border border-emerald-400 shadow-xl transition-all hover:scale-105 active:scale-95 cursor-pointer flex items-center gap-2"
+    >
+      <span>✕</span> Close Full Screen
+    </button>
+  </div>
+
+  <!-- Image Container -->
+  <div
+    class="relative max-w-6xl max-h-[82vh] flex items-center justify-center overflow-hidden rounded-2xl border border-white/20 shadow-2xl bg-zinc-950"
+    @click.stop
+  >
+    <img
+      :src="lightboxImg"
+      :alt="lightboxAlt"
+      width={width}
+      height={height}
+      class="max-h-[82vh] max-w-full w-auto h-auto object-contain rounded-2xl select-none"
+    />
+  </div>
+</div>

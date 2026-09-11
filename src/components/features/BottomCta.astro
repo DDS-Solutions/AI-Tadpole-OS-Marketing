@@ -1,0 +1,43 @@
+---
+const basePath = import.meta.env.BASE_URL.replace(/\/$/, "");
+---
+
+<section class="max-w-5xl mx-auto px-5 text-center space-y-8 py-12">
+  <div
+    class="glass-surface p-12 rounded-3xl border border-emerald-500/20 bg-gradient-to-b from-emerald-500/5 to-transparent space-y-6"
+  >
+    <p
+      class="text-xs font-mono uppercase tracking-[0.3em] text-emerald-400 font-bold"
+    >
+      Clone the Local Runtime
+    </p>
+    <h2
+      class="text-4xl font-bold leading-tight sm:text-6xl slow-pulse-text font-outfit text-[var(--text-fluid-title)]"
+    >
+      Own the directives, memory, and execution path.
+    </h2>
+    <p
+      class="text-base sm:text-lg text-zinc-400 max-w-2xl mx-auto font-light leading-relaxed text-[var(--text-fluid-body)]"
+    >
+      AI-Tadpole-OS empowers your team to run parallel agent swarms on
+      infrastructure you control, with data-sovereignty settings tailored to
+      your deployment.
+    </p>
+    <div
+      class="flex flex-wrap justify-center gap-4 pt-4 font-mono text-xs font-bold"
+    >
+      <a
+        href="https://github.com/DDS-Solutions/AI-TadPole-OS"
+        class="px-10 py-4 bg-white text-zinc-950 rounded-xl hover:bg-zinc-200 transition-all uppercase tracking-wider shadow-lg"
+      >
+        Get Started on GitHub
+      </a>
+      <a
+        href={`${basePath}/mission`}
+        class="px-10 py-4 border border-white/20 bg-white/5 text-white rounded-xl hover:border-emerald-400 hover:text-emerald-300 transition-all uppercase tracking-wider"
+      >
+        Run Mission Simulator ➔
+      </a>
+    </div>
+  </div>
+</section>

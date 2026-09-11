@@ -1,0 +1,42 @@
+---
+interface Props {
+  title?: string;
+  detail?: string;
+  actionText?: string;
+  class?: string;
+}
+
+const {
+  title = "Sapphire Shield Security Intercept",
+  detail = "Swarm requested shell:execute capability",
+  actionText = "✍️ Sign Merkle Proof & Approve",
+  class: className = "",
+} = Astro.props;
+---
+
+<div
+  class:list={[
+    "p-6 rounded-2xl bg-amber-500/10 border-2 border-amber-500/40 space-y-4",
+    className,
+  ]}
+>
+  <div class="flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <span class="text-3xl" aria-hidden="true">⚠️</span>
+      <div>
+        <h4 class="font-bold text-amber-300 text-sm font-outfit uppercase">
+          {title}
+        </h4>
+        <p class="text-xs text-amber-200/80 font-mono">
+          {detail}
+        </p>
+      </div>
+    </div>
+  </div>
+  <button
+    type="button"
+    class="px-6 py-2.5 bg-amber-400 hover:bg-amber-300 text-zinc-950 font-bold rounded-lg text-xs font-mono uppercase transition-all duration-200 shadow-md cursor-pointer"
+  >
+    {actionText}
+  </button>
+</div>

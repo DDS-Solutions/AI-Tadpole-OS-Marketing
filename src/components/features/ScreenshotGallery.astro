@@ -1,0 +1,95 @@
+---
+const basePath = import.meta.env.BASE_URL.replace(/\/$/, "");
+
+const screenshots = [
+  {
+    src: `${basePath}/assets/real_os_dashboard.png`,
+    width: 1662,
+    height: 905,
+    title: "Operations Dashboard",
+    desc: "10Hz Swarm Pulse MessagePack telemetry stream with detachable portals.",
+  },
+  {
+    src: `${basePath}/assets/real_os_nodes.png`,
+    width: 1662,
+    height: 905,
+    title: "Node Hierarchy & Swarms",
+    desc: "Visual agent hierarchy traversal & active worker thread management.",
+  },
+  {
+    src: `${basePath}/assets/real_os_oversight.png`,
+    width: 1662,
+    height: 905,
+    title: "Sapphire Shield Governance",
+    desc: "Zero-trust HITL gate & cryptographic Merkle proof decision history.",
+  },
+  {
+    src: `${basePath}/assets/industry_templates_catalog.png`,
+    width: 1680,
+    height: 1050,
+    title: "Industry Agent Swarm Catalog",
+    desc: "223 specialized agent roles across 25 industry templates.",
+  },
+];
+---
+
+<section
+  id="interface"
+  class="scroll-mt-28 border-y border-white/10 bg-zinc-950/80 py-20"
+>
+  <div class="mx-auto max-w-7xl px-5 sm:px-8 space-y-12">
+    <div class="text-center space-y-4 max-w-3xl mx-auto">
+      <span
+        class="font-mono text-xs font-bold uppercase tracking-widest text-emerald-400"
+      >
+        Real Desktop Interface
+      </span>
+      <h2
+        class="text-4xl font-bold leading-tight text-white sm:text-5xl font-outfit text-[var(--text-fluid-title)]"
+      >
+        Dense Control Surfaces for Live Swarm Work
+      </h2>
+      <p class="text-lg leading-8 text-zinc-400 font-light text-[var(--text-fluid-body)]">
+        Captured live from the React + Tauri desktop engine. Operators
+        inspect agents, model routing slots, 10Hz MessagePack telemetry, and
+        Merkle audit histories.
+      </p>
+    </div>
+
+    <!-- 4 Real Screenshots Grid -->
+    <div class="grid sm:grid-cols-2 gap-6">
+      {
+        screenshots.map((shot) => (
+          <div class="glass-surface rounded-2xl border border-white/10 overflow-hidden shadow-2xl p-4 space-y-3 group hover:border-emerald-500/40 transition-all">
+            <div class="relative rounded-xl overflow-hidden bg-black border border-white/10">
+              <img
+                src={shot.src}
+                alt={shot.title}
+                width={shot.width}
+                height={shot.height}
+                loading="lazy"
+                decoding="async"
+                class="w-full h-auto object-cover group-hover:scale-[1.02] transition-transform duration-500"
+              />
+              <button
+                type="button"
+                @click={`openLightbox('${shot.src}', '${shot.title}')`}
+                class="absolute bottom-3 right-3 bg-zinc-950/85 hover:bg-zinc-950 border border-white/20 text-white px-3 py-1.5 rounded-lg text-xs font-mono flex items-center gap-1.5 opacity-90 hover:opacity-100 transition-all backdrop-blur shadow-lg cursor-pointer"
+              >
+                <span>🔍 Zoom Full Resolution</span>
+              </button>
+            </div>
+            <div>
+              <h3 class="font-bold text-white text-lg font-outfit">
+                {shot.title}
+              </h3>
+              <p class="text-xs text-zinc-400 font-light mt-1">
+                {shot.desc}
+              </p>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>

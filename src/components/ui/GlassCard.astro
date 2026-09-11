@@ -1,0 +1,39 @@
+---
+type Glow = "emerald" | "cyan" | "purple" | "amber" | "none";
+
+interface Props {
+  as?: any;
+  class?: string;
+  hoverEffect?: boolean;
+  glow?: Glow;
+  [key: string]: any;
+}
+
+const {
+  as: Component = "div",
+  class: className = "",
+  hoverEffect = false,
+  glow = "none",
+  ...rest
+} = Astro.props as Props;
+
+const glowClasses: Record<Glow, string> = {
+  emerald: "hover:border-emerald-500/40 hover:shadow-[0_0_30px_-5px_rgba(16,185,129,0.2)]",
+  cyan: "hover:border-cyan-500/40 hover:shadow-[0_0_30px_-5px_rgba(6,182,212,0.2)]",
+  purple: "hover:border-purple-500/40 hover:shadow-[0_0_30px_-5px_rgba(168,85,247,0.2)]",
+  amber: "hover:border-amber-500/40 hover:shadow-[0_0_30px_-5px_rgba(245,158,11,0.2)]",
+  none: "",
+};
+---
+
+<Component
+  class:list={[
+    "glass-surface rounded-2xl transition-all duration-300",
+    hoverEffect && "hover:-translate-y-1 hover:border-white/20",
+    glow !== "none" && glowClasses[glow],
+    className,
+  ]}
+  {...rest}
+>
+  <slot />
+</Component>

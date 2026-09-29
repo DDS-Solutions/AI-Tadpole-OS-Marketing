@@ -113,11 +113,11 @@ export function registerAlpineComponents(Alpine: any) {
           badge: 'Phase 1: Cluster Initialization',
           title: 'Swarm & Cluster Initialization',
           image: `${assetBaseUrl}assets/real_mission/step1_initial_state.png`,
-          description: 'The OS scans active swarm clusters. The Strategic Command cluster (cl-command) is initialized with 60 Nodes online and a $100.00 execution budget in workspace /workspaces/strategic-command.',
+          description: 'The OS scans active swarm clusters. The Strategic Command cluster (cl-command) is initialized with 60 Nodes online and a $100.00 execution budget in workspace /opt/tadpole/workspaces/primary-cluster.',
           metrics: [
             { label: 'Active Swarm Clusters', value: '4 / 5 Online' },
             { label: 'Swarm Node Density', value: '60 Nodes' },
-            { label: 'Target Workspace', value: '/workspaces/strategic-command' }
+            { label: 'Target Workspace', value: '/opt/tadpole/workspaces/primary-cluster' }
           ],
           logSnippet: '<span class="text-cyan-400">[INIT]</span> Swarm Cluster Strategic Command mounted. 60 Nodes initialized.'
         },

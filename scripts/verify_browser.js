@@ -143,7 +143,10 @@ async function pressKey(client, key, code = key) {
 }
 
 const profileDirectory = fs.mkdtempSync(path.join(os.tmpdir(), 'tadpole-browser-'));
-const astroCli = path.join(projectRoot, 'node_modules', 'astro', 'astro.js');
+const astroPkgPath = path.join(projectRoot, 'node_modules', 'astro', 'package.json');
+const astroPkg = JSON.parse(fs.readFileSync(astroPkgPath, 'utf8'));
+const binRelative = typeof astroPkg.bin === 'string' ? astroPkg.bin : (astroPkg.bin?.astro || 'bin/astro.mjs');
+const astroCli = path.join(projectRoot, 'node_modules', 'astro', binRelative);
 const previewProcess = spawn(process.execPath, [astroCli, 'preview', '--host', '127.0.0.1'], {
   cwd: projectRoot,
   stdio: 'ignore',

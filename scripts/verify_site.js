@@ -74,6 +74,7 @@ for (const page of pages) {
   requireCondition(!html.includes('unpkg.com/alpinejs'), `${page.name} bundles Alpine locally`);
   requireCondition(!html.includes('fonts.googleapis.com') && !html.includes('fonts.gstatic.com'), `${page.name} makes no third-party font request`);
   requireCondition(!html.includes('/favicon.svg') && !html.includes('program-logo.png'), `${page.name} uses optimized Tadpole brand assets`);
+  requireCondition(html.includes('rel="icon"') && html.includes('assets/brand/tadpole-mark-48.png'), `${page.name} declares a brand favicon`);
   requireCondition(/rel="canonical" href="[^"]+\/"/.test(html), `${page.name} canonical URL ends with a slash`);
   requireCondition(html.includes(`"@id":"${siteUrl}#software"`) && html.includes(`"url":"${siteUrl}"`), `${page.name} uses a stable SoftwareApplication identity`);
   requireCondition(html.includes('og:image:width" content="1200"') && html.includes('og:image:height" content="630"'), `${page.name} declares social-card dimensions`);
@@ -154,11 +155,15 @@ for (const asset of requiredAssets) {
   requireCondition(fs.existsSync(path.join(distDir, asset)), `Asset exists: ${asset}`);
 }
 
-const headerMarkBytes = fs.statSync(path.join(distDir, 'assets/brand/tadpole-mark-96.png')).size;
-const socialCardBytes = fs.statSync(path.join(distDir, 'assets/brand/ai-tadpole-os-social-card.jpg')).size;
-const totalBuildBytes = allBuiltFiles.reduce((total, file) => total + fs.statSync(file).size, 0);
-requireCondition(headerMarkBytes < 50 * 1024, `Header mark is within 50 KiB (${(headerMarkBytes / 1024).toFixed(1)} KiB)`);
-requireCondition(socialCardBytes < 300 * 1024, `Social card is within 300 KiB (${(socialCardBytes / 1024).toFixed(1)} KiB)`);
+const sizeOf = (rel) => {
+  const p = path.join(distDir, rel);
+  return fs.existsSync(p) ? fs.statSync(p).size : 0;
+};
+const headerMarkBytes = sizeOf('assets/brand/tadpole-mark-96.png');
+const socialCardBytes = sizeOf('assets/brand/ai-tadpole-os-social-card.jpg');
+const totalBuildBytes = allBuiltFiles.reduce((total, file) => total + (fs.existsSync(file) ? fs.statSync(file).size : 0), 0);
+requireCondition(headerMarkBytes > 0 && headerMarkBytes < 50 * 1024, `Header mark is within 50 KiB (${(headerMarkBytes / 1024).toFixed(1)} KiB)`);
+requireCondition(socialCardBytes > 0 && socialCardBytes < 300 * 1024, `Social card is within 300 KiB (${(socialCardBytes / 1024).toFixed(1)} KiB)`);
 requireCondition(totalBuildBytes < 8 * 1024 * 1024, `Deployment artifact is within 8 MiB (${(totalBuildBytes / 1024 / 1024).toFixed(2)} MiB)`);
 
 const sitemapPath = path.join(distDir, 'sitemap.xml');
@@ -170,6 +175,13 @@ if (fs.existsSync(sitemapPath)) {
   }
   requireCondition(!sitemap.includes('/404'), 'Sitemap excludes the 404 route');
   requireCondition(/<lastmod>\d{4}-\d{2}-\d{2}<\/lastmod>/.test(sitemap), 'Sitemap contains generated modification dates');
+}
+
+const robotsPath = path.join(distDir, 'robots.txt');
+requireCondition(fs.existsSync(robotsPath), 'Generated robots.txt exists');
+if (fs.existsSync(robotsPath)) {
+  const robots = fs.readFileSync(robotsPath, 'utf8');
+  requireCondition(robots.includes(`Sitemap: ${siteUrl}sitemap.xml`), 'robots.txt points at the configured sitemap URL');
 }
 
 requireCondition(publicText.includes('Performance, security, and regulatory outcomes depend on deployment configuration'), 'Agent-facing documentation qualifies performance and compliance claims');

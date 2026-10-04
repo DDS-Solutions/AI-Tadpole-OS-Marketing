@@ -36,7 +36,8 @@ async function waitFor(check, timeoutMs, label) {
     try {
       const value = await check();
       if (value) return value;
-    } catch {
+    } catch (error) {
+      if (error && error.fatal) throw error;
       // The preview server and DevTools endpoint may not be ready yet.
     }
     await delay(100);
@@ -75,16 +76,39 @@ class CdpClient {
       }
     });
 
+    this.socket.addEventListener('close', () => {
+      const err = new Error('CDP WebSocket connection closed.');
+      for (const pending of this.pending.values()) {
+        pending.reject(err);
+      }
+      this.pending.clear();
+    });
+
     await new Promise((resolve, reject) => {
       this.socket.addEventListener('open', resolve, { once: true });
       this.socket.addEventListener('error', reject, { once: true });
     });
   }
 
-  send(method, params = {}) {
+  send(method, params = {}, timeoutMs = 15_000) {
     const id = this.nextId++;
     return new Promise((resolve, reject) => {
-      this.pending.set(id, { resolve, reject });
+      const timer = setTimeout(() => {
+        if (this.pending.has(id)) {
+          this.pending.delete(id);
+          reject(new Error(`CDP command timed out after ${timeoutMs}ms: ${method}`));
+        }
+      }, timeoutMs);
+      this.pending.set(id, {
+        resolve: (value) => {
+          clearTimeout(timer);
+          resolve(value);
+        },
+        reject: (error) => {
+          clearTimeout(timer);
+          reject(error);
+        },
+      });
       this.socket.send(JSON.stringify({ id, method, params }));
     });
   }
@@ -152,17 +176,28 @@ const astroPkgPath = path.join(projectRoot, 'node_modules', 'astro', 'package.js
 const astroPkg = JSON.parse(fs.readFileSync(astroPkgPath, 'utf8'));
 const binRelative = typeof astroPkg.bin === 'string' ? astroPkg.bin : (astroPkg.bin?.astro || 'bin/astro.mjs');
 const astroCli = path.join(projectRoot, 'node_modules', 'astro', binRelative);
+let previewStderr = '';
 const previewProcess = spawn(process.execPath, [astroCli, 'preview', '--host', '127.0.0.1'], {
   cwd: projectRoot,
-  stdio: 'ignore',
+  stdio: ['ignore', 'ignore', 'pipe'],
   windowsHide: true,
+});
+previewProcess.stderr?.on('data', (chunk) => {
+  previewStderr += chunk.toString();
 });
 
 let browserProcess;
 let client;
 
 try {
-  await waitFor(async () => (await fetch(`${baseUrl}/`)).ok, 20_000, 'Astro preview');
+  await waitFor(async () => {
+    if (previewProcess.exitCode !== null) {
+      const err = new Error(`Astro preview process exited prematurely with code ${previewProcess.exitCode}. Stderr: ${previewStderr.trim()}`);
+      err.fatal = true;
+      throw err;
+    }
+    return (await fetch(`${baseUrl}/`).catch(() => ({})))?.ok;
+  }, 20_000, 'Astro preview');
 
   const browserArgs = [
     '--headless=new',

@@ -1,5 +1,15 @@
 ---
 const basePath = import.meta.env.BASE_URL.replace(/\/$/, "");
+
+const navLinks = [
+  { href: `${basePath}/#runtime`, label: "Runtime" },
+  { href: `${basePath}/#interface`, label: "Interface" },
+  { href: `${basePath}/how-it-works`, label: "How It Works" },
+  { href: `${basePath}/mission`, label: "Mission" },
+  { href: `${basePath}/governance`, label: "Governance" },
+  { href: `${basePath}/#templates`, label: "Templates" },
+  { href: `${basePath}/#roadmap`, label: "Roadmap" },
+];
 ---
 
 <header
@@ -29,13 +39,9 @@ const basePath = import.meta.env.BASE_URL.replace(/\/$/, "");
       class="hidden items-center gap-8 text-xs font-bold uppercase tracking-[0.18em] text-zinc-400 md:flex"
       aria-label="Primary navigation"
     >
-      <a class="hover:text-zinc-100" href={`${basePath}/#runtime`}>Runtime</a>
-      <a class="hover:text-zinc-100" href={`${basePath}/#interface`}>Interface</a>
-      <a class="hover:text-zinc-100" href={`${basePath}/how-it-works`}>How It Works</a>
-      <a class="hover:text-zinc-100" href={`${basePath}/mission`}>Mission</a>
-      <a class="hover:text-zinc-100" href={`${basePath}/governance`}>Governance</a>
-      <a class="hover:text-zinc-100" href={`${basePath}/#templates`}>Templates</a>
-      <a class="hover:text-zinc-100" href={`${basePath}/#roadmap`}>Roadmap</a>
+      {navLinks.map((link) => (
+        <a class="hover:text-zinc-100" href={link.href}>{link.label}</a>
+      ))}
     </nav>
     <details class="relative md:hidden">
       <summary
@@ -47,13 +53,9 @@ const basePath = import.meta.env.BASE_URL.replace(/\/$/, "");
         class="absolute right-0 top-14 w-56 rounded-xl border border-white/10 bg-zinc-950/95 p-2 shadow-2xl backdrop-blur-xl"
         aria-label="Mobile navigation"
       >
-        <a class="block rounded-lg px-3 py-3 text-sm text-zinc-300 hover:bg-white/10 hover:text-white" href={`${basePath}/#runtime`}>Runtime</a>
-        <a class="block rounded-lg px-3 py-3 text-sm text-zinc-300 hover:bg-white/10 hover:text-white" href={`${basePath}/#interface`}>Interface</a>
-        <a class="block rounded-lg px-3 py-3 text-sm text-zinc-300 hover:bg-white/10 hover:text-white" href={`${basePath}/how-it-works`}>How It Works</a>
-        <a class="block rounded-lg px-3 py-3 text-sm text-zinc-300 hover:bg-white/10 hover:text-white" href={`${basePath}/mission`}>Mission</a>
-        <a class="block rounded-lg px-3 py-3 text-sm text-zinc-300 hover:bg-white/10 hover:text-white" href={`${basePath}/governance`}>Governance</a>
-        <a class="block rounded-lg px-3 py-3 text-sm text-zinc-300 hover:bg-white/10 hover:text-white" href={`${basePath}/#templates`}>Templates</a>
-        <a class="block rounded-lg px-3 py-3 text-sm text-zinc-300 hover:bg-white/10 hover:text-white" href={`${basePath}/#roadmap`}>Roadmap</a>
+        {navLinks.map((link) => (
+          <a class="block rounded-lg px-3 py-3 text-sm text-zinc-300 hover:bg-white/10 hover:text-white" href={link.href}>{link.label}</a>
+        ))}
       </nav>
     </details>
     <a

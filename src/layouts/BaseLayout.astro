@@ -147,11 +147,16 @@ const softwareApplicationSchema = {
         const gl = bgCanvas.getContext("webgl2");
         if (!gl) return;
 
+        const DOWNSCALE = 0.6;
         function resizeBgCanvas() {
           if (!bgCanvas || !gl) return;
-          bgCanvas.width = window.innerWidth;
-          bgCanvas.height = window.innerHeight;
-          gl.viewport(0, 0, bgCanvas.width, bgCanvas.height);
+          const targetW = Math.max(1, Math.round(window.innerWidth * DOWNSCALE));
+          const targetH = Math.max(1, Math.round(window.innerHeight * DOWNSCALE));
+          if (bgCanvas.width !== targetW || bgCanvas.height !== targetH) {
+            bgCanvas.width = targetW;
+            bgCanvas.height = targetH;
+            gl.viewport(0, 0, targetW, targetH);
+          }
         }
 
         let resizeRafId = 0;
@@ -328,15 +333,19 @@ const softwareApplicationSchema = {
         let bgAnimId = 0;
         let isLoopActive = true;
 
+        const FRAME_INTERVAL = 33; // ~30 fps throttle
+        let lastRenderTime = 0;
+
         function render(time: number) {
           if (!bgCanvas || !gl || !program || !isLoopActive) return;
 
-          if (
-            bgCanvas.width !== window.innerWidth ||
-            bgCanvas.height !== window.innerHeight
-          ) {
-            resizeBgCanvas();
+          if (time - lastRenderTime < FRAME_INTERVAL) {
+            if (isLoopActive) {
+              bgAnimId = requestAnimationFrame(render);
+            }
+            return;
           }
+          lastRenderTime = time;
 
           gl.useProgram(program);
           gl.bindVertexArray(vao);
@@ -383,6 +392,7 @@ const softwareApplicationSchema = {
           gl.deleteShader(fs);
           gl.deleteBuffer(positionBuffer);
           gl.deleteVertexArray(vao);
+          gl.getExtension("WEBGL_lose_context")?.loseContext();
         });
       }
 

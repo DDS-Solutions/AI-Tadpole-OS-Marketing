@@ -1,6 +1,8 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Footer from "../components/layout/Footer.astro";
+import HitlIntercept from "../components/ui/HitlIntercept.astro";
+import GlassCard from "../components/ui/GlassCard.astro";
 ---
 
 
@@ -220,6 +222,8 @@ import Footer from "../components/layout/Footer.astro";
             Dynamic capability escalation can pause the runtime until an authorized operator records a <strong>Merkle-proof audit receipt</strong>; enforcement depends on the configured policy boundary.
           </p>
 
+          <HitlIntercept class="my-4" />
+
           <div class="rounded-2xl overflow-hidden border border-white/10 bg-black font-mono text-xs shadow-2xl space-y-0">
             <div class="px-4 py-2.5 bg-zinc-900/90 border-b border-white/10 flex items-center justify-between">
               <div class="flex items-center gap-2">
@@ -281,25 +285,25 @@ import Footer from "../components/layout/Footer.astro";
       </div>
 
       <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 font-mono text-xs">
-        <div class="p-6 rounded-2xl glass-surface border border-white/10 space-y-2">
+        <GlassCard class="p-6 border border-white/10 space-y-2" glow="emerald" hoverEffect={true}>
           <div class="text-emerald-400 font-bold text-base">ISO 9001 / 42001</div>
           <p class="text-zinc-400 text-xs font-light">Design references for quality and AI management control mapping.</p>
-        </div>
+        </GlassCard>
 
-        <div class="p-6 rounded-2xl glass-surface border border-white/10 space-y-2">
+        <GlassCard class="p-6 border border-white/10 space-y-2" glow="cyan" hoverEffect={true}>
           <div class="text-cyan-400 font-bold text-base">NIST AI-RMF</div>
           <p class="text-zinc-400 text-xs font-light">Risk Management Framework mapping and zero-trust boundary documentation.</p>
-        </div>
+        </GlassCard>
 
-        <div class="p-6 rounded-2xl glass-surface border border-white/10 space-y-2">
+        <GlassCard class="p-6 border border-white/10 space-y-2" glow="purple" hoverEffect={true}>
           <div class="text-purple-400 font-bold text-base">ALCOA+ Standard</div>
           <p class="text-zinc-400 text-xs font-light">Audit-record design informed by attributable, legible, contemporaneous, and original data principles.</p>
-        </div>
+        </GlassCard>
 
-        <div class="p-6 rounded-2xl glass-surface border border-white/10 space-y-2">
+        <GlassCard class="p-6 border border-white/10 space-y-2" glow="amber" hoverEffect={true}>
           <div class="text-amber-400 font-bold text-base">GxP-Oriented Controls</div>
           <p class="text-zinc-400 text-xs font-light">Deployment controls that may support a separate, documented validation process.</p>
-        </div>
+        </GlassCard>
       </div>
     </section>
 

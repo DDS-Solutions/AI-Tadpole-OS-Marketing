@@ -1,5 +1,6 @@
 ---
 // Roadmap.astro: Protocol engineering trajectory milestones
+import SectionHeader from "../ui/SectionHeader.astro";
 ---
 
 <section
@@ -7,22 +8,12 @@
   class="scroll-mt-28 border-t border-white/10 bg-zinc-950/90 py-20"
 >
   <div class="mx-auto max-w-7xl px-5 sm:px-8 space-y-12">
-    <div class="text-center space-y-4 max-w-3xl mx-auto">
-      <span
-        class="font-mono text-xs font-bold uppercase tracking-widest text-cyan-400"
-      >
-        Protocol Trajectory
-      </span>
-      <h2
-        class="text-4xl font-bold leading-tight text-white sm:text-5xl font-outfit text-[var(--text-fluid-title)]"
-      >
-        Sovereignty Roadmap
-      </h2>
-      <p class="text-lg leading-8 text-zinc-400 font-light text-[var(--text-fluid-body)]">
-        The engineering release pipeline for Tadpole OS local multi-agent
-        swarm orchestration.
-      </p>
-    </div>
+    <SectionHeader
+      tag="Protocol Trajectory"
+      tagVariant="cyan"
+      title="Sovereignty Roadmap"
+      subtitle="The engineering release pipeline for Tadpole OS local multi-agent swarm orchestration."
+    />
 
     <div class="grid md:grid-cols-4 gap-6 font-mono text-xs">
       <!-- Q1 -->

@@ -1,4 +1,4 @@
-import { execSync } from 'node:child_process';
+import { execFileSync } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
 import { SITE_ORIGIN, BASE_PATH } from '../site.config.mjs';
@@ -18,11 +18,14 @@ function getRouteLastModified(route) {
   for (const sourcePath of possiblePaths) {
     if (fs.existsSync(sourcePath)) {
       try {
-        const gitDate = execSync(`git log -1 --format=%cs -- "${sourcePath}"`, {
-          stdio: ['pipe', 'pipe', 'ignore'],
-        })
-          .toString()
-          .trim();
+        const gitDate = execFileSync(
+          'git',
+          ['log', '-1', '--format=%cs', '--', sourcePath],
+          {
+            encoding: 'utf8',
+            stdio: ['pipe', 'pipe', 'ignore'],
+          },
+        ).trim();
         if (/^\d{4}-\d{2}-\d{2}$/.test(gitDate)) {
           return gitDate;
         }
@@ -76,3 +79,38 @@ ${urls.join('\n')}
 
 fs.writeFileSync(path.join(distDir, 'sitemap.xml'), sitemap, 'utf8');
 console.log(`Generated sitemap.xml with ${routes.length} routes.`);
+
+const robotsTxt = `# Robots.txt for AI-Tadpole-OS-Marketing
+User-agent: *
+Allow: /
+
+# Specific AI & LLM User-Agents
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Meta-ExternalAgent
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+Sitemap: ${siteOrigin}${basePath}/sitemap.xml
+`;
+
+fs.writeFileSync(path.join(distDir, 'robots.txt'), robotsTxt, 'utf8');
+console.log(`Synchronized robots.txt with sitemap: ${siteOrigin}${basePath}/sitemap.xml`);

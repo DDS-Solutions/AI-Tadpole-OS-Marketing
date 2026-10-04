@@ -16,6 +16,7 @@ const lightboxMixin = () => ({
   previousBodyOverflow: '',
 
   openLightbox(imgUrl: string, altText = 'Full-resolution screenshot') {
+    if (this.lightboxOpen) return;
     this.lastFocusedElement = document.activeElement as HTMLElement | null;
     this.lightboxImg = imgUrl;
     this.lightboxAlt = altText;

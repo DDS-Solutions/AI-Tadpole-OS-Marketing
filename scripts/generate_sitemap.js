@@ -1,10 +1,39 @@
+import { execSync } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
+import { SITE_ORIGIN, BASE_PATH } from '../site.config.mjs';
 
 const distDir = path.resolve('dist');
-const siteOrigin = process.env.SITE_ORIGIN ?? 'https://dds-solutions.github.io';
-const basePath = process.env.BASE_PATH ?? '/AI-Tadpole-OS-Marketing';
-const lastModified = new Date().toISOString().slice(0, 10);
+const siteOrigin = SITE_ORIGIN;
+const basePath = BASE_PATH;
+
+function getRouteLastModified(route) {
+  const fallbackDate = new Date().toISOString().slice(0, 10);
+  const pageName = route === '/' ? 'index' : route.slice(1, -1);
+  const possiblePaths = [
+    path.join('src', 'pages', `${pageName}.astro`),
+    path.join('src', 'pages', pageName, 'index.astro'),
+  ];
+
+  for (const sourcePath of possiblePaths) {
+    if (fs.existsSync(sourcePath)) {
+      try {
+        const gitDate = execSync(`git log -1 --format=%cs -- "${sourcePath}"`, {
+          stdio: ['pipe', 'pipe', 'ignore'],
+        })
+          .toString()
+          .trim();
+        if (/^\d{4}-\d{2}-\d{2}$/.test(gitDate)) {
+          return gitDate;
+        }
+      } catch {
+        // Fall back to current date if git log fails
+      }
+    }
+  }
+
+  return fallbackDate;
+}
 
 function findIndexRoutes(directory, relativeDirectory = '') {
   return fs.readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
@@ -30,6 +59,7 @@ const routes = findIndexRoutes(distDir).sort((left, right) => {
 const urls = routes.map((route) => {
   const location = `${siteOrigin}${basePath}${route}`;
   const isHomepage = route === '/';
+  const lastModified = getRouteLastModified(route);
   return `  <url>
     <loc>${location}</loc>
     <lastmod>${lastModified}</lastmod>

@@ -63,6 +63,7 @@ const softwareApplicationSchema = {
     <meta name="twitter:image:alt" content="AI-Tadpole-OS local-first multi-agent runtime" />
     <link rel="canonical" href={canonicalUrl} />
     <link rel="icon" type="image/png" sizes="48x48" href={`${basePath}/assets/brand/tadpole-mark-48.png`} />
+    <link rel="icon" type="image/png" sizes="96x96" href={`${basePath}/assets/brand/tadpole-mark-96.png`} />
     <link rel="apple-touch-icon" sizes="192x192" href={`${basePath}/assets/brand/tadpole-mark-192.png`} />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
@@ -397,7 +398,6 @@ const softwareApplicationSchema = {
         }
       }
 
-      document.addEventListener("DOMContentLoaded", onPageLoad);
       document.addEventListener("astro:page-load", onPageLoad);
       document.addEventListener("astro:before-preparation", cleanupVisuals);
     </script>

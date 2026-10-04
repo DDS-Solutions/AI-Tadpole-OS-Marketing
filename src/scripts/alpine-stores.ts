@@ -189,7 +189,6 @@ export function registerAlpineComponents(Alpine: any) {
       ],
 
       init() {
-        this.bindLightboxCleanup();
         this.startAutoPlayTimer();
         document.addEventListener('astro:before-preparation', () => this.destroy(), { once: true });
       },
@@ -267,7 +266,6 @@ export function registerAlpineComponents(Alpine: any) {
 
     focusNodeTab(key: string) {
       this.selectNode(key);
-      document.getElementById(`arch-tab-${key}`)?.focus();
       (this as unknown as AlpineComponent).$nextTick?.(() => {
         document.getElementById(`arch-tab-${key}`)?.focus();
       });
@@ -285,7 +283,6 @@ export function registerAlpineComponents(Alpine: any) {
 
     focusPerspectiveTab(key: string) {
       this.selectPerspective(key);
-      document.getElementById(`persp-tab-${key}`)?.focus();
       (this as unknown as AlpineComponent).$nextTick?.(() => {
         document.getElementById(`persp-tab-${key}`)?.focus();
       });
@@ -428,7 +425,6 @@ export function registerAlpineComponents(Alpine: any) {
 
     focusTab(key: string) {
       this.selectTab(key);
-      document.getElementById(`tab-${key}`)?.focus();
       (this as unknown as AlpineComponent).$nextTick?.(() => {
         document.getElementById(`tab-${key}`)?.focus();
       });

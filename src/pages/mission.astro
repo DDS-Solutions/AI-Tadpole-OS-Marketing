@@ -1,6 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-const basePath = import.meta.env.BASE_URL.replace(/\/$/, '');
+const basePath = import.meta.env.BASE_URL.replace(/\/$/, "");
 ---
 
 
@@ -35,6 +35,9 @@ const basePath = import.meta.env.BASE_URL.replace(/\/$/, '');
       role="region"
       aria-roledescription="carousel"
       aria-label="Mission runtime walkthrough"
+      tabindex="0"
+      @keydown.left.prevent="prevSlide()"
+      @keydown.right.prevent="nextSlide()"
     >
       
       <!-- Top Title & Controls -->
@@ -56,7 +59,7 @@ const basePath = import.meta.env.BASE_URL.replace(/\/$/, '');
           <button
             type="button"
             @click="toggleAutoPlay()"
-            :aria-pressed="!autoPlay"
+            :aria-pressed="autoPlay ? 'true' : 'false'"
             :class="autoPlay ? 'border-emerald-500/40 bg-emerald-500/10 text-emerald-300' : 'border-white/10 bg-black/40 text-zinc-400'"
             class="px-3.5 py-2 rounded-xl border transition-all flex items-center gap-2 cursor-pointer"
           >

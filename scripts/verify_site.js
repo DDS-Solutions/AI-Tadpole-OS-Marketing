@@ -1,9 +1,10 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import { BASE_PATH, SITE_URL } from '../site.config.mjs';
 
 const distDir = path.resolve('dist');
-const basePath = '/AI-Tadpole-OS-Marketing';
-const siteUrl = 'https://dds-solutions.github.io/AI-Tadpole-OS-Marketing/';
+const basePath = BASE_PATH;
+const siteUrl = SITE_URL;
 let errors = 0;
 
 function pass(message) {
@@ -89,6 +90,10 @@ for (const page of pages) {
   for (const match of html.matchAll(referencePattern)) {
     const reference = match[1];
     if (/^(?:https?:|mailto:|tel:|data:|javascript:)/.test(reference)) continue;
+    if (reference.startsWith('/') && !reference.startsWith(basePath)) {
+      fail(`${page.name} has root-relative reference missing base path: ${reference}`);
+      continue;
+    }
     if (!reference.startsWith(basePath) && !reference.startsWith('#')) continue;
 
     const resolved = resolveBuiltReference(reference, page.file);
@@ -109,7 +114,12 @@ for (const page of pages) {
   }
 }
 
-requireCondition(htmlByPage.get('404.html')?.includes('name="robots" content="noindex, nofollow"'), '404 route is excluded from indexing');
+requireCondition(
+  /<meta\b[^>]*name="robots"[^>]*content="noindex,\s*nofollow"|<meta\b[^>]*content="noindex,\s*nofollow"[^>]*name="robots"/i.test(
+    htmlByPage.get('404.html') ?? '',
+  ),
+  '404 route is excluded from indexing',
+);
 requireCondition(htmlByPage.get('mission/index.html')?.includes('Swarm &amp; Cluster Initialization'), 'Mission default slide is server-rendered');
 requireCondition(htmlByPage.get('how-it-works/index.html')?.includes('Tree-sitter / YAML-rs'), 'Architecture default card is server-rendered');
 

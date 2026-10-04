@@ -59,7 +59,7 @@ test('CSS Tokens & Theme Architecture in global.css', async (t) => {
   });
 });
 
-test('Component Structure Integrity', (t) => {
+test('Component Structure Integrity', () => {
   const componentDirs = [
     'src/components/layout',
     'src/components/ui',

@@ -171,6 +171,50 @@ async function pressKey(client, key, code = key) {
   await delay(50);
 }
 
+async function setViewport(client, width, height = 1000) {
+  await client.send('Emulation.setDeviceMetricsOverride', {
+    width,
+    height,
+    deviceScaleFactor: 1,
+    mobile: width < 768,
+  });
+}
+
+async function saveScreenshot(client, filename, fullPage = false) {
+  if (!process.env.SCREENSHOT_DIR) return;
+  const directory = path.resolve(process.env.SCREENSHOT_DIR);
+  fs.mkdirSync(directory, { recursive: true });
+  if (fullPage) await evaluate(client, `[...document.images].forEach((image) => { image.loading = 'eager'; })`);
+  await evaluate(client, `Promise.all([
+    document.fonts.ready,
+    ...[...document.images].filter((image) => image.loading !== 'lazy' || image.complete).map((image) => image.decode().catch(() => {})),
+  ])`);
+  const screenshotOptions = {
+    format: 'png',
+    captureBeyondViewport: fullPage,
+  };
+  if (fullPage) {
+    const layout = await client.send('Page.getLayoutMetrics');
+    const size = layout.cssContentSize ?? layout.contentSize;
+    screenshotOptions.clip = { x: 0, y: 0, width: size.width, height: size.height, scale: 1 };
+  }
+  const screenshot = await client.send('Page.captureScreenshot', screenshotOptions);
+  fs.writeFileSync(path.join(directory, filename), Buffer.from(screenshot.data, 'base64'));
+}
+
+async function clickInternalLink(client, pathname) {
+  await evaluate(client, `(() => {
+    const link = [...document.querySelectorAll('a[href]')].find((candidate) => {
+      const url = new URL(candidate.href);
+      return url.origin === location.origin && url.pathname.replace(/\\/$/, '') === ${JSON.stringify(pathname.replace(/\/$/, ''))} && !url.hash;
+    });
+    if (!link) throw new Error('Missing internal navigation link.');
+    link.click();
+  })()`);
+  await waitFor(() => evaluate(client, `location.pathname.replace(/\\/$/, '') === ${JSON.stringify(pathname.replace(/\/$/, ''))}`), 5000, 'client navigation');
+  await delay(200);
+}
+
 const profileDirectory = fs.mkdtempSync(path.join(os.tmpdir(), 'tadpole-browser-'));
 const astroPkgPath = path.join(projectRoot, 'node_modules', 'astro', 'package.json');
 const astroPkg = JSON.parse(fs.readFileSync(astroPkgPath, 'utf8'));
@@ -234,6 +278,7 @@ try {
   await client.send('Accessibility.enable');
   await client.send('DOM.enable');
   await client.send('CSS.enable');
+  await setViewport(client, 1440);
 
   const routes = [
     ['homepage', `${baseUrl}/`],
@@ -312,6 +357,26 @@ try {
   });
   console.log('  ✓ Governance tabs support roving keyboard focus');
 
+  await evaluate(client, `document.getElementById('tab-sapphire').click()`);
+  const approvalPreviewState = () => evaluate(client, `(() => {
+    const button = [...document.querySelectorAll('button')].find((candidate) => candidate.textContent.includes('Preview approval'));
+    return {
+      disabled: button.disabled,
+      pressed: button.getAttribute('aria-pressed'),
+      status: button.parentElement.querySelector('[role="status"]').textContent,
+    };
+  })()`);
+  assert.equal((await approvalPreviewState()).disabled, false, 'The approval preview must become interactive.');
+  await evaluate(client, `([...document.querySelectorAll('button')].find((button) => button.textContent.includes('Preview approval'))).click()`);
+  await delay(50);
+  assert.equal((await approvalPreviewState()).pressed, 'true');
+  assert.match((await approvalPreviewState()).status, /Preview approved/);
+  await evaluate(client, `([...document.querySelectorAll('button')].find((button) => button.textContent.includes('Preview approval'))).click()`);
+  await delay(50);
+  assert.equal((await approvalPreviewState()).pressed, 'false');
+  assert.equal((await approvalPreviewState()).status, '');
+  console.log('  ✓ Governance approval preview provides feedback and resets');
+
   await navigate(client, `${baseUrl}/how-it-works/`);
   await evaluate(client, `document.getElementById('arch-tab-directive').focus()`);
   await pressKey(client, 'End');
@@ -338,6 +403,7 @@ try {
       visible: getComputedStyle(dialog).display !== 'none',
       focusInside: dialog.contains(document.activeElement),
       headerInert: document.querySelector('header').hasAttribute('inert'),
+      footerInert: document.querySelector('body > footer').hasAttribute('inert'),
       bodyLocked: document.body.style.overflow === 'hidden',
     };
   })()`);
@@ -345,6 +411,7 @@ try {
     visible: true,
     focusInside: true,
     headerInert: true,
+    footerInert: true,
     bodyLocked: true,
   });
   await pressKey(client, 'Tab');
@@ -353,6 +420,67 @@ try {
   await delay(300);
   assert.equal(await evaluate(client, `getComputedStyle(document.querySelector('[role="dialog"]')).display`), 'none');
   console.log('  ✓ Lightbox traps focus, inerts the background, and closes with Escape');
+
+  if (process.env.SKIP_PLAYBACK_TIMING !== '1') {
+    await navigate(client, `${baseUrl}/mission/`);
+    await evaluate(client, `(() => {
+      const toggle = document.querySelector('button[aria-pressed]');
+      if (toggle.getAttribute('aria-pressed') === 'true') toggle.click();
+      document.querySelector('[aria-label^="Active mission walkthrough slide"]').focus();
+    })()`);
+    const currentStep = () => evaluate(client, `Number(document.querySelector('[aria-roledescription="carousel"] [aria-current="step"]').getAttribute('aria-label').match(/Show step (\\d+)/)[1])`);
+    const initialStep = await currentStep();
+    await pressKey(client, 'ArrowRight');
+    assert.equal(await currentStep(), initialStep % 6 + 1, 'One arrow press must advance exactly one mission step.');
+    await pressKey(client, 'ArrowLeft');
+    assert.equal(await currentStep(), initialStep, 'One left arrow must return to the previous mission step.');
+    assert.equal(await evaluate(client, `document.querySelector('button[aria-pressed]').getAttribute('aria-pressed')`), 'false');
+
+    await evaluate(client, `document.querySelector('button[aria-pressed]').click()`);
+    await delay(4700);
+    assert.equal(await currentStep(), initialStep, 'Keyboard focus must pause mission autoplay for the complete slide interval.');
+    await evaluate(client, `document.activeElement.blur()`);
+    await client.send('Input.dispatchMouseEvent', { type: 'mouseMoved', x: 4, y: 4 });
+    await waitFor(async () => (await currentStep()) !== initialStep, 5500, 'mission autoplay to resume after focus leaves');
+
+    const hoverPoint = await evaluate(client, `(() => {
+      const carousel = document.querySelector('[aria-roledescription="carousel"]');
+      carousel.scrollIntoView({ behavior: 'instant', block: 'start' });
+      const rect = carousel.getBoundingClientRect();
+      return { x: Math.round(rect.left + 20), y: Math.round(Math.max(rect.top + 100, 100)) };
+    })()`);
+    await client.send('Input.dispatchMouseEvent', { type: 'mouseMoved', ...hoverPoint });
+    const hoveredStep = await currentStep();
+    await delay(4700);
+    assert.equal(await currentStep(), hoveredStep, 'Pointer hover must pause mission autoplay.');
+    await evaluate(client, `([...document.querySelectorAll('[aria-roledescription="carousel"] button')].find((button) => button.textContent.includes('Zoom'))).click()`);
+    await client.send('Input.dispatchMouseEvent', { type: 'mouseMoved', x: 4, y: 4 });
+    await delay(4700);
+    assert.equal(await currentStep(), hoveredStep, 'An open screenshot must pause mission autoplay.');
+    await pressKey(client, 'Escape');
+    console.log('  ✓ Mission arrows advance once and autoplay pauses for keyboard focus, hover, and screenshots');
+  } else {
+    console.log('  ↷ Mission playback timing skipped for the layout review');
+  }
+
+  const transitionEventStart = client.events.length;
+  await navigate(client, `${baseUrl}/`);
+  for (let cycle = 0; cycle < 2; cycle += 1) {
+    await clickInternalLink(client, `${BASE_PATH}/governance`);
+    await evaluate(client, `document.getElementById('tab-overlord').focus()`);
+    await pressKey(client, 'ArrowRight');
+    assert.equal(await evaluate(client, `document.querySelector('[role="tab"][aria-selected="true"]')?.id`), 'tab-sovereignty');
+    await clickInternalLink(client, `${BASE_PATH}/`);
+    await evaluate(client, `([...document.querySelectorAll('button')].find((button) => button.textContent.includes('Zoom Full Resolution'))).click()`);
+    await delay(100);
+    assert.equal(await evaluate(client, `document.querySelector('[role="dialog"]').contains(document.activeElement)`), true);
+    await pressKey(client, 'Escape');
+    await delay(300);
+  }
+  assert.equal(client.events.slice(transitionEventStart).filter((event) => event.method === 'Runtime.exceptionThrown').length, 0, 'Repeated client navigation must not emit runtime exceptions.');
+  console.log('  ✓ Repeated client navigation retains tab and screenshot behavior');
+  await saveScreenshot(client, 'homepage-desktop.png');
+  await saveScreenshot(client, 'homepage-desktop-full.png', true);
 
   await client.send('Emulation.setEmulatedMedia', {
     features: [{ name: 'prefers-reduced-motion', value: 'reduce' }],
@@ -370,12 +498,36 @@ try {
   console.log('  ✓ Reduced-motion preference disables carousel autoplay');
 
   await client.send('Emulation.setEmulatedMedia', { features: [] });
-  await client.send('Emulation.setDeviceMetricsOverride', {
-    width: 375,
-    height: 812,
-    deviceScaleFactor: 1,
-    mobile: true,
-  });
+  for (const width of [320, 375, 768, 1024, 1440]) {
+    await setViewport(client, width);
+    for (const [name, url] of routes) {
+      await navigate(client, url);
+      const responsiveState = await evaluate(client, `(() => {
+        const header = document.querySelector('body > header');
+        const desktopNav = header.querySelector('nav[aria-label="Primary navigation"]');
+        const mobileMenu = header.querySelector('details');
+        const desktopVisible = getComputedStyle(desktopNav).display !== 'none';
+        const menuVisible = getComputedStyle(mobileMenu).display !== 'none';
+        const links = [...header.querySelectorAll('a')].filter((link) => link.getBoundingClientRect().width && !link.closest('details'));
+        const rectangles = links.map((link) => link.getBoundingClientRect());
+        const heroCopy = document.querySelector('.hero-copy');
+        const headingRange = document.createRange();
+        if (heroCopy) headingRange.selectNodeContents(heroCopy.querySelector('h1'));
+        const copyBounds = heroCopy?.getBoundingClientRect();
+        return {
+          horizontalOverflow: document.documentElement.scrollWidth > document.documentElement.clientWidth + 1,
+          oneNavigationVisible: desktopVisible !== menuVisible,
+          overlappingHeaderLinks: rectangles.some((rect, index) => rectangles.slice(index + 1).some((other) => rect.left < other.right && rect.right > other.left && rect.top < other.bottom && rect.bottom > other.top)),
+          headingFitsContent: !heroCopy || [...headingRange.getClientRects()].every((rect) => rect.left >= copyBounds.left - 1 && rect.right <= copyBounds.right + 1),
+        };
+      })()`);
+      assert.deepEqual(responsiveState, { horizontalOverflow: false, oneNavigationVisible: true, overlappingHeaderLinks: false, headingFitsContent: true }, `${name} must fit the ${width}px viewport with usable navigation and unclipped hero text.`);
+      if (width === 320 && name === 'homepage') await saveScreenshot(client, 'homepage-mobile-320.png');
+    }
+  }
+  console.log('  ✓ Every route fits 320px, 375px, 768px, 1024px, and 1440px viewports without overlapping navigation');
+
+  await setViewport(client, 375, 812);
   await navigate(client, `${baseUrl}/`);
   const mobileNavigationState = await evaluate(client, `({
     menuVisible: getComputedStyle(document.querySelector('header details')).display !== 'none',
@@ -383,7 +535,33 @@ try {
     horizontalOverflow: document.documentElement.scrollWidth > document.documentElement.clientWidth + 1,
   })`);
   assert.deepEqual(mobileNavigationState, { menuVisible: true, desktopNavHidden: true, horizontalOverflow: false });
-  console.log('  ✓ Mobile navigation switches at a 375px viewport');
+  await saveScreenshot(client, 'homepage-mobile.png');
+  await saveScreenshot(client, 'homepage-mobile-full.png', true);
+  const openMobileMenu = async () => {
+    await evaluate(client, `document.querySelector('header details summary').click()`);
+    await waitFor(() => evaluate(client, `document.querySelector('header details').open`), 1000, 'mobile menu to open');
+  };
+  const menuIsClosed = () => evaluate(client, `!document.querySelector('header details').open`);
+  await openMobileMenu();
+  await pressKey(client, 'Escape');
+  assert.equal(await menuIsClosed(), true, 'Escape must dismiss the mobile menu.');
+  await openMobileMenu();
+  await client.send('Input.dispatchMouseEvent', { type: 'mousePressed', x: 10, y: 400, button: 'left', clickCount: 1 });
+  await client.send('Input.dispatchMouseEvent', { type: 'mouseReleased', x: 10, y: 400, button: 'left', clickCount: 1 });
+  assert.equal(await menuIsClosed(), true, 'Clicking outside must dismiss the mobile menu.');
+  await openMobileMenu();
+  await evaluate(client, `document.querySelector('nav[aria-label="Mobile navigation"] a').click()`);
+  await waitFor(menuIsClosed, 2000, 'mobile menu to close after navigation');
+  console.log('  ✓ Mobile navigation opens and dismisses with Escape, outside clicks, and link selection');
+
+  await evaluate(client, `([...document.querySelectorAll('button')].find((button) => button.textContent.includes('Zoom Full Resolution'))).click()`);
+  await delay(100);
+  assert.equal(await evaluate(client, `(() => {
+    const dialog = document.querySelector('[role="dialog"]');
+    return dialog.scrollWidth <= dialog.clientWidth + 1 && document.documentElement.scrollWidth <= document.documentElement.clientWidth + 1;
+  })()`), true, 'The screenshot dialog must fit the mobile viewport.');
+  await pressKey(client, 'Escape');
+  console.log('  ✓ Screenshot dialog fits the 375px mobile viewport');
 
   console.log('\n✅ BROWSER VERIFICATION PASSED');
 } finally {

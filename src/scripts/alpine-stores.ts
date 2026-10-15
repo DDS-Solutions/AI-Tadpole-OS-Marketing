@@ -25,12 +25,13 @@ const lightboxMixin = () => ({
     document.body.style.overflow = 'hidden';
 
     const backgroundElements = document.querySelectorAll<HTMLElement>(
-      'body > header, main > :not([role="dialog"])',
+      'body > header, body > footer, main > :not([role="dialog"])',
     );
     this.inertedElements = Array.from(backgroundElements).filter(
       (element) => !element.hasAttribute('inert'),
     );
     this.inertedElements.forEach((element) => element.setAttribute('inert', ''));
+    this.onLightboxStateChange();
 
     (this as unknown as AlpineComponent).$nextTick(() => {
       (this as unknown as AlpineComponent).$refs.closeButton?.focus();
@@ -38,7 +39,7 @@ const lightboxMixin = () => ({
   },
 
   closeLightbox() {
-    const shouldRestoreFocus = this.lightboxOpen;
+    if (!this.lightboxOpen) return;
     const focusTarget = this.lastFocusedElement;
     this.lightboxOpen = false;
     this.lightboxImg = '';
@@ -47,12 +48,13 @@ const lightboxMixin = () => ({
     document.body.style.overflow = this.previousBodyOverflow;
     this.inertedElements.forEach((element) => element.removeAttribute('inert'));
     this.inertedElements = [];
-    if (shouldRestoreFocus) {
-      (this as unknown as AlpineComponent).$nextTick(() => {
-        focusTarget?.focus();
-      });
-    }
+    this.onLightboxStateChange();
+    (this as unknown as AlpineComponent).$nextTick(() => {
+      focusTarget?.focus();
+    });
   },
+
+  onLightboxStateChange() {},
 
   trapLightboxFocus(event: KeyboardEvent) {
     const dialog = (this as unknown as AlpineComponent).$refs.dialog;
@@ -78,7 +80,7 @@ const lightboxMixin = () => ({
 
   bindLightboxCleanup() {
     document.addEventListener(
-      'astro:before-preparation',
+      'astro:before-swap',
       () => this.closeLightbox(),
       { once: true },
     );
@@ -108,6 +110,15 @@ export function registerAlpineComponents(Alpine: any) {
       autoPlay: !prefersReducedMotion,
       autoPlayProgress: 0,
       progressTimer: null as ReturnType<typeof setInterval> | null,
+      pointerWithinCarousel: false,
+      focusWithinCarousel: false,
+      pageHidden: document.hidden,
+      destroyed: false,
+      visibilityListener: null as (() => void) | null,
+
+      get slideshowPaused(): boolean {
+        return this.pointerWithinCarousel || this.focusWithinCarousel || this.lightboxOpen || this.pageHidden;
+      },
       slides: [
         {
           shortTitle: 'Swarm Init',
@@ -190,13 +201,37 @@ export function registerAlpineComponents(Alpine: any) {
       ],
 
       init() {
+        this.visibilityListener = () => {
+          this.pageHidden = document.hidden;
+          this.startAutoPlayTimer();
+        };
+        document.addEventListener('visibilitychange', this.visibilityListener);
         this.startAutoPlayTimer();
-        document.addEventListener('astro:before-preparation', () => this.destroy(), { once: true });
+        document.addEventListener('astro:before-swap', () => this.destroy(), { once: true });
       },
 
       destroy() {
+        this.destroyed = true;
         this.clearAutoPlayTimers();
+        if (this.visibilityListener) {
+          document.removeEventListener('visibilitychange', this.visibilityListener);
+          this.visibilityListener = null;
+        }
         this.closeLightbox();
+      },
+
+      setPointerPaused(paused: boolean) {
+        this.pointerWithinCarousel = paused;
+        this.startAutoPlayTimer();
+      },
+
+      setFocusPaused(paused: boolean) {
+        this.focusWithinCarousel = paused;
+        this.startAutoPlayTimer();
+      },
+
+      onLightboxStateChange() {
+        this.startAutoPlayTimer();
       },
 
       setSlide(idx: number) {
@@ -221,7 +256,7 @@ export function registerAlpineComponents(Alpine: any) {
 
       startAutoPlayTimer() {
         this.clearAutoPlayTimers();
-        if (!this.autoPlay) return;
+        if (!this.autoPlay || this.slideshowPaused || this.destroyed) return;
 
         this.autoPlayProgress = 0;
         const increment = (TIMER_INTERVAL / AUTO_PLAY_DURATION) * 100;

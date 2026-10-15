@@ -1,68 +1,91 @@
 ---
 const basePath = import.meta.env.BASE_URL.replace(/\/$/, "");
-
 const navLinks = [
-  { href: `${basePath}/#runtime`, label: "Runtime" },
-  { href: `${basePath}/#interface`, label: "Interface" },
-  { href: `${basePath}/how-it-works`, label: "How It Works" },
-  { href: `${basePath}/mission`, label: "Mission" },
-  { href: `${basePath}/governance`, label: "Governance" },
+  { href: `${basePath}/#runtime`, label: "Product" },
+  { href: `${basePath}/how-it-works/`, label: "Architecture" },
+  { href: `${basePath}/governance/`, label: "Governance" },
   { href: `${basePath}/#templates`, label: "Templates" },
-  { href: `${basePath}/#roadmap`, label: "Roadmap" },
 ];
+const mobileLinks = [...navLinks,
+  { href: `${basePath}/#interface`, label: "Desktop interface" },
+  { href: `${basePath}/mission/`, label: "Mission walkthrough" },
+  { href: `${basePath}/#roadmap`, label: "Engineering roadmap" },
+];
+const currentPath = Astro.url.pathname.replace(/\/$/, "");
 ---
 
-<header
-  class="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-zinc-950/80 backdrop-blur-xl"
->
-  <div
-    class="mx-auto flex h-20 max-w-7xl items-center justify-between px-5 sm:px-8"
-  >
-    <a
-      href={`${basePath}/`}
-      class="flex min-h-11 items-center gap-3 rounded-lg text-zinc-100 outline-offset-4"
-      aria-label="AI-Tadpole-OS home"
-    >
-      <img
-        src={`${basePath}/assets/brand/tadpole-mark-96.png`}
-        alt="AI-Tadpole-OS logo"
-        width="96"
-        height="96"
-        decoding="async"
-        class="h-10 w-10 rounded-lg border border-white/10 object-cover"
-      />
-      <span class="hidden text-sm font-bold tracking-tight sm:block"
-        >AI-Tadpole-OS</span
-      >
+<header class="site-header">
+  <div class="section-shell header-inner">
+    <a href={`${basePath}/`} class="brand" aria-label="AI-Tadpole-OS home">
+      <img src={`${basePath}/assets/brand/tadpole-mark-96.png`} alt="" width="96" height="96" decoding="async" />
+      <span>Tadpole<span class="brand-os">/ OS</span></span>
     </a>
-    <nav
-      class="hidden items-center gap-8 text-xs font-bold uppercase tracking-[0.18em] text-zinc-400 md:flex"
-      aria-label="Primary navigation"
-    >
-      {navLinks.map((link) => (
-        <a class="hover:text-zinc-100" href={link.href}>{link.label}</a>
-      ))}
+    <nav class="desktop-nav" aria-label="Primary navigation">
+      {navLinks.map((link) => <a href={link.href} aria-current={link.href.replace(/\/$/, "") === currentPath ? "page" : undefined}>{link.label}</a>)}
     </nav>
-    <details class="relative md:hidden">
-      <summary
-        class="flex min-h-11 cursor-pointer list-none items-center rounded-lg border border-white/10 px-4 text-xs font-bold uppercase tracking-[0.16em] text-zinc-200 marker:content-none hover:border-emerald-300 hover:text-emerald-300"
-      >
-        Menu
-      </summary>
-      <nav
-        class="absolute right-0 top-14 w-56 rounded-xl border border-white/10 bg-zinc-950/95 p-2 shadow-2xl backdrop-blur-xl"
-        aria-label="Mobile navigation"
-      >
-        {navLinks.map((link) => (
-          <a class="block rounded-lg px-3 py-3 text-sm text-zinc-300 hover:bg-white/10 hover:text-white" href={link.href}>{link.label}</a>
-        ))}
-      </nav>
-    </details>
-    <a
-      href="https://github.com/DDS-Solutions/AI-TadPole-OS"
-      class="inline-flex min-h-11 items-center rounded-lg border border-emerald-400/30 bg-emerald-400/10 px-4 text-xs font-bold uppercase tracking-[0.16em] text-emerald-300 hover:border-emerald-300 hover:bg-emerald-300 hover:text-zinc-950"
-    >
-      Source
-    </a>
+    <div class="header-actions">
+      <a href="https://github.com/DDS-Solutions/AI-TadPole-OS" class="source-link" aria-label="Tadpole OS source on GitHub">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M9 19c-4 1-4-2-6-2m12 5v-4a3.5 3.5 0 0 0-1-3c3-.4 6-1.5 6-6a5 5 0 0 0-1.4-3.5 4.6 4.6 0 0 0-.1-3.5S17.4 1.6 15 3a12 12 0 0 0-6 0C6.6 1.6 5.5 2 5.5 2a4.6 4.6 0 0 0-.1 3.5A5 5 0 0 0 4 9c0 4.5 3 5.6 6 6a3.5 3.5 0 0 0-1 3v4" /></svg><span>Source</span>
+      </a>
+      <a href={`${basePath}/mission/`} class="header-cta">Explore the mission <span aria-hidden="true">↗</span></a>
+      <details class="mobile-menu">
+        <summary aria-label="Navigation menu"><span class="menu-icon" aria-hidden="true"><span></span><span></span></span><span>Menu</span></summary>
+        <nav aria-label="Mobile navigation">
+          <span class="mobile-nav-label">EXPLORE TADPOLE OS</span>
+          {mobileLinks.map((link) => <a href={link.href} aria-current={link.href.replace(/\/$/, "") === currentPath ? "page" : undefined}>{link.label}<span aria-hidden="true">↗</span></a>)}
+          <a href="https://github.com/DDS-Solutions/AI-TadPole-OS">Source on GitHub<span aria-hidden="true">↗</span></a>
+        </nav>
+      </details>
+    </div>
   </div>
 </header>
+
+<script>
+  const closeMenu = (restoreFocus = false) => {
+    const menu = document.querySelector<HTMLDetailsElement>(".mobile-menu[open]");
+    if (!menu) return;
+    menu.open = false;
+    if (restoreFocus) menu.querySelector("summary")?.focus();
+  };
+  document.addEventListener("click", (event) => {
+    const target = event.target;
+    if (!(target instanceof Element)) return;
+    const menu = document.querySelector(".mobile-menu[open]");
+    if (menu && (!menu.contains(target) || target.closest("a"))) closeMenu();
+  });
+  document.addEventListener("keydown", (event) => { if (event.key === "Escape") closeMenu(true); });
+  document.addEventListener("focusin", (event) => {
+    const menu = document.querySelector(".mobile-menu[open]");
+    if (menu && event.target instanceof Node && !menu.contains(event.target)) closeMenu();
+  });
+  document.addEventListener("astro:before-swap", () => closeMenu());
+</script>
+
+<style>
+  .site-header { position: fixed; inset: 0 0 auto; z-index: 50; background: #090b0be8; backdrop-filter: blur(20px); border-bottom: 1px solid var(--line); }
+  .header-inner { height: 76px; display: flex; align-items: center; justify-content: space-between; gap: 2rem; }
+  .brand { display: inline-flex; min-height: 44px; align-items: center; gap: .7rem; font-size: 1.15rem; font-weight: 650; letter-spacing: -.04em; flex-shrink: 0; }
+  .brand img { width: 34px; height: 34px; object-fit: cover; border-radius: 9px; border: 1px solid #ffffff15; }
+  .brand-os { color: #a1a1aa; margin-left: .3rem; font-weight: 400; }
+  .desktop-nav { display: flex; align-items: center; gap: 1.75rem; }
+  .desktop-nav a { display: inline-flex; align-items: center; min-height: 44px; color: #a1a1aa; font-size: .76rem; transition: color 180ms; }
+  .desktop-nav a:hover, .desktop-nav a[aria-current] { color: #a7f3d0; }
+  .header-actions { display: flex; align-items: center; gap: 1.25rem; }
+  .source-link { min-height: 44px; display: flex; align-items: center; gap: .5rem; color: #a1a1aa; font-size: .72rem; }
+  .source-link:hover { color: white; }
+  .source-link svg { width: 17px; height: 17px; }
+  .header-cta { display: inline-flex; align-items: center; gap: 1.25rem; min-height: 40px; border: 1px solid #6ee7b730; border-radius: 6px; padding: .55rem .9rem; background: #6ee7b709; color: #a7f3d0; font-size: .7rem; font-weight: 550; transition: background 180ms, border-color 180ms; }
+  .header-cta:hover { background: #6ee7b717; border-color: #6ee7b780; }
+  .mobile-menu { display: none; position: relative; }
+  summary { list-style: none; cursor: pointer; display: flex; align-items: center; justify-content: center; min-height: 44px; gap: .6rem; padding: .5rem .75rem; border: 1px solid #ffffff20; border-radius: 6px; font-size: .75rem; color: #e4e4e7; }
+  summary::-webkit-details-marker { display: none; }
+  .menu-icon { display: grid; gap: 4px; width: 14px; }
+  .menu-icon span { height: 1px; background: currentColor; }
+  .mobile-menu nav { position: absolute; right: 0; top: calc(100% + 1rem); width: min(310px, calc(100vw - 2.5rem)); max-height: calc(100dvh - 100px); overflow-y: auto; padding: .65rem; border: 1px solid #ffffff20; border-radius: 10px; background: #0e1312fa; box-shadow: 0 20px 80px #0008; backdrop-filter: blur(20px); }
+  .mobile-nav-label { display: block; font: .55rem var(--font-mono); letter-spacing: .16em; color: #a1a1aa; padding: .8rem .75rem; }
+  .mobile-menu nav a { min-height: 44px; display: flex; align-items: center; justify-content: space-between; padding: .75rem; border-radius: 5px; font-size: .8rem; color: #d4d4d8; }
+  .mobile-menu nav a span { color: #6ee7b7; }
+  .mobile-menu nav a:hover, .mobile-menu nav a[aria-current] { background: #6ee7b70a; color: #a7f3d0; }
+  @media (max-width: 1023px) { .desktop-nav { display: none; } .mobile-menu { display: block; } }
+  @media (max-width: 639px) { .header-inner { height: 68px; gap: .75rem; } .header-actions { gap: .75rem; } .header-cta, .source-link { display: none; } .brand { font-size: 1.05rem; } }
+</style>

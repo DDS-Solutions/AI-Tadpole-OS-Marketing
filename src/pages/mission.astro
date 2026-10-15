@@ -11,22 +11,22 @@ const basePath = import.meta.env.BASE_URL.replace(/\/$/, "");
 >
   <main
     id="main"
-    class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 py-20 md:py-28 space-y-20"
+    class="subpage relative z-10 max-w-7xl mx-auto px-4 sm:px-6 py-20 md:py-28 space-y-20"
     x-data="missionPage()"
   >
     <!-- Page Header -->
     <header class="text-center space-y-6 max-w-4xl mx-auto">
       <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-emerald-500/20 bg-emerald-500/10 text-emerald-400 font-mono text-xs uppercase tracking-widest backdrop-blur">
         <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-        Live Desktop Runtime Walkthrough
+        Inside the Desktop Runtime
       </div>
       <h1 class="text-5xl sm:text-7xl lg:text-8xl font-extrabold tracking-tight text-white font-outfit leading-[0.95]">
-        Sovereign Swarm <span class="bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400 bg-clip-text text-transparent">Missions</span>
+        A mission. <span class="bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400 bg-clip-text text-transparent">Every step.</span>
       </h1>
       <p class="text-base sm:text-lg text-zinc-400 font-light leading-relaxed max-w-2xl mx-auto">
-        Step inside the authentic <strong>Tadpole OS Runtime</strong> captured
-        from the live <code class="text-emerald-400 font-mono text-xs bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">Tadpole OS Mission Studio (:5173)</code>.
-        Witness multi-agent orchestration, OTel neural traces, and zero-trust execution controls.
+        Follow a mission through six real screenshots of <strong>Tadpole OS</strong>.
+        Explore agent orchestration, execution traces, and human approval controls
+        at your own pace.
       </p>
     </header>
 
@@ -36,22 +36,27 @@ const basePath = import.meta.env.BASE_URL.replace(/\/$/, "");
       role="region"
       aria-roledescription="carousel"
       aria-label="Mission runtime walkthrough"
+      aria-describedby="mission-carousel-help"
       tabindex="0"
       @keydown.left.prevent="prevSlide()"
       @keydown.right.prevent="nextSlide()"
+      @mouseenter="setPointerPaused(true)"
+      @mouseleave="setPointerPaused(false)"
+      @focusin="setFocusPaused(true)"
+      @focusout="setFocusPaused($el.contains($event.relatedTarget))"
     >
       
       <!-- Top Title & Controls -->
       <div class="flex flex-wrap items-center justify-between gap-4 border-b border-white/10 pb-6">
         <div>
           <div class="flex items-center gap-3">
-            <h2 class="text-2xl font-bold text-white font-outfit">Live Application Walkthrough</h2>
+            <h2 class="text-2xl font-bold text-white font-outfit">Mission Walkthrough</h2>
             <span class="px-2.5 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-[10px] font-mono font-bold uppercase tracking-wider">
               6 Real Screenshots
             </span>
           </div>
-          <p class="text-xs text-zinc-400 mt-1 font-mono">
-            Captured directly from the local React + Rust desktop engine.
+          <p id="mission-carousel-help" class="text-xs text-zinc-400 mt-1 font-mono">
+            Use the arrow keys or select a step. Playback pauses while you explore.
           </p>
         </div>
 
@@ -91,7 +96,7 @@ const basePath = import.meta.env.BASE_URL.replace(/\/$/, "");
       </div>
 
       <!-- Slide Nav Tabs -->
-      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2 font-mono text-xs">
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2 font-mono text-xs" aria-label="Mission steps">
         <template x-for="(slide, idx) in slides" :key="idx">
           <button
             type="button"
@@ -113,8 +118,6 @@ const basePath = import.meta.env.BASE_URL.replace(/\/$/, "");
         role="group"
         aria-label="Active mission walkthrough slide; use left and right arrow keys to change slides"
         tabindex="0"
-        @keydown.left.prevent="prevSlide()"
-        @keydown.right.prevent="nextSlide()"
       >
         <!-- Screenshot Container (8 cols) -->
         <div class="lg:col-span-8 space-y-4">
@@ -159,7 +162,7 @@ const basePath = import.meta.env.BASE_URL.replace(/\/$/, "");
         <!-- Slide Detail Sidebar (4 cols) -->
         <div
           class="lg:col-span-4 space-y-6 glass-surface p-6 rounded-2xl border border-white/10 bg-black/40"
-          :aria-live="autoPlay ? 'off' : 'polite'"
+          :aria-live="autoPlay && !slideshowPaused ? 'off' : 'polite'"
           aria-atomic="true"
         >
           <div class="space-y-2">
@@ -175,17 +178,17 @@ const basePath = import.meta.env.BASE_URL.replace(/\/$/, "");
           <div class="space-y-3 pt-3 border-t border-white/10 font-mono text-xs">
             <div class="text-zinc-500 font-bold uppercase text-[10px] tracking-wider">Protocol Verification Metrics</div>
             
-            <div class="flex justify-between items-center py-1.5 border-b border-white/5">
+            <div class="flex flex-wrap justify-between items-center gap-2 py-1.5 border-b border-white/5">
               <span class="text-zinc-400" x-text="slides[currentSlide].metrics[0].label">Active Swarm Clusters</span>
               <span class="text-emerald-300 font-bold" x-text="slides[currentSlide].metrics[0].value">4 / 5 Online</span>
             </div>
-            <div class="flex justify-between items-center py-1.5 border-b border-white/5">
+            <div class="flex flex-wrap justify-between items-center gap-2 py-1.5 border-b border-white/5">
               <span class="text-zinc-400" x-text="slides[currentSlide].metrics[1].label">Swarm Node Density</span>
               <span class="text-emerald-300 font-bold" x-text="slides[currentSlide].metrics[1].value">60 Nodes</span>
             </div>
-            <div class="flex justify-between items-center py-1.5 border-b border-white/5">
+            <div class="flex flex-wrap justify-between items-center gap-2 py-1.5 border-b border-white/5">
               <span class="text-zinc-400" x-text="slides[currentSlide].metrics[2].label">Target Workspace</span>
-              <span class="text-emerald-300 font-bold" x-text="slides[currentSlide].metrics[2].value">/opt/tadpole/workspaces/primary-cluster</span>
+              <span class="min-w-0 break-all text-emerald-300 font-bold" x-text="slides[currentSlide].metrics[2].value">/opt/tadpole/workspaces/primary-cluster</span>
             </div>
           </div>
 

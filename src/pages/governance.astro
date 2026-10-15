@@ -1,6 +1,5 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import Footer from "../components/layout/Footer.astro";
 import HitlIntercept from "../components/ui/HitlIntercept.astro";
 import GlassCard from "../components/ui/GlassCard.astro";
 ---
@@ -12,7 +11,7 @@ import GlassCard from "../components/ui/GlassCard.astro";
 >
   <main
     id="main"
-    class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 py-20 md:py-28 space-y-20"
+    class="subpage relative z-10 max-w-7xl mx-auto px-4 sm:px-6 py-20 md:py-28 space-y-20"
     x-data="governancePage()"
   >
     <!-- Header -->
@@ -22,11 +21,11 @@ import GlassCard from "../components/ui/GlassCard.astro";
         Sovereign Protocol Specification v1.2.1
       </div>
       <h1 class="text-5xl sm:text-7xl lg:text-8xl font-extrabold tracking-tight text-white font-outfit leading-[0.95]">
-        Protocol <span class="bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400 bg-clip-text text-transparent">Governance</span>
+        Autonomy with <span class="bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400 bg-clip-text text-transparent">oversight.</span>
       </h1>
       <p class="text-base sm:text-lg text-zinc-400 font-light leading-relaxed max-w-2xl mx-auto">
-        The official technical and ethical whitepaper governing <strong>Entity 0 (The Overlord)</strong>, 
-        <strong>Sapphire Shield Zero-Trust Gates</strong>, and <strong>Air-Gapped Sovereign Execution</strong>.
+        Understand who approves an action, where execution happens, and how
+        decisions are recorded. Explore the governance model behind Tadpole OS.
       </p>
     </header>
 
@@ -307,6 +306,5 @@ import GlassCard from "../components/ui/GlassCard.astro";
       </div>
     </section>
 
-    <Footer />
   </main>
 </BaseLayout>

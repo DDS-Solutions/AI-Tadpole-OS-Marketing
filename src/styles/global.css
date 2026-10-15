@@ -43,6 +43,139 @@
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 7rem;
+  color-scheme: dark;
+  --line: rgba(255, 255, 255, 0.09);
+}
+
+body {
+  background-image: radial-gradient(ellipse at 50% 0, rgba(16, 185, 129, 0.025), transparent 50%);
+}
+
+.section-shell {
+  width: 100%;
+  max-width: 1280px;
+  margin-inline: auto;
+  padding-inline: clamp(1.25rem, 3vw, 2rem);
+}
+
+.homepage > section + section {
+  margin-top: clamp(4.5rem, 8vw, 8rem);
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 400;
+  line-height: 1.7;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: #6ee7b7;
+}
+
+.section-heading {
+  margin-top: 1rem;
+  font-size: clamp(2rem, 3.5vw, 3.1rem);
+  font-weight: 500;
+  line-height: 1.15;
+  letter-spacing: -0.045em;
+  color: #f0f6f3;
+}
+
+.section-copy {
+  color: #a1ada8;
+  font-size: clamp(0.95rem, 1.2vw, 1.05rem);
+  line-height: 1.85;
+}
+
+.button-primary,
+.button-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.7rem;
+  min-height: 48px;
+  padding: 0.8rem 1.2rem;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 550;
+  line-height: 1.5;
+  transition: background 180ms, border-color 180ms, box-shadow 180ms;
+}
+
+.button-primary {
+  background: #6ee7b7;
+  border-color: #6ee7b7;
+  color: #062018;
+  box-shadow: 0 0 24px #10b9810d;
+}
+
+.button-primary:hover {
+  background: #a7f3d0;
+  border-color: #a7f3d0;
+  box-shadow: 0 0 24px #10b98120;
+}
+
+.button-secondary {
+  color: #d4d4d8;
+  background: #ffffff03;
+  border-color: #ffffff20;
+}
+
+.button-secondary:hover {
+  color: #f4f4f5;
+  background: #ffffff08;
+  border-color: #ffffff40;
+}
+
+.button-primary svg,
+.button-secondary svg {
+  flex-shrink: 0;
+  width: 17px;
+  height: 17px;
+}
+
+.status-dot {
+  display: inline-block;
+  flex-shrink: 0;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #6ee7b7;
+  box-shadow: 0 0 8px #6ee7b74d;
+}
+
+.subpage {
+  padding-top: clamp(7rem, 11vw, 9.5rem);
+}
+
+.subpage > header h1 {
+  font-size: clamp(2.75rem, 6vw, 5rem);
+  font-weight: 500;
+  line-height: 1.08;
+  letter-spacing: -0.055em;
+}
+
+.subpage > header > div {
+  background: transparent;
+  border-color: transparent;
+  padding-inline: 0;
+  font-size: 0.6rem;
+  font-weight: 400;
+}
+
+.subpage > header .animate-ping {
+  animation: none;
+  width: 5px;
+  height: 5px;
+}
+
+.subpage > section.glass-surface {
+  border-radius: 1rem;
+  box-shadow: 0 20px 65px #0002;
 }
 
 :focus-visible {

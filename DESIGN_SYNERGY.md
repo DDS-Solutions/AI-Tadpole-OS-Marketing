@@ -23,7 +23,7 @@ Tadpole OS Marketing & Application Engine utilizes the following high-performanc
 - **Core App**: React 19 (Desktop Tauri + Rust Axum `server-rs` backend)
 - **Styling Engine**: Tailwind CSS v4 (`@tailwindcss/vite` integration) + CSS `@theme` tokens in `src/styles/global.css`
 - **Interactivity**: Alpine.js v3 + Web Audio API (Zero-asset mechanical keypress audio)
-- **Visuals**: WebGL2 Aurora fluid background shader (`BackgroundCanvas.astro`) + ambient SVG scanlines
+- **Visuals**: CSS-only ambient lighting (`BackgroundCanvas.astro`), a restrained hero grid, and an illustrative SVG orchestration map; no continuous background rendering loop
 
 ---
 

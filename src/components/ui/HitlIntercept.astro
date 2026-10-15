@@ -9,12 +9,13 @@ interface Props {
 const {
   title = "Sapphire Shield Security Intercept",
   detail = "Swarm requested shell:execute capability",
-  actionText = "✍️ Sign Merkle Proof & Approve",
+  actionText = "Preview approval",
   class: className = "",
 } = Astro.props;
 ---
 
 <div
+  x-data="{ approvalPreviewed: false }"
   class:list={[
     "p-6 rounded-2xl bg-amber-500/10 border-2 border-amber-500/40 space-y-4",
     className,
@@ -33,10 +34,26 @@ const {
       </div>
     </div>
   </div>
+  <p class="text-sm leading-relaxed text-zinc-300">
+    Interactive preview only. No command runs and no audit record is created.
+  </p>
   <button
     type="button"
-    class="px-6 py-2.5 bg-amber-400 hover:bg-amber-300 text-zinc-950 font-bold rounded-lg text-xs font-mono uppercase transition-all duration-200 shadow-md cursor-pointer"
+    disabled
+    :disabled="false"
+    aria-pressed="false"
+    :aria-pressed="approvalPreviewed ? 'true' : 'false'"
+    @click="approvalPreviewed = !approvalPreviewed"
+    class="min-h-11 px-6 py-2.5 bg-amber-400 hover:bg-amber-300 text-zinc-950 font-bold rounded-lg text-xs font-mono uppercase transition-all duration-200 shadow-md cursor-pointer disabled:cursor-default disabled:opacity-60"
   >
-    {actionText}
+    <span x-show="!approvalPreviewed">{actionText}</span>
+    <span x-show="approvalPreviewed" x-cloak>Reset preview</span>
   </button>
+  <p
+    role="status"
+    aria-live="polite"
+    aria-atomic="true"
+    class="text-sm leading-relaxed text-emerald-300"
+    x-text="approvalPreviewed ? 'Preview approved. In the runtime, this step records your decision before execution continues.' : ''"
+  ></p>
 </div>

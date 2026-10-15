@@ -2,75 +2,105 @@
 const basePath = import.meta.env.BASE_URL.replace(/\/$/, "");
 ---
 
-<section
-  class="relative min-h-[90vh] overflow-hidden border-b border-white/10 pt-28 scanline-bg flex flex-col justify-between"
->
-  <img
-    src={`${basePath}/assets/real_os_dashboard.png`}
-    alt=""
-    width="1662"
-    height="905"
-    class="absolute inset-0 h-full w-full object-cover opacity-20"
-    loading="eager"
-    decoding="async"
-    fetchpriority="high"
-  />
-  <div
-    class="absolute inset-0 bg-[linear-gradient(90deg,#09090b_0%,rgba(9,9,11,0.92)_42%,rgba(9,9,11,0.62)_100%)] pointer-events-none"
-  >
-  </div>
-  <div
-    class="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-zinc-950 to-transparent pointer-events-none"
-  >
-  </div>
-
-  <div
-    class="relative mx-auto flex min-h-[calc(88vh-7rem)] max-w-7xl flex-col justify-center px-5 py-16 sm:px-8"
-  >
-    <div class="max-w-4xl space-y-8">
-      <div
-        class="inline-flex items-center gap-3 rounded-full border border-emerald-400/20 bg-zinc-950/80 px-4 py-1.5 font-mono text-xs font-bold uppercase tracking-widest text-emerald-300 backdrop-blur shadow-[0_0_20px_rgba(16,185,129,0.15)]"
-      >
-        <span class="h-2 w-2 rounded-full bg-emerald-400 animate-ping"></span>
-        Local-First Sovereign Protocol Runtime
+<section class="hero" aria-labelledby="hero-title">
+  <div class="hero-grid" aria-hidden="true"></div>
+  <div class="section-shell hero-content">
+    <div class="hero-topline">
+      <span class="eyebrow"><span class="status-dot"></span> Local-first. Human-governed.</span>
+      <span class="hero-coordinate" aria-hidden="true">01 / SYSTEM OVERVIEW</span>
+    </div>
+    <div class="hero-layout">
+      <div class="hero-copy">
+        <p class="hero-kicker">THE AI-TADPOLE-OS RUNTIME</p>
+        <h1 id="hero-title">Intelligence.<br />On <span>your terms.</span></h1>
+        <p class="hero-description">Orchestrate AI agents on infrastructure you own. See every action, keep memory close, and put people in control of execution.</p>
+        <div class="hero-actions">
+          <a href={`${basePath}/mission/`} class="button-primary">Explore the mission <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" /></svg></a>
+          <a href="https://github.com/DDS-Solutions/AI-TadPole-OS" class="button-secondary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="m8 7-5 5 5 5m8-10 5 5-5 5m-3-12-2 18" /></svg>Get the source</a>
+        </div>
+        <p class="hero-note"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="m10 2 6 3v5c0 4-6 7-6 7s-6-3-6-7V5l6-3Z" /><path d="m7 9 2 2 4-4" /></svg> Your directives. Your memory. Your execution path.</p>
       </div>
-
-      <div class="space-y-5">
-        <h1
-          class="text-6xl font-extrabold leading-[0.92] text-white sm:text-7xl lg:text-8xl font-outfit tracking-tight text-[var(--text-fluid-display)]"
-        >
-          AI-Tadpole-OS
-        </h1>
-        <p
-          class="max-w-3xl text-xl leading-8 text-zinc-300 sm:text-2xl sm:leading-9 font-light"
-        >
-          A sovereign command layer for multi-agent work: <strong>Rust
-          execution</strong>, <strong>React observability</strong>,
-          <strong>private LanceDB memory</strong>, and <strong>human-governed
-          automation</strong> in one local runtime.
-        </p>
+      <div class="hero-console">
+        <div class="console-bar"><span class="console-title"><span class="status-dot"></span> TADPOLE / MISSION CONTROL</span><span class="console-label">CONCEPT VIEW</span></div>
+        <div class="swarm-map">
+          <svg class="swarm-connections" viewBox="0 0 520 270" fill="none" aria-hidden="true">
+            <defs><radialGradient id="node-glow"><stop stop-color="#10b981" stop-opacity=".16" /><stop offset="1" stop-color="#10b981" stop-opacity="0" /></radialGradient></defs>
+            <circle cx="260" cy="132" r="130" fill="url(#node-glow)" />
+            <ellipse cx="260" cy="132" rx="145" ry="93" stroke="#10b981" stroke-opacity=".16" stroke-dasharray="3 7" />
+            <ellipse cx="260" cy="132" rx="92" ry="62" stroke="#10b981" stroke-opacity=".15" />
+            <path d="M260 42v52m-40 38H95m205 0h125m-165 38v62" stroke="#10b981" stroke-opacity=".5" />
+            <path d="M220 132H95m205 0h125" stroke="#6ee7b7" stroke-opacity=".8" stroke-dasharray="3 42" class="connection-flow" />
+            <circle cx="260" cy="42" r="4" fill="#6ee7b7" /><circle cx="95" cy="132" r="4" fill="#06b6d4" /><circle cx="425" cy="132" r="4" fill="#a855f7" /><circle cx="260" cy="232" r="4" fill="#10b981" />
+          </svg>
+          <span class="map-label map-label-top">Human directive</span><span class="map-label map-label-left">Private memory</span><span class="map-label map-label-right">Agent swarm</span><span class="map-label map-label-bottom">Governed execution</span>
+          <div class="map-core"><img src={`${basePath}/assets/brand/tadpole-mark-96.png`} alt="Tadpole orchestrator connecting human directives, private memory, and agents" width="96" height="96" decoding="async" /></div>
+        </div>
+        <div class="console-preview">
+          <div class="preview-label"><span>THE DESKTOP EXPERIENCE</span><span>REACT + TAURI</span></div>
+          <a href={`${basePath}/#interface`} class="preview-link" aria-label="Explore screenshots of the Tadpole OS desktop interface">
+            <img src={`${basePath}/assets/real_os_dashboard.png`} alt="Tadpole OS operations dashboard with agent roster and telemetry panels" width="1662" height="905" loading="eager" fetchpriority="high" decoding="async" />
+            <span class="preview-open">Explore the interface <span aria-hidden="true">↗</span></span>
+          </a>
+        </div>
+        <div class="console-foot"><span><span class="status-dot"></span> Local runtime architecture</span><span>Illustrative workflow</span></div>
       </div>
-
-      <div class="flex flex-wrap gap-4 pt-2 font-mono text-xs font-bold">
-        <a
-          href="https://github.com/DDS-Solutions/AI-TadPole-OS"
-          class="px-8 py-4 bg-white text-zinc-950 rounded-xl hover:bg-zinc-200 transition-all duration-300 hover:scale-105 shadow-[0_0_25px_rgba(255,255,255,0.2)] uppercase tracking-wider"
-        >
-          Explore Source Repo
-        </a>
-        <a
-          href={`${basePath}/mission`}
-          class="px-8 py-4 bg-gradient-to-r from-emerald-500 to-teal-400 text-zinc-950 rounded-xl hover:from-emerald-400 hover:to-teal-300 transition-all duration-300 hover:scale-105 shadow-[0_0_25px_rgba(16,185,129,0.25)] uppercase tracking-wider"
-        >
-          ▶ Launch Mission Demo
-        </a>
-        <a
-          href={`${basePath}/how-it-works`}
-          class="px-8 py-4 border border-white/15 bg-white/5 text-zinc-100 rounded-xl hover:border-emerald-400 hover:text-emerald-300 transition-all duration-300 uppercase tracking-wider"
-        >
-          Architecture Specs ➔
-        </a>
-      </div>
+    </div>
+    <div class="hero-foundation" aria-label="Runtime foundations">
+      <p>Built for autonomy.<br /><span>Designed for oversight.</span></p>
+      <div><span class="foundation-index">01</span><span>Rust-native<span class="foundation-detail">Execution engine</span></span></div>
+      <div><span class="foundation-index">02</span><span>Private memory<span class="foundation-detail">Local LanceDB storage</span></span></div>
+      <div><span class="foundation-index">03</span><span>Human in control<span class="foundation-detail">Approval before action</span></span></div>
     </div>
   </div>
 </section>
+
+<style>
+  .hero { position: relative; isolation: isolate; overflow: hidden; padding-top: 7.5rem; border-bottom: 1px solid var(--line); background: radial-gradient(ellipse at 80% 35%, #0b30231f, transparent 55%); }
+  .hero-grid { position: absolute; z-index: -1; inset: 0; opacity: .45; background-image: linear-gradient(#ffffff05 1px, transparent 1px), linear-gradient(90deg, #ffffff05 1px, transparent 1px); background-size: 64px 64px; mask-image: linear-gradient(black, transparent 95%); }
+  .hero-topline { display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding-bottom: 2.75rem; }
+  .hero-coordinate, .hero-kicker, .console-label, .preview-label, .console-foot, .map-label, .foundation-index { font-family: var(--font-mono); font-size: .625rem; letter-spacing: .12em; }
+  .hero-coordinate { color: #8f8f99; }
+  .hero-layout { display: grid; grid-template-columns: 1.03fr 1fr; gap: clamp(2rem, 5vw, 5rem); align-items: center; padding-bottom: 4rem; }
+  .hero-kicker { color: #a1a1aa; margin-bottom: 1.4rem; }
+  h1 { font-size: clamp(3.4rem, 6.3vw, 5.7rem); font-weight: 600; letter-spacing: -.065em; line-height: 1.04; color: #f4f4f5; margin: 0; }
+  h1 span { background: linear-gradient(110deg, #a7f3d0 5%, #34d399 65%, #06b6d4); background-clip: text; -webkit-text-fill-color: transparent; }
+  .hero-description { max-width: 30rem; color: #a1a1aa; font-size: clamp(1rem, 1.3vw, 1.13rem); line-height: 1.85; margin-top: 1.75rem; }
+  .hero-actions { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: 2rem; }
+  .hero-note { display: flex; align-items: center; gap: .5rem; color: #a1a1aa; font-size: .7rem; margin-top: 1.4rem; }
+  .hero-note svg { width: 16px; height: 16px; flex-shrink: 0; color: #6ee7b7; }
+  .hero-console { min-width: 0; position: relative; background: linear-gradient(135deg, #101916f0, #0b0e0df5 50%); border: 1px solid #ffffff18; border-radius: 12px; box-shadow: 0 25px 100px #0006, 0 0 70px #10b98109, inset 0 1px 0 #ffffff08; }
+  .hero-console::before, .hero-console::after { content: ''; position: absolute; width: 24px; height: 24px; pointer-events: none; color: #6ee7b780; }
+  .hero-console::before { top: -1px; left: -1px; border-top: 1px solid; border-left: 1px solid; border-radius: 12px 0 0; }
+  .hero-console::after { bottom: -1px; right: -1px; border-bottom: 1px solid; border-right: 1px solid; border-radius: 0 0 12px; }
+  .console-bar { display: flex; align-items: center; justify-content: space-between; gap: .5rem; border-bottom: 1px solid var(--line); padding: 1rem 1.2rem; }
+  .console-title { display: flex; align-items: center; gap: .5rem; font-family: var(--font-mono); font-size: .58rem; letter-spacing: .08em; color: #d4d4d8; }
+  .console-label { color: #a1a1aa; font-size: .5rem; }
+  .swarm-map { position: relative; width: 100%; aspect-ratio: 520 / 270; overflow: hidden; }
+  .swarm-connections { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .map-core { position: absolute; left: 50%; top: 49%; transform: translate(-50%, -50%); width: 68px; height: 68px; border: 1px solid #34d39955; border-radius: 20px; padding: 6px; background: #101b17; box-shadow: 0 0 35px #10b98120; }
+  .map-core img { width: 100%; height: 100%; object-fit: cover; border-radius: 14px; }
+  .map-label { position: absolute; padding: .35rem .5rem; border: 1px solid #ffffff10; border-radius: 4px; background: #0d1512; color: #a7b6ae; font-size: clamp(.45rem, .7vw, .58rem); letter-spacing: .02em; white-space: nowrap; }
+  .map-label-top { left: 50%; top: 5%; transform: translateX(-50%); }
+  .map-label-left { left: 5%; top: 48%; transform: translateY(-50%); }
+  .map-label-right { right: 5%; top: 48%; transform: translateY(-50%); }
+  .map-label-bottom { left: 50%; bottom: 5%; transform: translateX(-50%); }
+  .connection-flow { animation: signal-flow 6s linear infinite; }
+  @keyframes signal-flow { to { stroke-dashoffset: -180; } }
+  .console-preview { padding: 0 1.2rem 1rem; }
+  .preview-label { display: flex; justify-content: space-between; gap: 1rem; color: #a1a1aa; margin-bottom: .6rem; font-size: .5rem; }
+  .preview-link { display: block; position: relative; border: 1px solid #ffffff12; border-radius: 5px; overflow: hidden; }
+  .preview-link img { width: 100%; height: auto; display: block; transition: transform 500ms; }
+  .preview-link:hover img { transform: scale(1.025); }
+  .preview-open { position: absolute; bottom: .6rem; right: .6rem; display: flex; gap: 1rem; align-items: center; padding: .45rem .65rem; border: 1px solid #ffffff20; border-radius: 4px; background: #09090bea; font-size: .6rem; color: #e4e4e7; }
+  .console-foot { display: flex; justify-content: space-between; gap: .5rem; padding: .8rem 1.2rem; border-top: 1px solid var(--line); color: #a1a1aa; font-size: .5rem; letter-spacing: .02em; }
+  .console-foot > span:first-child { display: flex; align-items: center; gap: .4rem; }
+  .console-foot .status-dot { width: 4px; height: 4px; }
+  .hero-foundation { display: grid; grid-template-columns: 1.2fr 1fr 1fr 1fr; gap: 2rem; border-top: 1px solid var(--line); padding: 1.75rem 0; }
+  .hero-foundation > p { font-size: .75rem; line-height: 1.7; color: #e4e4e7; }
+  .hero-foundation > p span { color: #a1a1aa; }
+  .hero-foundation > div { display: flex; align-items: flex-start; gap: 1rem; border-left: 1px solid var(--line); padding-left: 1.5rem; font-size: .8rem; color: #e4e4e7; }
+  .foundation-index { color: #6ee7b7; margin-top: .15rem; }
+  .foundation-detail { display: block; color: #a1a1aa; font-size: .65rem; margin-top: .4rem; }
+  @media (max-width: 1023px) { .hero { padding-top: 6.5rem; } .hero-layout { grid-template-columns: 1fr; gap: 2.75rem; } h1 { font-size: clamp(3.4rem, 9vw, 5.5rem); } .hero-description { max-width: 36rem; } .hero-console { width: 100%; max-width: 600px; justify-self: center; } .map-label { font-size: .65rem; } .hero-foundation { grid-template-columns: 1fr 1fr; gap: 1.75rem; } .hero-foundation > p { border-left: 1px solid var(--line); padding-left: 1.5rem; } }
+  @media (max-width: 479px) { .hero-topline { padding-bottom: 2.2rem; } .hero-coordinate { display: none; } .hero-layout { padding-bottom: 2.5rem; } .hero-actions { flex-direction: column; align-items: stretch; } .hero-note { font-size: .65rem; line-height: 1.7; } .hero-foundation { gap: 1.25rem .5rem; } .hero-foundation > div, .hero-foundation > p { padding-left: .75rem; gap: .6rem; } .hero-foundation > div { font-size: .72rem; } .foundation-detail { font-size: .6rem; } .map-core { width: 48px; height: 48px; border-radius: 14px; padding: 4px; } .map-core img { border-radius: 10px; } .map-label { font-size: .45rem; } .console-bar, .console-foot { padding: .8rem; } .console-title { font-size: .48rem; } .console-preview { padding: 0 .8rem .8rem; } }
+</style>

@@ -1,14 +1,15 @@
 ---
-// BackgroundCanvas.astro: WebGL2 Aurora fluid shader & ambient neural grid container
+// CSS-only ambient lighting keeps the interface quiet and avoids a perpetual render loop.
 ---
 
 <div
-  class="fixed inset-0 pointer-events-none z-0 overflow-hidden"
+  class="ambient-background fixed inset-0 pointer-events-none z-0 overflow-hidden"
   aria-hidden="true"
 >
-  <canvas
-    id="bg-shader-canvas"
-    class="absolute inset-0 h-full w-full z-0 opacity-90"
-  ></canvas>
-  <div class="neural-grid absolute inset-0 z-5"></div>
+  <div class="ambient-glow"></div>
 </div>
+
+<style>
+  .ambient-background { background: #090b0c; }
+  .ambient-glow { position: absolute; inset: 0; background: radial-gradient(ellipse at 80% 28%, #10b9810b, transparent 52%), radial-gradient(ellipse at 5% 85%, #06b6d405, transparent 45%); }
+</style>

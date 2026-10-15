@@ -8,7 +8,7 @@ interface Props {
 
 const {
   titleId = "homepage-lightbox-title",
-  titleText = "🔍 High-Resolution Preview",
+  titleText = "Interface preview",
   width = 1680,
   height = 1050,
 } = Astro.props;
@@ -35,24 +35,24 @@ const {
 >
   <!-- Top Floating Controls Header -->
   <div
-    class="w-full max-w-6xl flex items-center justify-between pb-4 font-mono text-xs z-10"
+    class="w-full max-w-6xl flex items-center justify-between gap-4 pb-4 text-xs z-10"
     @click.stop
   >
-    <div class="flex items-center gap-2 text-zinc-400">
+    <div class="min-w-0 flex flex-wrap items-center gap-2 text-zinc-400">
       <span id={titleId} class="text-emerald-400 font-bold"
         >{titleText}</span
       >
-      <span class="text-zinc-600" aria-hidden="true">|</span>
-      <span class="text-zinc-500">Press ESC or click anywhere to exit</span>
+      <span class="hidden text-zinc-600 sm:inline" aria-hidden="true">|</span>
+      <span class="hidden text-zinc-400 sm:inline">Press Escape or click the backdrop to close</span>
     </div>
 
     <button
       type="button"
       @click="closeLightbox()"
       x-ref="closeButton"
-      class="px-4 py-2 bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-bold rounded-xl border border-emerald-400 shadow-xl transition-all hover:scale-105 active:scale-95 cursor-pointer flex items-center gap-2"
+      class="min-h-11 shrink-0 px-4 py-2 bg-emerald-300 hover:bg-emerald-200 text-zinc-950 font-medium rounded-lg border border-emerald-200 cursor-pointer flex items-center gap-2"
     >
-      <span>✕</span> Close Full Screen
+      <span aria-hidden="true">×</span> Close preview
     </button>
   </div>
 

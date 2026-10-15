@@ -2,42 +2,46 @@
 const basePath = import.meta.env.BASE_URL.replace(/\/$/, "");
 ---
 
-<section class="max-w-5xl mx-auto px-5 text-center space-y-8 py-12">
-  <div
-    class="glass-surface p-12 rounded-3xl border border-emerald-500/20 bg-gradient-to-b from-emerald-500/5 to-transparent space-y-6"
-  >
-    <p
-      class="text-xs font-mono uppercase tracking-[0.3em] text-emerald-400 font-bold"
-    >
-      Clone the Local Runtime
-    </p>
-    <h2
-      class="text-4xl font-bold leading-tight sm:text-6xl slow-pulse-text font-outfit text-[var(--text-fluid-title)]"
-    >
-      Own the directives, memory, and execution path.
-    </h2>
-    <p
-      class="text-base sm:text-lg text-zinc-400 max-w-2xl mx-auto font-light leading-relaxed text-[var(--text-fluid-body)]"
-    >
-      AI-Tadpole-OS empowers your team to run parallel agent swarms on
-      infrastructure you control, with data-sovereignty settings tailored to
-      your deployment.
-    </p>
-    <div
-      class="flex flex-wrap justify-center gap-4 pt-4 font-mono text-xs font-bold"
-    >
-      <a
-        href="https://github.com/DDS-Solutions/AI-TadPole-OS"
-        class="px-10 py-4 bg-white text-zinc-950 rounded-xl hover:bg-zinc-200 transition-all uppercase tracking-wider shadow-lg"
-      >
-        Get Started on GitHub
-      </a>
-      <a
-        href={`${basePath}/mission`}
-        class="px-10 py-4 border border-white/20 bg-white/5 text-white rounded-xl hover:border-emerald-400 hover:text-emerald-300 transition-all uppercase tracking-wider"
-      >
-        Run Mission Simulator ➔
-      </a>
+<section class="section-shell closing-section" aria-labelledby="closing-title">
+  <div class="closing-panel">
+    <div class="closing-orbit" aria-hidden="true"><span></span><span></span><span></span><i></i></div>
+    <div class="closing-content">
+      <span class="eyebrow">Your infrastructure. Your direction.</span>
+      <h2 id="closing-title">Build your next<br />operation on your terms.</h2>
+      <p>Own the directives, memory, and execution path. Run parallel agent swarms on infrastructure you control, with settings that fit your deployment.</p>
+      <div class="closing-actions">
+        <a href="https://github.com/DDS-Solutions/AI-TadPole-OS" class="button-primary">
+          Get started on GitHub
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14m-5-5 5 5-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg>
+        </a>
+        <a href={`${basePath}/mission`} class="button-secondary">View mission walkthrough</a>
+      </div>
+      <div class="closing-signature" aria-hidden="true"><span></span><span>From intent to execution.</span><span></span></div>
     </div>
   </div>
 </section>
+
+<style>
+  .closing-panel { position: relative; isolation: isolate; overflow: hidden; border: 1px solid rgba(255,255,255,0.13); border-radius: 1.5rem; padding: 6rem 2rem 2.2rem; background: radial-gradient(ellipse at 50% 0, rgba(16,185,129,0.1), transparent 60%), #0a1010; }
+  .closing-content { position: relative; z-index: 1; text-align: center; }
+  .closing-content .eyebrow { display: inline-block; }
+  h2 { max-width: 48rem; margin: 1.35rem auto 1.5rem; font-size: clamp(2.2rem, 4.8vw, 4.5rem); font-weight: 500; line-height: 1.08; letter-spacing: -0.055em; color: #f1f7f3; text-wrap: balance; }
+  .closing-content > p { max-width: 35rem; margin: 0 auto; font-size: 1rem; line-height: 1.85; color: #a0b0a7; text-wrap: pretty; }
+  .closing-actions { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 0.9rem; margin: 2.3rem auto 4.7rem; }
+  .closing-signature { display: flex; align-items: center; justify-content: center; gap: 1.25rem; color: #91a79a; font-size: 0.6rem; font-family: var(--font-mono); }
+  .closing-signature > span:first-child, .closing-signature > span:last-child { height: 1px; background: rgba(151,189,168,0.18); width: 5rem; }
+  .closing-orbit { position: absolute; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; opacity: 0.55; }
+  .closing-orbit > span { position: absolute; width: 49rem; height: 49rem; border: 1px solid rgba(98,202,154,0.1); border-radius: 50%; left: 50%; top: -33rem; transform: translateX(-50%); }
+  .closing-orbit > span:nth-child(2) { width: 63rem; height: 63rem; top: -40rem; }
+  .closing-orbit > span:nth-child(3) { width: 77rem; height: 77rem; top: -47rem; }
+  .closing-orbit > i { position: absolute; left: 50%; top: 0; width: 16rem; height: 1px; transform: translateX(-50%); background: linear-gradient(90deg, transparent, #6ee7b7, transparent); }
+  @media (max-width: 640px) {
+    .closing-panel { padding: 3.5rem 1.4rem 1.7rem; border-radius: 1rem; }
+    h2 { margin-top: 1.3rem; font-size: clamp(2rem, 7.8vw, 3rem); }
+    .closing-content > p { font-size: 0.9rem; }
+    .closing-actions { flex-direction: column; gap: 0.75rem; margin-bottom: 3rem; }
+    .closing-actions > a { width: 100%; }
+    .closing-signature { gap: 0.7rem; font-size: 0.55rem; }
+    .closing-signature > span:first-child, .closing-signature > span:last-child { width: 2rem; }
+  }
+</style>

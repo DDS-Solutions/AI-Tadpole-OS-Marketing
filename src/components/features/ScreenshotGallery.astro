@@ -1,95 +1,103 @@
 ---
 const basePath = import.meta.env.BASE_URL.replace(/\/$/, "");
-
 const screenshots = [
   {
     src: `${basePath}/assets/real_os_dashboard.png`,
     width: 1662,
     height: 905,
-    title: "Operations Dashboard",
-    desc: "10Hz Swarm Pulse MessagePack telemetry stream with detachable portals.",
+    title: "The whole operation. In view.",
+    label: "Operations dashboard",
+    desc: "Follow live swarm activity, model routing, and 10Hz telemetry from a single desktop workspace.",
+    alt: "Tadpole OS operations dashboard displaying swarm telemetry, agent activity, and detachable workspace portals",
   },
   {
     src: `${basePath}/assets/real_os_nodes.png`,
     width: 1662,
     height: 905,
-    title: "Node Hierarchy & Swarms",
-    desc: "Visual agent hierarchy traversal & active worker thread management.",
+    title: "See how your agents connect.",
+    label: "Node hierarchy & swarms",
+    desc: "Explore the agent hierarchy and inspect active workers as your swarm takes shape.",
+    alt: "Tadpole OS node hierarchy showing the relationships between agents and active swarm workers",
   },
   {
     src: `${basePath}/assets/real_os_oversight.png`,
     width: 1662,
     height: 905,
-    title: "Sapphire Shield Governance",
-    desc: "Zero-trust HITL gate & cryptographic Merkle proof decision history.",
-  },
-  {
-    src: `${basePath}/assets/industry_templates_catalog.png`,
-    width: 1680,
-    height: 1050,
-    title: "Industry Agent Swarm Catalog",
-    desc: "223 specialized agent roles across 25 industry templates.",
+    title: "Stay in the decision loop.",
+    label: "Sapphire Shield governance",
+    desc: "Review human approval gates and trace decisions through cryptographic Merkle audit histories.",
+    alt: "Tadpole OS Sapphire Shield oversight workspace with human approval gates and decision audit history",
   },
 ];
 ---
 
-<section
-  id="interface"
-  class="scroll-mt-28 border-y border-white/10 bg-zinc-950/80 py-20"
->
-  <div class="mx-auto max-w-7xl px-5 sm:px-8 space-y-12">
-    <div class="text-center space-y-4 max-w-3xl mx-auto">
-      <span
-        class="font-mono text-xs font-bold uppercase tracking-widest text-emerald-400"
-      >
-        Real Desktop Interface
-      </span>
-      <h2
-        class="text-4xl font-bold leading-tight text-white sm:text-5xl font-outfit text-[var(--text-fluid-title)]"
-      >
-        Dense Control Surfaces for Live Swarm Work
-      </h2>
-      <p class="text-lg leading-8 text-zinc-400 font-light text-[var(--text-fluid-body)]">
-        Captured live from the React + Tauri desktop engine. Operators
-        inspect agents, model routing slots, 10Hz MessagePack telemetry, and
-        Merkle audit histories.
-      </p>
+<section id="interface" class="interface-section" aria-labelledby="interface-title">
+  <div class="section-shell">
+    <div class="interface-intro">
+      <div>
+        <span class="eyebrow">Inside the workspace</span>
+        <h2 id="interface-title" class="section-heading">Powerful systems.<br />A clear point of view.</h2>
+      </div>
+      <p class="section-copy">Real screens from the React + Tauri desktop runtime. See your agents, understand their work, and keep every decision within reach.</p>
     </div>
 
-    <!-- 4 Real Screenshots Grid -->
-    <div class="grid sm:grid-cols-2 gap-6">
-      {
-        screenshots.map((shot) => (
-          <div class="glass-surface rounded-2xl border border-white/10 overflow-hidden shadow-2xl p-4 space-y-3 group hover:border-emerald-500/40 transition-all">
-            <div class="relative rounded-xl overflow-hidden bg-black border border-white/10">
-              <img
-                src={shot.src}
-                alt={shot.title}
-                width={shot.width}
-                height={shot.height}
-                loading="lazy"
-                decoding="async"
-                class="w-full h-auto object-cover group-hover:scale-[1.02] transition-transform duration-500"
-              />
-              <button
-                type="button"
-                @click={`openLightbox('${shot.src}', '${shot.title}')`}
-                class="absolute bottom-3 right-3 bg-zinc-950/85 hover:bg-zinc-950 border border-white/20 text-white px-3 py-1.5 rounded-lg text-xs font-mono flex items-center gap-1.5 opacity-90 hover:opacity-100 transition-all backdrop-blur shadow-lg cursor-pointer"
-              >
-                <span>🔍 Zoom Full Resolution</span>
+    <div class="interface-gallery">
+      {screenshots.map((shot, index) => (
+        <figure class:list={["interface-figure", { "interface-featured": index === 0 }]}>
+          <div class="screenshot-frame">
+            <div class="screenshot-chrome" aria-hidden="true"><span class="window-dots"><i></i><i></i><i></i></span><span>AI-Tadpole-OS / {shot.label}</span><span class="chrome-mark">↗</span></div>
+            <div class="screenshot-image">
+              <img src={shot.src} alt={shot.alt} width={shot.width} height={shot.height} loading="lazy" decoding="async" />
+              <button type="button" @click={`openLightbox('${shot.src}', '${shot.label}')`} aria-label={`Zoom Full Resolution: ${shot.label}`} class="screenshot-zoom">
+                <svg width="14" height="14" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M7 3H3v4m10-4h4v4M3 13v4h4m10-4v4h-4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" /></svg>
+                <span>Zoom Full Resolution</span>
               </button>
             </div>
-            <div>
-              <h3 class="font-bold text-white text-lg font-outfit">
-                {shot.title}
-              </h3>
-              <p class="text-xs text-zinc-400 font-light mt-1">
-                {shot.desc}
-              </p>
-            </div>
           </div>
-        ))
-      }
+          <figcaption>
+            <div class="caption-title"><span class="caption-index">0{index + 1}</span><h3>{shot.title}</h3></div>
+            <p>{shot.desc}</p>
+          </figcaption>
+        </figure>
+      ))}
     </div>
   </div>
 </section>
+
+<style>
+  .interface-section { scroll-margin-top: 5rem; position: relative; padding: 5.5rem 0; border-top: 1px solid rgba(255,255,255,0.08); border-bottom: 1px solid rgba(255,255,255,0.08); background: radial-gradient(ellipse at 50% 30%, rgba(13,86,74,0.1), transparent 65%), #080d0e; }
+  .interface-intro { display: grid; grid-template-columns: 1.12fr 0.88fr; gap: 4rem; align-items: end; margin-bottom: 3.5rem; }
+  .interface-intro .section-copy { max-width: 28rem; padding-bottom: 0.25rem; }
+  .interface-gallery { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 3rem 1.8rem; }
+  .interface-figure { margin: 0; min-width: 0; }
+  .interface-featured { grid-column: 1 / -1; }
+  .screenshot-frame { overflow: hidden; border: 1px solid rgba(255,255,255,0.15); border-radius: 0.85rem; background: #080b0c; box-shadow: 0 22px 60px rgba(0,0,0,0.22); }
+  .screenshot-chrome { height: 2.5rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 0 0.85rem; border-bottom: 1px solid rgba(255,255,255,0.08); color: #8d9b97; font-size: 0.58rem; font-family: var(--font-mono); }
+  .window-dots { display: flex; gap: 0.3rem; }
+  .window-dots i { width: 5px; height: 5px; border-radius: 50%; background: #3c4a46; }
+  .window-dots i:first-child { background: #6c857b; }
+  .chrome-mark { color: #6ee7b7; font-size: 0.9rem; }
+  .screenshot-image { position: relative; }
+  .screenshot-image img { display: block; width: 100%; height: auto; }
+  .screenshot-zoom { display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; position: absolute; right: 0.85rem; bottom: 0.85rem; min-height: 40px; border: 1px solid rgba(255,255,255,0.25); border-radius: 0.5rem; background: rgba(5,12,12,0.94); padding: 0.65rem 0.8rem; color: #e2ede8; font-size: 0.63rem; font-family: var(--font-mono); cursor: pointer; transition: background 180ms, border-color 180ms; }
+  .screenshot-zoom:hover { background: #10251e; border-color: #6ee7b7; }
+  .screenshot-zoom:focus-visible { outline: 2px solid #6ee7b7; outline-offset: 3px; }
+  figcaption { margin-top: 1.3rem; }
+  .caption-title { display: flex; align-items: center; gap: 0.85rem; }
+  .caption-index { color: #6ee7b7; font-family: var(--font-mono); font-size: 0.65rem; }
+  h3 { margin: 0; color: #edf4f1; font-size: 1.25rem; font-weight: 500; letter-spacing: -0.025em; line-height: 1.4; }
+  figcaption p { margin: 0.55rem 0 0 1.8rem; max-width: 36rem; font-size: 0.85rem; line-height: 1.75; color: #99a7a1; }
+  .interface-featured figcaption { display: flex; align-items: start; justify-content: space-between; gap: 2rem; }
+  .interface-featured figcaption p { margin: 0; max-width: 29rem; }
+  @media (max-width: 760px) {
+    .interface-section { padding: 3.5rem 0; }
+    .interface-intro { grid-template-columns: 1fr; gap: 1.3rem; margin-bottom: 2rem; }
+    .interface-gallery { grid-template-columns: 1fr; gap: 2.25rem; }
+    .interface-featured { grid-column: auto; }
+    .interface-featured figcaption { display: block; }
+    .interface-featured figcaption p { margin: 0.55rem 0 0 1.8rem; }
+    .screenshot-chrome { font-size: 0.5rem; gap: 0.5rem; }
+    .screenshot-zoom { bottom: 0.5rem; right: 0.5rem; min-height: 36px; padding: 0.45rem 0.55rem; font-size: 0.56rem; }
+    h3 { font-size: 1.15rem; }
+  }
+</style>

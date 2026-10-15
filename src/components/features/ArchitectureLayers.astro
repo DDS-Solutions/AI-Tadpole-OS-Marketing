@@ -1,68 +1,90 @@
 ---
 const architectureLayers = [
   {
-    label: "L1",
-    title: "Directive Layer",
-    detail:
-      "Human-authored SOPs in Markdown. Versioned directives serve as the absolute source of truth for agent behavior.",
+    label: "01",
+    title: "Define the intent.",
+    name: "Directive layer",
+    detail: "Write your operating procedures in Markdown. Versioned, human-authored directives give every agent a clear source of truth.",
+    tag: "Human-defined",
   },
   {
-    label: "L2",
-    title: "Orchestration Layer",
-    detail:
-      "Agent 99 coordinates swarm hierarchy, decomposes objectives, and performs Self-Annealing to refine long-term memory.",
+    label: "02",
+    title: "Coordinate the work.",
+    name: "Orchestration layer",
+    detail: "Agent 99 breaks objectives into tasks, coordinates the swarm, and refines long-term memory through self-annealing.",
+    tag: "Agent-coordinated",
   },
   {
-    label: "L3",
-    title: "Execution Layer",
-    detail:
-      "Rust-native engine and deterministic scripts execute tools in parallel using FuturesUnordered for controlled, memory-safe concurrency.",
+    label: "03",
+    title: "Execute with control.",
+    name: "Execution layer",
+    detail: "A Rust-native engine runs deterministic scripts and tools in parallel with controlled, memory-safe concurrency.",
+    tag: "Rust-powered",
   },
 ];
 ---
 
-<section
-  id="runtime"
-  class="scroll-mt-28 mx-auto max-w-7xl px-5 sm:px-8 space-y-12"
->
-  <div class="grid lg:grid-cols-[0.9fr_1.1fr] gap-12 items-center">
-    <div class="space-y-5">
-      <span
-        class="font-mono text-xs font-bold uppercase tracking-[0.24em] text-emerald-400"
-      >
-        Runtime Architecture
-      </span>
-      <h2
-        class="text-4xl font-bold leading-tight text-white sm:text-5xl font-outfit text-[var(--text-fluid-title)]"
-      >
-        Built to keep strategy close to the machine.
-      </h2>
-      <p class="text-lg leading-8 text-zinc-400 font-light text-[var(--text-fluid-body)]">
-        AI-Tadpole-OS treats a clone as the unit of sovereignty. Directives,
-        orchestration, and execution remain inspectable so teams can run
-        missions without surrendering operational context to cloud
-        intermediaries.
-      </p>
+<section id="runtime" class="section-shell architecture-section" aria-labelledby="runtime-title">
+  <div class="architecture-intro">
+    <div>
+      <span class="eyebrow">The architecture</span>
+      <h2 id="runtime-title" class="section-heading">Your intent.<br />A clear path to execution.</h2>
     </div>
-
-    <div class="grid gap-4">
-      {
-        architectureLayers.map((layer) => (
-          <article class="grid gap-5 rounded-2xl border border-white/10 bg-zinc-950/60 p-6 sm:grid-cols-[5rem_1fr] hover:border-emerald-500/30 transition-all">
-            <div class="font-mono text-3xl font-bold text-emerald-400 flex items-center justify-center rounded-xl bg-emerald-500/10 border border-emerald-500/20 h-16">
-              {layer.label}
-            </div>
-            <div class="space-y-2">
-              <h3 class="text-2xl font-bold text-white font-outfit">
-                {layer.title}
-              </h3>
-              <p class="leading-relaxed text-zinc-400 text-sm font-light">
-                {layer.detail}
-              </p>
-            </div>
-          </article>
-        ))
-      }
-    </div>
+    <p class="section-copy architecture-copy">
+      Three inspectable layers connect your team's strategy to the machine.
+      Keep directives, orchestration, and execution close to the infrastructure you control.
+    </p>
   </div>
+
+  <ol class="architecture-flow">
+    {architectureLayers.map((layer) => (
+      <li class="architecture-card">
+        <div class="stage-line">
+          <span class="stage-number">{layer.label}</span>
+          <span class="stage-rule" aria-hidden="true"></span>
+          <svg class="stage-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14m-5-5 5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
+        </div>
+        <p class="layer-name">{layer.name}</p>
+        <h3>{layer.title}</h3>
+        <p class="layer-detail">{layer.detail}</p>
+        <span class="layer-tag"><span aria-hidden="true"></span>{layer.tag}</span>
+      </li>
+    ))}
+  </ol>
+  <p class="architecture-note"><svg width="15" height="15" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M10 2 3 5v5c0 4 7 7 7 7s7-3 7-7V5l-7-3Z" stroke="currentColor" stroke-width="1.3" /><path d="m7 9 2 2 4-4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" /></svg> Inspectable by design. Governed by your team.</p>
 </section>
+
+<style>
+  .architecture-section { scroll-margin-top: 7rem; }
+  .architecture-intro { display: grid; grid-template-columns: 1.12fr 0.88fr; align-items: end; gap: 4rem; margin-bottom: 3.5rem; }
+  .architecture-copy { max-width: 29rem; padding-bottom: 0.25rem; }
+  .architecture-flow { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); list-style: none; padding: 0; margin: 0; border: 1px solid rgba(255,255,255,0.11); border-radius: 1.25rem; overflow: hidden; background: linear-gradient(130deg, rgba(16,185,129,0.035), rgba(255,255,255,0.018) 45%, rgba(6,182,212,0.025)); }
+  .architecture-card { position: relative; padding: 2rem; }
+  .architecture-card + .architecture-card { border-left: 1px solid rgba(255,255,255,0.1); }
+  .stage-line { display: flex; align-items: center; gap: 1.1rem; margin-bottom: 2.8rem; color: #6ee7b7; }
+  .stage-number { font-family: var(--font-mono); font-size: 0.8rem; letter-spacing: 0.06em; }
+  .stage-rule { height: 1px; flex: 1; background: rgba(110,231,183,0.2); }
+  .stage-arrow { opacity: 0.65; flex-shrink: 0; }
+  .architecture-card:last-child .stage-arrow { opacity: 0; }
+  .layer-name { margin: 0 0 0.65rem; font-size: 0.75rem; color: #8c9998; }
+  h3 { margin: 0; color: #f3f7f6; font-size: clamp(1.3rem, 1.8vw, 1.6rem); font-weight: 550; letter-spacing: -0.035em; line-height: 1.3; }
+  .layer-detail { margin: 1.1rem 0 1.75rem; color: #a2adab; font-size: 0.9rem; line-height: 1.85; }
+  .layer-tag { display: inline-flex; align-items: center; gap: 0.5rem; font-family: var(--font-mono); font-size: 0.65rem; color: #bac6c2; }
+  .layer-tag > span { width: 4px; height: 4px; border-radius: 50%; background: #6ee7b7; }
+  .architecture-note { display: flex; align-items: center; justify-content: center; gap: 0.6rem; margin: 1.5rem 0 0; font-size: 0.75rem; color: #899791; }
+  .architecture-note svg { color: #6ee7b7; flex-shrink: 0; }
+  @media (max-width: 900px) {
+    .architecture-intro { gap: 2rem; }
+    .architecture-card { padding: 1.6rem; }
+  }
+  @media (max-width: 700px) {
+    .architecture-intro { grid-template-columns: 1fr; gap: 1.3rem; margin-bottom: 2rem; }
+    .architecture-copy { max-width: 100%; }
+    .architecture-flow { grid-template-columns: 1fr; }
+    .architecture-card { padding: 1.75rem; }
+    .architecture-card + .architecture-card { border-left: 0; border-top: 1px solid rgba(255,255,255,0.1); }
+    .stage-line { margin-bottom: 1.6rem; }
+    .layer-detail { margin-bottom: 1.25rem; }
+    .architecture-note { font-size: 0.7rem; }
+  }
+</style>

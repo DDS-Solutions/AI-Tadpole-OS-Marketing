@@ -17,9 +17,9 @@ This repository contains the source code for the official **AI-Tadpole-OS** mark
 
 ## 🌟 Key Features
 
-- **Progressively Enhanced**: Static HTML provides the core content, while Alpine.js, WebGL, and view transitions enhance the interactive experience.
+- **Progressively Enhanced**: Static HTML provides the core content, while Alpine.js and view transitions enhance the interactive experience.
 - **Privacy-Preserving Typography**: Local system font stacks avoid third-party font requests.
-- **Sovereign Dark Theme**: Deep visual alignment with the core Tadpole OS engine.
+- **Sovereign Dark Theme**: A responsive command-center design with CSS ambient lighting, real product previews, and clear paths through the runtime.
 - **GEO Optimized**: SoftwareApplication JSON-LD and agent-friendly meta tags.
 - **Governance Whitepaper**: Integrated Sovereign Protocol documentation.
 

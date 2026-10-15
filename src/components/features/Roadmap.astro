@@ -1,108 +1,31 @@
 ---
-// Roadmap.astro: Protocol engineering trajectory milestones
-import SectionHeader from "../ui/SectionHeader.astro";
+const priorities = [
+  { number: "01", title: "A dependable core", detail: "Rust execution, inspectable telemetry, and human approval gates form the foundation." },
+  { number: "02", title: "Context that stays close", detail: "Desktop observability and private memory keep your team connected to agent decisions." },
+  { number: "03", title: "Connected local workflows", detail: "Mesh discovery and coordination support the direction toward work across local nodes." },
+  { number: "04", title: "Deeper governance", detail: "Continued work on audit records, operational controls, and governed multi-agent execution." },
+];
 ---
 
-<section
-  id="roadmap"
-  class="scroll-mt-28 border-t border-white/10 bg-zinc-950/90 py-20"
->
-  <div class="mx-auto max-w-7xl px-5 sm:px-8 space-y-12">
-    <SectionHeader
-      tag="Protocol Trajectory"
-      tagVariant="cyan"
-      title="Sovereignty Roadmap"
-      subtitle="The engineering release pipeline for Tadpole OS local multi-agent swarm orchestration."
-    />
-
-    <div class="grid md:grid-cols-4 gap-6 font-mono text-xs">
-      <!-- Q1 -->
-      <div
-        class="p-6 rounded-2xl bg-zinc-950 border border-emerald-500/30 space-y-3"
-      >
-        <div
-          class="flex items-center justify-between text-emerald-400 font-bold"
-        >
-          <span>Q1 2026</span>
-          <span
-            class="px-2 py-0.5 bg-emerald-500/10 border border-emerald-500/20 text-[10px] rounded"
-            >COMPLETED</span
-          >
-        </div>
-        <h3 class="text-lg font-bold text-white font-outfit">
-          Rust Core Engine v1.1
-        </h3>
-        <p class="text-zinc-400 text-xs font-light leading-relaxed">
-          Axum/Tokio async execution, 10Hz MessagePack WebSocket stream, and
-          Sapphire Shield zero-trust HITL gate.
-        </p>
-      </div>
-
-      <!-- Q2 -->
-      <div
-        class="p-6 rounded-2xl bg-zinc-950 border border-cyan-500/30 space-y-3"
-      >
-        <div
-          class="flex items-center justify-between text-cyan-400 font-bold"
-        >
-          <span>Q2 2026</span>
-          <span
-            class="px-2 py-0.5 bg-cyan-500/10 border border-cyan-500/20 text-[10px] rounded"
-            >COMPLETED</span
-          >
-        </div>
-        <h3 class="text-lg font-bold text-white font-outfit">
-          Tauri Desktop & GraphRAG
-        </h3>
-        <p class="text-zinc-400 text-xs font-light leading-relaxed">
-          React + Tauri desktop engine, LanceDB 768-dim vector embeddings,
-          and real-time trace waterfall viewer.
-        </p>
-      </div>
-
-      <!-- Q3 -->
-      <div
-        class="p-6 rounded-2xl bg-zinc-950 border border-purple-500/30 space-y-3"
-      >
-        <div
-          class="flex items-center justify-between text-purple-400 font-bold"
-        >
-          <span>Q3 2026</span>
-          <span
-            class="px-2 py-0.5 bg-purple-500/10 border border-purple-500/20 text-[10px] rounded"
-            >COMPLETED</span
-          >
-        </div>
-        <h3 class="text-lg font-bold text-white font-outfit">
-          Multi-Node Mesh Swarms
-        </h3>
-        <p class="text-zinc-400 text-xs font-light leading-relaxed">
-          Distributed local mesh networking across multi-GPU hardware nodes
-          with PWA offline whitepaper vault.
-        </p>
-      </div>
-
-      <!-- Q4 -->
-      <div
-        class="p-6 rounded-2xl bg-zinc-950 border border-amber-500/40 space-y-3 shadow-lg shadow-amber-500/5"
-      >
-        <div
-          class="flex items-center justify-between text-amber-400 font-bold"
-        >
-          <span>Q4 2026</span>
-          <span
-            class="px-2 py-0.5 bg-amber-500/15 border border-amber-500/30 text-[10px] rounded text-amber-300 flex items-center gap-1.5"
-            ><span class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse"></span>ACTIVE RELEASE</span
-          >
-        </div>
-        <h3 class="text-lg font-bold text-white font-outfit">
-          Autonomous Enterprise Cluster
-        </h3>
-        <p class="text-zinc-400 text-xs font-light leading-relaxed">
-          Audit-oriented records mapped to ISO 9001 and ALCOA+ concepts,
-          OBLITERATUS Merkle proofs, and an enterprise cluster manager.
-        </p>
-      </div>
-    </div>
+<section id="roadmap" class="roadmap-section" aria-labelledby="roadmap-title">
+  <div class="section-shell">
+    <div class="roadmap-intro"><div><span class="eyebrow">Engineering direction</span><h2 id="roadmap-title" class="section-heading">A foundation.<br />Built to go further.</h2></div><p class="section-copy">Follow the work in the open. These focus areas describe the project's direction; the source repository is the reference for available features and releases.</p></div>
+    <ol class="roadmap-grid">{priorities.map((item) => <li><span class="roadmap-number">{item.number}<span aria-hidden="true"></span></span><h3>{item.title}</h3><p>{item.detail}</p></li>)}</ol>
+    <a href="https://github.com/DDS-Solutions/AI-TadPole-OS/releases" class="roadmap-link">Explore releases on GitHub <span aria-hidden="true">↗</span></a>
   </div>
 </section>
+
+<style>
+  .roadmap-section { scroll-margin-top: 7rem; padding: clamp(3rem, 5vw, 5rem) 0; border-block: 1px solid var(--line); background: #0b100d80; }
+  .roadmap-intro { display: grid; grid-template-columns: 1.12fr .88fr; align-items: end; gap: 4rem; margin-bottom: 3.5rem; }
+  .roadmap-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 2rem; }
+  .roadmap-number { display: flex; align-items: center; gap: 1rem; font: .65rem var(--font-mono); color: #6ee7b7; }
+  .roadmap-number > span { flex: 1; height: 1px; background: linear-gradient(90deg, #6ee7b730, #ffffff08); }
+  h3 { font-size: 1.05rem; font-weight: 500; letter-spacing: -.03em; color: #e4eee8; margin-top: 1.5rem; }
+  li > p { font-size: .8rem; line-height: 1.85; color: #9ca9a1; margin-top: .85rem; }
+  .roadmap-link { display: inline-flex; align-items: center; gap: 1.5rem; min-height: 44px; margin-top: 2rem; color: #a7f3d0; font-size: .75rem; }
+  .roadmap-link:hover { text-decoration: underline; text-underline-offset: 4px; }
+  @media (max-width: 900px) { .roadmap-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2rem; } }
+  @media (max-width: 700px) { .roadmap-intro { grid-template-columns: 1fr; gap: 1.3rem; margin-bottom: 2.5rem; } }
+  @media (max-width: 479px) { .roadmap-grid { grid-template-columns: 1fr; gap: 1.75rem; } h3 { margin-top: 1rem; } }
+</style>

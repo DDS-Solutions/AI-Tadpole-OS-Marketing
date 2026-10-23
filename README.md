@@ -39,11 +39,21 @@ Node.js 22 or newer is required. The browser verification uses an installed Chro
 | :--- | :--- |
 | `npm install` | Installs dependencies |
 | `npm run dev` | Starts local dev server at `localhost:4321` |
-| `npm run build` | Build your production site to `./dist/` |
+| `npm run build` | Build your production site to `./dist/` and generate sitemap/robots |
 | `npm run check` | Type-check Astro templates and client code |
 | `npm run typecheck` | Type-check TypeScript modules without emitting files |
-| `npm test` | Verify built routes, links, assets, budgets, browser behavior, keyboard controls, and accessibility contracts |
+| `npm test` | Runs production build followed by static and browser test suites |
+| `npm run test:built` | Run unit, static, and browser tests against existing `./dist/` |
 | `npm run preview` | Preview your build locally |
+
+### Environment Variables for Testing & Configuration
+
+- `CHROME_PATH`: Explicit path to Chrome or Edge executable when installed in non-standard locations.
+- `ALLOW_BROWSER_SKIP=1`: Allows bypassing browser verification outside CI if Chrome/Edge is not installed.
+- `SCREENSHOT_DIR`: Directory path to save desktop and mobile verification screenshots.
+- `SKIP_PLAYBACK_TIMING=1`: Skips full playback timing intervals during fast layout test iterations.
+- `SITE_ORIGIN`: Base URL origin (defaults to `https://dds-solutions.github.io`).
+- `BASE_PATH`: Base URL path prefix (defaults to `/AI-Tadpole-OS-Marketing`).
 
 ## 📐 GEO Strategy
 

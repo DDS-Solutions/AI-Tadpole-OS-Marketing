@@ -51,10 +51,10 @@ const categories = [
       <span class="catalog-label"
         ><span aria-hidden="true"></span>The industry catalog</span
       >
-      <h3>223 roles.<br />25 industry collections.</h3>
+      <h3>223 specialized roles.<br />81 templates in 25 collections.</h3>
       <p>
         From engineering and security to marketing, finance, spatial computing,
-        and academic workflows. Find the right starting point for your team.
+        and academic workflows. Compose modular role directives or launch turnkey starter templates.
       </p>
       <a
         href="https://dds-solutions.github.io/AI-Tadpole-OS-Industry-Templates/"
@@ -99,7 +99,7 @@ const categories = [
           type="button"
           @click={`openLightbox('${basePath}/assets/industry_templates_catalog.png', 'Industry agent swarm catalog')`}
           aria-label="Zoom Full Resolution: industry agent catalog"
-          class="catalog-zoom"
+          class="preview-zoom"
         >
           <svg
             width="14"
@@ -243,35 +243,6 @@ const categories = [
     width: 100%;
     height: auto;
   }
-  .catalog-zoom {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    position: absolute;
-    right: 0.85rem;
-    bottom: 0.85rem;
-    min-height: 40px;
-    border: 1px solid rgba(255, 255, 255, 0.25);
-    border-radius: 0.5rem;
-    background: rgba(5, 12, 12, 0.94);
-    padding: 0.65rem 0.8rem;
-    color: #e2ede8;
-    font-size: 0.6rem;
-    font-family: var(--font-mono);
-    cursor: pointer;
-    transition:
-      background 180ms,
-      border-color 180ms;
-  }
-  .catalog-zoom:hover {
-    background: #10251e;
-    border-color: #6ee7b7;
-  }
-  .catalog-zoom:focus-visible {
-    outline: 2px solid #6ee7b7;
-    outline-offset: 3px;
-  }
   .category-grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -351,13 +322,6 @@ const categories = [
     .catalog-preview-bar {
       padding: 0.7rem;
       font-size: 0.5rem;
-    }
-    .catalog-zoom {
-      right: 0.5rem;
-      bottom: 0.5rem;
-      min-height: 36px;
-      padding: 0.45rem 0.55rem;
-      font-size: 0.56rem;
     }
     .category-grid {
       grid-template-columns: 1fr;

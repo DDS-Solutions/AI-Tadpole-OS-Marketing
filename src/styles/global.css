@@ -340,4 +340,42 @@ li {
   box-shadow: 0 0 35px rgba(16, 185, 129, 0.15);
 }
 
+.preview-zoom {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  position: absolute;
+  right: 0.85rem;
+  bottom: 0.85rem;
+  min-height: 40px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 0.5rem;
+  background: rgba(5, 12, 12, 0.94);
+  padding: 0.65rem 0.8rem;
+  color: #e2ede8;
+  font-size: 0.62rem;
+  font-family: var(--font-mono);
+  cursor: pointer;
+  transition: background 180ms, border-color 180ms;
+}
 
+.preview-zoom:hover {
+  background: #10251e;
+  border-color: #6ee7b7;
+}
+
+.preview-zoom:focus-visible {
+  outline: 2px solid #6ee7b7;
+  outline-offset: 3px;
+}
+
+@media (max-width: 760px) {
+  .preview-zoom {
+    bottom: 0.5rem;
+    right: 0.5rem;
+    min-height: 36px;
+    padding: 0.45rem 0.55rem;
+    font-size: 0.56rem;
+  }
+}

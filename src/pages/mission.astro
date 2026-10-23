@@ -1,7 +1,12 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import LightboxModal from "../components/ui/LightboxModal.astro";
+import StatusBadge from "../components/ui/StatusBadge.astro";
+import { getMissionSlides } from "../data/mission-slides";
+
 const basePath = import.meta.env.BASE_URL.replace(/\/$/, "");
+const assetBaseUrl = `${basePath}/`;
+const slides = getMissionSlides(assetBaseUrl);
 ---
 
 
@@ -16,10 +21,9 @@ const basePath = import.meta.env.BASE_URL.replace(/\/$/, "");
   >
     <!-- Page Header -->
     <header class="text-center space-y-6 max-w-4xl mx-auto">
-      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-emerald-500/20 bg-emerald-500/10 text-emerald-400 font-mono text-xs uppercase tracking-widest backdrop-blur">
-        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+      <StatusBadge variant="emerald" pulse={true}>
         Inside the Desktop Runtime
-      </div>
+      </StatusBadge>
       <h1 class="text-5xl sm:text-7xl lg:text-8xl font-extrabold tracking-tight text-white font-outfit leading-[0.95]">
         A mission. <span class="bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400 bg-clip-text text-transparent">Every step.</span>
       </h1>
@@ -97,19 +101,20 @@ const basePath = import.meta.env.BASE_URL.replace(/\/$/, "");
 
       <!-- Slide Nav Tabs -->
       <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2 font-mono text-xs" aria-label="Mission steps">
-        <template x-for="(slide, idx) in slides" :key="idx">
+        {slides.map((slide, idx) => (
           <button
             type="button"
-            @click="setSlide(idx)"
-            :aria-current="currentSlide === idx ? 'step' : null"
-            :aria-label="'Show step ' + (idx + 1) + ': ' + slide.shortTitle"
-            :class="currentSlide === idx ? 'border-emerald-500/60 bg-emerald-500/10 text-white shadow-[0_0_15px_rgba(16,185,129,0.15)] font-bold' : 'border-white/5 bg-black/30 text-zinc-400 hover:border-white/15 hover:text-zinc-200'"
-            class="p-3 rounded-xl border text-left transition-all duration-200 space-y-1 cursor-pointer"
+            @click={`setSlide(${idx})`}
+            :aria-current={`currentSlide === ${idx} ? 'step' : null`}
+            aria-current={idx === 0 ? "step" : undefined}
+            aria-label={`Show step ${idx + 1}: ${slide.shortTitle}`}
+            :class={`currentSlide === ${idx} ? 'border-emerald-500/60 bg-emerald-500/10 text-white shadow-[0_0_15px_rgba(16,185,129,0.15)] font-bold' : 'border-white/5 bg-black/30 text-zinc-400 hover:border-white/15 hover:text-zinc-200'`}
+            class={`p-3 rounded-xl border text-left transition-all duration-200 space-y-1 cursor-pointer ${idx === 0 ? 'border-emerald-500/60 bg-emerald-500/10 text-white font-bold' : 'border-white/5 bg-black/30 text-zinc-400'}`}
           >
-            <div class="text-[10px] text-zinc-500 uppercase tracking-widest" x-text="'STEP 0' + (idx + 1)"></div>
-            <div class="text-xs truncate font-outfit font-semibold" x-text="slide.shortTitle"></div>
+            <div class="text-[10px] text-zinc-500 uppercase tracking-widest">STEP 0{idx + 1}</div>
+            <div class="text-xs truncate font-outfit font-semibold">{slide.shortTitle}</div>
           </button>
-        </template>
+        ))}
       </div>
 
       <!-- Main Active Slide Display -->
@@ -198,6 +203,33 @@ const basePath = import.meta.env.BASE_URL.replace(/\/$/, "");
           </div>
         </div>
       </div>
+
+      <noscript>
+        <div class="space-y-8 pt-8 border-t border-white/10" aria-label="Static mission steps overview">
+          <h3 class="text-xl font-bold text-white font-outfit">Complete 6-Phase Mission Walkthrough</h3>
+          <div class="grid gap-6">
+            {slides.map((slide, idx) => (
+              <article class="p-6 rounded-2xl bg-zinc-950/80 border border-white/10 space-y-4">
+                <div class="flex flex-wrap items-center justify-between gap-2 border-b border-white/10 pb-3">
+                  <span class="text-xs font-mono text-emerald-400 font-bold uppercase">{slide.badge}</span>
+                  <span class="text-xs font-mono text-zinc-500">Step 0{idx + 1} / 06</span>
+                </div>
+                <h4 class="text-xl font-bold text-white font-outfit">{slide.title}</h4>
+                <p class="text-sm text-zinc-300 font-light leading-relaxed">{slide.description}</p>
+                <div class="grid sm:grid-cols-3 gap-3 pt-2 text-xs font-mono">
+                  {slide.metrics.map((metric) => (
+                    <div class="p-2.5 rounded bg-black/60 border border-white/5">
+                      <div class="text-[10px] text-zinc-500 uppercase">{metric.label}</div>
+                      <div class="text-emerald-300 font-bold mt-0.5">{metric.value}</div>
+                    </div>
+                  ))}
+                </div>
+                <div class="p-3 rounded bg-zinc-900/90 border border-white/5 text-xs font-mono text-zinc-400" set:html={slide.logSnippet}></div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </noscript>
 
     </section>
 

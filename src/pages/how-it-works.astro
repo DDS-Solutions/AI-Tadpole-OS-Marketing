@@ -1,6 +1,10 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import LightboxModal from "../components/ui/LightboxModal.astro";
+import SectionHeader from "../components/ui/SectionHeader.astro";
+import StatusBadge from "../components/ui/StatusBadge.astro";
+import { architectureNodes } from "../data/architecture-nodes";
+
 const basePath = import.meta.env.BASE_URL.replace(/\/$/, "");
 ---
 
@@ -16,12 +20,9 @@ const basePath = import.meta.env.BASE_URL.replace(/\/$/, "");
   >
     <!-- Header -->
     <header class="text-center space-y-6 max-w-4xl mx-auto">
-      <div
-        class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-emerald-500/20 bg-emerald-500/10 text-emerald-400 font-mono text-xs uppercase tracking-widest backdrop-blur"
-      >
-        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+      <StatusBadge variant="emerald" pulse={true}>
         Technical Architecture & Mechanics
-      </div>
+      </StatusBadge>
       <h1
         class="text-5xl sm:text-7xl lg:text-8xl font-extrabold tracking-tight text-white font-outfit leading-[0.95]"
       >
@@ -275,19 +276,44 @@ const basePath = import.meta.env.BASE_URL.replace(/\/$/, "");
           </div>
         </div>
       </div>
+
+      <noscript>
+        <div class="space-y-6 pt-8 border-t border-white/10" aria-label="Static architecture layers overview">
+          <h3 class="text-xl font-bold text-white font-outfit">All Architecture Layer Specifications</h3>
+          <div class="grid gap-6">
+            {Object.values(architectureNodes).map((node) => (
+              <div class="p-6 rounded-2xl bg-zinc-950/90 border border-white/10 space-y-4">
+                <div class="flex items-center gap-3">
+                  <span class="text-2xl">{node.icon}</span>
+                  <div>
+                    <h4 class="text-lg font-bold text-white font-outfit">{node.title}</h4>
+                    <p class="text-xs font-mono text-emerald-400">{node.subTitle}</p>
+                  </div>
+                </div>
+                <p class="text-sm text-zinc-300 font-light leading-relaxed">{node.description}</p>
+                <div class="grid sm:grid-cols-2 gap-3 text-xs font-mono">
+                  {node.specs.map((spec) => (
+                    <div class="flex justify-between items-center py-1.5 border-b border-white/5">
+                      <span class="text-zinc-400">{spec.label}</span>
+                      <span class="text-white font-bold">{spec.val}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </noscript>
     </section>
 
     <!-- SECTION 2: AUDIENCE PERSPECTIVES (IT, MANAGER, EXECUTIVE, OPERATOR) -->
     <section class="space-y-12">
-      <div class="text-center space-y-4 max-w-2xl mx-auto">
-        <h2 class="text-4xl sm:text-5xl font-extrabold text-white font-outfit">
-          Operational Perspectives
-        </h2>
-        <p class="text-zinc-400 font-light leading-relaxed">
-          Select a role to see how AI-Tadpole-OS transforms security,
-          governance, operational control, and daily execution.
-        </p>
-      </div>
+      <SectionHeader
+        tag="Role Analysis"
+        tagVariant="emerald"
+        title="Operational Perspectives"
+        subtitle="Select a role to see how AI-Tadpole-OS transforms security, governance, operational control, and daily execution."
+      />
 
       <!-- Tab Buttons -->
       <div
@@ -677,7 +703,7 @@ const basePath = import.meta.env.BASE_URL.replace(/\/$/, "");
           <div
             class="p-3 rounded bg-black border border-white/5 text-[11px] text-emerald-300"
           >
-            Latency: ~12ms | Cost: $0.00
+            Latency: Local-direct | Cost: No metered API charge
           </div>
         </div>
 
@@ -695,7 +721,7 @@ const basePath = import.meta.env.BASE_URL.replace(/\/$/, "");
             Groq Ultra-Speed LPU
           </h3>
           <p class="text-zinc-400 text-xs font-light leading-relaxed">
-            Ultra-fast cloud inference fallback (500+ tokens/sec) for complex
+            Ultra-fast cloud inference fallback (high-throughput streaming) for complex
             multi-agent reasoning tasks.
           </p>
           <div
@@ -764,7 +790,7 @@ const basePath = import.meta.env.BASE_URL.replace(/\/$/, "");
           <div class="grid grid-cols-3 p-4 items-center">
             <div class="font-bold text-white">Vector Search (LanceDB)</div>
             <div>768-dim text-embedding-004</div>
-            <div class="text-cyan-400 font-bold">&lt; 8ms Nearest Neighbor</div>
+            <div class="text-cyan-400 font-bold">Direct Vector Indexing</div>
           </div>
           <div class="grid grid-cols-3 p-4 items-center">
             <div class="font-bold text-white">Active Doc Guard (ADG-01)</div>

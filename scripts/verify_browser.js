@@ -21,28 +21,34 @@ const browserCandidates = [
 
 const browserPath = browserCandidates.find((candidate) => fs.existsSync(candidate));
 if (!browserPath) {
-  if (process.env.CI) {
-    throw new Error('Chrome or Edge was not found in CI. Set CHROME_PATH to run browser verification.');
+  if (process.env.ALLOW_BROWSER_SKIP === '1') {
+    console.log('⚠️ Chrome or Edge was not found. Skipping browser verification per ALLOW_BROWSER_SKIP=1.');
+    process.exit(0);
   }
-  console.log('⚠️ Chrome or Edge was not found. Skipping browser verification. Set CHROME_PATH to run.');
-  process.exit(0);
+  throw new Error(
+    process.env.CI
+      ? 'Chrome or Edge was not found in CI. Set CHROME_PATH to run browser verification.'
+      : 'Chrome or Edge was not found. Set CHROME_PATH or set ALLOW_BROWSER_SKIP=1 to bypass browser verification.',
+  );
 }
 
 const delay = (milliseconds) => new Promise((resolve) => setTimeout(resolve, milliseconds));
 
 async function waitFor(check, timeoutMs, label) {
   const deadline = Date.now() + timeoutMs;
+  let lastError = null;
   while (Date.now() < deadline) {
     try {
       const value = await check();
       if (value) return value;
     } catch (error) {
       if (error && error.fatal) throw error;
-      // The preview server and DevTools endpoint may not be ready yet.
+      lastError = error;
     }
     await delay(100);
   }
-  throw new Error(`Timed out waiting for ${label}.`);
+  const reason = lastError ? ` Last error: ${lastError.message ?? lastError}` : '';
+  throw new Error(`Timed out waiting for ${label}.${reason}`);
 }
 
 class CdpClient {
@@ -337,8 +343,30 @@ try {
       assert.notEqual(display, 'none', `${name} hides a substantive panel without JavaScript.`);
     }
   }
+
+  // Verify full content visibility for how-it-works architecture nodes without JavaScript
+  await navigate(client, `${baseUrl}/how-it-works/`);
+  const howItWorksHtml = await evaluate(client, 'document.body.innerText');
+  for (const expectedTitle of ['Directives SOP', 'Agent 99 Router', 'Rust Core Engine', 'Sapphire Shield', 'LanceDB GraphRAG']) {
+    assert.ok(howItWorksHtml.includes(expectedTitle), `how-it-works must include ${expectedTitle} without JavaScript.`);
+  }
+
+  // Verify full content visibility for all 6 mission steps without JavaScript
+  await navigate(client, `${baseUrl}/mission/`);
+  const missionHtml = await evaluate(client, 'document.body.innerText');
+  for (const expectedStep of [
+    'Swarm Init',
+    'Neural Sync',
+    'Mission Launch',
+    'OTel Waterfall',
+    'Oversight Gate',
+    'Reconciliation',
+  ]) {
+    assert.ok(missionHtml.includes(expectedStep), `mission must include ${expectedStep} without JavaScript.`);
+  }
+
   await client.send('Emulation.setScriptExecutionDisabled', { value: false });
-  console.log('  ✓ Governance and architecture content remains visible without JavaScript');
+  console.log('  ✓ Governance, architecture nodes, and all 6 mission steps remain visible with meaningful content without JavaScript');
 
   await navigate(client, `${baseUrl}/governance/`);
   await evaluate(client, `document.getElementById('tab-overlord').focus()`);
@@ -404,6 +432,7 @@ try {
       focusInside: dialog.contains(document.activeElement),
       headerInert: document.querySelector('header').hasAttribute('inert'),
       footerInert: document.querySelector('body > footer').hasAttribute('inert'),
+      skipLinkInert: document.querySelector('body > a').hasAttribute('inert'),
       bodyLocked: document.body.style.overflow === 'hidden',
     };
   })()`);
@@ -412,14 +441,19 @@ try {
     focusInside: true,
     headerInert: true,
     footerInert: true,
+    skipLinkInert: true,
     bodyLocked: true,
   });
   await pressKey(client, 'Tab');
   assert.equal(await evaluate(client, `document.querySelector('[role="dialog"]').contains(document.activeElement)`), true);
+  await client.send('Input.dispatchKeyEvent', { type: 'keyDown', key: 'Tab', code: 'Tab', windowsVirtualKeyCode: 9, modifiers: 8 });
+  await client.send('Input.dispatchKeyEvent', { type: 'keyUp', key: 'Tab', code: 'Tab', windowsVirtualKeyCode: 9, modifiers: 8 });
+  await delay(50);
+  assert.equal(await evaluate(client, `document.querySelector('[role="dialog"]').contains(document.activeElement)`), true);
   await pressKey(client, 'Escape');
   await delay(300);
   assert.equal(await evaluate(client, `getComputedStyle(document.querySelector('[role="dialog"]')).display`), 'none');
-  console.log('  ✓ Lightbox traps focus, inerts the background, and closes with Escape');
+  console.log('  ✓ Lightbox traps focus (Tab/Shift+Tab), inerts header/footer/skip-link, and closes with Escape');
 
   if (process.env.SKIP_PLAYBACK_TIMING !== '1') {
     await navigate(client, `${baseUrl}/mission/`);

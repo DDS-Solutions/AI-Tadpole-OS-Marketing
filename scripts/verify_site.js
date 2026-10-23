@@ -34,12 +34,21 @@ function resolveBuiltReference(reference, currentPage) {
   let targetPage = currentPage;
 
   if (pathname) {
-    if (!pathname.startsWith(basePath)) return null;
-    const relative = pathname.slice(basePath.length).replace(/^\//, '');
-    if (!relative) targetPage = 'index.html';
-    else if (relative.endsWith('/')) targetPage = path.join(relative, 'index.html');
-    else if (path.extname(relative)) targetPage = relative;
-    else targetPage = path.join(relative, 'index.html');
+    if (pathname.startsWith(basePath)) {
+      const relative = pathname.slice(basePath.length).replace(/^\//, '');
+      if (!relative) targetPage = 'index.html';
+      else if (relative.endsWith('/')) targetPage = path.join(relative, 'index.html');
+      else if (path.extname(relative)) targetPage = relative;
+      else targetPage = path.join(relative, 'index.html');
+    } else if (!pathname.startsWith('/')) {
+      const currentDir = path.dirname(currentPage);
+      const combined = path.join(currentDir, pathname);
+      if (pathname.endsWith('/')) targetPage = path.join(combined, 'index.html');
+      else if (path.extname(pathname)) targetPage = combined;
+      else targetPage = path.join(combined, 'index.html');
+    } else {
+      return null;
+    }
   }
 
   return { targetPage: targetPage.replaceAll('/', path.sep), hash };
@@ -95,7 +104,6 @@ for (const page of pages) {
       fail(`${page.name} has root-relative reference missing base path: ${reference}`);
       continue;
     }
-    if (!reference.startsWith(basePath) && !reference.startsWith('#')) continue;
 
     const resolved = resolveBuiltReference(reference, page.file);
     if (!resolved) continue;
@@ -133,7 +141,7 @@ const publicText = allBuiltFiles
 
 requireCondition(!/file:\/\/\/|[A-Za-z]:[\\/]Users[\\/]|Home Office_PC|antigravity[\\/]playground/.test(publicText), 'Published files contain no local workstation paths');
 requireCondition(!fs.existsSync(path.join(distDir, 'design.md')) && !fs.existsSync(path.join(distDir, 'DESIGN_SYNERGY.md')), 'Internal design documents are not published');
-requireCondition(!/10k\+ Req\/sec|< 5ms Intercept|< 8ms p99|SOC2 \/ HIPAA Ready|50 Specialist Hours \/ Day/.test(publicText), 'Unqualified benchmark and certification claims are absent');
+requireCondition(!/10k\+ Req\/sec|< 5ms Intercept|< 8ms p99|SOC2 \/ HIPAA Ready|50 Specialist Hours \/ Day|Cost: \$0\.00|500\+ tokens\/sec|< 8ms Nearest Neighbor/.test(publicText), 'Unqualified benchmark and certification claims are absent');
 
 const requiredAssets = [
   'assets/brand/tadpole-mark-48.png',

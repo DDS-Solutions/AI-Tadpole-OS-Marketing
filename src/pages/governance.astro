@@ -2,6 +2,7 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import HitlIntercept from "../components/ui/HitlIntercept.astro";
 import GlassCard from "../components/ui/GlassCard.astro";
+import StatusBadge from "../components/ui/StatusBadge.astro";
 ---
 
 
@@ -16,10 +17,9 @@ import GlassCard from "../components/ui/GlassCard.astro";
   >
     <!-- Header -->
     <header class="text-center space-y-6 max-w-4xl mx-auto">
-      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-emerald-500/20 bg-emerald-500/10 text-emerald-400 font-mono text-xs uppercase tracking-widest backdrop-blur">
-        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+      <StatusBadge variant="emerald" pulse={true}>
         Sovereign Protocol Specification v1.2.1
-      </div>
+      </StatusBadge>
       <h1 class="text-5xl sm:text-7xl lg:text-8xl font-extrabold tracking-tight text-white font-outfit leading-[0.95]">
         Autonomy with <span class="bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400 bg-clip-text text-transparent">oversight.</span>
       </h1>

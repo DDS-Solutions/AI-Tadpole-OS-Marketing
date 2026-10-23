@@ -74,20 +74,36 @@ test('Component Structure Integrity', () => {
   }
 });
 
-test('UI Component Exports & Attributes', () => {
-  const uiComponents = [
-    'src/components/ui/GlassCard.astro',
-    'src/components/ui/StatusBadge.astro',
-    'src/components/ui/SectionHeader.astro',
-    'src/components/ui/HitlIntercept.astro',
-    'src/components/ui/LightboxModal.astro',
-  ];
+test('Shared Data Integrity: Mission Slides & Architecture Nodes', async (t) => {
+  const { getMissionSlides } = await import('../src/data/mission-slides.ts');
+  const { architectureNodes } = await import('../src/data/architecture-nodes.ts');
 
-  for (const file of uiComponents) {
-    const fullPath = path.resolve(file);
-    assert.equal(fs.existsSync(fullPath), true, `${file} must exist`);
-    const content = fs.readFileSync(fullPath, 'utf8');
-    assert.ok(content.length > 50, `${file} must not be empty`);
-  }
+  await t.test('mission slides contain 6 complete phases', () => {
+    const slides = getMissionSlides('/');
+    assert.equal(slides.length, 6, 'Must provide 6 mission walkthrough slides');
+    slides.forEach((slide, index) => {
+      assert.ok(slide.title, `Slide ${index} missing title`);
+      assert.ok(slide.badge, `Slide ${index} missing badge`);
+      assert.ok(slide.image, `Slide ${index} missing image`);
+      assert.ok(slide.description, `Slide ${index} missing description`);
+      assert.ok(slide.metrics.length >= 3, `Slide ${index} must have at least 3 metrics`);
+      assert.ok(slide.logSnippet, `Slide ${index} missing logSnippet`);
+    });
+  });
+
+  await t.test('architecture nodes contain all 5 required layers', () => {
+    const requiredNodes = ['directive', 'orchestration', 'execution', 'governance', 'memory'];
+    for (const key of requiredNodes) {
+      const node = architectureNodes[key];
+      assert.ok(node, `Missing architecture node: ${key}`);
+      assert.ok(node.title, `Node ${key} missing title`);
+      assert.ok(node.subTitle, `Node ${key} missing subTitle`);
+      assert.ok(node.badge, `Node ${key} missing badge`);
+      assert.ok(node.description, `Node ${key} missing description`);
+      assert.ok(node.specs.length >= 4, `Node ${key} must have at least 4 specs`);
+      assert.ok(node.code, `Node ${key} missing code contract`);
+    }
+  });
 });
+
 

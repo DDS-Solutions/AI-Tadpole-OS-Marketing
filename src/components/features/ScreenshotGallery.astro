@@ -48,7 +48,7 @@ const screenshots = [
             <div class="screenshot-chrome" aria-hidden="true"><span class="window-dots"><i></i><i></i><i></i></span><span>AI-Tadpole-OS / {shot.label}</span><span class="chrome-mark">↗</span></div>
             <div class="screenshot-image">
               <img src={shot.src} alt={shot.alt} width={shot.width} height={shot.height} loading="lazy" decoding="async" />
-              <button type="button" @click={`openLightbox('${shot.src}', '${shot.label}')`} aria-label={`Zoom Full Resolution: ${shot.label}`} class="screenshot-zoom">
+              <button type="button" @click={`openLightbox('${shot.src}', '${shot.label}')`} aria-label={`Zoom Full Resolution: ${shot.label}`} class="preview-zoom">
                 <svg width="14" height="14" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M7 3H3v4m10-4h4v4M3 13v4h4m10-4v4h-4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" /></svg>
                 <span>Zoom Full Resolution</span>
               </button>
@@ -79,9 +79,6 @@ const screenshots = [
   .chrome-mark { color: #6ee7b7; font-size: 0.9rem; }
   .screenshot-image { position: relative; }
   .screenshot-image img { display: block; width: 100%; height: auto; }
-  .screenshot-zoom { display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; position: absolute; right: 0.85rem; bottom: 0.85rem; min-height: 40px; border: 1px solid rgba(255,255,255,0.25); border-radius: 0.5rem; background: rgba(5,12,12,0.94); padding: 0.65rem 0.8rem; color: #e2ede8; font-size: 0.63rem; font-family: var(--font-mono); cursor: pointer; transition: background 180ms, border-color 180ms; }
-  .screenshot-zoom:hover { background: #10251e; border-color: #6ee7b7; }
-  .screenshot-zoom:focus-visible { outline: 2px solid #6ee7b7; outline-offset: 3px; }
   figcaption { margin-top: 1.3rem; }
   .caption-title { display: flex; align-items: center; gap: 0.85rem; }
   .caption-index { color: #6ee7b7; font-family: var(--font-mono); font-size: 0.65rem; }
@@ -97,7 +94,6 @@ const screenshots = [
     .interface-featured figcaption { display: block; }
     .interface-featured figcaption p { margin: 0.55rem 0 0 1.8rem; }
     .screenshot-chrome { font-size: 0.5rem; gap: 0.5rem; }
-    .screenshot-zoom { bottom: 0.5rem; right: 0.5rem; min-height: 36px; padding: 0.45rem 0.55rem; font-size: 0.56rem; }
     h3 { font-size: 1.15rem; }
   }
 </style>

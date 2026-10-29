@@ -237,7 +237,7 @@ const basePath = import.meta.env.BASE_URL.replace(/\/$/, "");
         <div class="grid md:grid-cols-2 gap-6">
           <div class="space-y-3 font-mono text-xs">
             <div
-              class="text-zinc-500 font-bold uppercase text-[10px] tracking-wider"
+              class="text-zinc-400 font-bold uppercase text-[10px] tracking-wider"
             >
               Key Engineering Specifications
             </div>
@@ -261,7 +261,7 @@ const basePath = import.meta.env.BASE_URL.replace(/\/$/, "");
 
           <div class="space-y-2">
             <div
-              class="text-zinc-500 font-mono text-[10px] font-bold uppercase tracking-wider"
+              class="text-zinc-400 font-mono text-[10px] font-bold uppercase tracking-wider"
             >
               Architecture Code Contract
             </div>
@@ -579,18 +579,21 @@ const basePath = import.meta.env.BASE_URL.replace(/\/$/, "");
           <div
             class="relative rounded-2xl overflow-hidden border border-white/10 shadow-2xl group bg-black"
           >
-            <img
-              src={`${basePath}/assets/moat-visual.png`}
-              alt="Sovereign Moat"
-              width="640"
-              height="640"
-              loading="lazy"
-              decoding="async"
-              class="w-full h-auto object-cover"
-            />
+            <picture>
+              <source srcset={`${basePath}/assets/moat-visual.webp`} type="image/webp" />
+              <img
+                src={`${basePath}/assets/moat-visual.png`}
+                alt="Sovereign Moat"
+                width="640"
+                height="640"
+                loading="lazy"
+                decoding="async"
+                class="w-full h-auto object-cover"
+              />
+            </picture>
             <button
               type="button"
-              @click={`openLightbox('${basePath}/assets/moat-visual.png', 'Sovereign moat')`}
+              @click={`openLightbox('${basePath}/assets/moat-visual.webp', 'Sovereign moat')`}
               class="absolute bottom-3 right-3 bg-zinc-950/85 hover:bg-zinc-950 border border-white/20 text-white px-3 py-1.5 rounded-lg text-xs font-mono flex items-center gap-1.5 opacity-90 hover:opacity-100 transition-all backdrop-blur shadow-lg cursor-pointer"
             >
               <span>🔍 Zoom Full Resolution</span>
@@ -801,6 +804,66 @@ const basePath = import.meta.env.BASE_URL.replace(/\/$/, "");
             <div class="font-bold text-white">Governance Authorization</div>
             <div>Sapphire Shield HITL Gate</div>
             <div class="text-amber-400 font-bold">Zero-Trust Merkle Proof</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 5: SYSTEM REQUIREMENTS & QUICKSTART -->
+    <section class="space-y-8 min-w-0 max-w-full" aria-labelledby="quickstart-title">
+      <div class="text-center space-y-3">
+        <h2 id="quickstart-title" class="text-3xl font-bold text-white font-outfit">
+          System Requirements &amp; Quickstart
+        </h2>
+        <p class="text-sm text-zinc-400 font-light max-w-2xl mx-auto">
+          Deploy the local-first runtime on your own hardware in minutes.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-6 min-w-0 max-w-full">
+        <!-- Prerequisites Card -->
+        <div class="glass-surface rounded-2xl border border-white/10 p-4 sm:p-6 space-y-4 min-w-0 max-w-full">
+          <div class="flex items-center gap-2 border-b border-white/10 pb-4">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 shrink-0"></span>
+            <h3 class="font-outfit font-bold text-lg text-white">Prerequisites</h3>
+          </div>
+          <ul class="space-y-3 text-xs font-mono text-zinc-300">
+            <li class="flex flex-wrap items-center justify-between gap-1.5 py-1.5 border-b border-white/5">
+              <span class="text-zinc-400">Operating System</span>
+              <span class="text-white font-semibold">Linux, macOS, Windows 11</span>
+            </li>
+            <li class="flex flex-wrap items-center justify-between gap-1.5 py-1.5 border-b border-white/5">
+              <span class="text-zinc-400">Rust Toolchain</span>
+              <span class="text-emerald-400 font-semibold">1.80+ (Stable)</span>
+            </li>
+            <li class="flex flex-wrap items-center justify-between gap-1.5 py-1.5 border-b border-white/5">
+              <span class="text-zinc-400">Node.js Engine</span>
+              <span class="text-cyan-400 font-semibold">&gt;= 22.0.0</span>
+            </li>
+            <li class="flex flex-wrap items-center justify-between gap-1.5 py-1.5">
+              <span class="text-zinc-400">Hardware Profile</span>
+              <span class="text-zinc-200">16 GB+ RAM / 4+ Cores</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Quickstart Commands Card -->
+        <div class="glass-surface rounded-2xl border border-white/10 p-4 sm:p-6 space-y-4 min-w-0 max-w-full">
+          <div class="flex items-center gap-2 border-b border-white/10 pb-4">
+            <span class="w-2 h-2 rounded-full bg-cyan-400 shrink-0"></span>
+            <h3 class="font-outfit font-bold text-lg text-white">Quickstart Commands</h3>
+          </div>
+          <div class="space-y-3 font-mono text-xs min-w-0 max-w-full">
+            <div>
+              <div class="text-[10px] text-zinc-400 uppercase tracking-wider font-bold mb-1">1. Clone &amp; Enter Repository</div>
+              <pre class="p-2.5 rounded-lg bg-black border border-white/10 text-emerald-300 overflow-x-auto leading-relaxed max-w-full whitespace-pre-wrap break-all sm:whitespace-pre">git clone https://github.com/DDS-Solutions/AI-TadPole-OS.git
+cd AI-TadPole-OS</pre>
+            </div>
+            <div>
+              <div class="text-[10px] text-zinc-400 uppercase tracking-wider font-bold mb-1">2. Build &amp; Verify Runtime</div>
+              <pre class="p-2.5 rounded-lg bg-black border border-white/10 text-cyan-300 overflow-x-auto leading-relaxed max-w-full whitespace-pre-wrap break-all sm:whitespace-pre">cargo check
+cargo build --release</pre>
+            </div>
           </div>
         </div>
       </div>

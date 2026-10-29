@@ -6,7 +6,7 @@
 
   **Live Website**: [https://dds-solutions.github.io/AI-Tadpole-OS-Marketing/](https://dds-solutions.github.io/AI-Tadpole-OS-Marketing/)
 
-  [![Astro](https://img.shields.io/badge/Astro-7.0-zinc?style=for-the-badge&logo=astro&logoColor=FF5D01)](https://astro.build/)
+  [![Astro](https://img.shields.io/badge/Astro-7.4-zinc?style=for-the-badge&logo=astro&logoColor=FF5D01)](https://astro.build/)
   [![Tailwind](https://img.shields.io/badge/Tailwind-v4-zinc?style=for-the-badge&logo=tailwindcss&logoColor=38B2AC)](https://tailwindcss.com/)
   [![GEO-Ready](https://img.shields.io/badge/GEO-Optimized-emerald?style=for-the-badge&logo=google-cloud&logoColor=white)](#geo-strategy)
   
@@ -33,7 +33,7 @@ This repository contains the source code for the official **AI-Tadpole-OS** mark
 
 All commands are run from the root of the project:
 
-Node.js 22 or newer is required. The browser verification uses an installed Chrome or Edge browser; set `CHROME_PATH` when it is installed in a non-standard location.
+Node.js 22 or newer is required. TypeScript 6 is pinned for template validation compatibility with `@astrojs/check`. The browser verification uses an installed Chrome or Edge browser; set `CHROME_PATH` when it is installed in a non-standard location.
 
 | Command | Action |
 | :--- | :--- |
@@ -42,6 +42,7 @@ Node.js 22 or newer is required. The browser verification uses an installed Chro
 | `npm run build` | Build your production site to `./dist/` and generate sitemap/robots |
 | `npm run check` | Type-check Astro templates and client code |
 | `npm run typecheck` | Type-check TypeScript modules without emitting files |
+| `npm run format:check` | Check code formatting consistency with Prettier |
 | `npm test` | Runs production build followed by static and browser test suites |
 | `npm run test:built` | Run unit, static, and browser tests against existing `./dist/` |
 | `npm run preview` | Preview your build locally |

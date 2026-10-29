@@ -86,7 +86,7 @@ const slides = getMissionSlides(assetBaseUrl);
             >
               ← Prev
             </button>
-            <span class="text-zinc-500 px-2 font-mono" x-text="(currentSlide + 1) + ' / ' + slides.length">1 / 6</span>
+            <span class="text-zinc-400 px-2 font-mono" x-text="(currentSlide + 1) + ' / ' + slides.length">1 / 6</span>
             <button
               type="button"
               @click="nextSlide()"
@@ -111,7 +111,7 @@ const slides = getMissionSlides(assetBaseUrl);
             :class={`currentSlide === ${idx} ? 'border-emerald-500/60 bg-emerald-500/10 text-white shadow-[0_0_15px_rgba(16,185,129,0.15)] font-bold' : 'border-white/5 bg-black/30 text-zinc-400 hover:border-white/15 hover:text-zinc-200'`}
             class={`p-3 rounded-xl border text-left transition-all duration-200 space-y-1 cursor-pointer ${idx === 0 ? 'border-emerald-500/60 bg-emerald-500/10 text-white font-bold' : 'border-white/5 bg-black/30 text-zinc-400'}`}
           >
-            <div class="text-[10px] text-zinc-500 uppercase tracking-widest">STEP 0{idx + 1}</div>
+            <div class="text-[10px] text-zinc-400 uppercase tracking-widest">STEP 0{idx + 1}</div>
             <div class="text-xs truncate font-outfit font-semibold">{slide.shortTitle}</div>
           </button>
         ))}
@@ -181,7 +181,7 @@ const slides = getMissionSlides(assetBaseUrl);
           <p class="text-sm text-zinc-300 font-light leading-relaxed" x-text="slides[currentSlide].description">The OS scans active swarm clusters. The Strategic Command cluster is initialized with 60 nodes online and a $100.00 execution budget.</p>
 
           <div class="space-y-3 pt-3 border-t border-white/10 font-mono text-xs">
-            <div class="text-zinc-500 font-bold uppercase text-[10px] tracking-wider">Protocol Verification Metrics</div>
+            <div class="text-zinc-400 font-bold uppercase text-[10px] tracking-wider">Protocol Verification Metrics</div>
             
             <div class="flex flex-wrap justify-between items-center gap-2 py-1.5 border-b border-white/5">
               <span class="text-zinc-400" x-text="slides[currentSlide].metrics[0].label">Active Swarm Clusters</span>
@@ -198,7 +198,7 @@ const slides = getMissionSlides(assetBaseUrl);
           </div>
 
           <div class="p-3.5 rounded-xl bg-zinc-950/80 border border-white/10 font-mono text-xs text-zinc-400 space-y-1">
-            <div class="text-[10px] text-zinc-500 uppercase font-bold">Real Telemetry Log Snippet</div>
+            <div class="text-[10px] text-zinc-400 uppercase font-bold">Real Telemetry Log Snippet</div>
             <div class="text-emerald-400/90 leading-relaxed font-mono text-[11px]" x-html="slides[currentSlide].logSnippet"><span class="text-cyan-400">[INIT]</span> Swarm Cluster Strategic Command mounted. 60 Nodes initialized.</div>
           </div>
         </div>
@@ -212,14 +212,14 @@ const slides = getMissionSlides(assetBaseUrl);
               <article class="p-6 rounded-2xl bg-zinc-950/80 border border-white/10 space-y-4">
                 <div class="flex flex-wrap items-center justify-between gap-2 border-b border-white/10 pb-3">
                   <span class="text-xs font-mono text-emerald-400 font-bold uppercase">{slide.badge}</span>
-                  <span class="text-xs font-mono text-zinc-500">Step 0{idx + 1} / 06</span>
+                  <span class="text-xs font-mono text-zinc-400">Step 0{idx + 1} / 06</span>
                 </div>
                 <h4 class="text-xl font-bold text-white font-outfit">{slide.title}</h4>
                 <p class="text-sm text-zinc-300 font-light leading-relaxed">{slide.description}</p>
                 <div class="grid sm:grid-cols-3 gap-3 pt-2 text-xs font-mono">
                   {slide.metrics.map((metric) => (
                     <div class="p-2.5 rounded bg-black/60 border border-white/5">
-                      <div class="text-[10px] text-zinc-500 uppercase">{metric.label}</div>
+                      <div class="text-[10px] text-zinc-400 uppercase">{metric.label}</div>
                       <div class="text-emerald-300 font-bold mt-0.5">{metric.value}</div>
                     </div>
                   ))}

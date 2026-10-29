@@ -34,7 +34,7 @@ Preserved the Tadpole identity and local font stacks. Introduced restrained emer
 
 Passed on October 15, 2026:
 
-- `npm run check`: 29 Astro files checked; zero errors, warnings, or hints.
+- `npm run check`: 31 Astro files checked; zero errors, warnings, or hints.
 - `npm run typecheck`: TypeScript passed.
 - `npm run build`: five static routes built; sitemap and robots.txt generated.
 - `npm test`: six unit checks, built-site verification, and isolated Chrome browser verification passed. The deployment artifact is 3.60 MiB, within the 8 MiB budget.

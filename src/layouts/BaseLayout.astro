@@ -29,10 +29,43 @@ const softwareApplicationSchema = {
   name: "AI-Tadpole-OS",
   applicationCategory: "DeveloperApplication",
   operatingSystem: "Windows, macOS, Linux",
+  softwareVersion: "0.0.1",
+  offers: {
+    "@type": "Offer",
+    price: "0",
+    priceCurrency: "USD",
+  },
+  author: {
+    "@type": "Organization",
+    name: "DDS Solutions",
+    url: "https://github.com/DDS-Solutions",
+  },
   description,
   url: siteRootUrl,
   sameAs: ["https://github.com/DDS-Solutions/AI-TadPole-OS"],
 };
+
+const routeSegment = Astro.url.pathname.replace(basePath, "").replace(/\//g, "");
+const breadcrumbSchema = routeSegment
+  ? {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Home",
+          item: siteRootUrl,
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: title.split("—")[0].trim() || routeSegment,
+          item: canonicalUrl,
+        },
+      ],
+    }
+  : null;
 ---
 
 <!doctype html>
@@ -46,6 +79,7 @@ const softwareApplicationSchema = {
     <meta name="description" content={description} />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#09090b" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
     {noIndex && <meta name="robots" content="noindex, nofollow" />}
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="AI-Tadpole-OS" />
@@ -76,6 +110,9 @@ const softwareApplicationSchema = {
       content="Local-first multi-agent swarm runtime"
     />
     <script is:inline type="application/ld+json" set:html={JSON.stringify(softwareApplicationSchema)} />
+    {breadcrumbSchema && (
+      <script is:inline type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+    )}
 
   </head>
   <body

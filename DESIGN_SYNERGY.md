@@ -11,7 +11,7 @@
 > **Intelligence Level**: High-Fidelity (ECC-ARA)  
 > **Status**: Verified Production-Ready (5/5 Standard)  
 > **Version**: 2.1.0  
-> **Last Hardened**: 2026-09-11  
+> **Last Hardened**: 2026-10-29  
 > **Classification**: Sovereign  
 
 ---
@@ -19,7 +19,7 @@
 ## 🛠️ Modern Tech Stack (2026 Core)
 
 Tadpole OS Marketing & Application Engine utilizes the following high-performance stack:
-- **Framework**: Astro v5.18.2 (Static zero-JS output + Client Router view transitions)
+- **Framework**: Astro v7.4.4 (Static zero-JS output + Client Router view transitions)
 - **Core App**: React 19 (Desktop Tauri + Rust Axum `server-rs` backend)
 - **Styling Engine**: Tailwind CSS v4 (`@tailwindcss/vite` integration) + CSS `@theme` tokens in `src/styles/global.css`
 - **Interactivity**: Alpine.js v3 + Web Audio API (Zero-asset mechanical keypress audio)

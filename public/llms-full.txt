@@ -1,0 +1,65 @@
+# AI-Tadpole-OS: Complete Technical Architecture & Protocol Specification
+
+> Sovereign, local-first multi-agent swarm runtime engineered in Rust and React (Tauri). Designed for deterministic execution, private memory, and cryptographic human-in-the-loop oversight.
+
+---
+
+## 1. Executive Summary & Design Philosophy
+
+Most LLM application frameworks fail in production due to compounded probabilistic error: if each autonomous step is 90% accurate, a 5-step workflow yields only 59% accuracy. 
+
+AI-Tadpole-OS solves this mismatch by separating business logic into three distinct architectural layers:
+1. **Layer 1: Directive (Intent)** — SOPs authored in Markdown and YAML specifying task goals, schema contracts, and boundary conditions.
+2. **Layer 2: Orchestration (Decision-Making)** — An autonomous reasoning loop responsible for task decomposition, tool routing, error diagnosis, and self-annealing.
+3. **Layer 3: Execution (Deterministic Code)** — Compiled, deterministic Rust and Python scripts handling file operations, API invocations, and database queries.
+
+---
+
+## 2. Five Architectural Subsystems
+
+### Subsystem 1: Directive Parsing & Schema Validation
+- **Engine**: Tree-sitter / YAML-rs parser with strict schema validation.
+- **Hot-Reload**: Inotify / ReadDirectoryChangesW file system watcher for zero-downtime directive updates.
+- **Contract**: Directives strictly define inputs, tools, intermediate representations, and deliverables.
+
+### Subsystem 2: Swarm Orchestrator & Telemetry
+- **Runtime**: Tokio asynchronous multi-threaded task scheduler.
+- **Telemetry Stream**: 10Hz heartbeat interval transmitting MessagePack frames over local WebSockets.
+- **Routing**: Capability-based agent discovery supporting specialized roles across 25 industry domains.
+
+### Subsystem 3: Deterministic Execution Engine
+- **Isolation**: Process-level sandboxing with strict stdout/stderr capture and monotonic resource limits.
+- **Self-Annealing**: 3-stage automated repair loop on runtime exceptions; circuit-breaker halts execution and alerts human operator after 3 consecutive fix failures.
+- **Environment**: Secret-protected environment configuration with strict redaction.
+
+### Subsystem 4: Sapphire Shield Governance & HITL Gates
+- **Capability Interception**: High-consequence actions (shell commands, file modifications, network egress) trigger zero-trust suspension gates.
+- **Operator Review**: Detachable oversight portal presenting human operators with diff previews, rationale, and binary approve/reject controls.
+- **Audit Trails**: SHA-256 Merkle-tree event hashing producing tamper-evident decision ledgers.
+
+### Subsystem 5: Private Memory & Knowledge Vault
+- **Vector Search**: Embedded LanceDB vector store utilizing 768-dimensional embeddings for sub-millisecond similarity queries.
+- **Relational Metadata**: SQLite database mapping Open Knowledge Foundation (OKF) data packages.
+- **GraphRAG**: Breadth-First Search (BFS) graph traversal connecting related documentation nodes without third-party cloud data egress.
+
+---
+
+## 3. System Requirements & Quickstart
+
+- **Operating System**: Linux (Ubuntu 22.04+), macOS (13+ Apple Silicon or Intel), Windows 11.
+- **Toolchains**: Rust 1.80+ (Stable Cargo), Node.js >= 22.0.0.
+- **Hardware Profile**: 16 GB+ RAM, 4+ CPU cores.
+
+```bash
+# Clone and verify the sovereign runtime
+git clone https://github.com/DDS-Solutions/AI-TadPole-OS.git
+cd AI-TadPole-OS
+cargo check
+cargo build --release
+```
+
+---
+
+## 4. Compliance & Performance Qualification
+
+Performance, security, and regulatory outcomes depend on deployment configuration, infrastructure, models, and operating procedures. References to ISO, NIST, HIPAA, SOC 2, ALCOA+, or GxP describe design mappings or intended control support; they are not certifications.

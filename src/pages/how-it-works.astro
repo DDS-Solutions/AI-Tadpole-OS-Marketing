@@ -6,12 +6,18 @@ import StatusBadge from "../components/ui/StatusBadge.astro";
 import { architectureNodes } from "../data/architecture-nodes";
 
 const basePath = import.meta.env.BASE_URL.replace(/\/$/, "");
----
 
+const articleMetadata = {
+  headline: "Engine Mechanics & 3-Layer Architecture Specification",
+  description:
+    "Deep-dive into the AI-Tadpole-OS technical architecture: 3-layer orchestration stack, Rust Axum/Tokio execution engine, Sapphire Shield zero-trust HITL gate, and LanceDB GraphRAG memory.",
+};
+---
 
 <BaseLayout
   title="Engine Mechanics & Architecture | AI-Tadpole-OS Sovereign Protocol"
   description="Deep-dive into the AI-Tadpole-OS technical architecture: 3-layer orchestration stack, Rust Axum/Tokio execution engine, Sapphire Shield zero-trust HITL gate, and LanceDB GraphRAG memory."
+  articleSchema={articleMetadata}
 >
   <main
     id="main"

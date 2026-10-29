@@ -144,6 +144,7 @@ AI-Tadpole-OS (Tadpole OS) separates directives, orchestration, and execution in
 - [How It Works](${siteOrigin}${basePath}/how-it-works/)
 - [Mission & Sovereign Vision](${siteOrigin}${basePath}/mission/)
 - [Governance Protocol](${siteOrigin}${basePath}/governance/)
+- [Full Technical Specification (LLMs-Full)](${siteOrigin}${basePath}/llms-full.txt)
 
 ## Key Technical Specifications
 - **Core Runtime**: Written in high-performance Rust for deterministic thread/process isolation.
@@ -164,3 +165,9 @@ Performance, security, and regulatory outcomes depend on deployment configuratio
 
 fs.writeFileSync(path.join(distDir, 'llms.txt'), llmsTxt, 'utf8');
 console.log(`Synchronized llms.txt with site URL: ${siteOrigin}${basePath}/`);
+
+const llmsFullSource = path.resolve('public', 'llms-full.txt');
+if (fs.existsSync(llmsFullSource)) {
+  fs.copyFileSync(llmsFullSource, path.join(distDir, 'llms-full.txt'));
+  console.log(`Synchronized llms-full.txt with site URL: ${siteOrigin}${basePath}/`);
+}

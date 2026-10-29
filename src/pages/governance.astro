@@ -3,12 +3,17 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import HitlIntercept from "../components/ui/HitlIntercept.astro";
 import GlassCard from "../components/ui/GlassCard.astro";
 import StatusBadge from "../components/ui/StatusBadge.astro";
+const articleMetadata = {
+  headline: "Sovereign Protocol & Governance Whitepaper Specification v1.2.1",
+  description:
+    "The technical governance, zero-trust security contracts, and ethical framework for AI-Tadpole-OS sovereign multi-agent swarms.",
+};
 ---
-
 
 <BaseLayout
   title="Sovereign Protocol & Governance Whitepaper | AI-Tadpole-OS"
   description="The technical governance, zero-trust security contracts, and ethical framework for AI-Tadpole-OS sovereign multi-agent swarms."
+  articleSchema={articleMetadata}
 >
   <main
     id="main"

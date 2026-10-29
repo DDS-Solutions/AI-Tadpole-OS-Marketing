@@ -7,11 +7,40 @@ import TemplateCatalog from "../components/features/TemplateCatalog.astro";
 import Roadmap from "../components/features/Roadmap.astro";
 import BottomCta from "../components/features/BottomCta.astro";
 import LightboxModal from "../components/ui/LightboxModal.astro";
+
+const homeFaqSchema = [
+  {
+    question: "What is AI-Tadpole-OS?",
+    answer:
+      "AI-Tadpole-OS is a local-first, sovereign multi-agent swarm runtime written in Rust and React (Tauri) that separates human directives, autonomous orchestration, and deterministic execution.",
+  },
+  {
+    question: "Does AI-Tadpole-OS require cloud connectivity to operate?",
+    answer:
+      "No. The core runtime is local-first by design. It runs on your own hardware with embedded LanceDB vector storage, private memory, and local or self-hosted LLM endpoints, with optional external model routing.",
+  },
+  {
+    question: "How does the three-layer architecture improve reliability?",
+    answer:
+      "By isolating Layer 1 (Directive SOPs in Markdown/YAML), Layer 2 (Orchestration decision-making and self-debugging), and Layer 3 (Deterministic execution scripts), AI-Tadpole-OS prevents cascading probabilistic errors and ensures reliable repeatability.",
+  },
+  {
+    question: "What is the Sapphire Shield governance system?",
+    answer:
+      "Sapphire Shield is a zero-trust capability intercept system that gates high-consequence agent actions (filesystem writes, shell execution, external network calls) behind human operator approval and cryptographic Merkle audit logs.",
+  },
+  {
+    question: "What platforms and operating systems are supported?",
+    answer:
+      "AI-Tadpole-OS supports Linux, macOS, and Windows 11 with a minimum of 16 GB RAM, 4 CPU cores, and a stable Rust 1.80+ / Node.js 22+ environment.",
+  },
+];
 ---
 
 <BaseLayout
   title="AI-Tadpole-OS | Local-First Multi-Agent Swarm Runtime"
   description="AI-Tadpole-OS is a local-first Rust and React runtime for sovereign multi-agent orchestration, live telemetry, model routing, and human-governed execution."
+  faqSchema={homeFaqSchema}
 >
   <main id="main" class="homepage relative z-10" x-data="homepage()">
     <Hero />

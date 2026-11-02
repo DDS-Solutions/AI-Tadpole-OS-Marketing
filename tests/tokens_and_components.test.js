@@ -1,26 +1,30 @@
-import test from 'node:test';
-import assert from 'node:assert/strict';
-import fs from 'node:fs';
-import path from 'node:path';
+import test from "node:test";
+import assert from "node:assert/strict";
+import fs from "node:fs";
+import path from "node:path";
 
-test('CSS Tokens & Theme Architecture in global.css', async (t) => {
-  const globalCssPath = path.resolve('src/styles/global.css');
-  assert.equal(fs.existsSync(globalCssPath), true, 'src/styles/global.css must exist');
+test("CSS Tokens & Theme Architecture in global.css", async (t) => {
+  const globalCssPath = path.resolve("src/styles/global.css");
+  assert.equal(
+    fs.existsSync(globalCssPath),
+    true,
+    "src/styles/global.css must exist",
+  );
 
-  const css = fs.readFileSync(globalCssPath, 'utf8');
+  const css = fs.readFileSync(globalCssPath, "utf8");
 
-  await t.test('declares required @theme surface and accent colors', () => {
+  await t.test("declares required @theme surface and accent colors", () => {
     const requiredColors = [
-      '--color-zinc-950',
-      '--color-zinc-900',
-      '--color-zinc-800',
-      '--color-emerald-400',
-      '--color-cyan-400',
-      '--color-purple-400',
-      '--color-amber-400',
-      '--color-red-400',
-      '--color-cyber-green',
-      '--color-neural-pulse',
+      "--color-zinc-950",
+      "--color-zinc-900",
+      "--color-zinc-800",
+      "--color-emerald-400",
+      "--color-cyan-400",
+      "--color-purple-400",
+      "--color-amber-400",
+      "--color-red-400",
+      "--color-cyber-green",
+      "--color-neural-pulse",
     ];
 
     for (const color of requiredColors) {
@@ -32,67 +36,94 @@ test('CSS Tokens & Theme Architecture in global.css', async (t) => {
     }
   });
 
-  await t.test('declares fluid typography and spacing tokens using clamp()', () => {
-    const fluidTokens = [
-      '--text-fluid-display',
-      '--text-fluid-title',
-      '--text-fluid-body',
-      '--space-fluid-section',
-      '--space-fluid-gap',
-    ];
+  await t.test(
+    "declares fluid typography and spacing tokens using clamp()",
+    () => {
+      const fluidTokens = [
+        "--text-fluid-display",
+        "--text-fluid-title",
+        "--text-fluid-body",
+        "--space-fluid-section",
+        "--space-fluid-gap",
+      ];
 
-    for (const token of fluidTokens) {
+      for (const token of fluidTokens) {
+        assert.match(
+          css,
+          new RegExp(`${token}:\\s*clamp\\([^)]+\\)`),
+          `Missing or invalid fluid token: ${token}`,
+        );
+      }
+    },
+  );
+
+  await t.test(
+    "declares essential design system utilities and FX classes",
+    () => {
+      assert.match(css, /\.glass-surface\s*\{/, "Missing .glass-surface class");
+      assert.match(css, /\.neural-grid\s*\{/, "Missing .neural-grid class");
+      assert.match(css, /\.scanline-bg\s*\{/, "Missing .scanline-bg class");
       assert.match(
         css,
-        new RegExp(`${token}:\\s*clamp\\([^)]+\\)`),
-        `Missing or invalid fluid token: ${token}`,
+        /\.slow-pulse-text\s*\{/,
+        "Missing .slow-pulse-text class",
       );
-    }
-  });
-
-  await t.test('declares essential design system utilities and FX classes', () => {
-    assert.match(css, /\.glass-surface\s*\{/, 'Missing .glass-surface class');
-    assert.match(css, /\.neural-grid\s*\{/, 'Missing .neural-grid class');
-    assert.match(css, /\.scanline-bg\s*\{/, 'Missing .scanline-bg class');
-    assert.match(css, /\.slow-pulse-text\s*\{/, 'Missing .slow-pulse-text class');
-    assert.match(css, /@media\s*\(prefers-reduced-motion:\s*reduce\)/, 'Missing reduced-motion accessibility rule');
-  });
+      assert.match(
+        css,
+        /@media\s*\(prefers-reduced-motion:\s*reduce\)/,
+        "Missing reduced-motion accessibility rule",
+      );
+    },
+  );
 });
 
-test('Component Structure Integrity', () => {
+test("Component Structure Integrity", () => {
   const componentDirs = [
-    'src/components/layout',
-    'src/components/ui',
-    'src/components/features',
+    "src/components/layout",
+    "src/components/ui",
+    "src/components/features",
   ];
 
   for (const dir of componentDirs) {
     const dirPath = path.resolve(dir);
     assert.equal(fs.existsSync(dirPath), true, `Directory must exist: ${dir}`);
-    const files = fs.readdirSync(dirPath).filter((f) => f.endsWith('.astro'));
-    assert.ok(files.length > 0, `Directory ${dir} must contain Astro components`);
+    const files = fs.readdirSync(dirPath).filter((f) => f.endsWith(".astro"));
+    assert.ok(
+      files.length > 0,
+      `Directory ${dir} must contain Astro components`,
+    );
   }
 });
 
-test('Shared Data Integrity: Mission Slides & Architecture Nodes', async (t) => {
-  const { getMissionSlides } = await import('../src/data/mission-slides.ts');
-  const { architectureNodes } = await import('../src/data/architecture-nodes.ts');
+test("Shared Data Integrity: Mission Slides & Architecture Nodes", async (t) => {
+  const { getMissionSlides } = await import("../src/data/mission-slides.ts");
+  const { architectureNodes } =
+    await import("../src/data/architecture-nodes.ts");
 
-  await t.test('mission slides contain 6 complete phases', () => {
-    const slides = getMissionSlides('/');
-    assert.equal(slides.length, 6, 'Must provide 6 mission walkthrough slides');
+  await t.test("mission slides contain 6 complete phases", () => {
+    const slides = getMissionSlides("/");
+    assert.equal(slides.length, 6, "Must provide 6 mission walkthrough slides");
     slides.forEach((slide, index) => {
       assert.ok(slide.title, `Slide ${index} missing title`);
       assert.ok(slide.badge, `Slide ${index} missing badge`);
       assert.ok(slide.image, `Slide ${index} missing image`);
       assert.ok(slide.description, `Slide ${index} missing description`);
-      assert.ok(slide.metrics.length >= 3, `Slide ${index} must have at least 3 metrics`);
+      assert.ok(
+        slide.metrics.length >= 3,
+        `Slide ${index} must have at least 3 metrics`,
+      );
       assert.ok(slide.logSnippet, `Slide ${index} missing logSnippet`);
     });
   });
 
-  await t.test('architecture nodes contain all 5 required layers', () => {
-    const requiredNodes = ['directive', 'orchestration', 'execution', 'governance', 'memory'];
+  await t.test("architecture nodes contain all 5 required layers", () => {
+    const requiredNodes = [
+      "directive",
+      "orchestration",
+      "execution",
+      "governance",
+      "memory",
+    ];
     for (const key of requiredNodes) {
       const node = architectureNodes[key];
       assert.ok(node, `Missing architecture node: ${key}`);
@@ -100,10 +131,11 @@ test('Shared Data Integrity: Mission Slides & Architecture Nodes', async (t) => 
       assert.ok(node.subTitle, `Node ${key} missing subTitle`);
       assert.ok(node.badge, `Node ${key} missing badge`);
       assert.ok(node.description, `Node ${key} missing description`);
-      assert.ok(node.specs.length >= 4, `Node ${key} must have at least 4 specs`);
+      assert.ok(
+        node.specs.length >= 4,
+        `Node ${key} must have at least 4 specs`,
+      );
       assert.ok(node.code, `Node ${key} missing code contract`);
     }
   });
 });
-
-

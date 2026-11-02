@@ -1,20 +1,25 @@
-import assert from 'node:assert/strict';
-import fs from 'node:fs';
-import os from 'node:os';
-import path from 'node:path';
-import { spawn } from 'node:child_process';
-import { BASE_PATH } from '../site.config.mjs';
-import { resolveBrowserPath } from './resolve_browser.js';
+import assert from "node:assert/strict";
+import fs from "node:fs";
+import os from "node:os";
+import path from "node:path";
+import { spawn } from "node:child_process";
+import { BASE_PATH } from "../site.config.mjs";
+import { resolveBrowserPath } from "./resolve_browser.js";
 
-const projectRoot = path.resolve('.');
+const projectRoot = path.resolve(".");
 const baseUrl = `http://127.0.0.1:4321${BASE_PATH}`;
-const browserPath = resolveBrowserPath({ allowSkip: process.env.ALLOW_BROWSER_SKIP === '1' });
+const browserPath = resolveBrowserPath({
+  allowSkip: process.env.ALLOW_BROWSER_SKIP === "1",
+});
 if (!browserPath) {
-  console.log('⚠️ Chrome or Edge was not found. Skipping browser verification per ALLOW_BROWSER_SKIP=1.');
+  console.log(
+    "⚠️ Chrome or Edge was not found. Skipping browser verification per ALLOW_BROWSER_SKIP=1.",
+  );
   process.exit(0);
 }
 
-const delay = (milliseconds) => new Promise((resolve) => setTimeout(resolve, milliseconds));
+const delay = (milliseconds) =>
+  new Promise((resolve) => setTimeout(resolve, milliseconds));
 
 async function waitFor(check, timeoutMs, label) {
   const deadline = Date.now() + timeoutMs;
@@ -29,7 +34,9 @@ async function waitFor(check, timeoutMs, label) {
     }
     await delay(100);
   }
-  const reason = lastError ? ` Last error: ${lastError.message ?? lastError}` : '';
+  const reason = lastError
+    ? ` Last error: ${lastError.message ?? lastError}`
+    : "";
   throw new Error(`Timed out waiting for ${label}.${reason}`);
 }
 
@@ -45,7 +52,7 @@ class CdpClient {
 
   async connect() {
     this.socket = new WebSocket(this.url);
-    this.socket.addEventListener('message', (event) => {
+    this.socket.addEventListener("message", (event) => {
       const message = JSON.parse(event.data);
       if (message.id) {
         const pending = this.pending.get(message.id);
@@ -64,8 +71,8 @@ class CdpClient {
       }
     });
 
-    this.socket.addEventListener('close', () => {
-      const err = new Error('CDP WebSocket connection closed.');
+    this.socket.addEventListener("close", () => {
+      const err = new Error("CDP WebSocket connection closed.");
       for (const pending of this.pending.values()) {
         pending.reject(err);
       }
@@ -73,8 +80,8 @@ class CdpClient {
     });
 
     await new Promise((resolve, reject) => {
-      this.socket.addEventListener('open', resolve, { once: true });
-      this.socket.addEventListener('error', reject, { once: true });
+      this.socket.addEventListener("open", resolve, { once: true });
+      this.socket.addEventListener("error", reject, { once: true });
     });
   }
 
@@ -84,7 +91,9 @@ class CdpClient {
       const timer = setTimeout(() => {
         if (this.pending.has(id)) {
           this.pending.delete(id);
-          reject(new Error(`CDP command timed out after ${timeoutMs}ms: ${method}`));
+          reject(
+            new Error(`CDP command timed out after ${timeoutMs}ms: ${method}`),
+          );
         }
       }, timeoutMs);
       this.pending.set(id, {
@@ -106,7 +115,10 @@ class CdpClient {
       const waiters = this.waiters.get(method) ?? [];
       waiters.push(resolve);
       this.waiters.set(method, waiters);
-      const timeout = setTimeout(() => reject(new Error(`Timed out waiting for ${method}.`)), timeoutMs);
+      const timeout = setTimeout(
+        () => reject(new Error(`Timed out waiting for ${method}.`)),
+        timeoutMs,
+      );
       waiters[waiters.length - 1] = (value) => {
         clearTimeout(timeout);
         resolve(value);
@@ -120,20 +132,22 @@ class CdpClient {
 }
 
 async function evaluate(client, expression) {
-  const response = await client.send('Runtime.evaluate', {
+  const response = await client.send("Runtime.evaluate", {
     expression,
     awaitPromise: true,
     returnByValue: true,
   });
   if (response.exceptionDetails) {
-    throw new Error(response.exceptionDetails.text ?? 'Browser evaluation failed.');
+    throw new Error(
+      response.exceptionDetails.text ?? "Browser evaluation failed.",
+    );
   }
   return response.result.value;
 }
 
 async function navigate(client, url) {
-  const loaded = client.waitForEvent('Page.loadEventFired');
-  await client.send('Page.navigate', { url });
+  const loaded = client.waitForEvent("Page.loadEventFired");
+  await client.send("Page.navigate", { url });
   await loaded;
   await delay(150);
 }
@@ -154,13 +168,13 @@ async function pressKey(client, key, code = key) {
     windowsVirtualKeyCode,
     nativeVirtualKeyCode: windowsVirtualKeyCode,
   };
-  await client.send('Input.dispatchKeyEvent', { type: 'keyDown', ...keyEvent });
-  await client.send('Input.dispatchKeyEvent', { type: 'keyUp', ...keyEvent });
+  await client.send("Input.dispatchKeyEvent", { type: "keyDown", ...keyEvent });
+  await client.send("Input.dispatchKeyEvent", { type: "keyUp", ...keyEvent });
   await delay(50);
 }
 
 async function setViewport(client, width, height = 1000) {
-  await client.send('Emulation.setDeviceMetricsOverride', {
+  await client.send("Emulation.setDeviceMetricsOverride", {
     width,
     height,
     deviceScaleFactor: 1,
@@ -172,49 +186,93 @@ async function saveScreenshot(client, filename, fullPage = false) {
   if (!process.env.SCREENSHOT_DIR) return;
   const directory = path.resolve(process.env.SCREENSHOT_DIR);
   fs.mkdirSync(directory, { recursive: true });
-  if (fullPage) await evaluate(client, `[...document.images].forEach((image) => { image.loading = 'eager'; })`);
-  await evaluate(client, `Promise.all([
+  if (fullPage)
+    await evaluate(
+      client,
+      `[...document.images].forEach((image) => { image.loading = 'eager'; })`,
+    );
+  await evaluate(
+    client,
+    `Promise.all([
     document.fonts.ready,
     ...[...document.images].filter((image) => image.loading !== 'lazy' || image.complete).map((image) => image.decode().catch(() => {})),
-  ])`);
+  ])`,
+  );
   const screenshotOptions = {
-    format: 'png',
+    format: "png",
     captureBeyondViewport: fullPage,
   };
   if (fullPage) {
-    const layout = await client.send('Page.getLayoutMetrics');
+    const layout = await client.send("Page.getLayoutMetrics");
     const size = layout.cssContentSize ?? layout.contentSize;
-    screenshotOptions.clip = { x: 0, y: 0, width: size.width, height: size.height, scale: 1 };
+    screenshotOptions.clip = {
+      x: 0,
+      y: 0,
+      width: size.width,
+      height: size.height,
+      scale: 1,
+    };
   }
-  const screenshot = await client.send('Page.captureScreenshot', screenshotOptions);
-  fs.writeFileSync(path.join(directory, filename), Buffer.from(screenshot.data, 'base64'));
+  const screenshot = await client.send(
+    "Page.captureScreenshot",
+    screenshotOptions,
+  );
+  fs.writeFileSync(
+    path.join(directory, filename),
+    Buffer.from(screenshot.data, "base64"),
+  );
 }
 
 async function clickInternalLink(client, pathname) {
-  await evaluate(client, `(() => {
+  await evaluate(
+    client,
+    `(() => {
     const link = [...document.querySelectorAll('a[href]')].find((candidate) => {
       const url = new URL(candidate.href);
-      return url.origin === location.origin && url.pathname.replace(/\\/$/, '') === ${JSON.stringify(pathname.replace(/\/$/, ''))} && !url.hash;
+      return url.origin === location.origin && url.pathname.replace(/\\/$/, '') === ${JSON.stringify(pathname.replace(/\/$/, ""))} && !url.hash;
     });
     if (!link) throw new Error('Missing internal navigation link.');
     link.click();
-  })()`);
-  await waitFor(() => evaluate(client, `location.pathname.replace(/\\/$/, '') === ${JSON.stringify(pathname.replace(/\/$/, ''))}`), 5000, 'client navigation');
+  })()`,
+  );
+  await waitFor(
+    () =>
+      evaluate(
+        client,
+        `location.pathname.replace(/\\/$/, '') === ${JSON.stringify(pathname.replace(/\/$/, ""))}`,
+      ),
+    5000,
+    "client navigation",
+  );
   await delay(200);
 }
 
-const profileDirectory = fs.mkdtempSync(path.join(os.tmpdir(), 'tadpole-browser-'));
-const astroPkgPath = path.join(projectRoot, 'node_modules', 'astro', 'package.json');
-const astroPkg = JSON.parse(fs.readFileSync(astroPkgPath, 'utf8'));
-const binRelative = typeof astroPkg.bin === 'string' ? astroPkg.bin : (astroPkg.bin?.astro || 'bin/astro.mjs');
-const astroCli = path.join(projectRoot, 'node_modules', 'astro', binRelative);
-let previewStderr = '';
-const previewProcess = spawn(process.execPath, [astroCli, 'preview', '--host', '127.0.0.1'], {
-  cwd: projectRoot,
-  stdio: ['ignore', 'ignore', 'pipe'],
-  windowsHide: true,
-});
-previewProcess.stderr?.on('data', (chunk) => {
+const profileDirectory = fs.mkdtempSync(
+  path.join(os.tmpdir(), "tadpole-browser-"),
+);
+const astroPkgPath = path.join(
+  projectRoot,
+  "node_modules",
+  "astro",
+  "package.json",
+);
+const astroPkg = JSON.parse(fs.readFileSync(astroPkgPath, "utf8"));
+const binRelative =
+  typeof astroPkg.bin === "string"
+    ? astroPkg.bin
+    : astroPkg.bin?.astro || "bin/astro.mjs";
+const astroCli = path.join(projectRoot, "node_modules", "astro", binRelative);
+let previewStderr = "";
+const previewProcess = spawn(
+  process.execPath,
+  [astroCli, "preview", "--host", "127.0.0.1"],
+  {
+    cwd: projectRoot,
+    stdio: ["ignore", "ignore", "pipe"],
+    windowsHide: true,
+  },
+);
+previewProcess.stderr?.on("data", (chunk) => {
   previewStderr += chunk.toString();
 });
 
@@ -222,193 +280,320 @@ let browserProcess;
 let client;
 
 try {
-  await waitFor(async () => {
-    if (previewProcess.exitCode !== null) {
-      const err = new Error(`Astro preview process exited prematurely with code ${previewProcess.exitCode}. Stderr: ${previewStderr.trim()}`);
-      err.fatal = true;
-      throw err;
-    }
-    return (await fetch(`${baseUrl}/`).catch(() => ({})))?.ok;
-  }, 20_000, 'Astro preview');
+  await waitFor(
+    async () => {
+      if (previewProcess.exitCode !== null) {
+        const err = new Error(
+          `Astro preview process exited prematurely with code ${previewProcess.exitCode}. Stderr: ${previewStderr.trim()}`,
+        );
+        err.fatal = true;
+        throw err;
+      }
+      return (await fetch(`${baseUrl}/`).catch(() => ({})))?.ok;
+    },
+    20_000,
+    "Astro preview",
+  );
 
   const browserArgs = [
-    '--headless=new',
-    '--disable-gpu',
-    '--disable-background-networking',
-    '--no-first-run',
-    '--no-default-browser-check',
-    '--remote-debugging-port=0',
+    "--headless=new",
+    "--disable-gpu",
+    "--disable-background-networking",
+    "--no-first-run",
+    "--no-default-browser-check",
+    "--remote-debugging-port=0",
     `--user-data-dir=${profileDirectory}`,
   ];
-  if (process.platform !== 'win32') browserArgs.push('--no-sandbox');
+  if (process.platform !== "win32") browserArgs.push("--no-sandbox");
   browserArgs.push(`${baseUrl}/`);
 
   browserProcess = spawn(browserPath, browserArgs, {
-    stdio: 'ignore',
+    stdio: "ignore",
     windowsHide: true,
   });
 
-  const devToolsFile = path.join(profileDirectory, 'DevToolsActivePort');
-  const port = await waitFor(() => {
-    if (!fs.existsSync(devToolsFile)) return null;
-    return Number(fs.readFileSync(devToolsFile, 'utf8').split(/\r?\n/)[0]);
-  }, 15_000, 'Chrome DevTools');
+  const devToolsFile = path.join(profileDirectory, "DevToolsActivePort");
+  const port = await waitFor(
+    () => {
+      if (!fs.existsSync(devToolsFile)) return null;
+      return Number(fs.readFileSync(devToolsFile, "utf8").split(/\r?\n/)[0]);
+    },
+    15_000,
+    "Chrome DevTools",
+  );
 
-  const pageTarget = await waitFor(async () => {
-    const targets = await (await fetch(`http://127.0.0.1:${port}/json/list`)).json();
-    return targets.find((target) => target.type === 'page' && target.webSocketDebuggerUrl);
-  }, 10_000, 'browser page target');
+  const pageTarget = await waitFor(
+    async () => {
+      const targets = await (
+        await fetch(`http://127.0.0.1:${port}/json/list`)
+      ).json();
+      return targets.find(
+        (target) => target.type === "page" && target.webSocketDebuggerUrl,
+      );
+    },
+    10_000,
+    "browser page target",
+  );
 
   client = new CdpClient(pageTarget.webSocketDebuggerUrl);
   await client.connect();
-  await client.send('Page.enable');
-  await client.send('Runtime.enable');
-  await client.send('Accessibility.enable');
-  await client.send('DOM.enable');
-  await client.send('CSS.enable');
+  await client.send("Page.enable");
+  await client.send("Runtime.enable");
+  await client.send("Accessibility.enable");
+  await client.send("DOM.enable");
+  await client.send("CSS.enable");
   await setViewport(client, 1440);
 
   const routes = [
-    ['homepage', `${baseUrl}/`],
-    ['how-it-works', `${baseUrl}/how-it-works/`],
-    ['mission', `${baseUrl}/mission/`],
-    ['governance', `${baseUrl}/governance/`],
-    ['gallery', `${baseUrl}/gallery/`],
-    ['404', `${baseUrl}/404.html`],
+    ["homepage", `${baseUrl}/`],
+    ["how-it-works", `${baseUrl}/how-it-works/`],
+    ["mission", `${baseUrl}/mission/`],
+    ["governance", `${baseUrl}/governance/`],
+    ["gallery", `${baseUrl}/gallery/`],
+    ["404", `${baseUrl}/404.html`],
   ];
 
   for (const [name, url] of routes) {
     const eventStart = client.events.length;
     await navigate(client, url);
-    const pageState = await evaluate(client, `(() => ({
+    const pageState = await evaluate(
+      client,
+      `(() => ({
       h1Count: document.querySelectorAll('h1').length,
       visibleH1: [...document.querySelectorAll('h1')].every((heading) => heading.getBoundingClientRect().height > 0),
       missingImageDimensions: [...document.querySelectorAll('img[src]')].filter((image) => !image.hasAttribute('width') || !image.hasAttribute('height')).length,
       unnamedButtons: [...document.querySelectorAll('button')].filter((button) => !button.textContent.trim() && !button.getAttribute('aria-label')).length,
       missingButtonTypes: document.querySelectorAll('button:not([type])').length,
       horizontalOverflow: document.documentElement.scrollWidth > document.documentElement.clientWidth + 1,
-    }))()`);
+    }))()`,
+    );
 
     assert.equal(pageState.h1Count, 1, `${name} must contain one h1.`);
     assert.equal(pageState.visibleH1, true, `${name} h1 must be visible.`);
-    assert.equal(pageState.missingImageDimensions, 0, `${name} has images without dimensions.`);
+    assert.equal(
+      pageState.missingImageDimensions,
+      0,
+      `${name} has images without dimensions.`,
+    );
     assert.equal(pageState.unnamedButtons, 0, `${name} has unnamed buttons.`);
-    assert.equal(pageState.missingButtonTypes, 0, `${name} has buttons without an explicit type.`);
-    assert.equal(pageState.horizontalOverflow, false, `${name} has horizontal viewport overflow.`);
+    assert.equal(
+      pageState.missingButtonTypes,
+      0,
+      `${name} has buttons without an explicit type.`,
+    );
+    assert.equal(
+      pageState.horizontalOverflow,
+      false,
+      `${name} has horizontal viewport overflow.`,
+    );
 
-    const accessibilityTree = await client.send('Accessibility.getFullAXTree');
+    const accessibilityTree = await client.send("Accessibility.getFullAXTree");
     const unnamedInteractiveNodes = accessibilityTree.nodes.filter((node) => {
       const role = node.role?.value;
-      return (role === 'button' || role === 'link') && !node.name?.value;
+      return (role === "button" || role === "link") && !node.name?.value;
     });
-    assert.equal(unnamedInteractiveNodes.length, 0, `${name} has unnamed interactive accessibility nodes.`);
+    assert.equal(
+      unnamedInteractiveNodes.length,
+      0,
+      `${name} has unnamed interactive accessibility nodes.`,
+    );
 
-    const runtimeErrors = client.events.slice(eventStart).filter((event) => event.method === 'Runtime.exceptionThrown');
-    assert.equal(runtimeErrors.length, 0, `${name} emitted a runtime exception.`);
-    console.log(`  ✓ ${name}: rendered, named controls, image dimensions, and accessibility tree`);
+    const runtimeErrors = client.events
+      .slice(eventStart)
+      .filter((event) => event.method === "Runtime.exceptionThrown");
+    assert.equal(
+      runtimeErrors.length,
+      0,
+      `${name} emitted a runtime exception.`,
+    );
+    console.log(
+      `  ✓ ${name}: rendered, named controls, image dimensions, and accessibility tree`,
+    );
   }
 
-  await client.send('Emulation.setScriptExecutionDisabled', { value: true });
+  await client.send("Emulation.setScriptExecutionDisabled", { value: true });
   for (const [name, url, expectedPanelCount] of [
-    ['governance', `${baseUrl}/governance/`, 4],
-    ['how-it-works', `${baseUrl}/how-it-works/`, 5],
+    ["governance", `${baseUrl}/governance/`, 4],
+    ["how-it-works", `${baseUrl}/how-it-works/`, 5],
   ]) {
     await navigate(client, url);
-    const documentNode = await client.send('DOM.getDocument', { depth: -1 });
-    const panelNodes = await client.send('DOM.querySelectorAll', {
+    const documentNode = await client.send("DOM.getDocument", { depth: -1 });
+    const panelNodes = await client.send("DOM.querySelectorAll", {
       nodeId: documentNode.root.nodeId,
       selector: '[role="tabpanel"]',
     });
-    assert.equal(panelNodes.nodeIds.length, expectedPanelCount, `${name} no-JavaScript panel count changed.`);
+    assert.equal(
+      panelNodes.nodeIds.length,
+      expectedPanelCount,
+      `${name} no-JavaScript panel count changed.`,
+    );
     for (const nodeId of panelNodes.nodeIds) {
-      const styles = await client.send('CSS.getComputedStyleForNode', { nodeId });
-      const display = styles.computedStyle.find((style) => style.name === 'display')?.value;
-      assert.notEqual(display, 'none', `${name} hides a substantive panel without JavaScript.`);
+      const styles = await client.send("CSS.getComputedStyleForNode", {
+        nodeId,
+      });
+      const display = styles.computedStyle.find(
+        (style) => style.name === "display",
+      )?.value;
+      assert.notEqual(
+        display,
+        "none",
+        `${name} hides a substantive panel without JavaScript.`,
+      );
     }
   }
 
   // Verify full content visibility for how-it-works architecture nodes without JavaScript
   await navigate(client, `${baseUrl}/how-it-works/`);
-  const howItWorksHtml = await evaluate(client, 'document.body.innerText');
-  for (const expectedTitle of ['Directives SOP', 'Agent 99 Router', 'Rust Core Engine', 'Sapphire Shield', 'LanceDB GraphRAG']) {
-    assert.ok(howItWorksHtml.includes(expectedTitle), `how-it-works must include ${expectedTitle} without JavaScript.`);
+  const howItWorksHtml = await evaluate(client, "document.body.innerText");
+  for (const expectedTitle of [
+    "Directives SOP",
+    "Agent 99 Router",
+    "Rust Core Engine",
+    "Sapphire Shield",
+    "LanceDB GraphRAG",
+  ]) {
+    assert.ok(
+      howItWorksHtml.includes(expectedTitle),
+      `how-it-works must include ${expectedTitle} without JavaScript.`,
+    );
   }
 
   // Verify full content visibility for all 6 mission steps without JavaScript
   await navigate(client, `${baseUrl}/mission/`);
-  const missionHtml = await evaluate(client, 'document.body.innerText');
+  const missionHtml = await evaluate(client, "document.body.innerText");
   for (const expectedStep of [
-    'Swarm Init',
-    'Neural Sync',
-    'Mission Launch',
-    'OTel Waterfall',
-    'Oversight Gate',
-    'Reconciliation',
+    "Swarm Init",
+    "Neural Sync",
+    "Mission Launch",
+    "OTel Waterfall",
+    "Oversight Gate",
+    "Reconciliation",
   ]) {
-    assert.ok(missionHtml.includes(expectedStep), `mission must include ${expectedStep} without JavaScript.`);
+    assert.ok(
+      missionHtml.includes(expectedStep),
+      `mission must include ${expectedStep} without JavaScript.`,
+    );
   }
 
-  await client.send('Emulation.setScriptExecutionDisabled', { value: false });
-  console.log('  ✓ Governance, architecture nodes, and all 6 mission steps remain visible with meaningful content without JavaScript');
+  // Verify full content visibility for all 26 gallery cards without JavaScript
+  await navigate(client, `${baseUrl}/gallery/`);
+  const galleryCardCount = await evaluate(
+    client,
+    `document.querySelectorAll('.gallery-grid article').length`,
+  );
+  assert.equal(
+    galleryCardCount,
+    26,
+    "gallery must render all 26 cards without JavaScript.",
+  );
+
+  await client.send("Emulation.setScriptExecutionDisabled", { value: false });
+  console.log(
+    "  ✓ Governance, architecture nodes, gallery cards (26), and all 6 mission steps remain visible with meaningful content without JavaScript",
+  );
 
   await navigate(client, `${baseUrl}/governance/`);
   await evaluate(client, `document.getElementById('tab-overlord').focus()`);
-  await pressKey(client, 'ArrowRight');
-  const governanceTabState = await waitFor(async () => {
-    const state = await evaluate(client, `({
+  await pressKey(client, "ArrowRight");
+  const governanceTabState = await waitFor(
+    async () => {
+      const state = await evaluate(
+        client,
+        `({
       focused: document.activeElement.id,
       selected: document.querySelector('[role="tab"][aria-selected="true"]')?.id,
-    })`);
-    if (state.focused === 'tab-sovereignty' && state.selected === 'tab-sovereignty') return state;
-    return null;
-  }, 3000, 'governance tab focus change');
+    })`,
+      );
+      if (
+        state.focused === "tab-sovereignty" &&
+        state.selected === "tab-sovereignty"
+      )
+        return state;
+      return null;
+    },
+    3000,
+    "governance tab focus change",
+  );
   assert.deepEqual(governanceTabState, {
-    focused: 'tab-sovereignty',
-    selected: 'tab-sovereignty',
+    focused: "tab-sovereignty",
+    selected: "tab-sovereignty",
   });
-  console.log('  ✓ Governance tabs support roving keyboard focus');
+  console.log("  ✓ Governance tabs support roving keyboard focus");
 
   await evaluate(client, `document.getElementById('tab-sapphire').click()`);
-  const approvalPreviewState = () => evaluate(client, `(() => {
+  const approvalPreviewState = () =>
+    evaluate(
+      client,
+      `(() => {
     const button = [...document.querySelectorAll('button')].find((candidate) => candidate.textContent.includes('Preview approval'));
     return {
       disabled: button.disabled,
       pressed: button.getAttribute('aria-pressed'),
       status: button.parentElement.querySelector('[role="status"]').textContent,
     };
-  })()`);
-  assert.equal((await approvalPreviewState()).disabled, false, 'The approval preview must become interactive.');
-  await evaluate(client, `([...document.querySelectorAll('button')].find((button) => button.textContent.includes('Preview approval'))).click()`);
+  })()`,
+    );
+  assert.equal(
+    (await approvalPreviewState()).disabled,
+    false,
+    "The approval preview must become interactive.",
+  );
+  await evaluate(
+    client,
+    `([...document.querySelectorAll('button')].find((button) => button.textContent.includes('Preview approval'))).click()`,
+  );
   await delay(50);
-  assert.equal((await approvalPreviewState()).pressed, 'true');
+  assert.equal((await approvalPreviewState()).pressed, "true");
   assert.match((await approvalPreviewState()).status, /Preview approved/);
-  await evaluate(client, `([...document.querySelectorAll('button')].find((button) => button.textContent.includes('Preview approval'))).click()`);
+  await evaluate(
+    client,
+    `([...document.querySelectorAll('button')].find((button) => button.textContent.includes('Preview approval'))).click()`,
+  );
   await delay(50);
-  assert.equal((await approvalPreviewState()).pressed, 'false');
-  assert.equal((await approvalPreviewState()).status, '');
-  console.log('  ✓ Governance approval preview provides feedback and resets');
+  assert.equal((await approvalPreviewState()).pressed, "false");
+  assert.equal((await approvalPreviewState()).status, "");
+  console.log("  ✓ Governance approval preview provides feedback and resets");
 
   await navigate(client, `${baseUrl}/how-it-works/`);
-  await evaluate(client, `document.getElementById('arch-tab-directive').focus()`);
-  await pressKey(client, 'End');
-  const architectureTabState = await waitFor(async () => {
-    const state = await evaluate(client, `({
+  await evaluate(
+    client,
+    `document.getElementById('arch-tab-directive').focus()`,
+  );
+  await pressKey(client, "End");
+  const architectureTabState = await waitFor(
+    async () => {
+      const state = await evaluate(
+        client,
+        `({
       focused: document.activeElement.id,
       selected: document.querySelector('[aria-label="Architecture pipeline layers"] [role="tab"][aria-selected="true"]')?.id,
-    })`);
-    if (state.focused === 'arch-tab-memory' && state.selected === 'arch-tab-memory') return state;
-    return null;
-  }, 3000, 'architecture tab focus change');
+    })`,
+      );
+      if (
+        state.focused === "arch-tab-memory" &&
+        state.selected === "arch-tab-memory"
+      )
+        return state;
+      return null;
+    },
+    3000,
+    "architecture tab focus change",
+  );
   assert.deepEqual(architectureTabState, {
-    focused: 'arch-tab-memory',
-    selected: 'arch-tab-memory',
+    focused: "arch-tab-memory",
+    selected: "arch-tab-memory",
   });
-  console.log('  ✓ Architecture tabs support Home/End keyboard focus');
+  console.log("  ✓ Architecture tabs support Home/End keyboard focus");
 
   await navigate(client, `${baseUrl}/`);
-  await evaluate(client, `([...document.querySelectorAll('button')].find((button) => button.textContent.includes('Zoom Full Resolution'))).click()`);
+  await evaluate(
+    client,
+    `([...document.querySelectorAll('button')].find((button) => button.textContent.includes('Zoom Full Resolution'))).click()`,
+  );
   await delay(100);
-  const openDialogState = await evaluate(client, `(() => {
+  const openDialogState = await evaluate(
+    client,
+    `(() => {
     const dialog = document.querySelector('[role="dialog"]');
     return {
       visible: getComputedStyle(dialog).display !== 'none',
@@ -418,7 +603,8 @@ try {
       skipLinkInert: document.querySelector('body > a').hasAttribute('inert'),
       bodyLocked: document.body.style.overflow === 'hidden',
     };
-  })()`);
+  })()`,
+  );
   assert.deepEqual(openDialogState, {
     visible: true,
     focusInside: true,
@@ -427,116 +613,291 @@ try {
     skipLinkInert: true,
     bodyLocked: true,
   });
-  await pressKey(client, 'Tab');
-  assert.equal(await evaluate(client, `document.querySelector('[role="dialog"]').contains(document.activeElement)`), true);
-  await client.send('Input.dispatchKeyEvent', { type: 'keyDown', key: 'Tab', code: 'Tab', windowsVirtualKeyCode: 9, modifiers: 8 });
-  await client.send('Input.dispatchKeyEvent', { type: 'keyUp', key: 'Tab', code: 'Tab', windowsVirtualKeyCode: 9, modifiers: 8 });
+  await pressKey(client, "Tab");
+  assert.equal(
+    await evaluate(
+      client,
+      `document.querySelector('[role="dialog"]').contains(document.activeElement)`,
+    ),
+    true,
+  );
+  await client.send("Input.dispatchKeyEvent", {
+    type: "keyDown",
+    key: "Tab",
+    code: "Tab",
+    windowsVirtualKeyCode: 9,
+    modifiers: 8,
+  });
+  await client.send("Input.dispatchKeyEvent", {
+    type: "keyUp",
+    key: "Tab",
+    code: "Tab",
+    windowsVirtualKeyCode: 9,
+    modifiers: 8,
+  });
   await delay(50);
-  assert.equal(await evaluate(client, `document.querySelector('[role="dialog"]').contains(document.activeElement)`), true);
-  await pressKey(client, 'Escape');
+  assert.equal(
+    await evaluate(
+      client,
+      `document.querySelector('[role="dialog"]').contains(document.activeElement)`,
+    ),
+    true,
+  );
+  await pressKey(client, "Escape");
   await delay(300);
-  assert.equal(await evaluate(client, `getComputedStyle(document.querySelector('[role="dialog"]')).display`), 'none');
-  console.log('  ✓ Lightbox traps focus (Tab/Shift+Tab), inerts header/footer/skip-link, and closes with Escape');
+  assert.equal(
+    await evaluate(
+      client,
+      `getComputedStyle(document.querySelector('[role="dialog"]')).display`,
+    ),
+    "none",
+  );
+  console.log(
+    "  ✓ Lightbox traps focus (Tab/Shift+Tab), inerts header/footer/skip-link, and closes with Escape",
+  );
 
   // Verify Gallery search (features & tech stack) and lightbox next/prev dynamic screenshot updates
   await navigate(client, `${baseUrl}/gallery/`);
 
   // 1. Verify tech stack search
-  await evaluate(client, `(() => {
+  await evaluate(
+    client,
+    `(() => {
     const input = document.querySelector('input[type="search"]');
     input.value = 'Zustand';
     input.dispatchEvent(new Event('input', { bubbles: true }));
-  })()`);
-  await waitFor(async () => {
-    const count = await evaluate(client, `document.querySelectorAll('.gallery-grid article').length`);
-    return count > 0 && count < 26;
-  }, 3000, 'tech stack search filter');
-  const searchResultsCount = await evaluate(client, `document.querySelectorAll('.gallery-grid article').length`);
-  assert.ok(searchResultsCount >= 1, 'Searching techStack for "Zustand" must yield matching screens');
-  const matchedTitle = await evaluate(client, `document.querySelector('.gallery-grid article h2').textContent.trim()`);
-  assert.equal(matchedTitle, 'Operations Command Center');
+  })()`,
+  );
+  await waitFor(
+    async () => {
+      const count = await evaluate(
+        client,
+        `[...document.querySelectorAll('.gallery-grid article')].filter((el) => getComputedStyle(el).display !== 'none').length`,
+      );
+      return count > 0 && count < 26;
+    },
+    3000,
+    "tech stack search filter",
+  );
+  const searchResultsCount = await evaluate(
+    client,
+    `[...document.querySelectorAll('.gallery-grid article')].filter((el) => getComputedStyle(el).display !== 'none').length`,
+  );
+  assert.ok(
+    searchResultsCount >= 1,
+    'Searching techStack for "Zustand" must yield matching screens',
+  );
+  const matchedTitle = await evaluate(
+    client,
+    `[...document.querySelectorAll('.gallery-grid article')].find((el) => getComputedStyle(el).display !== 'none').querySelector('h2').textContent.trim()`,
+  );
+  assert.equal(matchedTitle, "Operations Command Center");
 
   // Reset search filter
-  await evaluate(client, `(() => {
+  await evaluate(
+    client,
+    `(() => {
     const input = document.querySelector('input[type="search"]');
     input.value = '';
     input.dispatchEvent(new Event('input', { bubbles: true }));
-  })()`);
-  await waitFor(async () => {
-    const count = await evaluate(client, `document.querySelectorAll('.gallery-grid article').length`);
-    return count === 26;
-  }, 3000, 'gallery filter reset');
+  })()`,
+  );
+  await waitFor(
+    async () => {
+      const count = await evaluate(
+        client,
+        `[...document.querySelectorAll('.gallery-grid article')].filter((el) => getComputedStyle(el).display !== 'none').length`,
+      );
+      return count === 26;
+    },
+    3000,
+    "gallery filter reset",
+  );
 
   // 2. Open first gallery item lightbox
-  await evaluate(client, `document.querySelectorAll('.gallery-grid article button.card-zoom-btn')[0].click()`);
-  await waitFor(() => evaluate(client, `getComputedStyle(document.querySelector('[role="dialog"]')).display !== 'none'`), 3000, 'gallery lightbox to open');
+  await evaluate(
+    client,
+    `[...document.querySelectorAll('.gallery-grid article button.card-zoom-btn')].find((b) => getComputedStyle(b.closest('article')).display !== 'none').click()`,
+  );
+  await waitFor(
+    () =>
+      evaluate(
+        client,
+        `getComputedStyle(document.querySelector('[role="dialog"]')).display !== 'none'`,
+      ),
+    3000,
+    "gallery lightbox to open",
+  );
 
-  const initialImgSrc = await evaluate(client, `document.querySelector('[role="dialog"] .lightbox-stage img').getAttribute('src')`);
-  assert.ok(initialImgSrc && initialImgSrc.includes('gallery_dashboard'), `Initial lightbox image must be gallery_dashboard, got: ${initialImgSrc}`);
+  const initialImgSrc = await evaluate(
+    client,
+    `document.querySelector('[role="dialog"] .lightbox-stage img').getAttribute('src')`,
+  );
+  assert.ok(
+    initialImgSrc && initialImgSrc.includes("gallery_dashboard"),
+    `Initial lightbox image must be gallery_dashboard, got: ${initialImgSrc}`,
+  );
 
   // 3. Advance to next item via Next button and verify the image src updates dynamically
-  await evaluate(client, `document.querySelector('[role="dialog"] button[aria-label="Next screenshot"]').click()`);
-  await waitFor(async () => {
-    const newSrc = await evaluate(client, `document.querySelector('[role="dialog"] .lightbox-stage img').getAttribute('src')`);
-    return newSrc !== initialImgSrc;
-  }, 3000, 'gallery lightbox image src to change on Next');
+  await evaluate(
+    client,
+    `document.querySelector('[role="dialog"] button[aria-label="Next screenshot"]').click()`,
+  );
+  await waitFor(
+    async () => {
+      const newSrc = await evaluate(
+        client,
+        `document.querySelector('[role="dialog"] .lightbox-stage img').getAttribute('src')`,
+      );
+      return newSrc !== initialImgSrc;
+    },
+    3000,
+    "gallery lightbox image src to change on Next",
+  );
 
-  const nextImgSrc = await evaluate(client, `document.querySelector('[role="dialog"] .lightbox-stage img').getAttribute('src')`);
-  assert.notEqual(nextImgSrc, initialImgSrc, 'Next must update the screenshot image src, not stay on initial image');
-  assert.ok(nextImgSrc.includes('gallery_org_chart'), `Next lightbox image should be gallery_org_chart, got: ${nextImgSrc}`);
+  const nextImgSrc = await evaluate(
+    client,
+    `document.querySelector('[role="dialog"] .lightbox-stage img').getAttribute('src')`,
+  );
+  assert.notEqual(
+    nextImgSrc,
+    initialImgSrc,
+    "Next must update the screenshot image src, not stay on initial image",
+  );
+  assert.ok(
+    nextImgSrc.includes("gallery_org_chart"),
+    `Next lightbox image should be gallery_org_chart, got: ${nextImgSrc}`,
+  );
 
   // 4. Return to previous item via Prev button and verify image src reverts dynamically
-  await evaluate(client, `document.querySelector('[role="dialog"] button[aria-label="Previous screenshot"]').click()`);
-  await waitFor(async () => {
-    const revertedSrc = await evaluate(client, `document.querySelector('[role="dialog"] .lightbox-stage img').getAttribute('src')`);
-    return revertedSrc === initialImgSrc;
-  }, 3000, 'gallery lightbox image src to revert on Prev');
+  await evaluate(
+    client,
+    `document.querySelector('[role="dialog"] button[aria-label="Previous screenshot"]').click()`,
+  );
+  await waitFor(
+    async () => {
+      const revertedSrc = await evaluate(
+        client,
+        `document.querySelector('[role="dialog"] .lightbox-stage img').getAttribute('src')`,
+      );
+      return revertedSrc === initialImgSrc;
+    },
+    3000,
+    "gallery lightbox image src to revert on Prev",
+  );
 
-  await pressKey(client, 'Escape');
+  await pressKey(client, "Escape");
   await delay(200);
-  assert.equal(await evaluate(client, `getComputedStyle(document.querySelector('[role="dialog"]')).display`), 'none');
-  console.log('  ✓ Gallery tech stack search ("Zustand") and lightbox next/prev dynamic screenshot updates pass');
+  assert.equal(
+    await evaluate(
+      client,
+      `getComputedStyle(document.querySelector('[role="dialog"]')).display`,
+    ),
+    "none",
+  );
+  console.log(
+    '  ✓ Gallery tech stack search ("Zustand") and lightbox next/prev dynamic screenshot updates pass',
+  );
 
-  if (process.env.SKIP_PLAYBACK_TIMING !== '1') {
+  if (process.env.SKIP_PLAYBACK_TIMING !== "1") {
     await navigate(client, `${baseUrl}/mission/`);
-    await evaluate(client, `(() => {
+    await evaluate(
+      client,
+      `(() => {
       const toggle = document.querySelector('button[aria-pressed]');
       if (toggle.getAttribute('aria-pressed') === 'true') toggle.click();
       document.querySelector('[aria-label^="Active mission walkthrough slide"]').focus();
-    })()`);
-    const currentStep = () => evaluate(client, `Number(document.querySelector('[aria-roledescription="carousel"] [aria-current="step"]').getAttribute('aria-label').match(/Show step (\\d+)/)[1])`);
+    })()`,
+    );
+    const currentStep = () =>
+      evaluate(
+        client,
+        `Number(document.querySelector('[aria-roledescription="carousel"] [aria-current="step"]').getAttribute('aria-label').match(/Show step (\\d+)/)[1])`,
+      );
     const initialStep = await currentStep();
-    await pressKey(client, 'ArrowRight');
-    assert.equal(await currentStep(), initialStep % 6 + 1, 'One arrow press must advance exactly one mission step.');
-    await pressKey(client, 'ArrowLeft');
-    assert.equal(await currentStep(), initialStep, 'One left arrow must return to the previous mission step.');
-    assert.equal(await evaluate(client, `document.querySelector('button[aria-pressed]').getAttribute('aria-pressed')`), 'false');
+    await pressKey(client, "ArrowRight");
+    assert.equal(
+      await currentStep(),
+      (initialStep % 6) + 1,
+      "One arrow press must advance exactly one mission step.",
+    );
+    await pressKey(client, "ArrowLeft");
+    assert.equal(
+      await currentStep(),
+      initialStep,
+      "One left arrow must return to the previous mission step.",
+    );
+    assert.equal(
+      await evaluate(
+        client,
+        `document.querySelector('button[aria-pressed]').getAttribute('aria-pressed')`,
+      ),
+      "false",
+    );
 
-    await evaluate(client, `document.querySelector('button[aria-pressed]').click()`);
+    await evaluate(
+      client,
+      `document.querySelector('button[aria-pressed]').click()`,
+    );
     await delay(4700);
-    assert.equal(await currentStep(), initialStep, 'Keyboard focus must pause mission autoplay for the complete slide interval.');
+    assert.equal(
+      await currentStep(),
+      initialStep,
+      "Keyboard focus must pause mission autoplay for the complete slide interval.",
+    );
     await evaluate(client, `document.activeElement.blur()`);
-    await client.send('Input.dispatchMouseEvent', { type: 'mouseMoved', x: 4, y: 4 });
-    await waitFor(async () => (await currentStep()) !== initialStep, 5500, 'mission autoplay to resume after focus leaves');
+    await client.send("Input.dispatchMouseEvent", {
+      type: "mouseMoved",
+      x: 4,
+      y: 4,
+    });
+    await waitFor(
+      async () => (await currentStep()) !== initialStep,
+      5500,
+      "mission autoplay to resume after focus leaves",
+    );
 
-    const hoverPoint = await evaluate(client, `(() => {
+    const hoverPoint = await evaluate(
+      client,
+      `(() => {
       const carousel = document.querySelector('[aria-roledescription="carousel"]');
       carousel.scrollIntoView({ behavior: 'instant', block: 'start' });
       const rect = carousel.getBoundingClientRect();
       return { x: Math.round(rect.left + 20), y: Math.round(Math.max(rect.top + 100, 100)) };
-    })()`);
-    await client.send('Input.dispatchMouseEvent', { type: 'mouseMoved', ...hoverPoint });
+    })()`,
+    );
+    await client.send("Input.dispatchMouseEvent", {
+      type: "mouseMoved",
+      ...hoverPoint,
+    });
     const hoveredStep = await currentStep();
     await delay(4700);
-    assert.equal(await currentStep(), hoveredStep, 'Pointer hover must pause mission autoplay.');
-    await evaluate(client, `([...document.querySelectorAll('[aria-roledescription="carousel"] button')].find((button) => button.textContent.includes('Zoom'))).click()`);
-    await client.send('Input.dispatchMouseEvent', { type: 'mouseMoved', x: 4, y: 4 });
+    assert.equal(
+      await currentStep(),
+      hoveredStep,
+      "Pointer hover must pause mission autoplay.",
+    );
+    await evaluate(
+      client,
+      `([...document.querySelectorAll('[aria-roledescription="carousel"] button')].find((button) => button.textContent.includes('Zoom'))).click()`,
+    );
+    await client.send("Input.dispatchMouseEvent", {
+      type: "mouseMoved",
+      x: 4,
+      y: 4,
+    });
     await delay(4700);
-    assert.equal(await currentStep(), hoveredStep, 'An open screenshot must pause mission autoplay.');
-    await pressKey(client, 'Escape');
-    console.log('  ✓ Mission arrows advance once and autoplay pauses for keyboard focus, hover, and screenshots');
+    assert.equal(
+      await currentStep(),
+      hoveredStep,
+      "An open screenshot must pause mission autoplay.",
+    );
+    await pressKey(client, "Escape");
+    console.log(
+      "  ✓ Mission arrows advance once and autoplay pauses for keyboard focus, hover, and screenshots",
+    );
   } else {
-    console.log('  ↷ Mission playback timing skipped for the layout review');
+    console.log("  ↷ Mission playback timing skipped for the layout review");
   }
 
   const transitionEventStart = client.events.length;
@@ -544,41 +905,69 @@ try {
   for (let cycle = 0; cycle < 2; cycle += 1) {
     await clickInternalLink(client, `${BASE_PATH}/governance`);
     await evaluate(client, `document.getElementById('tab-overlord').focus()`);
-    await pressKey(client, 'ArrowRight');
-    assert.equal(await evaluate(client, `document.querySelector('[role="tab"][aria-selected="true"]')?.id`), 'tab-sovereignty');
+    await pressKey(client, "ArrowRight");
+    assert.equal(
+      await evaluate(
+        client,
+        `document.querySelector('[role="tab"][aria-selected="true"]')?.id`,
+      ),
+      "tab-sovereignty",
+    );
     await clickInternalLink(client, `${BASE_PATH}/`);
-    await evaluate(client, `([...document.querySelectorAll('button')].find((button) => button.textContent.includes('Zoom Full Resolution'))).click()`);
+    await evaluate(
+      client,
+      `([...document.querySelectorAll('button')].find((button) => button.textContent.includes('Zoom Full Resolution'))).click()`,
+    );
     await delay(100);
-    assert.equal(await evaluate(client, `document.querySelector('[role="dialog"]').contains(document.activeElement)`), true);
-    await pressKey(client, 'Escape');
+    assert.equal(
+      await evaluate(
+        client,
+        `document.querySelector('[role="dialog"]').contains(document.activeElement)`,
+      ),
+      true,
+    );
+    await pressKey(client, "Escape");
     await delay(300);
   }
-  assert.equal(client.events.slice(transitionEventStart).filter((event) => event.method === 'Runtime.exceptionThrown').length, 0, 'Repeated client navigation must not emit runtime exceptions.');
-  console.log('  ✓ Repeated client navigation retains tab and screenshot behavior');
-  await saveScreenshot(client, 'homepage-desktop.png');
-  await saveScreenshot(client, 'homepage-desktop-full.png', true);
+  assert.equal(
+    client.events
+      .slice(transitionEventStart)
+      .filter((event) => event.method === "Runtime.exceptionThrown").length,
+    0,
+    "Repeated client navigation must not emit runtime exceptions.",
+  );
+  console.log(
+    "  ✓ Repeated client navigation retains tab and screenshot behavior",
+  );
+  await saveScreenshot(client, "homepage-desktop.png");
+  await saveScreenshot(client, "homepage-desktop-full.png", true);
 
-  await client.send('Emulation.setEmulatedMedia', {
-    features: [{ name: 'prefers-reduced-motion', value: 'reduce' }],
+  await client.send("Emulation.setEmulatedMedia", {
+    features: [{ name: "prefers-reduced-motion", value: "reduce" }],
   });
   await navigate(client, `${baseUrl}/mission/`);
-  const reducedMotionState = await evaluate(client, `(() => {
+  const reducedMotionState = await evaluate(
+    client,
+    `(() => {
     const toggle = document.querySelector('button[aria-pressed]');
     return {
       label: toggle.textContent.trim(),
       pressed: toggle.getAttribute('aria-pressed'),
     };
-  })()`);
+  })()`,
+  );
   assert.match(reducedMotionState.label, /Auto-Play Slideshow/);
-  assert.equal(reducedMotionState.pressed, 'false');
-  console.log('  ✓ Reduced-motion preference disables carousel autoplay');
+  assert.equal(reducedMotionState.pressed, "false");
+  console.log("  ✓ Reduced-motion preference disables carousel autoplay");
 
-  await client.send('Emulation.setEmulatedMedia', { features: [] });
+  await client.send("Emulation.setEmulatedMedia", { features: [] });
   for (const width of [320, 375, 768, 1024, 1440]) {
     await setViewport(client, width);
     for (const [name, url] of routes) {
       await navigate(client, url);
-      const responsiveState = await evaluate(client, `(() => {
+      const responsiveState = await evaluate(
+        client,
+        `(() => {
         const header = document.querySelector('body > header');
         const desktopNav = header.querySelector('nav[aria-label="Primary navigation"]');
         const mobileMenu = header.querySelector('details');
@@ -596,50 +985,113 @@ try {
           overlappingHeaderLinks: rectangles.some((rect, index) => rectangles.slice(index + 1).some((other) => rect.left < other.right && rect.right > other.left && rect.top < other.bottom && rect.bottom > other.top)),
           headingFitsContent: !heroCopy || [...headingRange.getClientRects()].every((rect) => rect.left >= copyBounds.left - 1 && rect.right <= copyBounds.right + 1),
         };
-      })()`);
-      assert.deepEqual(responsiveState, { horizontalOverflow: false, oneNavigationVisible: true, overlappingHeaderLinks: false, headingFitsContent: true }, `${name} must fit the ${width}px viewport with usable navigation and unclipped hero text.`);
-      if (width === 320 && name === 'homepage') await saveScreenshot(client, 'homepage-mobile-320.png');
+      })()`,
+      );
+      assert.deepEqual(
+        responsiveState,
+        {
+          horizontalOverflow: false,
+          oneNavigationVisible: true,
+          overlappingHeaderLinks: false,
+          headingFitsContent: true,
+        },
+        `${name} must fit the ${width}px viewport with usable navigation and unclipped hero text.`,
+      );
+      if (width === 320 && name === "homepage")
+        await saveScreenshot(client, "homepage-mobile-320.png");
     }
   }
-  console.log('  ✓ Every route fits 320px, 375px, 768px, 1024px, and 1440px viewports without overlapping navigation');
+  console.log(
+    "  ✓ Every route fits 320px, 375px, 768px, 1024px, and 1440px viewports without overlapping navigation",
+  );
 
   await setViewport(client, 375, 812);
   await navigate(client, `${baseUrl}/`);
-  const mobileNavigationState = await evaluate(client, `({
+  const mobileNavigationState = await evaluate(
+    client,
+    `({
     menuVisible: getComputedStyle(document.querySelector('header details')).display !== 'none',
     desktopNavHidden: getComputedStyle(document.querySelector('header nav[aria-label="Primary navigation"]')).display === 'none',
     horizontalOverflow: document.documentElement.scrollWidth > document.documentElement.clientWidth + 1,
-  })`);
-  assert.deepEqual(mobileNavigationState, { menuVisible: true, desktopNavHidden: true, horizontalOverflow: false });
-  await saveScreenshot(client, 'homepage-mobile.png');
-  await saveScreenshot(client, 'homepage-mobile-full.png', true);
+  })`,
+  );
+  assert.deepEqual(mobileNavigationState, {
+    menuVisible: true,
+    desktopNavHidden: true,
+    horizontalOverflow: false,
+  });
+  await saveScreenshot(client, "homepage-mobile.png");
+  await saveScreenshot(client, "homepage-mobile-full.png", true);
   const openMobileMenu = async () => {
-    await evaluate(client, `document.querySelector('header details summary').click()`);
-    await waitFor(() => evaluate(client, `document.querySelector('header details').open`), 1000, 'mobile menu to open');
+    await evaluate(
+      client,
+      `document.querySelector('header details summary').click()`,
+    );
+    await waitFor(
+      () => evaluate(client, `document.querySelector('header details').open`),
+      1000,
+      "mobile menu to open",
+    );
   };
-  const menuIsClosed = () => evaluate(client, `!document.querySelector('header details').open`);
+  const menuIsClosed = () =>
+    evaluate(client, `!document.querySelector('header details').open`);
   await openMobileMenu();
-  await pressKey(client, 'Escape');
-  assert.equal(await menuIsClosed(), true, 'Escape must dismiss the mobile menu.');
+  await pressKey(client, "Escape");
+  assert.equal(
+    await menuIsClosed(),
+    true,
+    "Escape must dismiss the mobile menu.",
+  );
   await openMobileMenu();
-  await client.send('Input.dispatchMouseEvent', { type: 'mousePressed', x: 10, y: 400, button: 'left', clickCount: 1 });
-  await client.send('Input.dispatchMouseEvent', { type: 'mouseReleased', x: 10, y: 400, button: 'left', clickCount: 1 });
-  assert.equal(await menuIsClosed(), true, 'Clicking outside must dismiss the mobile menu.');
+  await client.send("Input.dispatchMouseEvent", {
+    type: "mousePressed",
+    x: 10,
+    y: 400,
+    button: "left",
+    clickCount: 1,
+  });
+  await client.send("Input.dispatchMouseEvent", {
+    type: "mouseReleased",
+    x: 10,
+    y: 400,
+    button: "left",
+    clickCount: 1,
+  });
+  assert.equal(
+    await menuIsClosed(),
+    true,
+    "Clicking outside must dismiss the mobile menu.",
+  );
   await openMobileMenu();
-  await evaluate(client, `document.querySelector('nav[aria-label="Mobile navigation"] a').click()`);
-  await waitFor(menuIsClosed, 2000, 'mobile menu to close after navigation');
-  console.log('  ✓ Mobile navigation opens and dismisses with Escape, outside clicks, and link selection');
+  await evaluate(
+    client,
+    `document.querySelector('nav[aria-label="Mobile navigation"] a').click()`,
+  );
+  await waitFor(menuIsClosed, 2000, "mobile menu to close after navigation");
+  console.log(
+    "  ✓ Mobile navigation opens and dismisses with Escape, outside clicks, and link selection",
+  );
 
-  await evaluate(client, `([...document.querySelectorAll('button')].find((button) => button.textContent.includes('Zoom Full Resolution'))).click()`);
+  await evaluate(
+    client,
+    `([...document.querySelectorAll('button')].find((button) => button.textContent.includes('Zoom Full Resolution'))).click()`,
+  );
   await delay(100);
-  assert.equal(await evaluate(client, `(() => {
+  assert.equal(
+    await evaluate(
+      client,
+      `(() => {
     const dialog = document.querySelector('[role="dialog"]');
     return dialog.scrollWidth <= dialog.clientWidth + 1 && document.documentElement.scrollWidth <= document.documentElement.clientWidth + 1;
-  })()`), true, 'The screenshot dialog must fit the mobile viewport.');
-  await pressKey(client, 'Escape');
-  console.log('  ✓ Screenshot dialog fits the 375px mobile viewport');
+  })()`,
+    ),
+    true,
+    "The screenshot dialog must fit the mobile viewport.",
+  );
+  await pressKey(client, "Escape");
+  console.log("  ✓ Screenshot dialog fits the 375px mobile viewport");
 
-  console.log('\n✅ BROWSER VERIFICATION PASSED');
+  console.log("\n✅ BROWSER VERIFICATION PASSED");
 } finally {
   try {
     client?.close();
@@ -652,7 +1104,12 @@ try {
   } catch {}
   await delay(300);
   try {
-    fs.rmSync(profileDirectory, { recursive: true, force: true, maxRetries: 5, retryDelay: 100 });
+    fs.rmSync(profileDirectory, {
+      recursive: true,
+      force: true,
+      maxRetries: 5,
+      retryDelay: 100,
+    });
   } catch {
     // Ignore profile directory deletion errors if the browser holds temporary locks
   }

@@ -1,9 +1,9 @@
-import fs from 'node:fs';
-import { Buffer } from 'node:buffer';
-import os from 'node:os';
-import path from 'node:path';
-import { spawn } from 'node:child_process';
-import { resolveBrowserPath } from './resolve_browser.js';
+import fs from "node:fs";
+import { Buffer } from "node:buffer";
+import os from "node:os";
+import path from "node:path";
+import { spawn } from "node:child_process";
+import { resolveBrowserPath } from "./resolve_browser.js";
 
 const browserPath = resolveBrowserPath();
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -18,7 +18,7 @@ class CdpClient {
 
   async connect() {
     this.socket = new WebSocket(this.url);
-    this.socket.addEventListener('message', (event) => {
+    this.socket.addEventListener("message", (event) => {
       const message = JSON.parse(event.data);
       if (message.id) {
         const pending = this.pending.get(message.id);
@@ -29,8 +29,8 @@ class CdpClient {
       }
     });
     await new Promise((resolve, reject) => {
-      this.socket.addEventListener('open', resolve, { once: true });
-      this.socket.addEventListener('error', reject, { once: true });
+      this.socket.addEventListener("open", resolve, { once: true });
+      this.socket.addEventListener("error", reject, { once: true });
     });
   }
 
@@ -63,62 +63,71 @@ class CdpClient {
 }
 
 async function main() {
-  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'tadpole-agent-capture-'));
+  const tempDir = fs.mkdtempSync(
+    path.join(os.tmpdir(), "tadpole-agent-capture-"),
+  );
   const browserArgs = [
-    '--headless=new',
-    '--disable-gpu',
-    '--no-first-run',
-    '--no-default-browser-check',
-    '--remote-debugging-port=0',
+    "--headless=new",
+    "--disable-gpu",
+    "--no-first-run",
+    "--no-default-browser-check",
+    "--remote-debugging-port=0",
     `--user-data-dir=${tempDir}`,
-    'about:blank',
+    "about:blank",
   ];
 
-  console.log('🚀 Launching headless Chrome to retake agents screen...');
-  const browser = spawn(browserPath, browserArgs, { stdio: 'ignore', windowsHide: true });
+  console.log("🚀 Launching headless Chrome to retake agents screen...");
+  const browser = spawn(browserPath, browserArgs, {
+    stdio: "ignore",
+    windowsHide: true,
+  });
 
   try {
-    const devToolsFile = path.join(tempDir, 'DevToolsActivePort');
+    const devToolsFile = path.join(tempDir, "DevToolsActivePort");
     let port = null;
     const start = Date.now();
     while (Date.now() - start < 15000) {
       if (fs.existsSync(devToolsFile)) {
-        port = Number(fs.readFileSync(devToolsFile, 'utf8').split(/\r?\n/)[0]);
+        port = Number(fs.readFileSync(devToolsFile, "utf8").split(/\r?\n/)[0]);
         break;
       }
       await delay(100);
     }
-    if (!port) throw new Error('Could not find DevToolsActivePort');
+    if (!port) throw new Error("Could not find DevToolsActivePort");
 
-    const targets = await (await fetch(`http://127.0.0.1:${port}/json/list`)).json();
-    const pageTarget = targets.find((t) => t.type === 'page' && t.webSocketDebuggerUrl);
-    if (!pageTarget) throw new Error('No page target found');
+    const targets = await (
+      await fetch(`http://127.0.0.1:${port}/json/list`)
+    ).json();
+    const pageTarget = targets.find(
+      (t) => t.type === "page" && t.webSocketDebuggerUrl,
+    );
+    if (!pageTarget) throw new Error("No page target found");
 
     const client = new CdpClient(pageTarget.webSocketDebuggerUrl);
     await client.connect();
-    await client.send('Page.enable');
-    await client.send('Runtime.enable');
-    await client.send('DOM.enable');
+    await client.send("Page.enable");
+    await client.send("Runtime.enable");
+    await client.send("DOM.enable");
 
     const width = 1662;
     const height = 905;
 
-    await client.send('Emulation.setDeviceMetricsOverride', {
+    await client.send("Emulation.setDeviceMetricsOverride", {
       width,
       height,
       deviceScaleFactor: 1,
       mobile: false,
     });
 
-    console.log('📡 Navigating to http://localhost:5173/agents...');
-    await client.send('Page.navigate', { url: 'http://localhost:5173/agents' });
+    console.log("📡 Navigating to http://localhost:5173/agents...");
+    await client.send("Page.navigate", { url: "http://localhost:5173/agents" });
 
     // Poll until LOADING MODULE is gone and content is populated
-    console.log('⏳ Waiting for Agent Swarm Manager sector to hydrate...');
+    console.log("⏳ Waiting for Agent Swarm Manager sector to hydrate...");
     let loaded = false;
     for (let attempt = 0; attempt < 25; attempt++) {
       await delay(800);
-      const status = await client.send('Runtime.evaluate', {
+      const status = await client.send("Runtime.evaluate", {
         expression: `(() => {
           const text = document.body.innerText || '';
           const isLoading = text.includes('LOADING MODULE') || text.includes('Initializing Sector');
@@ -129,7 +138,9 @@ async function main() {
       });
 
       const { isLoading, hasAgents, textLength } = status.result.value;
-      console.log(`   [Attempt ${attempt + 1}] isLoading=${isLoading}, hasAgents=${hasAgents}, textLength=${textLength}`);
+      console.log(
+        `   [Attempt ${attempt + 1}] isLoading=${isLoading}, hasAgents=${hasAgents}, textLength=${textLength}`,
+      );
       if (!isLoading && hasAgents) {
         loaded = true;
         break;
@@ -137,34 +148,40 @@ async function main() {
     }
 
     if (!loaded) {
-      throw new Error('Timed out waiting for agents page to load fully');
+      throw new Error("Timed out waiting for agents page to load fully");
     }
 
     // Wait for fonts & images to render
-    await client.send('Runtime.evaluate', {
-      expression: `Promise.all([
+    await client
+      .send("Runtime.evaluate", {
+        expression: `Promise.all([
         document.fonts.ready,
         ...[...document.images].map(img => img.decode ? img.decode().catch(() => {}) : Promise.resolve())
       ])`,
-      awaitPromise: true,
-    }).catch(() => {});
+        awaitPromise: true,
+      })
+      .catch(() => {});
     await delay(1000);
 
-    console.log('📸 Capturing screenshot at 1662x905 (webp quality 92)...');
-    const screenshot = await client.send('Page.captureScreenshot', {
-      format: 'webp',
+    console.log("📸 Capturing screenshot at 1662x905 (webp quality 92)...");
+    const screenshot = await client.send("Page.captureScreenshot", {
+      format: "webp",
       quality: 92,
       clip: { x: 0, y: 0, width, height, scale: 1 },
     });
 
-    const targetPath = path.resolve('public/assets/gallery/gallery_agents.webp');
-    const buffer = Buffer.from(screenshot.data, 'base64');
+    const targetPath = path.resolve(
+      "public/assets/gallery/gallery_agents.webp",
+    );
+    const buffer = Buffer.from(screenshot.data, "base64");
     fs.writeFileSync(targetPath, buffer);
 
-    console.log(`✅ Successfully saved: ${targetPath} (${Math.round(buffer.length / 1024)} KB)`);
+    console.log(
+      `✅ Successfully saved: ${targetPath} (${Math.round(buffer.length / 1024)} KB)`,
+    );
 
     // Also copy to dist if dist exists so preview/tests match immediately
-    const distPath = path.resolve('dist/assets/gallery/gallery_agents.webp');
+    const distPath = path.resolve("dist/assets/gallery/gallery_agents.webp");
     if (fs.existsSync(path.dirname(distPath))) {
       fs.writeFileSync(distPath, buffer);
       console.log(`✅ Mirrored to: ${distPath}`);
@@ -181,7 +198,6 @@ async function main() {
 }
 
 main().catch((err) => {
-  console.error('❌ Error during capture:', err);
+  console.error("❌ Error during capture:", err);
   process.exit(1);
 });
-

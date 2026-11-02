@@ -5,6 +5,7 @@ import ArchitectureLayers from "../components/features/ArchitectureLayers.astro"
 import ScreenshotGallery from "../components/features/ScreenshotGallery.astro";
 import TemplateCatalog from "../components/features/TemplateCatalog.astro";
 import Roadmap from "../components/features/Roadmap.astro";
+import FaqSection from "../components/features/FaqSection.astro";
 import BottomCta from "../components/features/BottomCta.astro";
 import LightboxModal from "../components/ui/LightboxModal.astro";
 
@@ -20,7 +21,8 @@ const homeFaqSchema = [
       "No. The core runtime is local-first by default. It executes directly on your hardware with embedded LanceDB vector storage (768-dim IVF-PQ), local SQLite indexing, and support for local LLM endpoints (Ollama) or configurable Bring-Your-Own-Key cloud providers.",
   },
   {
-    question: "How does the three-layer architecture guarantee deterministic reliability?",
+    question:
+      "How does the three-layer architecture guarantee deterministic reliability?",
     answer:
       "By isolating Layer 1 (Directive SOPs in Markdown/YAML specifying strict contracts), Layer 2 (Orchestration decision-making, topological DAG scheduling, and Agent 99 self-annealing), and Layer 3 (Deterministic Rust and Python execution tools), AI-Tadpole-OS stops probabilistic error compounding.",
   },
@@ -53,6 +55,7 @@ const homeFaqSchema = [
     <ScreenshotGallery />
     <TemplateCatalog />
     <Roadmap />
+    <FaqSection faqs={homeFaqSchema} />
     <BottomCta />
     <LightboxModal />
   </main>

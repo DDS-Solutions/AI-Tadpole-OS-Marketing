@@ -37,7 +37,9 @@ const categories = [
     <div>
       <span class="eyebrow">A head start for your industry</span>
       <h2 id="templates-title" class="section-heading">
-        Built for the work<br />you actually do.
+        Built for the work
+        <br />
+        you actually do.
       </h2>
     </div>
     <p class="section-copy">
@@ -48,13 +50,18 @@ const categories = [
 
   <div class="catalog-feature">
     <div class="catalog-content">
-      <span class="catalog-label"
-        ><span aria-hidden="true"></span>The industry catalog</span
-      >
-      <h3>223 specialized roles.<br />81 templates in 25 collections.</h3>
+      <span class="catalog-label">
+        <span aria-hidden="true"></span>The industry catalog
+      </span>
+      <h3>
+        223 specialized roles.
+        <br />
+        81 templates in 25 collections.
+      </h3>
       <p>
         From engineering and security to marketing, finance, spatial computing,
-        and academic workflows. Compose modular role directives or launch turnkey starter templates.
+        and academic workflows. Compose modular role directives or launch
+        turnkey starter templates.
       </p>
       <a
         href="https://dds-solutions.github.io/AI-Tadpole-OS-Industry-Templates/"
@@ -70,21 +77,24 @@ const categories = [
           viewBox="0 0 24 24"
           fill="none"
           aria-hidden="true"
-          ><path
+        >
+          <path
             d="M7 17 17 7M7 7h10v10"
             stroke="currentColor"
             stroke-width="1.6"
             stroke-linecap="round"
-            stroke-linejoin="round"></path></svg
-        >
+            stroke-linejoin="round"
+          ></path>
+        </svg>
       </a>
-      <span class="catalog-footnote"
-        >Search roles · Inspect directives · Customize</span
-      >
+      <span class="catalog-footnote">
+        Search roles · Inspect directives · Customize
+      </span>
     </div>
     <div class="catalog-preview">
       <div class="catalog-preview-bar" aria-hidden="true">
-        <span>Industry agent library</span><span>Catalog preview</span>
+        <span>Industry agent library</span>
+        <span>Catalog preview</span>
       </div>
       <div class="catalog-image-wrap">
         <img
@@ -107,13 +117,15 @@ const categories = [
             viewBox="0 0 20 20"
             fill="none"
             aria-hidden="true"
-            ><path
+          >
+            <path
               d="M7 3H3v4m10-4h4v4M3 13v4h4m10-4v4h-4"
               stroke="currentColor"
               stroke-width="1.4"
               stroke-linecap="round"
-              stroke-linejoin="round"></path></svg
-          >
+              stroke-linejoin="round"
+            ></path>
+          </svg>
           <span>Zoom Full Resolution</span>
         </button>
       </div>
@@ -121,27 +133,25 @@ const categories = [
   </div>
 
   <div class="category-grid" aria-label="Example agent collections">
-    {
-      categories.map((item) => (
-        <article class="category-card">
-          <div class="category-topline">
-            <>
-              <span>{item.category}</span>
-              <span class="category-number">{item.number}</span>
-            </>
-          </div>
-          <h3>{item.title}</h3>
-          <p>{item.description}</p>
-          <span class="category-detail">{item.detail}</span>
-        </article>
-      ))
-    }
+    {categories.map((item) => (
+      <article class="category-card">
+        <div class="category-topline">
+          <>
+            <span>{item.category}</span>
+            <span class="category-number">{item.number}</span>
+          </>
+        </div>
+        <h3>{item.title}</h3>
+        <p>{item.description}</p>
+        <span class="category-detail">{item.detail}</span>
+      </article>
+    ))}
   </div>
 </section>
 
 <style>
   .template-section {
-    scroll-margin-top: 7rem;
+    position: relative;
   }
   .template-intro {
     display: grid;

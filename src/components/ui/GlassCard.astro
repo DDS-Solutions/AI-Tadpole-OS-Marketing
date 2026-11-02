@@ -1,12 +1,20 @@
 ---
 type Glow = "emerald" | "cyan" | "purple" | "amber" | "none";
+type AllowedTag =
+  | "div"
+  | "article"
+  | "section"
+  | "aside"
+  | "header"
+  | "footer"
+  | "nav"
+  | "figure";
 
-interface Props {
-  as?: any;
+interface Props extends astroHTML.JSX.HTMLAttributes {
+  as?: AllowedTag;
   class?: string;
   hoverEffect?: boolean;
   glow?: Glow;
-  [key: string]: any;
 }
 
 const {
@@ -15,13 +23,16 @@ const {
   hoverEffect = false,
   glow = "none",
   ...rest
-} = Astro.props as Props;
+} = Astro.props;
 
 const glowClasses: Record<Glow, string> = {
-  emerald: "hover:border-emerald-500/40 hover:shadow-[0_0_30px_-5px_rgba(16,185,129,0.2)]",
+  emerald:
+    "hover:border-emerald-500/40 hover:shadow-[0_0_30px_-5px_rgba(16,185,129,0.2)]",
   cyan: "hover:border-cyan-500/40 hover:shadow-[0_0_30px_-5px_rgba(6,182,212,0.2)]",
-  purple: "hover:border-purple-500/40 hover:shadow-[0_0_30px_-5px_rgba(168,85,247,0.2)]",
-  amber: "hover:border-amber-500/40 hover:shadow-[0_0_30px_-5px_rgba(245,158,11,0.2)]",
+  purple:
+    "hover:border-purple-500/40 hover:shadow-[0_0_30px_-5px_rgba(168,85,247,0.2)]",
+  amber:
+    "hover:border-amber-500/40 hover:shadow-[0_0_30px_-5px_rgba(245,158,11,0.2)]",
   none: "",
 };
 ---

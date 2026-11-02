@@ -27,8 +27,11 @@ const gallerySchema = {
   description="Exhaustive high-resolution gallery of every screen, operational sector, and tab header in AI-Tadpole-OS v1.1.464 running live on ports 5173 and 8000."
   keywords="AI-Tadpole-OS gallery, agent swarm UI, operations dashboard screenshots, neural map visualization, sapphire shield governance, desktop runtime screens"
 >
-  <script is:inline type="application/ld+json" set:html={JSON.stringify(gallerySchema)} />
-
+  <script
+    is:inline
+    type="application/ld+json"
+    set:html={JSON.stringify(gallerySchema)}
+  />
   <main id="main" class="gallery-page" x-data="galleryPage">
     <!-- Top Hero Section -->
     <section class="gallery-hero" aria-labelledby="gallery-heading">
@@ -41,21 +44,41 @@ const gallerySchema = {
 
         <div class="hero-header-row">
           <div>
-            <span class="eyebrow"><span class="status-dot"></span> Live Runtime Captures · v1.1.464 · 26 Screens</span>
+            <span class="eyebrow">
+              <span class="status-dot"></span> Live Runtime Captures · v1.1.464
+              · 26 Screens
+            </span>
             <h1 id="gallery-heading" class="gallery-title">
-              Complete Codebase <br /><span class="title-gradient">OS Screen Gallery</span>
+              Complete Codebase <br />
+              <span class="title-gradient">OS Screen Gallery</span>
             </h1>
           </div>
           <p class="gallery-subtitle">
-            Authentic 1662×905 viewports captured directly from the live React + Tauri desktop runtime on port 5173 and the Rust Axum kernel on port 8000. Inspect every operational sector, neural symbol map, and governance gate.
+            Authentic 1662×905 viewports captured directly from the live React +
+            Tauri desktop runtime on port 5173 and the Rust Axum kernel on port
+            8000. Inspect every operational sector, neural symbol map, and
+            governance gate.
           </p>
         </div>
 
         <!-- Controls Toolbar -->
-        <div class="gallery-toolbar" role="region" aria-label="Gallery viewing controls">
+        <div
+          class="gallery-toolbar"
+          role="region"
+          aria-label="Gallery viewing controls"
+        >
           <!-- Search input -->
           <div class="search-box">
-            <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <svg
+              class="search-icon"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              aria-hidden="true"
+            >
               <circle cx="11" cy="11" r="8"></circle>
               <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
             </svg>
@@ -78,7 +101,11 @@ const gallerySchema = {
           </div>
 
           <!-- View Mode Toggle -->
-          <div class="view-mode-toggle" role="group" aria-label="Layout view mode">
+          <div
+            class="view-mode-toggle"
+            role="group"
+            aria-label="Layout view mode"
+          >
             <button
               type="button"
               class="mode-btn"
@@ -86,7 +113,15 @@ const gallerySchema = {
               @click="setViewMode('grid')"
               aria-label="Grid layout view"
             >
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <svg
+                width="15"
+                height="15"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                aria-hidden="true"
+              >
                 <rect x="3" y="3" width="7" height="7"></rect>
                 <rect x="14" y="3" width="7" height="7"></rect>
                 <rect x="14" y="14" width="7" height="7"></rect>
@@ -101,7 +136,15 @@ const gallerySchema = {
               @click="setViewMode('detailed')"
               aria-label="Detailed focus view"
             >
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <svg
+                width="15"
+                height="15"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                aria-hidden="true"
+              >
                 <line x1="8" y1="6" x2="21" y2="6"></line>
                 <line x1="8" y1="12" x2="21" y2="12"></line>
                 <line x1="8" y1="18" x2="21" y2="18"></line>
@@ -115,7 +158,11 @@ const gallerySchema = {
         </div>
 
         <!-- Category Filter Pills -->
-        <div class="category-pills" role="tablist" aria-label="Screen categories">
+        <div
+          class="category-pills"
+          role="tablist"
+          aria-label="Screen categories"
+        >
           {GALLERY_CATEGORIES.map((cat) => (
             <button
               type="button"
@@ -133,8 +180,18 @@ const gallerySchema = {
 
         <!-- Filter Results Status -->
         <div class="results-status" aria-live="polite">
-          <span>Showing <strong x-text="filteredItems.length"></strong> of {GALLERY_ITEMS.length} screens</span>
-          <span x-show="searchQuery.trim().length > 0" class="filter-keyword-badge">
+          <span>
+            Showing{" "}
+            <strong x-text="filteredItems.length">
+              {GALLERY_ITEMS.length}
+            </strong>{" "}
+            of {GALLERY_ITEMS.length} screens
+          </span>
+          <span
+            x-show="searchQuery.trim().length > 0"
+            class="filter-keyword-badge"
+            x-cloak
+          >
             matching "<span x-text="searchQuery"></span>"
           </span>
         </div>
@@ -145,11 +202,24 @@ const gallerySchema = {
     <section class="gallery-content-section" aria-label="Screens List">
       <div class="section-shell">
         <!-- Empty State -->
-        <div x-show="filteredItems.length === 0" class="gallery-empty-state" style="display: none;">
+        <div
+          x-cloak
+          x-show="filteredItems.length === 0"
+          class="gallery-empty-state"
+          style="display: none;"
+        >
           <div class="empty-icon">🔍</div>
           <h3>No matching screens found</h3>
-          <p>We couldn't find any operational views matching your search terms. Try searching for "DAG", "Rust", "Models", "Oversight", or reset filters.</p>
-          <button type="button" @click="searchQuery = ''; activeCategory = 'all'" class="button-secondary">
+          <p>
+            We couldn't find any operational views matching your search terms.
+            Try searching for "DAG", "Rust", "Models", "Oversight", or reset
+            filters.
+          </p>
+          <button
+            type="button"
+            @click="searchQuery = ''; activeCategory = 'all'"
+            class="button-secondary"
+          >
             Reset All Filters
           </button>
         </div>
@@ -160,43 +230,63 @@ const gallerySchema = {
           :class="{ 'detailed-layout': viewMode === 'detailed' }"
           x-show="filteredItems.length > 0"
         >
-          <template x-for="(item, index) in filteredItems" :key="item.id">
-            <article class="gallery-card" :id="item.id">
+          {GALLERY_ITEMS.map((item) => (
+            <article
+              class="gallery-card"
+              id={item.id}
+              x-show={`isItemVisible('${item.id}')`}
+            >
               <!-- Window Chrome -->
               <div class="card-chrome">
                 <div class="chrome-dots" aria-hidden="true">
-                  <span></span><span></span><span></span>
+                  <span></span>
+                  <span></span>
+                  <span></span>
                 </div>
                 <div class="chrome-route">
                   <span class="chrome-os-tag">AI-Tadpole-OS</span>
                   <span class="chrome-divider">/</span>
-                  <span class="chrome-path" x-text="item.route"></span>
+                  <span class="chrome-path">{item.route}</span>
                 </div>
-                <div class="chrome-badge" x-text="item.badge"></div>
+                <div class="chrome-badge">{item.badge}</div>
               </div>
 
               <!-- Screenshot Frame -->
               <div class="card-media">
                 <img
-                  :src={`item.image.startsWith('http') ? item.image : ('${basePath}' + item.image)`}
-                  :alt="item.title + ' in AI-Tadpole-OS runtime'"
-                  :width="item.width"
-                  :height="item.height"
+                  src={
+                    item.image.startsWith("http")
+                      ? item.image
+                      : `${basePath}` + item.image
+                  }
+                  alt={`${item.title} in AI-Tadpole-OS runtime`}
                   width="1662"
                   height="905"
                   loading="lazy"
                   decoding="async"
                 />
-                
+
                 <!-- Zoom Button Overlay -->
                 <button
                   type="button"
-                  @click="openGalleryLightbox(index)"
+                  @click={`openGalleryLightboxById('${item.id}')`}
                   class="card-zoom-btn"
-                  :aria-label="'Zoom Full Resolution: ' + item.title"
+                  aria-label={`Zoom Full Resolution: ${item.title}`}
                 >
-                  <svg width="16" height="16" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-                    <path d="M7 3H3v4m10-4h4v4M3 13v4h4m10-4v4h-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 20 20"
+                    fill="none"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="M7 3H3v4m10-4h4v4M3 13v4h4m10-4v4h-4"
+                      stroke="currentColor"
+                      stroke-width="1.6"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
                   </svg>
                   <span>Zoom Full Resolution</span>
                 </button>
@@ -206,57 +296,75 @@ const gallerySchema = {
               <div class="card-body">
                 <div class="card-header">
                   <div class="card-title-group">
-                    <h2 class="card-title" x-text="item.title"></h2>
-                    <p class="card-subtitle" x-text="item.subtitle"></p>
+                    <h2 class="card-title">{item.title}</h2>
+                    <p class="card-subtitle">{item.subtitle}</p>
                   </div>
                   <a
-                    :href="'#' + item.id"
+                    href={`#${item.id}`}
                     class="card-anchor-link"
                     title="Deep link to this screen"
-                    :aria-label="'Copy anchor link for ' + item.title"
+                    aria-label={`Copy anchor link for ${item.title}`}
                   >
                     #
                   </a>
                 </div>
 
-                <p class="card-desc" x-text="item.description"></p>
+                <p class="card-desc">{item.description}</p>
 
                 <!-- Detailed view specifics -->
-                <div class="card-expanded-details" x-show="viewMode === 'detailed'">
-                  <p class="card-deep-details" x-text="item.details"></p>
-                  
-                  <div class="card-features-box">
-                    <span class="features-label">KEY CAPABILITIES</span>
-                    <ul class="features-list">
-                      <template x-for="feat in item.keyFeatures" :key="feat">
-                        <li>
-                          <svg width="12" height="12" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.5" class="feature-check" aria-hidden="true">
-                            <polyline points="20 6 9 17 4 12"></polyline>
-                          </svg>
-                          <span x-text="feat"></span>
-                        </li>
-                      </template>
-                    </ul>
-                  </div>
+                <div
+                  class="card-expanded-details"
+                  x-show="viewMode === 'detailed'"
+                >
+                  <p class="card-deep-details">{item.details}</p>
 
-                  <div class="card-stack-tags">
-                    <span class="stack-label">TECH STACK:</span>
-                    <template x-for="tech in item.techStack" :key="tech">
-                      <span class="tech-tag" x-text="tech"></span>
-                    </template>
-                  </div>
+                  {item.keyFeatures && item.keyFeatures.length > 0 && (
+                    <div class="card-features-box">
+                      <span class="features-label">KEY CAPABILITIES</span>
+                      <ul class="features-list">
+                        {item.keyFeatures.map((feat) => (
+                          <li>
+                            <svg
+                              width="12"
+                              height="12"
+                              viewBox="0 0 20 20"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2.5"
+                              class="feature-check"
+                              aria-hidden="true"
+                            >
+                              <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                            <span>{feat}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+
+                  {item.techStack && item.techStack.length > 0 && (
+                    <div class="card-stack-tags">
+                      <span class="stack-label">TECH STACK:</span>
+                      {item.techStack.map((tech) => (
+                        <span class="tech-tag">{tech}</span>
+                      ))}
+                    </div>
+                  )}
                 </div>
 
                 <!-- Footer Action Bar -->
                 <div class="card-footer">
                   <div class="footer-meta">
                     <span class="route-badge">
-                      <code>GET <span x-text="item.route"></span></code>
+                      <code>
+                        GET <span>{item.route}</span>
+                      </code>
                     </span>
                   </div>
                   <button
                     type="button"
-                    @click="openGalleryLightbox(index)"
+                    @click={`openGalleryLightboxById('${item.id}')`}
                     class="footer-zoom-action"
                   >
                     <span>Inspect Screen</span>
@@ -265,7 +373,7 @@ const gallerySchema = {
                 </div>
               </div>
             </article>
-          </template>
+          ))}
         </div>
       </div>
     </section>
@@ -289,9 +397,18 @@ const gallerySchema = {
         <!-- Lightbox Chrome / Control Header -->
         <div class="lightbox-header">
           <div class="lightbox-title-area">
-            <span class="lightbox-index" x-text="((activeItemIndex + 1) + ' / ' + filteredItems.length)"></span>
-            <span class="lightbox-title" x-text="currentLightboxItem ? currentLightboxItem.title : ''"></span>
-            <span class="lightbox-route" x-text="currentLightboxItem ? currentLightboxItem.route : ''"></span>
+            <span
+              class="lightbox-index"
+              x-text="((activeItemIndex + 1) + ' / ' + filteredItems.length)"
+            ></span>
+            <span
+              class="lightbox-title"
+              x-text="currentLightboxItem ? currentLightboxItem.title : ''"
+            ></span>
+            <span
+              class="lightbox-route"
+              x-text="currentLightboxItem ? currentLightboxItem.route : ''"
+            ></span>
           </div>
 
           <div class="lightbox-actions">
@@ -303,7 +420,15 @@ const gallerySchema = {
               aria-label="Previous screenshot"
               title="Previous screen (Left Arrow)"
             >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                aria-hidden="true"
+              >
                 <polyline points="15 18 9 12 15 6"></polyline>
               </svg>
             </button>
@@ -316,7 +441,15 @@ const gallerySchema = {
               aria-label="Next screenshot"
               title="Next screen (Right Arrow)"
             >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                aria-hidden="true"
+              >
                 <polyline points="9 18 15 12 9 6"></polyline>
               </svg>
             </button>
@@ -330,7 +463,15 @@ const gallerySchema = {
               aria-label="Close full resolution screenshot viewer"
               title="Close (Escape)"
             >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                aria-hidden="true"
+              >
                 <line x1="18" y1="6" x2="6" y2="18"></line>
                 <line x1="6" y1="6" x2="18" y2="18"></line>
               </svg>
@@ -355,20 +496,32 @@ const gallerySchema = {
           <div class="lightbox-footer">
             <div class="footer-desc-col">
               <h3 x-text="currentLightboxItem.title"></h3>
-              <p class="footer-subtitle" x-text="currentLightboxItem.subtitle"></p>
-              <p class="footer-desc" x-text="currentLightboxItem.description"></p>
+              <p
+                class="footer-subtitle"
+                x-text="currentLightboxItem.subtitle"
+              ></p>
+              <p
+                class="footer-desc"
+                x-text="currentLightboxItem.description"
+              ></p>
             </div>
             <div class="footer-meta-col">
               <div class="footer-key-points">
                 <span class="points-label">VERIFIED HIGHLIGHTS</span>
                 <ul>
-                  <template x-for="point in currentLightboxItem.keyFeatures.slice(0, 3)" :key="point">
+                  <template
+                    x-for="point in currentLightboxItem.keyFeatures.slice(0, 3)"
+                    :key="point"
+                  >
                     <li x-text="point"></li>
                   </template>
                 </ul>
               </div>
               <div class="footer-tech-stack">
-                <template x-for="tech in currentLightboxItem.techStack" :key="tech">
+                <template
+                  x-for="tech in currentLightboxItem.techStack"
+                  :key="tech"
+                >
                   <span class="tech-pill" x-text="tech"></span>
                 </template>
               </div>
@@ -381,7 +534,9 @@ const gallerySchema = {
 </BaseLayout>
 
 <style>
-  [x-cloak] { display: none !important; }
+  [x-cloak] {
+    display: none !important;
+  }
 
   .gallery-page {
     background: #080d0e;
@@ -395,7 +550,11 @@ const gallerySchema = {
     padding-top: 7.5rem;
     padding-bottom: 3rem;
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-    background: radial-gradient(ellipse at 50% 10%, rgba(16, 185, 129, 0.08), transparent 70%);
+    background: radial-gradient(
+      ellipse at 50% 10%,
+      rgba(16, 185, 129, 0.08),
+      transparent 70%
+    );
   }
 
   .gallery-breadcrumb {
@@ -490,7 +649,7 @@ const gallerySchema = {
   }
 
   .search-input::placeholder {
-    color: #606d68;
+    color: #8f8f99;
   }
 
   .search-clear {
@@ -632,7 +791,9 @@ const gallerySchema = {
     overflow: hidden;
     display: flex;
     flex-col: column;
-    transition: transform 200ms, border-color 200ms;
+    transition:
+      transform 200ms,
+      border-color 200ms;
   }
 
   .gallery-card:hover {
@@ -685,7 +846,7 @@ const gallerySchema = {
   }
 
   .chrome-divider {
-    color: #4a5954;
+    color: #6b7c76;
   }
 
   .chrome-path {
@@ -783,7 +944,7 @@ const gallerySchema = {
   }
 
   .card-anchor-link {
-    color: #5a6b65;
+    color: #a1ada8;
     font-family: var(--font-mono);
     font-size: 0.85rem;
     text-decoration: none;
@@ -830,7 +991,8 @@ const gallerySchema = {
     gap: 0.5rem;
   }
 
-  .features-label, .stack-label {
+  .features-label,
+  .stack-label {
     font-family: var(--font-mono);
     font-size: 0.62rem;
     letter-spacing: 0.1em;
@@ -1022,7 +1184,8 @@ const gallerySchema = {
     flex-shrink: 0;
   }
 
-  .lightbox-nav-btn, .lightbox-close-btn {
+  .lightbox-nav-btn,
+  .lightbox-close-btn {
     min-height: 40px;
     min-width: 40px;
     display: flex;
@@ -1036,7 +1199,8 @@ const gallerySchema = {
     transition: all 150ms;
   }
 
-  .lightbox-nav-btn:hover, .lightbox-close-btn:hover {
+  .lightbox-nav-btn:hover,
+  .lightbox-close-btn:hover {
     background: rgba(52, 211, 153, 0.2);
     color: #34d399;
     border-color: #34d399;

@@ -1,7 +1,7 @@
-import { getMissionSlides } from '../data/mission-slides';
-import { architectureNodes } from '../data/architecture-nodes';
-import { GALLERY_ITEMS, type GalleryItem } from '../data/gallery-items';
-import type { AlpineInstance } from 'alpinejs';
+import { getMissionSlides } from "../data/mission-slides";
+import { architectureNodes } from "../data/architecture-nodes";
+import { GALLERY_ITEMS, type GalleryItem } from "../data/gallery-items";
+import type { Alpine } from "alpinejs";
 
 // 1. Define a type for Alpine components to improve TypeScript type-safety
 interface AlpineComponent {
@@ -9,19 +9,19 @@ interface AlpineComponent {
   $refs: Record<string, HTMLElement | undefined>;
 }
 
-const assetBaseUrl = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/`;
+const assetBaseUrl = `${import.meta.env.BASE_URL.replace(/\/$/, "")}/`;
 
 // 2. Extract shared lightbox logic into a reusable mixin
 const lightboxMixin = () => ({
   lightboxOpen: false,
-  lightboxImg: '',
-  lightboxAlt: 'Full-resolution screenshot',
+  lightboxImg: "",
+  lightboxAlt: "Full-resolution screenshot",
   lastFocusedElement: null as HTMLElement | null,
   inertedElements: [] as HTMLElement[],
-  previousBodyOverflow: '',
+  previousBodyOverflow: "",
   boundFocusGuard: null as ((event: FocusEvent) => void) | null,
 
-  openLightbox(imgUrl: string, altText = 'Full-resolution screenshot') {
+  openLightbox(imgUrl: string, altText = "Full-resolution screenshot") {
     if (this.lightboxOpen) {
       this.lightboxImg = imgUrl;
       this.lightboxAlt = altText;
@@ -33,26 +33,32 @@ const lightboxMixin = () => ({
     this.lightboxAlt = altText;
     this.lightboxOpen = true;
     this.previousBodyOverflow = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
+    document.body.style.overflow = "hidden";
 
     const backgroundElements = document.querySelectorAll<HTMLElement>(
       'body > a, body > header, body > footer, main > :not([role="dialog"])',
     );
     this.inertedElements = Array.from(backgroundElements).filter(
-      (element) => !element.hasAttribute('inert'),
+      (element) => !element.hasAttribute("inert"),
     );
-    this.inertedElements.forEach((element) => element.setAttribute('inert', ''));
+    this.inertedElements.forEach((element) =>
+      element.setAttribute("inert", ""),
+    );
     this.onLightboxStateChange();
 
     this.boundFocusGuard = (event: FocusEvent) => {
       const dialog = (this as unknown as AlpineComponent).$refs.dialog;
-      if (this.lightboxOpen && dialog && !dialog.contains(event.target as Node)) {
+      if (
+        this.lightboxOpen &&
+        dialog &&
+        !dialog.contains(event.target as Node)
+      ) {
         event.preventDefault();
         event.stopImmediatePropagation();
         (this as unknown as AlpineComponent).$refs.closeButton?.focus();
       }
     };
-    document.addEventListener('focusin', this.boundFocusGuard, true);
+    document.addEventListener("focusin", this.boundFocusGuard, true);
 
     (this as unknown as AlpineComponent).$nextTick(() => {
       (this as unknown as AlpineComponent).$refs.closeButton?.focus();
@@ -63,15 +69,15 @@ const lightboxMixin = () => ({
     if (!this.lightboxOpen) return;
     const focusTarget = this.lastFocusedElement;
     this.lightboxOpen = false;
-    this.lightboxImg = '';
-    this.lightboxAlt = 'Full-resolution screenshot';
+    this.lightboxImg = "";
+    this.lightboxAlt = "Full-resolution screenshot";
     this.lastFocusedElement = null;
     document.body.style.overflow = this.previousBodyOverflow;
-    this.inertedElements.forEach((element) => element.removeAttribute('inert'));
+    this.inertedElements.forEach((element) => element.removeAttribute("inert"));
     this.inertedElements = [];
 
     if (this.boundFocusGuard) {
-      document.removeEventListener('focusin', this.boundFocusGuard, true);
+      document.removeEventListener("focusin", this.boundFocusGuard, true);
       this.boundFocusGuard = null;
     }
 
@@ -84,7 +90,7 @@ const lightboxMixin = () => ({
   onLightboxStateChange() {},
 
   trapLightboxFocus(event: KeyboardEvent) {
-    if (event.key !== 'Tab') return;
+    if (event.key !== "Tab") return;
     const dialog = (this as unknown as AlpineComponent).$refs.dialog;
     if (!dialog) return;
 
@@ -98,12 +104,18 @@ const lightboxMixin = () => ({
     const first = focusable[0];
     const last = focusable[focusable.length - 1];
     if (event.shiftKey) {
-      if (document.activeElement === first || !dialog.contains(document.activeElement)) {
+      if (
+        document.activeElement === first ||
+        !dialog.contains(document.activeElement)
+      ) {
         event.preventDefault();
         last.focus();
       }
     } else {
-      if (document.activeElement === last || !dialog.contains(document.activeElement)) {
+      if (
+        document.activeElement === last ||
+        !dialog.contains(document.activeElement)
+      ) {
         event.preventDefault();
         first.focus();
       }
@@ -111,27 +123,25 @@ const lightboxMixin = () => ({
   },
 
   bindLightboxCleanup() {
-    document.addEventListener(
-      'astro:before-swap',
-      () => this.closeLightbox(),
-      { once: true },
-    );
+    document.addEventListener("astro:before-swap", () => this.closeLightbox(), {
+      once: true,
+    });
   },
 });
 
-export function registerAlpineComponents(Alpine: AlpineInstance) {
-  Alpine.data('homepage', () => ({
+export function registerAlpineComponents(Alpine: Alpine) {
+  Alpine.data("homepage", () => ({
     ...lightboxMixin(),
     init() {
       this.bindLightboxCleanup();
     },
   }));
 
-  Alpine.data('galleryPage', () => ({
+  Alpine.data("galleryPage", () => ({
     ...lightboxMixin(),
-    activeCategory: 'all',
-    searchQuery: '',
-    viewMode: 'grid' as 'grid' | 'detailed',
+    activeCategory: "all",
+    searchQuery: "",
+    viewMode: "grid" as "grid" | "detailed",
     items: GALLERY_ITEMS as GalleryItem[],
     activeItemIndex: 0,
 
@@ -139,7 +149,8 @@ export function registerAlpineComponents(Alpine: AlpineInstance) {
       const q = this.searchQuery.toLowerCase().trim();
       return (this.items as GalleryItem[]).filter((item: GalleryItem) => {
         const matchesCategory =
-          this.activeCategory === 'all' || item.category === this.activeCategory;
+          this.activeCategory === "all" ||
+          item.category === this.activeCategory;
         if (!matchesCategory) return false;
         if (!q) return true;
         return (
@@ -150,7 +161,9 @@ export function registerAlpineComponents(Alpine: AlpineInstance) {
           item.route.toLowerCase().includes(q) ||
           item.badge.toLowerCase().includes(q) ||
           (Array.isArray(item.keyFeatures) &&
-            item.keyFeatures.some((f: string) => f.toLowerCase().includes(q))) ||
+            item.keyFeatures.some((f: string) =>
+              f.toLowerCase().includes(q),
+            )) ||
           (Array.isArray(item.techStack) &&
             item.techStack.some((t: string) => t.toLowerCase().includes(q)))
         );
@@ -170,27 +183,34 @@ export function registerAlpineComponents(Alpine: AlpineInstance) {
       this.bindLightboxCleanup();
 
       // Check deep linking hash
-      const hash = window.location.hash.replace(/^#/, '');
+      const hash = window.location.hash.replace(/^#/, "");
       if (hash) {
-        const foundIdx = (this.items as GalleryItem[]).findIndex((item: GalleryItem) => item.id === hash);
+        const foundIdx = (this.items as GalleryItem[]).findIndex(
+          (item: GalleryItem) => item.id === hash,
+        );
         if (foundIdx !== -1) {
           const item = (this.items as GalleryItem[])[foundIdx];
-          if (this.activeCategory !== 'all' && item.category !== this.activeCategory) {
+          if (
+            this.activeCategory !== "all" &&
+            item.category !== this.activeCategory
+          ) {
             this.activeCategory = item.category;
           }
           (this as unknown as AlpineComponent).$nextTick(() => {
-            const filteredIdx = this.filteredItems.findIndex((it: GalleryItem) => it.id === hash);
+            const filteredIdx = this.filteredItems.findIndex(
+              (it: GalleryItem) => it.id === hash,
+            );
             this.openGalleryLightbox(filteredIdx !== -1 ? filteredIdx : 0);
           });
         }
       }
 
-      window.addEventListener('keydown', (e: KeyboardEvent) => {
+      window.addEventListener("keydown", (e: KeyboardEvent) => {
         if (!this.lightboxOpen) return;
-        if (e.key === 'ArrowRight') {
+        if (e.key === "ArrowRight") {
           e.preventDefault();
           this.nextLightbox();
-        } else if (e.key === 'ArrowLeft') {
+        } else if (e.key === "ArrowLeft") {
           e.preventDefault();
           this.prevLightbox();
         }
@@ -202,15 +222,48 @@ export function registerAlpineComponents(Alpine: AlpineInstance) {
       if (index < 0 || index >= list.length) return;
       this.activeItemIndex = index;
       const item = list[index];
-      const basePath = import.meta.env.BASE_URL.replace(/\/$/, '');
-      const fullImgUrl = item.image.startsWith('http') ? item.image : `${basePath}${item.image}`;
+      const basePath = import.meta.env.BASE_URL.replace(/\/$/, "");
+      const fullImgUrl = item.image.startsWith("http")
+        ? item.image
+        : `${basePath}${item.image}`;
       this.openLightbox(fullImgUrl, item.title);
-      history.replaceState(null, '', `#${item.id}`);
+      history.replaceState(null, "", `#${item.id}`);
+    },
+
+    isItemVisible(id: string): boolean {
+      return this.filteredItems.some((item: GalleryItem) => item.id === id);
+    },
+
+    openGalleryLightboxById(id: string) {
+      const list = this.filteredItems;
+      const index = list.findIndex((item: GalleryItem) => item.id === id);
+      if (index !== -1) {
+        this.openGalleryLightbox(index);
+      } else {
+        const allList = this.items as GalleryItem[];
+        const allIndex = allList.findIndex(
+          (item: GalleryItem) => item.id === id,
+        );
+        if (allIndex !== -1) {
+          this.activeCategory = "all";
+          this.searchQuery = "";
+          (this as unknown as AlpineComponent).$nextTick(() => {
+            const resetIndex = this.filteredItems.findIndex(
+              (item: GalleryItem) => item.id === id,
+            );
+            this.openGalleryLightbox(resetIndex !== -1 ? resetIndex : 0);
+          });
+        }
+      }
     },
 
     closeGalleryLightbox() {
       this.closeLightbox();
-      history.replaceState(null, '', window.location.pathname + window.location.search);
+      history.replaceState(
+        null,
+        "",
+        window.location.pathname + window.location.search,
+      );
     },
 
     nextLightbox() {
@@ -232,18 +285,18 @@ export function registerAlpineComponents(Alpine: AlpineInstance) {
       this.activeItemIndex = 0;
     },
 
-    setViewMode(mode: 'grid' | 'detailed') {
+    setViewMode(mode: "grid" | "detailed") {
       this.viewMode = mode;
     },
   }));
 
-  Alpine.data('missionPage', () => {
+  Alpine.data("missionPage", () => {
     // Configuration constants for easily adjustable timing
     const AUTO_PLAY_DURATION = 4500;
     const TIMER_INTERVAL = 50;
 
     const prefersReducedMotion = window.matchMedia(
-      '(prefers-reduced-motion: reduce)',
+      "(prefers-reduced-motion: reduce)",
     ).matches;
 
     return {
@@ -259,7 +312,12 @@ export function registerAlpineComponents(Alpine: AlpineInstance) {
       visibilityListener: null as (() => void) | null,
 
       get slideshowPaused(): boolean {
-        return this.pointerWithinCarousel || this.focusWithinCarousel || this.lightboxOpen || this.pageHidden;
+        return (
+          this.pointerWithinCarousel ||
+          this.focusWithinCarousel ||
+          this.lightboxOpen ||
+          this.pageHidden
+        );
       },
       slides: getMissionSlides(assetBaseUrl),
 
@@ -268,16 +326,21 @@ export function registerAlpineComponents(Alpine: AlpineInstance) {
           this.pageHidden = document.hidden;
           this.startAutoPlayTimer();
         };
-        document.addEventListener('visibilitychange', this.visibilityListener);
+        document.addEventListener("visibilitychange", this.visibilityListener);
         this.startAutoPlayTimer();
-        document.addEventListener('astro:before-swap', () => this.destroy(), { once: true });
+        document.addEventListener("astro:before-swap", () => this.destroy(), {
+          once: true,
+        });
       },
 
       destroy() {
         this.destroyed = true;
         this.clearAutoPlayTimers();
         if (this.visibilityListener) {
-          document.removeEventListener('visibilitychange', this.visibilityListener);
+          document.removeEventListener(
+            "visibilitychange",
+            this.visibilityListener,
+          );
           this.visibilityListener = null;
         }
         this.closeLightbox();
@@ -308,7 +371,8 @@ export function registerAlpineComponents(Alpine: AlpineInstance) {
       },
 
       prevSlide() {
-        this.currentSlide = (this.currentSlide - 1 + this.slides.length) % this.slides.length;
+        this.currentSlide =
+          (this.currentSlide - 1 + this.slides.length) % this.slides.length;
         this.resetAutoPlayProgress();
       },
 
@@ -340,16 +404,22 @@ export function registerAlpineComponents(Alpine: AlpineInstance) {
       clearAutoPlayTimers() {
         if (this.progressTimer) clearInterval(this.progressTimer);
         this.progressTimer = null;
-      }
+      },
     };
   });
 
-  Alpine.data('howItWorksPage', () => ({
+  Alpine.data("howItWorksPage", () => ({
     ...lightboxMixin(),
-    selectedNode: 'directive',
-    activePerspective: 'it',
-    nodeOrder: ['directive', 'orchestration', 'execution', 'governance', 'memory'],
-    perspectiveOrder: ['it', 'manager', 'exec', 'operator'],
+    selectedNode: "directive",
+    activePerspective: "it",
+    nodeOrder: [
+      "directive",
+      "orchestration",
+      "execution",
+      "governance",
+      "memory",
+    ],
+    perspectiveOrder: ["it", "manager", "exec", "operator"],
 
     init() {
       this.bindLightboxCleanup();
@@ -372,12 +442,17 @@ export function registerAlpineComponents(Alpine: AlpineInstance) {
 
     moveNodeFocus(offset: number) {
       const index = this.nodeOrder.indexOf(this.selectedNode);
-      const nextIndex = (index + offset + this.nodeOrder.length) % this.nodeOrder.length;
+      const nextIndex =
+        (index + offset + this.nodeOrder.length) % this.nodeOrder.length;
       this.focusNodeTab(this.nodeOrder[nextIndex]);
     },
 
-    focusNodeBoundary(position: 'first' | 'last') {
-      this.focusNodeTab(position === 'first' ? this.nodeOrder[0] : this.nodeOrder[this.nodeOrder.length - 1]);
+    focusNodeBoundary(position: "first" | "last") {
+      this.focusNodeTab(
+        position === "first"
+          ? this.nodeOrder[0]
+          : this.nodeOrder[this.nodeOrder.length - 1],
+      );
     },
 
     focusPerspectiveTab(key: string) {
@@ -389,13 +464,15 @@ export function registerAlpineComponents(Alpine: AlpineInstance) {
 
     movePerspectiveFocus(offset: number) {
       const index = this.perspectiveOrder.indexOf(this.activePerspective);
-      const nextIndex = (index + offset + this.perspectiveOrder.length) % this.perspectiveOrder.length;
+      const nextIndex =
+        (index + offset + this.perspectiveOrder.length) %
+        this.perspectiveOrder.length;
       this.focusPerspectiveTab(this.perspectiveOrder[nextIndex]);
     },
 
-    focusPerspectiveBoundary(position: 'first' | 'last') {
+    focusPerspectiveBoundary(position: "first" | "last") {
       this.focusPerspectiveTab(
-        position === 'first'
+        position === "first"
           ? this.perspectiveOrder[0]
           : this.perspectiveOrder[this.perspectiveOrder.length - 1],
       );
@@ -403,22 +480,22 @@ export function registerAlpineComponents(Alpine: AlpineInstance) {
 
     getNodeClass(key: string) {
       return this.selectedNode === key
-        ? 'border-emerald-500 bg-emerald-500/20 text-white font-bold shadow-lg'
-        : 'border-white/10 bg-black/40 text-zinc-400 hover:border-white/20';
+        ? "border-emerald-500 bg-emerald-500/20 text-white font-bold shadow-lg"
+        : "border-white/10 bg-black/40 text-zinc-400 hover:border-white/20";
     },
 
     getPerspectiveClass(key: string) {
       return this.activePerspective === key
-        ? 'bg-emerald-500 text-zinc-950 font-bold border-emerald-400 shadow-lg'
-        : 'bg-black/40 text-zinc-400 border-white/10 hover:border-white/20';
+        ? "bg-emerald-500 text-zinc-950 font-bold border-emerald-400 shadow-lg"
+        : "bg-black/40 text-zinc-400 border-white/10 hover:border-white/20";
     },
 
     nodes: architectureNodes,
   }));
 
-  Alpine.data('governancePage', () => ({
-    activeTab: 'overlord',
-    tabOrder: ['overlord', 'sovereignty', 'sapphire', 'scaling'],
+  Alpine.data("governancePage", () => ({
+    activeTab: "overlord",
+    tabOrder: ["overlord", "sovereignty", "sapphire", "scaling"],
 
     selectTab(key: string) {
       this.activeTab = key;
@@ -433,13 +510,14 @@ export function registerAlpineComponents(Alpine: AlpineInstance) {
 
     moveTabFocus(offset: number) {
       const index = this.tabOrder.indexOf(this.activeTab);
-      const nextIndex = (index + offset + this.tabOrder.length) % this.tabOrder.length;
+      const nextIndex =
+        (index + offset + this.tabOrder.length) % this.tabOrder.length;
       this.focusTab(this.tabOrder[nextIndex]);
     },
 
-    focusTabBoundary(position: 'first' | 'last') {
+    focusTabBoundary(position: "first" | "last") {
       this.focusTab(
-        position === 'first'
+        position === "first"
           ? this.tabOrder[0]
           : this.tabOrder[this.tabOrder.length - 1],
       );

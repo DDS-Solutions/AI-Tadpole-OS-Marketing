@@ -3,6 +3,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import LightboxModal from "../components/ui/LightboxModal.astro";
 import SectionHeader from "../components/ui/SectionHeader.astro";
 import StatusBadge from "../components/ui/StatusBadge.astro";
+import Breadcrumb from "../components/ui/Breadcrumb.astro";
 import { architectureNodes } from "../data/architecture-nodes";
 
 const basePath = import.meta.env.BASE_URL.replace(/\/$/, "");
@@ -26,33 +27,31 @@ const articleMetadata = {
   >
     <!-- Header -->
     <header class="text-center space-y-6 max-w-4xl mx-auto">
+      <div>
+        <Breadcrumb current="Architecture" />
+      </div>
+      <div>
+        <Breadcrumb current="Architecture" />
+      </div>
       <StatusBadge variant="emerald" pulse={true}>
         Technical Architecture & Mechanics
       </StatusBadge>
-      <h1
-        class="text-5xl sm:text-7xl lg:text-8xl font-extrabold tracking-tight text-white font-outfit leading-[0.95]"
-      >
-        Intent to <span
-          class="bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400 bg-clip-text text-transparent"
-          >execution.</span
-        >
+      <h1 class="text-5xl sm:text-7xl lg:text-8xl font-extrabold tracking-tight text-white font-outfit leading-[0.95]">
+        Intent to{" "}
+        <span class="bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400 bg-clip-text text-transparent">
+          execution.
+        </span>
       </h1>
-      <p
-        class="text-base sm:text-lg text-zinc-400 font-light leading-relaxed max-w-2xl mx-auto"
-      >
-        Explore the layers behind your agents. See how human directives,
-        Rust execution, private memory, and approval gates connect in one
-        inspectable runtime.
+      <p class="text-base sm:text-lg text-zinc-400 font-light leading-relaxed max-w-2xl mx-auto">
+        Explore the layers behind your agents. See how human directives, Rust
+        execution, private memory, and approval gates connect in one inspectable
+        runtime.
       </p>
     </header>
 
     <!-- INTERACTIVE ARCHITECTURE EXPLORER HUD -->
-    <section
-      class="glass-surface rounded-3xl border border-white/10 overflow-hidden shadow-2xl p-6 sm:p-10 space-y-8 scanline-bg glow-box-emerald"
-    >
-      <div
-        class="flex flex-wrap items-center justify-between gap-4 border-b border-white/10 pb-6"
-      >
+    <section class="glass-surface rounded-3xl border border-white/10 overflow-hidden shadow-2xl p-6 sm:p-10 space-y-8 scanline-bg glow-box-emerald">
+      <div class="flex flex-wrap items-center justify-between gap-4 border-b border-white/10 pb-6">
         <div>
           <div class="flex items-center gap-3">
             <span class="text-2xl">⚙️</span>
@@ -66,9 +65,7 @@ const articleMetadata = {
           </p>
         </div>
 
-        <div
-          class="flex items-center gap-2 font-mono text-xs text-emerald-400 bg-emerald-500/10 px-3 py-1.5 rounded-xl border border-emerald-500/20"
-        >
+        <div class="flex items-center gap-2 font-mono text-xs text-emerald-400 bg-emerald-500/10 px-3 py-1.5 rounded-xl border border-emerald-500/20">
           <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
           <span>Version 1.1 Series Reference</span>
         </div>
@@ -95,9 +92,7 @@ const articleMetadata = {
           :class="getNodeClass('directive')"
           class="p-4 rounded-2xl border text-left transition-all duration-200 space-y-2 relative overflow-hidden group cursor-pointer"
         >
-          <div
-            class="text-[10px] text-emerald-400 font-bold uppercase tracking-widest"
-          >
+          <div class="text-[10px] text-emerald-400 font-bold uppercase tracking-widest">
             Layer 1
           </div>
           <div class="text-sm font-bold text-white font-outfit">
@@ -119,9 +114,7 @@ const articleMetadata = {
           :class="getNodeClass('orchestration')"
           class="p-4 rounded-2xl border text-left transition-all duration-200 space-y-2 relative overflow-hidden group cursor-pointer"
         >
-          <div
-            class="text-[10px] text-purple-400 font-bold uppercase tracking-widest"
-          >
+          <div class="text-[10px] text-purple-400 font-bold uppercase tracking-widest">
             Layer 2
           </div>
           <div class="text-sm font-bold text-white font-outfit">
@@ -143,9 +136,7 @@ const articleMetadata = {
           :class="getNodeClass('execution')"
           class="p-4 rounded-2xl border text-left transition-all duration-200 space-y-2 relative overflow-hidden group cursor-pointer"
         >
-          <div
-            class="text-[10px] text-cyan-400 font-bold uppercase tracking-widest"
-          >
+          <div class="text-[10px] text-cyan-400 font-bold uppercase tracking-widest">
             Layer 3
           </div>
           <div class="text-sm font-bold text-white font-outfit">
@@ -167,9 +158,7 @@ const articleMetadata = {
           :class="getNodeClass('governance')"
           class="p-4 rounded-2xl border text-left transition-all duration-200 space-y-2 relative overflow-hidden group cursor-pointer"
         >
-          <div
-            class="text-[10px] text-amber-400 font-bold uppercase tracking-widest"
-          >
+          <div class="text-[10px] text-amber-400 font-bold uppercase tracking-widest">
             Governance
           </div>
           <div class="text-sm font-bold text-white font-outfit">
@@ -191,9 +180,7 @@ const articleMetadata = {
           :class="getNodeClass('memory')"
           class="p-4 rounded-2xl border text-left transition-all duration-200 space-y-2 relative overflow-hidden group cursor-pointer"
         >
-          <div
-            class="text-[10px] text-blue-400 font-bold uppercase tracking-widest"
-          >
+          <div class="text-[10px] text-blue-400 font-bold uppercase tracking-widest">
             Memory Store
           </div>
           <div class="text-sm font-bold text-white font-outfit">
@@ -213,67 +200,115 @@ const articleMetadata = {
         tabindex="0"
         class="p-6 sm:p-8 rounded-2xl bg-zinc-950/90 border border-white/10 space-y-6"
       >
-        <div
-          class="flex flex-wrap items-center justify-between gap-4 border-b border-white/10 pb-4"
-        >
+        <div class="flex flex-wrap items-center justify-between gap-4 border-b border-white/10 pb-4">
           <div class="flex items-center gap-3">
-            <span class="text-3xl" x-text="nodes[selectedNode].icon">📜</span>
+            <span class="text-3xl" x-text="nodes[selectedNode].icon">
+              📜
+            </span>
             <div>
               <h3
                 class="text-2xl font-bold text-white font-outfit"
                 x-text="nodes[selectedNode].title"
-              >Directives SOP</h3>
+              >
+                Directives SOP
+              </h3>
               <p
                 class="text-xs font-mono text-emerald-400"
                 x-text="nodes[selectedNode].subTitle"
-              >Layer 1: Instruction Set</p>
+              >
+                Layer 1: Instruction Set
+              </p>
             </div>
           </div>
 
           <span
             class="px-3 py-1 rounded-full bg-white/5 border border-white/10 font-mono text-xs text-zinc-300 font-bold"
-            x-text="nodes[selectedNode].badge">INPUT_LAYER</span>
+            x-text="nodes[selectedNode].badge"
+          >
+            INPUT_LAYER
+          </span>
         </div>
 
         <p
           class="text-base text-zinc-300 font-light leading-relaxed"
           x-text="nodes[selectedNode].description"
-        >The entry point of the sovereign engine. Directives are authored in Markdown and YAML, ensuring business logic is human-readable and machine-executable.</p>
+        >
+          The entry point of the sovereign engine. Directives are authored in
+          Markdown and YAML, ensuring business logic is human-readable and
+          machine-executable.
+        </p>
 
         <div class="grid md:grid-cols-2 gap-6">
           <div class="space-y-3 font-mono text-xs">
-            <div
-              class="text-zinc-400 font-bold uppercase text-[10px] tracking-wider"
-            >
+            <div class="text-zinc-400 font-bold uppercase text-[10px] tracking-wider">
               Key Engineering Specifications
             </div>
             <div class="flex justify-between items-center py-2 border-b border-white/5">
-              <span class="text-zinc-400" x-text="nodes[selectedNode].specs[0].label">Parsing Engine</span>
-              <span class="text-white font-bold" x-text="nodes[selectedNode].specs[0].val">Tree-sitter / YAML-rs</span>
+              <span
+                class="text-zinc-400"
+                x-text="nodes[selectedNode].specs[0].label"
+              >
+                Parsing Engine
+              </span>
+              <span
+                class="text-white font-bold"
+                x-text="nodes[selectedNode].specs[0].val"
+              >
+                Tree-sitter / YAML-rs
+              </span>
             </div>
             <div class="flex justify-between items-center py-2 border-b border-white/5">
-              <span class="text-zinc-400" x-text="nodes[selectedNode].specs[1].label">Validation</span>
-              <span class="text-white font-bold" x-text="nodes[selectedNode].specs[1].val">Schema-Strict</span>
+              <span
+                class="text-zinc-400"
+                x-text="nodes[selectedNode].specs[1].label"
+              >
+                Validation
+              </span>
+              <span
+                class="text-white font-bold"
+                x-text="nodes[selectedNode].specs[1].val"
+              >
+                Schema-Strict
+              </span>
             </div>
             <div class="flex justify-between items-center py-2 border-b border-white/5">
-              <span class="text-zinc-400" x-text="nodes[selectedNode].specs[2].label">Hot-Reload</span>
-              <span class="text-white font-bold" x-text="nodes[selectedNode].specs[2].val">Instant (FS-Watch)</span>
+              <span
+                class="text-zinc-400"
+                x-text="nodes[selectedNode].specs[2].label"
+              >
+                Hot-Reload
+              </span>
+              <span
+                class="text-white font-bold"
+                x-text="nodes[selectedNode].specs[2].val"
+              >
+                Instant (FS-Watch)
+              </span>
             </div>
             <div class="flex justify-between items-center py-2 border-b border-white/5">
-              <span class="text-zinc-400" x-text="nodes[selectedNode].specs[3].label">Control Mapping</span>
-              <span class="text-white font-bold" x-text="nodes[selectedNode].specs[3].val">Deployment-Dependent</span>
+              <span
+                class="text-zinc-400"
+                x-text="nodes[selectedNode].specs[3].label"
+              >
+                Control Mapping
+              </span>
+              <span
+                class="text-white font-bold"
+                x-text="nodes[selectedNode].specs[3].val"
+              >
+                Deployment-Dependent
+              </span>
             </div>
           </div>
 
           <div class="space-y-2">
-            <div
-              class="text-zinc-400 font-mono text-[10px] font-bold uppercase tracking-wider"
-            >
+            <div class="text-zinc-400 font-mono text-[10px] font-bold uppercase tracking-wider">
               Architecture Code Contract
             </div>
             <pre
               class="p-4 rounded-xl bg-black border border-white/10 font-mono text-xs text-emerald-300 overflow-x-auto leading-relaxed"
-              x-text="nodes[selectedNode].code">struct Directive &lbrace;
+              x-text="nodes[selectedNode].code"
+            >struct Directive &lbrace;
   id: Uuid,
   sop_version: String,
   parameters: HashMap&lt;String, Value&gt;,
@@ -284,19 +319,30 @@ const articleMetadata = {
       </div>
 
       <noscript>
-        <div class="space-y-6 pt-8 border-t border-white/10" aria-label="Static architecture layers overview">
-          <h3 class="text-xl font-bold text-white font-outfit">All Architecture Layer Specifications</h3>
+        <div
+          class="space-y-6 pt-8 border-t border-white/10"
+          aria-label="Static architecture layers overview"
+        >
+          <h3 class="text-xl font-bold text-white font-outfit">
+            All Architecture Layer Specifications
+          </h3>
           <div class="grid gap-6">
             {Object.values(architectureNodes).map((node) => (
               <div class="p-6 rounded-2xl bg-zinc-950/90 border border-white/10 space-y-4">
                 <div class="flex items-center gap-3">
                   <span class="text-2xl">{node.icon}</span>
                   <div>
-                    <h4 class="text-lg font-bold text-white font-outfit">{node.title}</h4>
-                    <p class="text-xs font-mono text-emerald-400">{node.subTitle}</p>
+                    <h4 class="text-lg font-bold text-white font-outfit">
+                      {node.title}
+                    </h4>
+                    <p class="text-xs font-mono text-emerald-400">
+                      {node.subTitle}
+                    </p>
                   </div>
                 </div>
-                <p class="text-sm text-zinc-300 font-light leading-relaxed">{node.description}</p>
+                <p class="text-sm text-zinc-300 font-light leading-relaxed">
+                  {node.description}
+                </p>
                 <div class="grid sm:grid-cols-2 gap-3 text-xs font-mono">
                   {node.specs.map((spec) => (
                     <div class="flex justify-between items-center py-1.5 border-b border-white/5">
@@ -386,9 +432,7 @@ const articleMetadata = {
       </div>
 
       <!-- Perspective Content Cards -->
-      <div
-        class="glass-surface p-8 sm:p-12 rounded-3xl border border-white/10 bg-black/40"
-      >
+      <div class="glass-surface p-8 sm:p-12 rounded-3xl border border-white/10 bg-black/40">
         <!-- IT Perspective -->
         <div
           x-show="activePerspective === 'it'"
@@ -402,9 +446,7 @@ const articleMetadata = {
           class="grid md:grid-cols-2 gap-12 items-center"
         >
           <div class="space-y-6">
-            <span
-              class="px-3 py-1 rounded bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 font-mono text-xs font-bold uppercase"
-            >
+            <span class="px-3 py-1 rounded bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 font-mono text-xs font-bold uppercase">
               Zero-Trust IT Security
             </span>
             <h3 class="text-3xl font-bold text-white font-outfit">
@@ -417,38 +459,28 @@ const articleMetadata = {
               for audit review.
             </p>
             <div class="space-y-3 font-mono text-xs">
-              <div
-                class="p-3 rounded-xl bg-zinc-950 border border-white/5 flex items-center justify-between"
-              >
+              <div class="p-3 rounded-xl bg-zinc-950 border border-white/5 flex items-center justify-between">
                 <span class="text-zinc-400">Zero Cloud Data Exfiltration</span>
-                <span class="text-emerald-400 font-bold"
-                  >Air-Gapped Mode</span
-                >
+                <span class="text-emerald-400 font-bold">Air-Gapped Mode</span>
               </div>
-              <div
-                class="p-3 rounded-xl bg-zinc-950 border border-white/5 flex items-center justify-between"
-              >
-                <span class="text-zinc-400"
-                  >Active Documentation Guard (ADG)</span
-                >
-                <span class="text-cyan-400 font-bold"
-                  >Symbol Gate Enforcement</span
-                >
+              <div class="p-3 rounded-xl bg-zinc-950 border border-white/5 flex items-center justify-between">
+                <span class="text-zinc-400">
+                  Active Documentation Guard (ADG)
+                </span>
+                <span class="text-cyan-400 font-bold">
+                  Symbol Gate Enforcement
+                </span>
               </div>
-              <div
-                class="p-3 rounded-xl bg-zinc-950 border border-white/5 flex items-center justify-between"
-              >
+              <div class="p-3 rounded-xl bg-zinc-950 border border-white/5 flex items-center justify-between">
                 <span class="text-zinc-400">Audit Ledger Integrity</span>
-                <span class="text-purple-400 font-bold"
-                  >OBLITERATUS Cryptographic Trail</span
-                >
+                <span class="text-purple-400 font-bold">
+                  OBLITERATUS Cryptographic Trail
+                </span>
               </div>
             </div>
           </div>
 
-          <div
-            class="relative rounded-2xl overflow-hidden border border-white/10 shadow-2xl group bg-black"
-          >
+          <div class="relative rounded-2xl overflow-hidden border border-white/10 shadow-2xl group bg-black">
             <img
               src={`${basePath}/assets/real_os_oversight.png`}
               alt="IT Security Controls"
@@ -481,9 +513,7 @@ const articleMetadata = {
           class="grid md:grid-cols-2 gap-12 items-center"
         >
           <div class="space-y-6">
-            <span
-              class="px-3 py-1 rounded bg-purple-500/10 border border-purple-500/30 text-purple-400 font-mono text-xs font-bold uppercase"
-            >
+            <span class="px-3 py-1 rounded bg-purple-500/10 border border-purple-500/30 text-purple-400 font-mono text-xs font-bold uppercase">
               Operational Governance
             </span>
             <h3 class="text-3xl font-bold text-white font-outfit">
@@ -497,28 +527,22 @@ const articleMetadata = {
               management approval.
             </p>
             <div class="space-y-3 font-mono text-xs">
-              <div
-                class="p-3 rounded-xl bg-zinc-950 border border-white/5 flex items-center justify-between"
-              >
+              <div class="p-3 rounded-xl bg-zinc-950 border border-white/5 flex items-center justify-between">
                 <span class="text-zinc-400">Swarm Pulse Frequency</span>
-                <span class="text-emerald-400 font-bold"
-                  >10Hz Binary Stream</span
-                >
+                <span class="text-emerald-400 font-bold">
+                  10Hz Binary Stream
+                </span>
               </div>
-              <div
-                class="p-3 rounded-xl bg-zinc-950 border border-white/5 flex items-center justify-between"
-              >
+              <div class="p-3 rounded-xl bg-zinc-950 border border-white/5 flex items-center justify-between">
                 <span class="text-zinc-400">Sapphire Shield Intercept</span>
-                <span class="text-amber-400 font-bold"
-                  >WebSocket HITL Prompt</span
-                >
+                <span class="text-amber-400 font-bold">
+                  WebSocket HITL Prompt
+                </span>
               </div>
             </div>
           </div>
 
-          <div
-            class="relative rounded-2xl overflow-hidden border border-white/10 shadow-2xl group bg-black"
-          >
+          <div class="relative rounded-2xl overflow-hidden border border-white/10 shadow-2xl group bg-black">
             <img
               src={`${basePath}/assets/real_os_dashboard.png`}
               alt="Operations Dashboard"
@@ -551,9 +575,7 @@ const articleMetadata = {
           class="grid md:grid-cols-2 gap-12 items-center"
         >
           <div class="space-y-6">
-            <span
-              class="px-3 py-1 rounded bg-amber-500/10 border border-amber-500/30 text-amber-400 font-mono text-xs font-bold uppercase"
-            >
+            <span class="px-3 py-1 rounded bg-amber-500/10 border border-amber-500/30 text-amber-400 font-mono text-xs font-bold uppercase">
               Enterprise Control
             </span>
             <h3 class="text-3xl font-bold text-white font-outfit">
@@ -565,15 +587,13 @@ const articleMetadata = {
               security boundaries selected for that deployment.
             </p>
             <div class="grid grid-cols-2 gap-4 font-mono text-xs">
-              <div
-                class="p-4 rounded-xl bg-zinc-950 border border-emerald-500/30 text-center space-y-1"
-              >
+              <div class="p-4 rounded-xl bg-zinc-950 border border-emerald-500/30 text-center space-y-1">
                 <div class="text-2xl text-emerald-400 font-bold">Local</div>
-                <div class="text-zinc-400 text-[10px]">Configurable Data Boundary</div>
+                <div class="text-zinc-400 text-[10px]">
+                  Configurable Data Boundary
+                </div>
               </div>
-              <div
-                class="p-4 rounded-xl bg-zinc-950 border border-cyan-500/30 text-center space-y-1"
-              >
+              <div class="p-4 rounded-xl bg-zinc-950 border border-cyan-500/30 text-center space-y-1">
                 <div class="text-2xl text-cyan-400 font-bold">Optional</div>
                 <div class="text-zinc-400 text-[10px]">
                   External Model Access
@@ -582,11 +602,12 @@ const articleMetadata = {
             </div>
           </div>
 
-          <div
-            class="relative rounded-2xl overflow-hidden border border-white/10 shadow-2xl group bg-black"
-          >
+          <div class="relative rounded-2xl overflow-hidden border border-white/10 shadow-2xl group bg-black">
             <picture>
-              <source srcset={`${basePath}/assets/moat-visual.webp`} type="image/webp" />
+              <source
+                srcset={`${basePath}/assets/moat-visual.webp`}
+                type="image/webp"
+              />
               <img
                 src={`${basePath}/assets/moat-visual.png`}
                 alt="Sovereign Moat"
@@ -620,22 +641,18 @@ const articleMetadata = {
           class="grid md:grid-cols-2 gap-12 items-center"
         >
           <div class="space-y-6">
-            <span
-              class="px-3 py-1 rounded bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 font-mono text-xs font-bold uppercase"
-            >
+            <span class="px-3 py-1 rounded bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 font-mono text-xs font-bold uppercase">
               Supercharged Workforce
             </span>
             <h3 class="text-3xl font-bold text-white font-outfit">
               Transition from Manual Drudgery to Swarm Director
             </h3>
             <p class="text-zinc-300 font-light leading-relaxed">
-              Operators turn routine SOPs into executable Markdown directives
-              in <code>directives/</code>, supporting scaled work while
-              maintaining human oversight over execution outcomes.
+              Operators turn routine SOPs into executable Markdown directives in{" "}
+              <code>directives/</code>, supporting scaled work while maintaining
+              human oversight over execution outcomes.
             </p>
-            <div
-              class="p-4 rounded-xl bg-zinc-950 border border-white/5 font-mono text-xs space-y-2 text-zinc-300"
-            >
+            <div class="p-4 rounded-xl bg-zinc-950 border border-white/5 font-mono text-xs space-y-2 text-zinc-300">
               <div class="text-emerald-400 font-bold">
                 One Operator, Multiple Governed Workflows
               </div>
@@ -646,9 +663,7 @@ const articleMetadata = {
             </div>
           </div>
 
-          <div
-            class="relative rounded-2xl overflow-hidden border border-white/10 shadow-2xl group bg-black"
-          >
+          <div class="relative rounded-2xl overflow-hidden border border-white/10 shadow-2xl group bg-black">
             <img
               src={`${basePath}/assets/real_os_nodes.png`}
               alt="Operator Node Management"
@@ -671,13 +686,9 @@ const articleMetadata = {
     </section>
 
     <!-- SECTION 3: TRI-SLOT MODEL ROUTER INTERACTIVE DEMO -->
-    <section
-      class="glass-surface rounded-3xl border border-white/10 p-8 sm:p-12 space-y-8 bg-gradient-to-b from-black/60 to-zinc-950"
-    >
+    <section class="glass-surface rounded-3xl border border-white/10 p-8 sm:p-12 space-y-8 bg-gradient-to-b from-black/60 to-zinc-950">
       <div class="text-center space-y-3 max-w-3xl mx-auto">
-        <span
-          class="px-3 py-1 rounded bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 font-mono text-xs font-bold uppercase"
-        >
+        <span class="px-3 py-1 rounded bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 font-mono text-xs font-bold uppercase">
           Dynamic Redundancy Engine
         </span>
         <h2 class="text-3xl sm:text-4xl font-bold text-white font-outfit">
@@ -692,15 +703,12 @@ const articleMetadata = {
 
       <div class="grid md:grid-cols-3 gap-6 font-mono text-xs">
         <!-- Primary Slot -->
-        <div
-          class="p-6 rounded-2xl bg-zinc-950 border border-emerald-500/40 space-y-4 shadow-[0_0_25px_rgba(16,185,129,0.1)]"
-        >
+        <div class="p-6 rounded-2xl bg-zinc-950 border border-emerald-500/40 space-y-4 shadow-[0_0_25px_rgba(16,185,129,0.1)]">
           <div class="flex items-center justify-between">
-            <span class="text-emerald-400 font-bold uppercase text-[10px]"
-              >Slot 1: Primary</span
-            >
-            <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"
-            ></span>
+            <span class="text-emerald-400 font-bold uppercase text-[10px]">
+              Slot 1: Primary
+            </span>
+            <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
           </div>
           <h3 class="text-lg font-bold text-white font-outfit">
             Local Ollama Engine
@@ -709,45 +717,37 @@ const articleMetadata = {
             Local qwen2.5-coder / llama3.3 models running air-gapped on hardware
             GPU/NPU acceleration.
           </p>
-          <div
-            class="p-3 rounded bg-black border border-white/5 text-[11px] text-emerald-300"
-          >
+          <div class="p-3 rounded bg-black border border-white/5 text-[11px] text-emerald-300">
             Latency: Local-direct | Cost: No metered API charge
           </div>
         </div>
 
         <!-- Secondary Slot -->
-        <div
-          class="p-6 rounded-2xl bg-zinc-950 border border-cyan-500/40 space-y-4 shadow-[0_0_25px_rgba(6,182,212,0.1)]"
-        >
+        <div class="p-6 rounded-2xl bg-zinc-950 border border-cyan-500/40 space-y-4 shadow-[0_0_25px_rgba(6,182,212,0.1)]">
           <div class="flex items-center justify-between">
-            <span class="text-cyan-400 font-bold uppercase text-[10px]"
-              >Slot 2: Secondary</span
-            >
+            <span class="text-cyan-400 font-bold uppercase text-[10px]">
+              Slot 2: Secondary
+            </span>
             <span class="w-2.5 h-2.5 rounded-full bg-cyan-400"></span>
           </div>
           <h3 class="text-lg font-bold text-white font-outfit">
             Groq Ultra-Speed LPU
           </h3>
           <p class="text-zinc-400 text-xs font-light leading-relaxed">
-            Ultra-fast cloud inference fallback (high-throughput streaming) for complex
-            multi-agent reasoning tasks.
+            Ultra-fast cloud inference fallback (high-throughput streaming) for
+            complex multi-agent reasoning tasks.
           </p>
-          <div
-            class="p-3 rounded bg-black border border-white/5 text-[11px] text-cyan-300"
-          >
+          <div class="p-3 rounded bg-black border border-white/5 text-[11px] text-cyan-300">
             Latency target: deployment-dependent | Fallback configured
           </div>
         </div>
 
         <!-- Tertiary Slot -->
-        <div
-          class="p-6 rounded-2xl bg-zinc-950 border border-purple-500/40 space-y-4 shadow-[0_0_25px_rgba(168,85,247,0.1)]"
-        >
+        <div class="p-6 rounded-2xl bg-zinc-950 border border-purple-500/40 space-y-4 shadow-[0_0_25px_rgba(168,85,247,0.1)]">
           <div class="flex items-center justify-between">
-            <span class="text-purple-400 font-bold uppercase text-[10px]"
-              >Slot 3: Tertiary</span
-            >
+            <span class="text-purple-400 font-bold uppercase text-[10px]">
+              Slot 3: Tertiary
+            </span>
             <span class="w-2.5 h-2.5 rounded-full bg-purple-400"></span>
           </div>
           <h3 class="text-lg font-bold text-white font-outfit">
@@ -757,9 +757,7 @@ const articleMetadata = {
             Massive 2M token context window slot for large document ingestion &
             deep architectural synthesis.
           </p>
-          <div
-            class="p-3 rounded bg-black border border-white/5 text-[11px] text-purple-300"
-          >
+          <div class="p-3 rounded bg-black border border-white/5 text-[11px] text-purple-300">
             Context: 2M Tokens | Sovereign Backup
           </div>
         </div>
@@ -778,12 +776,8 @@ const articleMetadata = {
         </p>
       </div>
 
-      <div
-        class="glass-surface rounded-2xl border border-white/10 overflow-hidden font-mono text-xs"
-      >
-        <div
-          class="grid grid-cols-3 bg-zinc-950 p-4 border-b border-white/10 text-zinc-400 font-bold uppercase text-[10px]"
-        >
+      <div class="glass-surface rounded-2xl border border-white/10 overflow-hidden font-mono text-xs">
+        <div class="grid grid-cols-3 bg-zinc-950 p-4 border-b border-white/10 text-zinc-400 font-bold uppercase text-[10px]">
           <div>Component / Subsystem</div>
           <div>Target Specification</div>
           <div>Runtime Performance</div>
@@ -816,9 +810,15 @@ const articleMetadata = {
     </section>
 
     <!-- SECTION 5: SYSTEM REQUIREMENTS & QUICKSTART -->
-    <section class="space-y-8 min-w-0 max-w-full" aria-labelledby="quickstart-title">
+    <section
+      class="space-y-8 min-w-0 max-w-full"
+      aria-labelledby="quickstart-title"
+    >
       <div class="text-center space-y-3">
-        <h2 id="quickstart-title" class="text-3xl font-bold text-white font-outfit">
+        <h2
+          id="quickstart-title"
+          class="text-3xl font-bold text-white font-outfit"
+        >
           System Requirements &amp; Quickstart
         </h2>
         <p class="text-sm text-zinc-400 font-light max-w-2xl mx-auto">
@@ -831,12 +831,16 @@ const articleMetadata = {
         <div class="glass-surface rounded-2xl border border-white/10 p-4 sm:p-6 space-y-4 min-w-0 max-w-full">
           <div class="flex items-center gap-2 border-b border-white/10 pb-4">
             <span class="w-2 h-2 rounded-full bg-emerald-400 shrink-0"></span>
-            <h3 class="font-outfit font-bold text-lg text-white">Prerequisites</h3>
+            <h3 class="font-outfit font-bold text-lg text-white">
+              Prerequisites
+            </h3>
           </div>
           <ul class="space-y-3 text-xs font-mono text-zinc-300">
             <li class="flex flex-wrap items-center justify-between gap-1.5 py-1.5 border-b border-white/5">
               <span class="text-zinc-400">Operating System</span>
-              <span class="text-white font-semibold">Linux, macOS, Windows 11</span>
+              <span class="text-white font-semibold">
+                Linux, macOS, Windows 11
+              </span>
             </li>
             <li class="flex flex-wrap items-center justify-between gap-1.5 py-1.5 border-b border-white/5">
               <span class="text-zinc-400">Rust Toolchain</span>
@@ -857,16 +861,22 @@ const articleMetadata = {
         <div class="glass-surface rounded-2xl border border-white/10 p-4 sm:p-6 space-y-4 min-w-0 max-w-full">
           <div class="flex items-center gap-2 border-b border-white/10 pb-4">
             <span class="w-2 h-2 rounded-full bg-cyan-400 shrink-0"></span>
-            <h3 class="font-outfit font-bold text-lg text-white">Quickstart Commands</h3>
+            <h3 class="font-outfit font-bold text-lg text-white">
+              Quickstart Commands
+            </h3>
           </div>
           <div class="space-y-3 font-mono text-xs min-w-0 max-w-full">
             <div>
-              <div class="text-[10px] text-zinc-400 uppercase tracking-wider font-bold mb-1">1. Clone &amp; Enter Repository</div>
+              <div class="text-[10px] text-zinc-400 uppercase tracking-wider font-bold mb-1">
+                1. Clone &amp; Enter Repository
+              </div>
               <pre class="p-2.5 rounded-lg bg-black border border-white/10 text-emerald-300 overflow-x-auto leading-relaxed max-w-full whitespace-pre-wrap break-all sm:whitespace-pre">git clone https://github.com/DDS-Solutions/AI-TadPole-OS.git
 cd AI-TadPole-OS</pre>
             </div>
             <div>
-              <div class="text-[10px] text-zinc-400 uppercase tracking-wider font-bold mb-1">2. Build &amp; Verify Runtime</div>
+              <div class="text-[10px] text-zinc-400 uppercase tracking-wider font-bold mb-1">
+                2. Build &amp; Verify Runtime
+              </div>
               <pre class="p-2.5 rounded-lg bg-black border border-white/10 text-cyan-300 overflow-x-auto leading-relaxed max-w-full whitespace-pre-wrap break-all sm:whitespace-pre">npm install
 npm run engine &amp;&amp; npm run dev</pre>
             </div>
@@ -876,9 +886,7 @@ npm run engine &amp;&amp; npm run dev</pre>
     </section>
 
     <!-- CTA -->
-    <section
-      class="py-16 glass-surface rounded-3xl p-8 sm:p-12 text-center space-y-6 border border-emerald-500/20 bg-gradient-to-r from-emerald-500/5 to-cyan-500/5"
-    >
+    <section class="py-16 glass-surface rounded-3xl p-8 sm:p-12 text-center space-y-6 border border-emerald-500/20 bg-gradient-to-r from-emerald-500/5 to-cyan-500/5">
       <h2 class="text-3xl sm:text-4xl font-extrabold text-white font-outfit">
         Ready to Deploy Sovereign Swarms?
       </h2>

@@ -39,11 +39,15 @@ const {
     @click.stop
   >
     <div class="min-w-0 flex flex-wrap items-center gap-2 text-zinc-400">
-      <span id={titleId} class="text-emerald-400 font-bold"
-        >{titleText}</span
-      >
-      <span class="hidden text-zinc-600 sm:inline" aria-hidden="true">|</span>
-      <span class="hidden text-zinc-400 sm:inline">Press Escape or click the backdrop to close</span>
+      <span id={titleId} class="text-emerald-400 font-bold">
+        {titleText}
+      </span>
+      <span class="hidden text-zinc-600 sm:inline" aria-hidden="true">
+        |
+      </span>
+      <span class="hidden text-zinc-400 sm:inline">
+        Press Escape or click the backdrop to close
+      </span>
     </div>
 
     <button

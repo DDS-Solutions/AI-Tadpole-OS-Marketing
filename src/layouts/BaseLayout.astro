@@ -53,7 +53,10 @@ const organizationSchema = {
   "@id": `${siteRootUrl}#organization`,
   name: "DDS Solutions",
   url: "https://github.com/DDS-Solutions",
-  logo: new URL(`${basePath}/assets/brand/tadpole-mark-192.png`, Astro.url.origin).href,
+  logo: new URL(
+    `${basePath}/assets/brand/tadpole-mark-192.png`,
+    Astro.url.origin,
+  ).href,
   sameAs: ["https://github.com/DDS-Solutions/AI-TadPole-OS"],
 };
 
@@ -96,7 +99,9 @@ const softwareApplicationSchema = {
   sameAs: ["https://github.com/DDS-Solutions/AI-TadPole-OS"],
 };
 
-const routeSegment = Astro.url.pathname.replace(basePath, "").replace(/\//g, "");
+const routeSegment = Astro.url.pathname
+  .replace(basePath, "")
+  .replace(/\//g, "");
 const breadcrumbSchema = routeSegment
   ? {
       "@context": "https://schema.org",
@@ -182,16 +187,36 @@ const formattedArticleSchema = articleSchema
     <meta property="og:image:type" content="image/jpeg" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="AI-Tadpole-OS local-first multi-agent runtime" />
+    <meta
+      property="og:image:alt"
+      content="AI-Tadpole-OS local-first multi-agent runtime"
+    />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={socialImageUrl} />
-    <meta name="twitter:image:alt" content="AI-Tadpole-OS local-first multi-agent runtime" />
+    <meta
+      name="twitter:image:alt"
+      content="AI-Tadpole-OS local-first multi-agent runtime"
+    />
     <link rel="canonical" href={canonicalUrl} />
-    <link rel="icon" type="image/png" sizes="48x48" href={`${basePath}/assets/brand/tadpole-mark-48.png`} />
-    <link rel="icon" type="image/png" sizes="96x96" href={`${basePath}/assets/brand/tadpole-mark-96.png`} />
-    <link rel="apple-touch-icon" sizes="192x192" href={`${basePath}/assets/brand/tadpole-mark-192.png`} />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="48x48"
+      href={`${basePath}/assets/brand/tadpole-mark-48.png`}
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="96x96"
+      href={`${basePath}/assets/brand/tadpole-mark-96.png`}
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="192x192"
+      href={`${basePath}/assets/brand/tadpole-mark-192.png`}
+    />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
     <ClientRouter />
@@ -201,23 +226,44 @@ const formattedArticleSchema = articleSchema
       name="ai-intelligence-category"
       content="Local-first multi-agent swarm runtime"
     />
-    <script is:inline type="application/ld+json" set:html={JSON.stringify(organizationSchema)} />
-    <script is:inline type="application/ld+json" set:html={JSON.stringify(webSiteSchema)} />
-    <script is:inline type="application/ld+json" set:html={JSON.stringify(softwareApplicationSchema)} />
+    <script
+      is:inline
+      type="application/ld+json"
+      set:html={JSON.stringify(organizationSchema)}
+    />
+    <script
+      is:inline
+      type="application/ld+json"
+      set:html={JSON.stringify(webSiteSchema)}
+    />
+    <script
+      is:inline
+      type="application/ld+json"
+      set:html={JSON.stringify(softwareApplicationSchema)}
+    />
     {breadcrumbSchema && (
-      <script is:inline type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+      <script
+        is:inline
+        type="application/ld+json"
+        set:html={JSON.stringify(breadcrumbSchema)}
+      />
     )}
     {formattedFaqSchema && (
-      <script is:inline type="application/ld+json" set:html={JSON.stringify(formattedFaqSchema)} />
+      <script
+        is:inline
+        type="application/ld+json"
+        set:html={JSON.stringify(formattedFaqSchema)}
+      />
     )}
     {formattedArticleSchema && (
-      <script is:inline type="application/ld+json" set:html={JSON.stringify(formattedArticleSchema)} />
+      <script
+        is:inline
+        type="application/ld+json"
+        set:html={JSON.stringify(formattedArticleSchema)}
+      />
     )}
-
   </head>
-  <body
-    class="bg-zinc-950 text-zinc-100 font-inter antialiased selection:bg-emerald-500/30 overflow-x-hidden"
-  >
+  <body class="bg-zinc-950 text-zinc-100 font-inter antialiased selection:bg-emerald-500/30 overflow-x-hidden">
     <a
       href="#main"
       class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-lg focus:bg-white focus:px-4 focus:py-3 focus:text-sm focus:font-bold focus:text-zinc-950"
@@ -239,7 +285,7 @@ const formattedArticleSchema = articleSchema
 
       declare global {
         interface Window {
-          Alpine: import("alpinejs").AlpineInstance;
+          Alpine: import("alpinejs").Alpine;
         }
       }
 
@@ -280,7 +326,6 @@ const formattedArticleSchema = articleSchema
         cleanups.push(() => {
           observer.disconnect();
         });
-
       }
 
       function cleanupVisuals() {
@@ -291,12 +336,15 @@ const formattedArticleSchema = articleSchema
       function onPageLoad() {
         setupVisuals();
         if (window.Alpine) {
-          window.Alpine.initTree(document.body);
+          // Alpine manages its own DOM lifecycle on page swaps
         }
       }
 
-      document.addEventListener("astro:page-load", onPageLoad);
-      document.addEventListener("astro:before-swap", cleanupVisuals);
+      if (!(window as any).__PAGE_LISTENERS_BOUND) {
+        (window as any).__PAGE_LISTENERS_BOUND = true;
+        document.addEventListener("astro:page-load", onPageLoad);
+        document.addEventListener("astro:before-swap", cleanupVisuals);
+      }
     </script>
   </body>
 </html>

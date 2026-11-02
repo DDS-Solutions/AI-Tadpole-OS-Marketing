@@ -2,13 +2,13 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import LightboxModal from "../components/ui/LightboxModal.astro";
 import StatusBadge from "../components/ui/StatusBadge.astro";
+import Breadcrumb from "../components/ui/Breadcrumb.astro";
 import { getMissionSlides } from "../data/mission-slides";
 
 const basePath = import.meta.env.BASE_URL.replace(/\/$/, "");
 const assetBaseUrl = `${basePath}/`;
 const slides = getMissionSlides(assetBaseUrl);
 ---
-
 
 <BaseLayout
   title="Mission Runtime Experience | AI-Tadpole-OS Sovereign Protocol"
@@ -21,16 +21,22 @@ const slides = getMissionSlides(assetBaseUrl);
   >
     <!-- Page Header -->
     <header class="text-center space-y-6 max-w-4xl mx-auto">
+      <div>
+        <Breadcrumb current="Mission" />
+      </div>
       <StatusBadge variant="emerald" pulse={true}>
         Inside the Desktop Runtime
       </StatusBadge>
       <h1 class="text-5xl sm:text-7xl lg:text-8xl font-extrabold tracking-tight text-white font-outfit leading-[0.95]">
-        A mission. <span class="bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400 bg-clip-text text-transparent">Every step.</span>
+        A mission.{" "}
+        <span class="bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400 bg-clip-text text-transparent">
+          Every step.
+        </span>
       </h1>
       <p class="text-base sm:text-lg text-zinc-400 font-light leading-relaxed max-w-2xl mx-auto">
-        Follow a mission through six real screenshots of <strong>Tadpole OS</strong>.
-        Explore agent orchestration, execution traces, and human approval controls
-        at your own pace.
+        Follow a mission through six real screenshots of{" "}
+        <strong>Tadpole OS</strong>. Explore agent orchestration, execution
+        traces, and human approval controls at your own pace.
       </p>
     </header>
 
@@ -49,18 +55,23 @@ const slides = getMissionSlides(assetBaseUrl);
       @focusin="setFocusPaused(true)"
       @focusout="setFocusPaused($el.contains($event.relatedTarget))"
     >
-      
       <!-- Top Title & Controls -->
       <div class="flex flex-wrap items-center justify-between gap-4 border-b border-white/10 pb-6">
         <div>
           <div class="flex items-center gap-3">
-            <h2 class="text-2xl font-bold text-white font-outfit">Mission Walkthrough</h2>
+            <h2 class="text-2xl font-bold text-white font-outfit">
+              Mission Walkthrough
+            </h2>
             <span class="px-2.5 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-[10px] font-mono font-bold uppercase tracking-wider">
               6 Real Screenshots
             </span>
           </div>
-          <p id="mission-carousel-help" class="text-xs text-zinc-400 mt-1 font-mono">
-            Use the arrow keys or select a step. Playback pauses while you explore.
+          <p
+            id="mission-carousel-help"
+            class="text-xs text-zinc-400 mt-1 font-mono"
+          >
+            Use the arrow keys or select a step. Playback pauses while you
+            explore.
           </p>
         </div>
 
@@ -73,7 +84,9 @@ const slides = getMissionSlides(assetBaseUrl);
             :class="autoPlay ? 'border-emerald-500/40 bg-emerald-500/10 text-emerald-300' : 'border-white/10 bg-black/40 text-zinc-400'"
             class="px-3.5 py-2 rounded-xl border transition-all flex items-center gap-2 cursor-pointer"
           >
-            <span x-text="autoPlay ? '⏸ Pause Slideshow' : '▶ Auto-Play Slideshow'">▶ Auto-Play Slideshow</span>
+            <span x-text="autoPlay ? '⏸ Pause Slideshow' : '▶ Auto-Play Slideshow'">
+              ▶ Auto-Play Slideshow
+            </span>
           </button>
 
           <!-- Prev/Next -->
@@ -86,7 +99,12 @@ const slides = getMissionSlides(assetBaseUrl);
             >
               ← Prev
             </button>
-            <span class="text-zinc-400 px-2 font-mono" x-text="(currentSlide + 1) + ' / ' + slides.length">1 / 6</span>
+            <span
+              class="text-zinc-400 px-2 font-mono"
+              x-text="(currentSlide + 1) + ' / ' + slides.length"
+            >
+              1 / 6
+            </span>
             <button
               type="button"
               @click="nextSlide()"
@@ -100,7 +118,10 @@ const slides = getMissionSlides(assetBaseUrl);
       </div>
 
       <!-- Slide Nav Tabs -->
-      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2 font-mono text-xs" aria-label="Mission steps">
+      <div
+        class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2 font-mono text-xs"
+        aria-label="Mission steps"
+      >
         {slides.map((slide, idx) => (
           <button
             type="button"
@@ -109,10 +130,14 @@ const slides = getMissionSlides(assetBaseUrl);
             aria-current={idx === 0 ? "step" : undefined}
             aria-label={`Show step ${idx + 1}: ${slide.shortTitle}`}
             :class={`currentSlide === ${idx} ? 'border-emerald-500/60 bg-emerald-500/10 text-white shadow-[0_0_15px_rgba(16,185,129,0.15)] font-bold' : 'border-white/5 bg-black/30 text-zinc-400 hover:border-white/15 hover:text-zinc-200'`}
-            class={`p-3 rounded-xl border text-left transition-all duration-200 space-y-1 cursor-pointer ${idx === 0 ? 'border-emerald-500/60 bg-emerald-500/10 text-white font-bold' : 'border-white/5 bg-black/30 text-zinc-400'}`}
+            class={`p-3 rounded-xl border text-left transition-all duration-200 space-y-1 cursor-pointer ${idx === 0 ? "border-emerald-500/60 bg-emerald-500/10 text-white font-bold" : "border-white/5 bg-black/30 text-zinc-400"}`}
           >
-            <div class="text-[10px] text-zinc-400 uppercase tracking-widest">STEP 0{idx + 1}</div>
-            <div class="text-xs truncate font-outfit font-semibold">{slide.shortTitle}</div>
+            <div class="text-[10px] text-zinc-400 uppercase tracking-widest">
+              STEP 0{idx + 1}
+            </div>
+            <div class="text-xs truncate font-outfit font-semibold">
+              {slide.shortTitle}
+            </div>
           </button>
         ))}
       </div>
@@ -151,7 +176,11 @@ const slides = getMissionSlides(assetBaseUrl);
           </div>
 
           <!-- Progress Bar for Auto Play -->
-          <div x-show="autoPlay" x-cloak class="h-1 bg-zinc-900 rounded-full overflow-hidden border border-white/5">
+          <div
+            x-show="autoPlay"
+            x-cloak
+            class="h-1 bg-zinc-900 rounded-full overflow-hidden border border-white/5"
+          >
             <div
               class="h-full bg-emerald-400 transition-all duration-100 ease-linear"
               :style="'width: ' + autoPlayProgress + '%'"
@@ -173,64 +202,131 @@ const slides = getMissionSlides(assetBaseUrl);
           <div class="space-y-2">
             <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 font-mono text-[10px] uppercase font-bold">
               <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-              <span x-text="slides[currentSlide].badge">Phase 1: Cluster Initialization</span>
+              <span x-text="slides[currentSlide].badge">{slides[0].badge}</span>
             </div>
-            <h3 class="text-2xl font-bold text-white font-outfit" x-text="slides[currentSlide].title">Swarm &amp; Cluster Initialization</h3>
+            <h3
+              class="text-2xl font-bold text-white font-outfit"
+              x-text="slides[currentSlide].title"
+            >
+              {slides[0].title}
+            </h3>
           </div>
 
-          <p class="text-sm text-zinc-300 font-light leading-relaxed" x-text="slides[currentSlide].description">The OS scans active swarm clusters. The Strategic Command cluster is initialized with 60 nodes online and a $100.00 execution budget.</p>
+          <p
+            class="text-sm text-zinc-300 font-light leading-relaxed"
+            x-text="slides[currentSlide].description"
+          >
+            {slides[0].description}
+          </p>
 
           <div class="space-y-3 pt-3 border-t border-white/10 font-mono text-xs">
-            <div class="text-zinc-400 font-bold uppercase text-[10px] tracking-wider">Protocol Verification Metrics</div>
-            
+            <div class="text-zinc-400 font-bold uppercase text-[10px] tracking-wider">
+              Protocol Verification Metrics
+            </div>
+
             <div class="flex flex-wrap justify-between items-center gap-2 py-1.5 border-b border-white/5">
-              <span class="text-zinc-400" x-text="slides[currentSlide].metrics[0].label">Active Swarm Clusters</span>
-              <span class="text-emerald-300 font-bold" x-text="slides[currentSlide].metrics[0].value">4 / 5 Online</span>
+              <span
+                class="text-zinc-400"
+                x-text="slides[currentSlide].metrics[0].label"
+              >
+                {slides[0].metrics[0].label}
+              </span>
+              <span
+                class="text-emerald-300 font-bold"
+                x-text="slides[currentSlide].metrics[0].value"
+              >
+                {slides[0].metrics[0].value}
+              </span>
             </div>
             <div class="flex flex-wrap justify-between items-center gap-2 py-1.5 border-b border-white/5">
-              <span class="text-zinc-400" x-text="slides[currentSlide].metrics[1].label">Swarm Node Density</span>
-              <span class="text-emerald-300 font-bold" x-text="slides[currentSlide].metrics[1].value">60 Nodes</span>
+              <span
+                class="text-zinc-400"
+                x-text="slides[currentSlide].metrics[1].label"
+              >
+                {slides[0].metrics[1].label}
+              </span>
+              <span
+                class="text-emerald-300 font-bold"
+                x-text="slides[currentSlide].metrics[1].value"
+              >
+                {slides[0].metrics[1].value}
+              </span>
             </div>
             <div class="flex flex-wrap justify-between items-center gap-2 py-1.5 border-b border-white/5">
-              <span class="text-zinc-400" x-text="slides[currentSlide].metrics[2].label">Target Workspace</span>
-              <span class="min-w-0 break-all text-emerald-300 font-bold" x-text="slides[currentSlide].metrics[2].value">/opt/tadpole/workspaces/primary-cluster</span>
+              <span
+                class="text-zinc-400"
+                x-text="slides[currentSlide].metrics[2].label"
+              >
+                {slides[0].metrics[2].label}
+              </span>
+              <span
+                class="min-w-0 break-all text-emerald-300 font-bold"
+                x-text="slides[currentSlide].metrics[2].value"
+              >
+                {slides[0].metrics[2].value}
+              </span>
             </div>
           </div>
 
           <div class="p-3.5 rounded-xl bg-zinc-950/80 border border-white/10 font-mono text-xs text-zinc-400 space-y-1">
-            <div class="text-[10px] text-zinc-400 uppercase font-bold">Real Telemetry Log Snippet</div>
-            <div class="text-emerald-400/90 leading-relaxed font-mono text-[11px]" x-html="slides[currentSlide].logSnippet"><span class="text-cyan-400">[INIT]</span> Swarm Cluster Strategic Command mounted. 62 Nodes initialized on port 5173/8000.</div>
+            <div class="text-[10px] text-zinc-400 uppercase font-bold">
+              Real Telemetry Log Snippet
+            </div>
+            <div
+              class="text-emerald-400/90 leading-relaxed font-mono text-[11px]"
+              x-html="slides[currentSlide].logSnippet"
+              set:html={slides[0].logSnippet}
+            />
           </div>
         </div>
       </div>
 
       <noscript>
-        <div class="space-y-8 pt-8 border-t border-white/10" aria-label="Static mission steps overview">
-          <h3 class="text-xl font-bold text-white font-outfit">Complete 6-Phase Mission Walkthrough</h3>
+        <div
+          class="space-y-8 pt-8 border-t border-white/10"
+          aria-label="Static mission steps overview"
+        >
+          <h3 class="text-xl font-bold text-white font-outfit">
+            Complete 6-Phase Mission Walkthrough
+          </h3>
           <div class="grid gap-6">
             {slides.map((slide, idx) => (
               <article class="p-6 rounded-2xl bg-zinc-950/80 border border-white/10 space-y-4">
                 <div class="flex flex-wrap items-center justify-between gap-2 border-b border-white/10 pb-3">
-                  <span class="text-xs font-mono text-emerald-400 font-bold uppercase">{slide.badge}</span>
-                  <span class="text-xs font-mono text-zinc-400">Step 0{idx + 1} / 06</span>
+                  <span class="text-xs font-mono text-emerald-400 font-bold uppercase">
+                    {slide.badge}
+                  </span>
+                  <span class="text-xs font-mono text-zinc-400">
+                    Step 0{idx + 1} / 06
+                  </span>
                 </div>
-                <h4 class="text-xl font-bold text-white font-outfit">{slide.title}</h4>
-                <p class="text-sm text-zinc-300 font-light leading-relaxed">{slide.description}</p>
+                <h4 class="text-xl font-bold text-white font-outfit">
+                  {slide.title}
+                </h4>
+                <p class="text-sm text-zinc-300 font-light leading-relaxed">
+                  {slide.description}
+                </p>
                 <div class="grid sm:grid-cols-3 gap-3 pt-2 text-xs font-mono">
                   {slide.metrics.map((metric) => (
                     <div class="p-2.5 rounded bg-black/60 border border-white/5">
-                      <div class="text-[10px] text-zinc-400 uppercase">{metric.label}</div>
-                      <div class="text-emerald-300 font-bold mt-0.5">{metric.value}</div>
+                      <div class="text-[10px] text-zinc-400 uppercase">
+                        {metric.label}
+                      </div>
+                      <div class="text-emerald-300 font-bold mt-0.5">
+                        {metric.value}
+                      </div>
                     </div>
                   ))}
                 </div>
-                <div class="p-3 rounded bg-zinc-900/90 border border-white/5 text-xs font-mono text-zinc-400" set:html={slide.logSnippet}></div>
+                <div
+                  class="p-3 rounded bg-zinc-900/90 border border-white/5 text-xs font-mono text-zinc-400"
+                  set:html={slide.logSnippet}
+                />
               </article>
             ))}
           </div>
         </div>
       </noscript>
-
     </section>
 
     <!-- LIGHTBOX MODAL FOR FULL RESOLUTION SCREENSHOTS -->
@@ -240,6 +336,5 @@ const slides = getMissionSlides(assetBaseUrl);
       width={1680}
       height={963}
     />
-
   </main>
 </BaseLayout>

@@ -1,8 +1,8 @@
-import fs from 'node:fs';
-import path from 'node:path';
-import { BASE_PATH, SITE_URL } from '../site.config.mjs';
+import fs from "node:fs";
+import path from "node:path";
+import { BASE_PATH, SITE_URL } from "../site.config.mjs";
 
-const distDir = path.resolve('dist');
+const distDir = path.resolve("dist");
 const basePath = BASE_PATH;
 const siteUrl = SITE_URL;
 let errors = 0;
@@ -16,7 +16,11 @@ function fail(message) {
   errors += 1;
 }
 
-function requireCondition(condition, successMessage, failureMessage = successMessage) {
+function requireCondition(
+  condition,
+  successMessage,
+  failureMessage = successMessage,
+) {
   if (condition) pass(successMessage);
   else fail(failureMessage);
 }
@@ -29,80 +33,136 @@ function walkFiles(directory) {
 }
 
 function resolveBuiltReference(reference, currentPage) {
-  const [pathAndQuery, hash = ''] = reference.split('#');
-  const pathname = pathAndQuery.split('?')[0];
+  const [pathAndQuery, hash = ""] = reference.split("#");
+  const pathname = pathAndQuery.split("?")[0];
   let targetPage = currentPage;
 
   if (pathname) {
     if (pathname.startsWith(basePath)) {
-      const relative = pathname.slice(basePath.length).replace(/^\//, '');
-      if (!relative) targetPage = 'index.html';
-      else if (relative.endsWith('/')) targetPage = path.join(relative, 'index.html');
+      const relative = pathname.slice(basePath.length).replace(/^\//, "");
+      if (!relative) targetPage = "index.html";
+      else if (relative.endsWith("/"))
+        targetPage = path.join(relative, "index.html");
       else if (path.extname(relative)) targetPage = relative;
-      else targetPage = path.join(relative, 'index.html');
-    } else if (!pathname.startsWith('/')) {
+      else targetPage = path.join(relative, "index.html");
+    } else if (!pathname.startsWith("/")) {
       const currentDir = path.dirname(currentPage);
       const combined = path.join(currentDir, pathname);
-      if (pathname.endsWith('/')) targetPage = path.join(combined, 'index.html');
+      if (pathname.endsWith("/"))
+        targetPage = path.join(combined, "index.html");
       else if (path.extname(pathname)) targetPage = combined;
-      else targetPage = path.join(combined, 'index.html');
+      else targetPage = path.join(combined, "index.html");
     } else {
       return null;
     }
   }
 
-  return { targetPage: targetPage.replaceAll('/', path.sep), hash };
+  return { targetPage: targetPage.replaceAll("/", path.sep), hash };
 }
 
-console.log('🧪 Starting marketing-site verification...\n');
+console.log("🧪 Starting marketing-site verification...\n");
 
-requireCondition(fs.existsSync(distDir), 'Production build directory exists', 'Missing dist directory; run npm run build first.');
+requireCondition(
+  fs.existsSync(distDir),
+  "Production build directory exists",
+  "Missing dist directory; run npm run build first.",
+);
 if (!fs.existsSync(distDir)) process.exit(1);
 
 const pages = [
-  { name: 'homepage', file: 'index.html' },
-  { name: 'how-it-works', file: 'how-it-works/index.html' },
-  { name: 'mission', file: 'mission/index.html' },
-  { name: 'governance', file: 'governance/index.html' },
-  { name: 'gallery', file: 'gallery/index.html' },
-  { name: '404', file: '404.html' },
+  { name: "homepage", file: "index.html" },
+  { name: "how-it-works", file: "how-it-works/index.html" },
+  { name: "mission", file: "mission/index.html" },
+  { name: "governance", file: "governance/index.html" },
+  { name: "gallery", file: "gallery/index.html" },
+  { name: "404", file: "404.html" },
 ];
 
 const htmlByPage = new Map();
 for (const page of pages) {
   const filePath = path.join(distDir, page.file);
-  requireCondition(fs.existsSync(filePath), `${page.name} route exists`, `Missing route: dist/${page.file}`);
-  if (fs.existsSync(filePath)) htmlByPage.set(page.file, fs.readFileSync(filePath, 'utf8'));
+  requireCondition(
+    fs.existsSync(filePath),
+    `${page.name} route exists`,
+    `Missing route: dist/${page.file}`,
+  );
+  if (fs.existsSync(filePath))
+    htmlByPage.set(page.file, fs.readFileSync(filePath, "utf8"));
 }
 
 for (const page of pages) {
   const html = htmlByPage.get(page.file);
   if (!html) continue;
 
-  requireCondition(html.includes('id="main"'), `${page.name} has a skip-link target`);
-  requireCondition((html.match(/<h1\b/g) ?? []).length === 1, `${page.name} has exactly one h1`);
-  requireCondition(!html.includes('unpkg.com/alpinejs'), `${page.name} bundles Alpine locally`);
-  requireCondition(!html.includes('fonts.googleapis.com') && !html.includes('fonts.gstatic.com'), `${page.name} makes no third-party font request`);
-  requireCondition(!html.includes('/favicon.svg') && !html.includes('program-logo.png'), `${page.name} uses optimized Tadpole brand assets`);
-  requireCondition(html.includes('rel="icon"') && html.includes('assets/brand/tadpole-mark-48.png'), `${page.name} declares a brand favicon`);
-  requireCondition(/rel="canonical" href="[^"]+\/"/.test(html), `${page.name} canonical URL ends with a slash`);
-  requireCondition(html.includes(`"@id":"${siteUrl}#software"`) && html.includes(`"url":"${siteUrl}"`), `${page.name} uses a stable SoftwareApplication identity`);
-  requireCondition(html.includes('og:image:width" content="1200"') && html.includes('og:image:height" content="630"'), `${page.name} declares social-card dimensions`);
+  requireCondition(
+    html.includes('id="main"'),
+    `${page.name} has a skip-link target`,
+  );
+  requireCondition(
+    (html.match(/<h1\b/g) ?? []).length === 1,
+    `${page.name} has exactly one h1`,
+  );
+  requireCondition(
+    !html.includes("unpkg.com/alpinejs"),
+    `${page.name} bundles Alpine locally`,
+  );
+  requireCondition(
+    !html.includes("fonts.googleapis.com") &&
+      !html.includes("fonts.gstatic.com"),
+    `${page.name} makes no third-party font request`,
+  );
+  requireCondition(
+    !html.includes("/favicon.svg") && !html.includes("program-logo.png"),
+    `${page.name} uses optimized Tadpole brand assets`,
+  );
+  requireCondition(
+    html.includes('rel="icon"') &&
+      html.includes("assets/brand/tadpole-mark-48.png"),
+    `${page.name} declares a brand favicon`,
+  );
+  requireCondition(
+    /rel="canonical" href="[^"]+\/"/.test(html),
+    `${page.name} canonical URL ends with a slash`,
+  );
+  requireCondition(
+    html.includes(`"@id":"${siteUrl}#software"`) &&
+      html.includes(`"url":"${siteUrl}"`),
+    `${page.name} uses a stable SoftwareApplication identity`,
+  );
+  requireCondition(
+    html.includes('og:image:width" content="1200"') &&
+      html.includes('og:image:height" content="630"'),
+    `${page.name} declares social-card dimensions`,
+  );
 
   const images = html.match(/<img\b[^>]*>/g) ?? [];
-  requireCondition(images.every((image) => /(?:\s|:)alt=/.test(image)), `${page.name} images have alternative-text attributes`);
-  requireCondition(images.every((image) => /\swidth=/.test(image) && /\sheight=/.test(image)), `${page.name} images reserve layout dimensions`);
+  requireCondition(
+    images.every((image) => /(?:\s|:)alt=/.test(image)),
+    `${page.name} images have alternative-text attributes`,
+  );
+  requireCondition(
+    images.every((image) => /\swidth=/.test(image) && /\sheight=/.test(image)),
+    `${page.name} images reserve layout dimensions`,
+  );
 
   const buttons = html.match(/<button\b[^>]*>/g) ?? [];
-  requireCondition(buttons.every((button) => /\stype="button"/.test(button)), `${page.name} buttons declare type="button"`);
-  requireCondition(!/<[^>]+role="tabpanel"[^>]*x-cloak[^>]*>/.test(html), `${page.name} tab panels remain available without JavaScript`);
+  requireCondition(
+    buttons.every((button) => /\stype="button"/.test(button)),
+    `${page.name} buttons declare type="button"`,
+  );
+  requireCondition(
+    !/<[^>]+role="tabpanel"[^>]*x-cloak[^>]*>/.test(html),
+    `${page.name} tab panels remain available without JavaScript`,
+  );
 
   const referencePattern = /(?<!:)\b(?:href|src)="([^"]+)"/g;
   for (const match of html.matchAll(referencePattern)) {
     const reference = match[1];
     if (/^(?:https?:|mailto:|tel:|data:|javascript:)/.test(reference)) continue;
-    if (reference.startsWith('/') && !reference.startsWith(basePath)) {
-      fail(`${page.name} has root-relative reference missing base path: ${reference}`);
+    if (reference.startsWith("/") && !reference.startsWith(basePath)) {
+      fail(
+        `${page.name} has root-relative reference missing base path: ${reference}`,
+      );
       continue;
     }
 
@@ -114,9 +174,9 @@ for (const page of pages) {
       continue;
     }
 
-    if (resolved.hash && path.extname(targetPath) === '.html') {
-      const targetHtml = fs.readFileSync(targetPath, 'utf8');
-      const escapedHash = resolved.hash.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    if (resolved.hash && path.extname(targetPath) === ".html") {
+      const targetHtml = fs.readFileSync(targetPath, "utf8");
+      const escapedHash = resolved.hash.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
       if (!new RegExp(`id="${escapedHash}"`).test(targetHtml)) {
         fail(`${page.name} links to missing anchor: ${reference}`);
       }
@@ -126,74 +186,139 @@ for (const page of pages) {
 
 requireCondition(
   /<meta\b[^>]*name="robots"[^>]*content="noindex,\s*nofollow"|<meta\b[^>]*content="noindex,\s*nofollow"[^>]*name="robots"/i.test(
-    htmlByPage.get('404.html') ?? '',
+    htmlByPage.get("404.html") ?? "",
   ),
-  '404 route is excluded from indexing',
+  "404 route is excluded from indexing",
 );
-requireCondition(htmlByPage.get('mission/index.html')?.includes('Swarm &amp; Cluster Initialization'), 'Mission default slide is server-rendered');
-requireCondition(htmlByPage.get('how-it-works/index.html')?.includes('Tree-sitter / YAML-rs'), 'Architecture default card is server-rendered');
+requireCondition(
+  htmlByPage
+    .get("mission/index.html")
+    ?.includes("Swarm &amp; Cluster Initialization"),
+  "Mission default slide is server-rendered",
+);
+requireCondition(
+  htmlByPage.get("how-it-works/index.html")?.includes("Tree-sitter / YAML-rs"),
+  "Architecture default card is server-rendered",
+);
 
 const allBuiltFiles = walkFiles(distDir);
-const textExtensions = new Set(['.html', '.js', '.css', '.txt', '.md', '.xml', '.json']);
+const textExtensions = new Set([
+  ".html",
+  ".js",
+  ".css",
+  ".txt",
+  ".md",
+  ".xml",
+  ".json",
+]);
 const publicText = allBuiltFiles
   .filter((file) => textExtensions.has(path.extname(file).toLowerCase()))
-  .map((file) => fs.readFileSync(file, 'utf8'))
-  .join('\n');
+  .map((file) => fs.readFileSync(file, "utf8"))
+  .join("\n");
 
-requireCondition(!/file:\/\/\/|[A-Za-z]:[\\/]Users[\\/]|Home Office_PC|antigravity[\\/]playground/.test(publicText), 'Published files contain no local workstation paths');
-requireCondition(!fs.existsSync(path.join(distDir, 'design.md')) && !fs.existsSync(path.join(distDir, 'DESIGN_SYNERGY.md')), 'Internal design documents are not published');
-requireCondition(!/10k\+ Req\/sec|< 5ms Intercept|< 8ms p99|SOC2 \/ HIPAA Ready|50 Specialist Hours \/ Day|Cost: \$0\.00|500\+ tokens\/sec|< 8ms Nearest Neighbor/.test(publicText), 'Unqualified benchmark and certification claims are absent');
+requireCondition(
+  !/file:\/\/\/|[A-Za-z]:[\\/]Users[\\/]|Home Office_PC|antigravity[\\/]playground|localhost|127\.0\.0\.1|0\.0\.0\.0/.test(
+    publicText,
+  ),
+  "Published files contain no local workstation paths or localhost endpoints",
+);
+requireCondition(
+  !fs.existsSync(path.join(distDir, "design.md")) &&
+    !fs.existsSync(path.join(distDir, "DESIGN_SYNERGY.md")),
+  "Internal design documents are not published",
+);
+requireCondition(
+  !/10k\+ Req\/sec|< 5ms Intercept|< 8ms p99|SOC2 \/ HIPAA Ready|50 Specialist Hours \/ Day|Cost: \$0\.00|500\+ tokens\/sec|< 8ms Nearest Neighbor/.test(
+    publicText,
+  ),
+  "Unqualified benchmark and certification claims are absent",
+);
 
 const requiredAssets = [
-  'assets/brand/tadpole-mark-48.png',
-  'assets/brand/tadpole-mark-96.png',
-  'assets/brand/tadpole-mark-192.png',
-  'assets/brand/ai-tadpole-os-social-card.jpg',
-  'assets/real_os_dashboard.png',
-  'assets/real_os_nodes.png',
-  'assets/real_os_oversight.png',
-  'assets/industry_templates_catalog.png',
-  'assets/real_mission/step1_initial_state.png',
-  'assets/real_mission/step2_neural_proposal.png',
-  'assets/real_mission/step3_execution_started.png',
-  'assets/real_mission/step4_execution_streaming.png',
-  'assets/real_mission/step5_oversight_zero_trust_gate.png',
-  'assets/real_mission/step6_execution_resumed.png',
+  "assets/brand/tadpole-mark-48.png",
+  "assets/brand/tadpole-mark-96.png",
+  "assets/brand/tadpole-mark-192.png",
+  "assets/brand/ai-tadpole-os-social-card.jpg",
+  "assets/real_os_dashboard.png",
+  "assets/real_os_nodes.png",
+  "assets/real_os_oversight.png",
+  "assets/industry_templates_catalog.png",
+  "assets/real_mission/step1_initial_state.png",
+  "assets/real_mission/step2_neural_proposal.png",
+  "assets/real_mission/step3_execution_started.png",
+  "assets/real_mission/step4_execution_streaming.png",
+  "assets/real_mission/step5_oversight_zero_trust_gate.png",
+  "assets/real_mission/step6_execution_resumed.png",
 ];
 for (const asset of requiredAssets) {
-  requireCondition(fs.existsSync(path.join(distDir, asset)), `Asset exists: ${asset}`);
+  requireCondition(
+    fs.existsSync(path.join(distDir, asset)),
+    `Asset exists: ${asset}`,
+  );
 }
 
 const sizeOf = (rel) => {
   const p = path.join(distDir, rel);
   return fs.existsSync(p) ? fs.statSync(p).size : 0;
 };
-const headerMarkBytes = sizeOf('assets/brand/tadpole-mark-96.png');
-const socialCardBytes = sizeOf('assets/brand/ai-tadpole-os-social-card.jpg');
-const totalBuildBytes = allBuiltFiles.reduce((total, file) => total + (fs.existsSync(file) ? fs.statSync(file).size : 0), 0);
-requireCondition(headerMarkBytes > 0 && headerMarkBytes < 50 * 1024, `Header mark is within 50 KiB (${(headerMarkBytes / 1024).toFixed(1)} KiB)`);
-requireCondition(socialCardBytes > 0 && socialCardBytes < 300 * 1024, `Social card is within 300 KiB (${(socialCardBytes / 1024).toFixed(1)} KiB)`);
-requireCondition(totalBuildBytes < 8 * 1024 * 1024, `Deployment artifact is within 8 MiB (${(totalBuildBytes / 1024 / 1024).toFixed(2)} MiB)`);
+const headerMarkBytes = sizeOf("assets/brand/tadpole-mark-96.png");
+const socialCardBytes = sizeOf("assets/brand/ai-tadpole-os-social-card.jpg");
+const totalBuildBytes = allBuiltFiles.reduce(
+  (total, file) => total + (fs.existsSync(file) ? fs.statSync(file).size : 0),
+  0,
+);
+requireCondition(
+  headerMarkBytes > 0 && headerMarkBytes < 50 * 1024,
+  `Header mark is within 50 KiB (${(headerMarkBytes / 1024).toFixed(1)} KiB)`,
+);
+requireCondition(
+  socialCardBytes > 0 && socialCardBytes < 300 * 1024,
+  `Social card is within 300 KiB (${(socialCardBytes / 1024).toFixed(1)} KiB)`,
+);
+requireCondition(
+  totalBuildBytes < 8 * 1024 * 1024,
+  `Deployment artifact is within 8 MiB (${(totalBuildBytes / 1024 / 1024).toFixed(2)} MiB)`,
+);
 
-const sitemapPath = path.join(distDir, 'sitemap.xml');
-requireCondition(fs.existsSync(sitemapPath), 'Generated sitemap exists');
+const sitemapPath = path.join(distDir, "sitemap.xml");
+requireCondition(fs.existsSync(sitemapPath), "Generated sitemap exists");
 if (fs.existsSync(sitemapPath)) {
-  const sitemap = fs.readFileSync(sitemapPath, 'utf8');
-  for (const route of ['', 'how-it-works/', 'mission/', 'governance/', 'gallery/']) {
-    requireCondition(sitemap.includes(`<loc>${siteUrl}${route}</loc>`), `Sitemap includes ${route || 'homepage'}`);
+  const sitemap = fs.readFileSync(sitemapPath, "utf8");
+  for (const route of [
+    "",
+    "how-it-works/",
+    "mission/",
+    "governance/",
+    "gallery/",
+  ]) {
+    requireCondition(
+      sitemap.includes(`<loc>${siteUrl}${route}</loc>`),
+      `Sitemap includes ${route || "homepage"}`,
+    );
   }
-  requireCondition(!sitemap.includes('/404'), 'Sitemap excludes the 404 route');
-  requireCondition(/<lastmod>\d{4}-\d{2}-\d{2}<\/lastmod>/.test(sitemap), 'Sitemap contains generated modification dates');
+  requireCondition(!sitemap.includes("/404"), "Sitemap excludes the 404 route");
+  requireCondition(
+    /<lastmod>\d{4}-\d{2}-\d{2}<\/lastmod>/.test(sitemap),
+    "Sitemap contains generated modification dates",
+  );
 }
 
-const robotsPath = path.join(distDir, 'robots.txt');
-requireCondition(fs.existsSync(robotsPath), 'Generated robots.txt exists');
+const robotsPath = path.join(distDir, "robots.txt");
+requireCondition(fs.existsSync(robotsPath), "Generated robots.txt exists");
 if (fs.existsSync(robotsPath)) {
-  const robots = fs.readFileSync(robotsPath, 'utf8');
-  requireCondition(robots.includes(`Sitemap: ${siteUrl}sitemap.xml`), 'robots.txt points at the configured sitemap URL');
+  const robots = fs.readFileSync(robotsPath, "utf8");
+  requireCondition(
+    robots.includes(`Sitemap: ${siteUrl}sitemap.xml`),
+    "robots.txt points at the configured sitemap URL",
+  );
 }
 
-requireCondition(publicText.includes('Performance, security, and regulatory outcomes depend on deployment configuration'), 'Agent-facing documentation qualifies performance and compliance claims');
+requireCondition(
+  publicText.includes(
+    "Performance, security, and regulatory outcomes depend on deployment configuration",
+  ),
+  "Agent-facing documentation qualifies performance and compliance claims",
+);
 
 // Mathematical WCAG AA Relative Luminance & Contrast Verification (anti-slop standard R-25)
 function srgbToLinear(c) {
@@ -201,11 +326,15 @@ function srgbToLinear(c) {
   return norm <= 0.03928 ? norm / 12.92 : Math.pow((norm + 0.055) / 1.055, 2.4);
 }
 function relativeLuminance(hex) {
-  const clean = hex.replace('#', '');
+  const clean = hex.replace("#", "");
   const r = parseInt(clean.substring(0, 2), 16);
   const g = parseInt(clean.substring(2, 4), 16);
   const b = parseInt(clean.substring(4, 6), 16);
-  return 0.2126 * srgbToLinear(r) + 0.7152 * srgbToLinear(g) + 0.0722 * srgbToLinear(b);
+  return (
+    0.2126 * srgbToLinear(r) +
+    0.7152 * srgbToLinear(g) +
+    0.0722 * srgbToLinear(b)
+  );
 }
 function calculateContrast(hex1, hex2) {
   const l1 = relativeLuminance(hex1);
@@ -216,13 +345,66 @@ function calculateContrast(hex1, hex2) {
 }
 
 const themeContrastPairs = [
-  { name: 'Display & Primary Heading (#f4f4f5 on #09090b)', fg: '#f4f4f5', bg: '#09090b', minRatio: 4.5 },
-  { name: 'Primary Body Text (#d4d4d8 on #09090b)', fg: '#d4d4d8', bg: '#09090b', minRatio: 4.5 },
-  { name: 'Muted Zinc-500 Text (#8f8f99 on #09090b)', fg: '#8f8f99', bg: '#09090b', minRatio: 4.5 },
-  { name: 'Card Surface Copy (#a1ada8 on #18181b)', fg: '#a1ada8', bg: '#18181b', minRatio: 4.5 },
-  { name: 'Primary Button Action (#062018 on #6ee7b7)', fg: '#062018', bg: '#6ee7b7', minRatio: 4.5 },
-  { name: 'Focus Ring Indicator (#10b981 on #09090b)', fg: '#10b981', bg: '#09090b', minRatio: 3.0 },
-  { name: 'Subsystem Cyan Accent (#06b6d4 on #09090b)', fg: '#06b6d4', bg: '#09090b', minRatio: 3.0 },
+  {
+    name: "Display & Primary Heading (#f4f4f5 on #09090b)",
+    fg: "#f4f4f5",
+    bg: "#09090b",
+    minRatio: 4.5,
+  },
+  {
+    name: "Primary Body Text (#d4d4d8 on #09090b)",
+    fg: "#d4d4d8",
+    bg: "#09090b",
+    minRatio: 4.5,
+  },
+  {
+    name: "Muted Zinc-500 Text (#8f8f99 on #09090b)",
+    fg: "#8f8f99",
+    bg: "#09090b",
+    minRatio: 4.5,
+  },
+  {
+    name: "Card Surface Copy (#a1ada8 on #18181b)",
+    fg: "#a1ada8",
+    bg: "#18181b",
+    minRatio: 4.5,
+  },
+  {
+    name: "Primary Button Action (#062018 on #6ee7b7)",
+    fg: "#062018",
+    bg: "#6ee7b7",
+    minRatio: 4.5,
+  },
+  {
+    name: "Focus Ring Indicator (#10b981 on #09090b)",
+    fg: "#10b981",
+    bg: "#09090b",
+    minRatio: 3.0,
+  },
+  {
+    name: "Subsystem Cyan Accent (#06b6d4 on #09090b)",
+    fg: "#06b6d4",
+    bg: "#09090b",
+    minRatio: 3.0,
+  },
+  {
+    name: "Gallery Card Anchor Link (#a1ada8 on #090e0f)",
+    fg: "#a1ada8",
+    bg: "#090e0f",
+    minRatio: 4.5,
+  },
+  {
+    name: "Gallery Search Placeholder (#8f8f99 on #0e1312)",
+    fg: "#8f8f99",
+    bg: "#0e1312",
+    minRatio: 4.5,
+  },
+  {
+    name: "Gallery Chrome Divider (#6b7c76 on #0d1413)",
+    fg: "#6b7c76",
+    bg: "#0d1413",
+    minRatio: 3.0,
+  },
 ];
 
 for (const pair of themeContrastPairs) {
@@ -230,15 +412,17 @@ for (const pair of themeContrastPairs) {
   requireCondition(
     ratio >= pair.minRatio,
     `WCAG AA Contrast PASS: ${pair.name} ratio is ${ratio.toFixed(2)}:1 (>= ${pair.minRatio}:1)`,
-    `WCAG AA Contrast FAIL: ${pair.name} ratio is ${ratio.toFixed(2)}:1 (< ${pair.minRatio}:1)`
+    `WCAG AA Contrast FAIL: ${pair.name} ratio is ${ratio.toFixed(2)}:1 (< ${pair.minRatio}:1)`,
   );
 }
 
-console.log('\n--- VERIFICATION RESULT ---');
+console.log("\n--- VERIFICATION RESULT ---");
 if (errors === 0) {
-  console.log('✅ MARKETING SITE VERIFICATION PASSED');
+  console.log("✅ MARKETING SITE VERIFICATION PASSED");
   process.exit(0);
 }
 
-console.error(`❌ ${errors} verification failure${errors === 1 ? '' : 's'} detected`);
+console.error(
+  `❌ ${errors} verification failure${errors === 1 ? "" : "s"} detected`,
+);
 process.exit(1);

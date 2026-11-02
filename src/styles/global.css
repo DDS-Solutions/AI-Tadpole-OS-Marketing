@@ -14,19 +14,23 @@
 
   /* Subsystem Protocol Accent Tokens */
   --color-emerald-400: #10b981;
-  --color-cyan-400:    #06b6d4;
-  --color-purple-400:  #a855f7;
-  --color-amber-400:   #f59e0b;
-  --color-red-400:     #ef4444;
+  --color-cyan-400: #06b6d4;
+  --color-purple-400: #a855f7;
+  --color-amber-400: #f59e0b;
+  --color-red-400: #ef4444;
   --color-cyber-green: #22c55e;
   --color-neural-pulse: #e4e4e7;
 
   /* Typography */
-  --font-sans:    system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --font-inter:   system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --font-outfit:  system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --font-display: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --font-mono:    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --font-sans:
+    system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-inter:
+    system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-outfit:
+    system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-display:
+    system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 
   /* Glassmorphism & Visual Tokens */
   --blur-neural: 16px;
@@ -42,13 +46,17 @@
 /* Base Styles */
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 7rem;
+  scroll-padding-top: 5.5rem;
   color-scheme: dark;
   --line: rgba(255, 255, 255, 0.09);
 }
 
 body {
-  background-image: radial-gradient(ellipse at 50% 0, rgba(16, 185, 129, 0.025), transparent 50%);
+  background-image: radial-gradient(
+    ellipse at 50% 0,
+    rgba(16, 185, 129, 0.025),
+    transparent 50%
+  );
 }
 
 .section-shell {
@@ -103,7 +111,10 @@ body {
   font-size: 0.8rem;
   font-weight: 550;
   line-height: 1.5;
-  transition: background 180ms, border-color 180ms, box-shadow 180ms;
+  transition:
+    background 180ms,
+    border-color 180ms,
+    box-shadow 180ms;
 }
 
 .button-primary {
@@ -240,7 +251,8 @@ li {
 }
 
 @keyframes slowPulse {
-  0%, 100% {
+  0%,
+  100% {
     color: #ffffff;
     text-shadow: 0 0 10px rgba(52, 211, 153, 0);
   }
@@ -251,7 +263,8 @@ li {
 }
 
 @keyframes neuralPulse {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 0.3;
     filter: drop-shadow(0 0 0px #e4e4e7);
   }
@@ -357,7 +370,9 @@ li {
   font-size: 0.62rem;
   font-family: var(--font-mono);
   cursor: pointer;
-  transition: background 180ms, border-color 180ms;
+  transition:
+    background 180ms,
+    border-color 180ms;
 }
 
 .preview-zoom:hover {
@@ -377,5 +392,18 @@ li {
     min-height: 36px;
     padding: 0.45rem 0.55rem;
     font-size: 0.56rem;
+  }
+}
+
+@media (forced-colors: active) {
+  .glass-surface,
+  .gallery-card,
+  .faq-item,
+  .site-header,
+  .site-footer,
+  .hero-console {
+    border: 1px solid CanvasText !important;
+    background: Canvas !important;
+    color: CanvasText !important;
   }
 }

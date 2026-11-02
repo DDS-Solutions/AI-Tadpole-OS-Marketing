@@ -23,14 +23,14 @@ const {
 >
   <div class="flex items-center justify-between">
     <div class="flex items-center gap-3">
-      <span class="text-3xl" aria-hidden="true">⚠️</span>
+      <span class="text-3xl" aria-hidden="true">
+        ⚠️
+      </span>
       <div>
         <h4 class="font-bold text-amber-300 text-sm font-outfit uppercase">
           {title}
         </h4>
-        <p class="text-xs text-amber-200/80 font-mono">
-          {detail}
-        </p>
+        <p class="text-xs text-amber-200/80 font-mono">{detail}</p>
       </div>
     </div>
   </div>
@@ -47,7 +47,9 @@ const {
     class="min-h-11 px-6 py-2.5 bg-amber-400 hover:bg-amber-300 text-zinc-950 font-bold rounded-lg text-xs font-mono uppercase transition-all duration-200 shadow-md cursor-pointer disabled:cursor-default disabled:opacity-60"
   >
     <span x-show="!approvalPreviewed">{actionText}</span>
-    <span x-show="approvalPreviewed" x-cloak>Reset preview</span>
+    <span x-show="approvalPreviewed" x-cloak>
+      Reset preview
+    </span>
   </button>
   <p
     role="status"

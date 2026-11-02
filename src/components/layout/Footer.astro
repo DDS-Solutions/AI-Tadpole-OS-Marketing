@@ -7,41 +7,51 @@ const year = new Date().getFullYear();
   <div class="section-shell">
     <div class="footer-main">
       <div class="footer-brand">
-        <a href={`${basePath}/`} aria-label="AI-Tadpole-OS home"
-          ><img
+        <a href={`${basePath}/`} aria-label="AI-Tadpole-OS home">
+          <img
             src={`${basePath}/assets/brand/tadpole-mark-96.png`}
             alt=""
             width="96"
             height="96"
             loading="lazy"
             decoding="async"
-          /><span>AI-Tadpole-OS<span class="footer-os"></span></span></a
-        >
+          />
+          <span>
+            AI-Tadpole-OS<span class="footer-os"></span>
+          </span>
+        </a>
         <p>
-          Intelligence on your terms.<br />A local-first runtime for governed AI
-          agents.
+          Intelligence on your terms.
+          <br />A local-first runtime for governed AI agents.
         </p>
       </div>
       <nav aria-label="Footer product navigation">
-        <span>EXPLORE</span><a href={`${basePath}/how-it-works/`}
-          >Architecture</a
-        ><a href={`${basePath}/mission/`}>Mission walkthrough</a><a
-          href={`${basePath}/governance/`}>Governance</a>
+        <span>EXPLORE</span>
+        <a href={`${basePath}/how-it-works/`}>Architecture</a>
+        <a href={`${basePath}/gallery/`}>Screen gallery</a>
+        <a href={`${basePath}/mission/`}>Mission walkthrough</a>
+        <a href={`${basePath}/governance/`}>Governance</a>
       </nav>
       <nav aria-label="Footer resources">
-        <span>BUILD</span><a
-          href="https://github.com/DDS-Solutions/AI-TadPole-OS"
-          >Source on GitHub <span aria-hidden="true">↗</span></a
-        ><a
-          href="https://dds-solutions.github.io/AI-Tadpole-OS-Industry-Templates/"
-          >Agent catalog <span aria-hidden="true">↗</span></a
-        ><a href={`${basePath}/#roadmap`}>Engineering direction</a>
+        <span>BUILD</span>
+        <a href="https://github.com/DDS-Solutions/AI-TadPole-OS">
+          Source on GitHub <span aria-hidden="true">↗</span>
+        </a>
+        <a href="https://dds-solutions.github.io/AI-Tadpole-OS-Industry-Templates/">
+          Agent catalog <span aria-hidden="true">↗</span>
+        </a>
+        <a href={`${basePath}/#roadmap`}>Engineering direction</a>
       </nav>
     </div>
     <div class="footer-bottom">
-      <p>© {year} DDS Solutions · AI-Tadpole-OS</p><span
-        ><span class="status-dot" aria-hidden="true"></span> Built for sovereignty.</span
-      ><a href="#main">Back to top <span aria-hidden="true">↑</span></a>
+      <p>© {year} DDS Solutions · AI-Tadpole-OS</p>
+      <span>
+        <span class="status-dot" aria-hidden="true"></span> Built for
+        sovereignty.
+      </span>
+      <a href="#main">
+        Back to top <span aria-hidden="true">↑</span>
+      </a>
     </div>
   </div>
 </footer>

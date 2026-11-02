@@ -32,7 +32,7 @@ const gallerySchema = {
     type="application/ld+json"
     set:html={JSON.stringify(gallerySchema)}
   />
-  <main id="main" class="gallery-page" x-data="galleryPage">
+  <main id="main" class="gallery-page relative z-10" x-data="galleryPage">
     <!-- Top Hero Section -->
     <section class="gallery-hero" aria-labelledby="gallery-heading">
       <div class="section-shell">
@@ -539,6 +539,8 @@ const gallerySchema = {
   }
 
   .gallery-page {
+    position: relative;
+    z-index: 10;
     background: #080d0e;
     color: #edf4f1;
     min-height: 100vh;

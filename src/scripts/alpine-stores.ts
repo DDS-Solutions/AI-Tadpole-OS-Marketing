@@ -1,5 +1,6 @@
 import { getMissionSlides } from '../data/mission-slides';
 import { architectureNodes } from '../data/architecture-nodes';
+import { GALLERY_ITEMS, type GalleryItem } from '../data/gallery-items';
 import type { AlpineInstance } from 'alpinejs';
 
 // 1. Define a type for Alpine components to improve TypeScript type-safety
@@ -118,6 +119,112 @@ export function registerAlpineComponents(Alpine: AlpineInstance) {
     ...lightboxMixin(),
     init() {
       this.bindLightboxCleanup();
+    },
+  }));
+
+  Alpine.data('galleryPage', () => ({
+    ...lightboxMixin(),
+    activeCategory: 'all',
+    searchQuery: '',
+    viewMode: 'grid' as 'grid' | 'detailed',
+    items: GALLERY_ITEMS as GalleryItem[],
+    activeItemIndex: 0,
+
+    get filteredItems(): GalleryItem[] {
+      const q = this.searchQuery.toLowerCase().trim();
+      return (this.items as GalleryItem[]).filter((item: GalleryItem) => {
+        const matchesCategory =
+          this.activeCategory === 'all' || item.category === this.activeCategory;
+        if (!matchesCategory) return false;
+        if (!q) return true;
+        return (
+          item.title.toLowerCase().includes(q) ||
+          item.subtitle.toLowerCase().includes(q) ||
+          item.description.toLowerCase().includes(q) ||
+          item.route.toLowerCase().includes(q) ||
+          item.badge.toLowerCase().includes(q) ||
+          item.keyFeatures.some((f: string) => f.toLowerCase().includes(q))
+        );
+      });
+    },
+
+    get currentLightboxItem(): GalleryItem | null {
+      const list = this.filteredItems;
+      if (list.length === 0) return null;
+      if (this.activeItemIndex < 0 || this.activeItemIndex >= list.length) {
+        return list[0];
+      }
+      return list[this.activeItemIndex];
+    },
+
+    init() {
+      this.bindLightboxCleanup();
+
+      // Check deep linking hash
+      const hash = window.location.hash.replace(/^#/, '');
+      if (hash) {
+        const foundIdx = (this.items as GalleryItem[]).findIndex((item: GalleryItem) => item.id === hash);
+        if (foundIdx !== -1) {
+          const item = (this.items as GalleryItem[])[foundIdx];
+          if (this.activeCategory !== 'all' && item.category !== this.activeCategory) {
+            this.activeCategory = item.category;
+          }
+          (this as unknown as AlpineComponent).$nextTick(() => {
+            const filteredIdx = this.filteredItems.findIndex((it: GalleryItem) => it.id === hash);
+            this.openGalleryLightbox(filteredIdx !== -1 ? filteredIdx : 0);
+          });
+        }
+      }
+
+      window.addEventListener('keydown', (e: KeyboardEvent) => {
+        if (!this.lightboxOpen) return;
+        if (e.key === 'ArrowRight') {
+          e.preventDefault();
+          this.nextLightbox();
+        } else if (e.key === 'ArrowLeft') {
+          e.preventDefault();
+          this.prevLightbox();
+        }
+      });
+    },
+
+    openGalleryLightbox(index: number) {
+      const list = this.filteredItems;
+      if (index < 0 || index >= list.length) return;
+      this.activeItemIndex = index;
+      const item = list[index];
+      const basePath = import.meta.env.BASE_URL.replace(/\/$/, '');
+      const fullImgUrl = item.image.startsWith('http') ? item.image : `${basePath}${item.image}`;
+      this.openLightbox(fullImgUrl, item.title);
+      history.replaceState(null, '', `#${item.id}`);
+    },
+
+    closeGalleryLightbox() {
+      this.closeLightbox();
+      history.replaceState(null, '', window.location.pathname + window.location.search);
+    },
+
+    nextLightbox() {
+      const list = this.filteredItems;
+      if (list.length <= 1) return;
+      const nextIdx = (this.activeItemIndex + 1) % list.length;
+      this.openGalleryLightbox(nextIdx);
+    },
+
+    prevLightbox() {
+      const list = this.filteredItems;
+      if (list.length <= 1) return;
+      const prevIdx = (this.activeItemIndex - 1 + list.length) % list.length;
+      this.openGalleryLightbox(prevIdx);
+    },
+
+    setCategory(cat: string) {
+      this.activeCategory = cat;
+      this.activeItemIndex = 0;
+    },
+
+    setViewMode(mode: 'grid' | 'detailed') {
+      this.viewMode = mode;
     },
   }));
 

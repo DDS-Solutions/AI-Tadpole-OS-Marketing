@@ -1,16 +1,46 @@
 ---
 const priorities = [
-  { number: "01", title: "A dependable core", detail: "Rust execution, inspectable telemetry, and human approval gates form the foundation." },
-  { number: "02", title: "Context that stays close", detail: "Desktop observability and private memory keep your team connected to agent decisions." },
-  { number: "03", title: "Connected local workflows", detail: "Mesh discovery and coordination support the direction toward work across local nodes." },
-  { number: "04", title: "Deeper governance", detail: "Continued work on audit records, operational controls, and governed multi-agent execution." },
+  {
+    number: "01",
+    title: "Plane 1: Sovereign Engine (GA)",
+    detail: "Production-ready codebase lifecycle engine with Rust Axum runtime, Tree-sitter AST symbol graphs, Active Documentation Guard (ADG v2), and Agent 99 self-annealing.",
+  },
+  {
+    number: "02",
+    title: "Plane 2: SMB Digital Twin (Preview)",
+    detail: "Developer sandbox and scenario previews for small-to-medium business workflows (Shopify, QuickBooks, Gmail) with fail-closed tenant workspace isolation.",
+  },
+  {
+    number: "03",
+    title: "A2A Economic Zone & 2PC Ledger",
+    detail: "Service-to-service payment protocol featuring two-phase commit locks, x402 challenge handshakes, daily budget caps, and asynchronous model reasoning mailboxes.",
+  },
+  {
+    number: "04",
+    title: "Sovereign Compliance & P2P Mesh",
+    detail: "Deterministic regulatory invariant testing (ECC-ID, GxP, ISO 9001, ISO 42001, NIST AI-RMF) paired with decentralized peer discovery and distributed swarm coordination.",
+  },
 ];
 ---
 
 <section id="roadmap" class="roadmap-section" aria-labelledby="roadmap-title">
   <div class="section-shell">
-    <div class="roadmap-intro"><div><span class="eyebrow">Engineering direction</span><h2 id="roadmap-title" class="section-heading">A foundation.<br />Built to go further.</h2></div><p class="section-copy">Follow the work in the open. These focus areas describe the project's direction; the source repository is the reference for available features and releases.</p></div>
-    <ol class="roadmap-grid">{priorities.map((item) => <li><span class="roadmap-number">{item.number}<span aria-hidden="true"></span></span><h3>{item.title}</h3><p>{item.detail}</p></li>)}</ol>
+    <div class="roadmap-intro">
+      <div>
+        <span class="eyebrow">Engineering direction</span>
+        <h2 id="roadmap-title" class="section-heading">A dual-plane roadmap.<br />Built for sovereignty.</h2>
+      </div>
+      <p class="section-copy">Follow the engineering trajectory in the open. Plane 1 delivers active codebase autonomy today; Plane 2 establishes the isolated digital twin infrastructure for tomorrow's enterprise workflows.</p>
+    </div>
+    <ol class="roadmap-grid">
+      {priorities.map((item) => (
+        <li>
+          <span class="roadmap-number">{item.number}<span aria-hidden="true"></span></span>
+          <h3>{item.title}</h3>
+          <p>{item.detail}</p>
+        </li>
+      ))}
+    </ol>
     <a href="https://github.com/DDS-Solutions/AI-TadPole-OS/releases" class="roadmap-link">Explore releases on GitHub <span aria-hidden="true">↗</span></a>
   </div>
 </section>

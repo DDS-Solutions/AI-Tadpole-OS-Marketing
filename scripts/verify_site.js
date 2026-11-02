@@ -64,6 +64,7 @@ const pages = [
   { name: 'how-it-works', file: 'how-it-works/index.html' },
   { name: 'mission', file: 'mission/index.html' },
   { name: 'governance', file: 'governance/index.html' },
+  { name: 'gallery', file: 'gallery/index.html' },
   { name: '404', file: '404.html' },
 ];
 
@@ -178,7 +179,7 @@ const sitemapPath = path.join(distDir, 'sitemap.xml');
 requireCondition(fs.existsSync(sitemapPath), 'Generated sitemap exists');
 if (fs.existsSync(sitemapPath)) {
   const sitemap = fs.readFileSync(sitemapPath, 'utf8');
-  for (const route of ['', 'how-it-works/', 'mission/', 'governance/']) {
+  for (const route of ['', 'how-it-works/', 'mission/', 'governance/', 'gallery/']) {
     requireCondition(sitemap.includes(`<loc>${siteUrl}${route}</loc>`), `Sitemap includes ${route || 'homepage'}`);
   }
   requireCondition(!sitemap.includes('/404'), 'Sitemap excludes the 404 route');
@@ -193,6 +194,45 @@ if (fs.existsSync(robotsPath)) {
 }
 
 requireCondition(publicText.includes('Performance, security, and regulatory outcomes depend on deployment configuration'), 'Agent-facing documentation qualifies performance and compliance claims');
+
+// Mathematical WCAG AA Relative Luminance & Contrast Verification (anti-slop standard R-25)
+function srgbToLinear(c) {
+  const norm = c / 255;
+  return norm <= 0.03928 ? norm / 12.92 : Math.pow((norm + 0.055) / 1.055, 2.4);
+}
+function relativeLuminance(hex) {
+  const clean = hex.replace('#', '');
+  const r = parseInt(clean.substring(0, 2), 16);
+  const g = parseInt(clean.substring(2, 4), 16);
+  const b = parseInt(clean.substring(4, 6), 16);
+  return 0.2126 * srgbToLinear(r) + 0.7152 * srgbToLinear(g) + 0.0722 * srgbToLinear(b);
+}
+function calculateContrast(hex1, hex2) {
+  const l1 = relativeLuminance(hex1);
+  const l2 = relativeLuminance(hex2);
+  const lighter = Math.max(l1, l2);
+  const darker = Math.min(l1, l2);
+  return (lighter + 0.05) / (darker + 0.05);
+}
+
+const themeContrastPairs = [
+  { name: 'Display & Primary Heading (#f4f4f5 on #09090b)', fg: '#f4f4f5', bg: '#09090b', minRatio: 4.5 },
+  { name: 'Primary Body Text (#d4d4d8 on #09090b)', fg: '#d4d4d8', bg: '#09090b', minRatio: 4.5 },
+  { name: 'Muted Zinc-500 Text (#8f8f99 on #09090b)', fg: '#8f8f99', bg: '#09090b', minRatio: 4.5 },
+  { name: 'Card Surface Copy (#a1ada8 on #18181b)', fg: '#a1ada8', bg: '#18181b', minRatio: 4.5 },
+  { name: 'Primary Button Action (#062018 on #6ee7b7)', fg: '#062018', bg: '#6ee7b7', minRatio: 4.5 },
+  { name: 'Focus Ring Indicator (#10b981 on #09090b)', fg: '#10b981', bg: '#09090b', minRatio: 3.0 },
+  { name: 'Subsystem Cyan Accent (#06b6d4 on #09090b)', fg: '#06b6d4', bg: '#09090b', minRatio: 3.0 },
+];
+
+for (const pair of themeContrastPairs) {
+  const ratio = calculateContrast(pair.fg, pair.bg);
+  requireCondition(
+    ratio >= pair.minRatio,
+    `WCAG AA Contrast PASS: ${pair.name} ratio is ${ratio.toFixed(2)}:1 (>= ${pair.minRatio}:1)`,
+    `WCAG AA Contrast FAIL: ${pair.name} ratio is ${ratio.toFixed(2)}:1 (< ${pair.minRatio}:1)`
+  );
+}
 
 console.log('\n--- VERIFICATION RESULT ---');
 if (errors === 0) {

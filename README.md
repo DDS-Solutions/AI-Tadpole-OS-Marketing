@@ -4,11 +4,12 @@
   # 🐸 AI-Tadpole-OS Marketing Hub
   **The high-performance, Astro-powered gateway to the Sovereign Protocol.**
 
-  **Live Website**: [https://dds-solutions.github.io/AI-Tadpole-OS-Marketing/](https://dds-solutions.github.io/AI-Tadpole-OS-Marketing/)
+  **Live Website**: [https://dds-solutions.github.io/AI-Tadpole-OS-Marketing/](https://dds-solutions.github.io/AI-Tadpole-OS-Marketing/) • **Core Engine**: [https://github.com/DDS-Solutions/AI-TadPole-OS](https://github.com/DDS-Solutions/AI-TadPole-OS)
 
   [![Astro](https://img.shields.io/badge/Astro-7.4-zinc?style=for-the-badge&logo=astro&logoColor=FF5D01)](https://astro.build/)
   [![Tailwind](https://img.shields.io/badge/Tailwind-v4-zinc?style=for-the-badge&logo=tailwindcss&logoColor=38B2AC)](https://tailwindcss.com/)
   [![GEO-Ready](https://img.shields.io/badge/GEO-Optimized-emerald?style=for-the-badge&logo=google-cloud&logoColor=white)](#geo-strategy)
+  [![Engine](https://img.shields.io/badge/Engine-v1.1.464-cyan?style=for-the-badge&logo=rust&logoColor=white)](https://github.com/DDS-Solutions/AI-TadPole-OS)
   
   ---
 </div>
@@ -20,6 +21,7 @@ This repository contains the source code for the official **AI-Tadpole-OS** mark
 - **Progressively Enhanced**: Static HTML provides the core content, while Alpine.js and view transitions enhance the interactive experience.
 - **Privacy-Preserving Typography**: Local system font stacks avoid third-party font requests.
 - **Sovereign Dark Theme**: A responsive command-center design with CSS ambient lighting, real product previews, and clear paths through the runtime.
+- **Codebase Screen Gallery**: Comprehensive 26-screen interactive gallery covering all operational sectors, tab headers, and kernel endpoints with full-resolution zoom.
 - **GEO Optimized**: SoftwareApplication JSON-LD and agent-friendly meta tags.
 - **Governance Whitepaper**: Integrated Sovereign Protocol documentation.
 

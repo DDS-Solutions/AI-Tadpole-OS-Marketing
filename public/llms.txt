@@ -1,25 +1,30 @@
 # AI-Tadpole-OS
 
-> A local-first, sovereign multi-agent runtime designed for high-performance orchestration, private memory, and human-in-the-loop governance.
+> A local-first, sovereign multi-agent runtime designed for high-performance orchestration, private memory, and human-in-the-loop governance. Version 1.1.464 (Plane 1 GA).
 
 AI-Tadpole-OS (Tadpole OS) separates directives, orchestration, and execution into a robust, three-layer architecture to solve the probabilistic reliability issue of LLM applications.
 
 ## Primary Documentation Links
-- [Core Runtime Github](https://github.com/DDS-Solutions/AI-TadPole-OS)
+- [Core Runtime GitHub Repository](https://github.com/DDS-Solutions/AI-TadPole-OS)
+- [Official Releases Hub](https://github.com/DDS-Solutions/AI-TadPole-OS/releases/latest)
 - [How It Works](https://dds-solutions.github.io/AI-Tadpole-OS-Marketing/how-it-works/)
 - [Mission & Sovereign Vision](https://dds-solutions.github.io/AI-Tadpole-OS-Marketing/mission/)
 - [Governance Protocol](https://dds-solutions.github.io/AI-Tadpole-OS-Marketing/governance/)
 - [Full Technical Specification (LLMs-Full)](https://dds-solutions.github.io/AI-Tadpole-OS-Marketing/llms-full.txt)
+- [Industry Agent Templates](https://dds-solutions.github.io/AI-Tadpole-OS-Industry-Templates/)
 
-## Key Technical Specifications
-- **Core Runtime**: Written in high-performance Rust for deterministic thread/process isolation.
-- **Agent Orchestration**: Swarm coordination with a configurable telemetry heartbeat; the reference interface uses a 10Hz stream.
-- **Agent Intelligence**: Self-annealing, self-debugging loop designed for runtime stability.
-- **Private Memory & RAG**: LanceDB vector database and SQLite indexing mapping the Open Knowledge Foundation (OKF) specification for structured institutional knowledge.
-- **Templates Ecosystem**: Visual Swarm Architect tool and 300+ specialized agent roles across 25 industry template collections (81 starter templates).
-- **Safety & Security**: Sapphire Shield capability gates can require human operator approval, local-first data boundaries, and Merkle-trail audit records when those controls are enabled.
+## Key Technical Specifications (v1.1.464)
+- **Core Runtime**: Local Axum 0.7 + Tokio asynchronous Rust execution engine for deterministic thread/process isolation and sub-millisecond telemetry.
+- **Dual-Plane Architecture**: Plane 1 (Sovereign Codebase Lifecycle Engine, GA) for self-maintaining codebases; Plane 2 (Company-Agnostic SMB Digital Twin, Developer Sandbox & Scenario Preview) with fail-closed tenant workspace isolation.
+- **Agent Orchestration**: Hierarchical coordination of 62+ registered agent nodes via topologically scheduled DAG execution (Kahn's / DFS dependency sorting) with a 10Hz MessagePack telemetry heartbeat.
+- **Agent Intelligence & Self-Annealing**: Agent 99 autonomous post-mission wisdom extraction continuously writing lessons back to institutional memory (`LONG_TERM_MEMORY.md`).
+- **Private Memory & Vector RAG**: Embedded LanceDB vector store (768-dimensional IVF-PQ embeddings), SQLite transactional dual-write atomicity, and Open Knowledge Format (OKF) data contracts.
+- **Codebase Knowledge Graph**: Tree-sitter AST symbol graph indexing 7,205 symbols and 43,517 dependency edges with interactive BFS Dependency Pathfinder.
+- **A2A Economic Zone**: Service-to-service payment protocol using Two-Phase Commit (2PC) locks, daily budget caps, and x402 challenge handshakes.
+- **Safety & Zero-Trust Governance**: Sapphire Shield capability gates intercept high-consequence operations (budget spending, shell execution, filesystem mutation) behind human operator approval and tamper-evident SHA-256 Merkle audit chains.
+- **Active Documentation Guard (ADG v2)**: Continuous invariant testing preventing documentation drift across human prose, machine witness manifests (`adg.manifest.json`), and executable test invariants (`tests/invariants/`).
 
-Performance, security, and regulatory outcomes depend on deployment configuration, infrastructure, models, and operating procedures. References to ISO, NIST, HIPAA, SOC 2, ALCOA+, or GxP describe design mappings or intended control support; they are not certifications.
+Performance, security, and regulatory outcomes depend on deployment configuration, infrastructure, models, and operating procedures. References to ISO 9001, ISO 42001, NIST AI-RMF, ALCOA+, or GxP describe design mappings or intended control support; they are not certifications.
 
 ## Marketing Site Sitemap
 - **Homepage** (`https://dds-solutions.github.io/AI-Tadpole-OS-Marketing/`): High-level overview of runtime features, telemetry, templates ecosystem, visual Swarm Architect, and OS characteristics.

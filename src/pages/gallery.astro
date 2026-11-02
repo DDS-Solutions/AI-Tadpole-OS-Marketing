@@ -1,0 +1,1177 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { GALLERY_CATEGORIES, GALLERY_ITEMS } from "../data/gallery-items";
+
+const basePath = import.meta.env.BASE_URL.replace(/\/$/, "");
+
+const gallerySchema = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  name: "AI-Tadpole-OS Codebase Screen Gallery",
+  description:
+    "Complete photographic walkthrough of all 26 screens, operational views, and tab headers in AI-Tadpole-OS v1.1.464.",
+  url: `${basePath}/gallery/`,
+  hasPart: GALLERY_ITEMS.map((item) => ({
+    "@type": "ImageObject",
+    name: item.title,
+    caption: item.description,
+    contentUrl: `${basePath}${item.image}`,
+    width: `${item.width} px`,
+    height: `${item.height} px`,
+  })),
+};
+---
+
+<BaseLayout
+  title="Codebase Screen Gallery — Complete UI/UX Walkthrough | AI-Tadpole-OS"
+  description="Exhaustive high-resolution gallery of every screen, operational sector, and tab header in AI-Tadpole-OS v1.1.464 running live on ports 5173 and 8000."
+  keywords="AI-Tadpole-OS gallery, agent swarm UI, operations dashboard screenshots, neural map visualization, sapphire shield governance, desktop runtime screens"
+>
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(gallerySchema)} />
+
+  <main id="main" class="gallery-page" x-data="galleryPage">
+    <!-- Top Hero Section -->
+    <section class="gallery-hero" aria-labelledby="gallery-heading">
+      <div class="section-shell">
+        <nav class="gallery-breadcrumb" aria-label="Breadcrumb">
+          <a href={`${basePath}/`}>Home</a>
+          <span aria-hidden="true">/</span>
+          <span aria-current="page">Gallery</span>
+        </nav>
+
+        <div class="hero-header-row">
+          <div>
+            <span class="eyebrow"><span class="status-dot"></span> Live Runtime Captures · v1.1.464 · 26 Screens</span>
+            <h1 id="gallery-heading" class="gallery-title">
+              Complete Codebase <br /><span class="title-gradient">OS Screen Gallery</span>
+            </h1>
+          </div>
+          <p class="gallery-subtitle">
+            Authentic 1662×905 viewports captured directly from the live React + Tauri desktop runtime on port 5173 and the Rust Axum kernel on port 8000. Inspect every operational sector, neural symbol map, and governance gate.
+          </p>
+        </div>
+
+        <!-- Controls Toolbar -->
+        <div class="gallery-toolbar" role="region" aria-label="Gallery viewing controls">
+          <!-- Search input -->
+          <div class="search-box">
+            <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input
+              type="search"
+              x-model="searchQuery"
+              placeholder="Search screens, routes, features, or stack (e.g. DAG, LanceDB, Rust, Merkle)..."
+              class="search-input"
+              aria-label="Search screens by keyword"
+            />
+            <button
+              type="button"
+              x-show="searchQuery.length > 0"
+              @click="searchQuery = ''"
+              class="search-clear"
+              aria-label="Clear search input"
+            >
+              ✕
+            </button>
+          </div>
+
+          <!-- View Mode Toggle -->
+          <div class="view-mode-toggle" role="group" aria-label="Layout view mode">
+            <button
+              type="button"
+              class="mode-btn"
+              :class="{ 'mode-active': viewMode === 'grid' }"
+              @click="setViewMode('grid')"
+              aria-label="Grid layout view"
+            >
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <rect x="3" y="3" width="7" height="7"></rect>
+                <rect x="14" y="3" width="7" height="7"></rect>
+                <rect x="14" y="14" width="7" height="7"></rect>
+                <rect x="3" y="14" width="7" height="7"></rect>
+              </svg>
+              <span>Grid View</span>
+            </button>
+            <button
+              type="button"
+              class="mode-btn"
+              :class="{ 'mode-active': viewMode === 'detailed' }"
+              @click="setViewMode('detailed')"
+              aria-label="Detailed focus view"
+            >
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <line x1="8" y1="6" x2="21" y2="6"></line>
+                <line x1="8" y1="12" x2="21" y2="12"></line>
+                <line x1="8" y1="18" x2="21" y2="18"></line>
+                <line x1="3" y1="6" x2="3.01" y2="6"></line>
+                <line x1="3" y1="12" x2="3.01" y2="12"></line>
+                <line x1="3" y1="18" x2="3.01" y2="18"></line>
+              </svg>
+              <span>Detailed View</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Category Filter Pills -->
+        <div class="category-pills" role="tablist" aria-label="Screen categories">
+          {GALLERY_CATEGORIES.map((cat) => (
+            <button
+              type="button"
+              role="tab"
+              class="cat-pill"
+              :class={`{ 'cat-active': activeCategory === '${cat.id}' }`}
+              @click={`setCategory('${cat.id}')`}
+              :aria-selected={`activeCategory === '${cat.id}'`}
+            >
+              <span>{cat.label}</span>
+              <span class="cat-count">{cat.countLabel}</span>
+            </button>
+          ))}
+        </div>
+
+        <!-- Filter Results Status -->
+        <div class="results-status" aria-live="polite">
+          <span>Showing <strong x-text="filteredItems.length"></strong> of {GALLERY_ITEMS.length} screens</span>
+          <span x-show="searchQuery.trim().length > 0" class="filter-keyword-badge">
+            matching "<span x-text="searchQuery"></span>"
+          </span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Gallery Grid Section -->
+    <section class="gallery-content-section" aria-label="Screens List">
+      <div class="section-shell">
+        <!-- Empty State -->
+        <div x-show="filteredItems.length === 0" class="gallery-empty-state" style="display: none;">
+          <div class="empty-icon">🔍</div>
+          <h3>No matching screens found</h3>
+          <p>We couldn't find any operational views matching your search terms. Try searching for "DAG", "Rust", "Models", "Oversight", or reset filters.</p>
+          <button type="button" @click="searchQuery = ''; activeCategory = 'all'" class="button-secondary">
+            Reset All Filters
+          </button>
+        </div>
+
+        <!-- Items Display -->
+        <div
+          class="gallery-grid"
+          :class="{ 'detailed-layout': viewMode === 'detailed' }"
+          x-show="filteredItems.length > 0"
+        >
+          <template x-for="(item, index) in filteredItems" :key="item.id">
+            <article class="gallery-card" :id="item.id">
+              <!-- Window Chrome -->
+              <div class="card-chrome">
+                <div class="chrome-dots" aria-hidden="true">
+                  <span></span><span></span><span></span>
+                </div>
+                <div class="chrome-route">
+                  <span class="chrome-os-tag">AI-Tadpole-OS</span>
+                  <span class="chrome-divider">/</span>
+                  <span class="chrome-path" x-text="item.route"></span>
+                </div>
+                <div class="chrome-badge" x-text="item.badge"></div>
+              </div>
+
+              <!-- Screenshot Frame -->
+              <div class="card-media">
+                <img
+                  :src={`item.image.startsWith('http') ? item.image : ('${basePath}' + item.image)`}
+                  :alt="item.title + ' in AI-Tadpole-OS runtime'"
+                  :width="item.width"
+                  :height="item.height"
+                  width="1662"
+                  height="905"
+                  loading="lazy"
+                  decoding="async"
+                />
+                
+                <!-- Zoom Button Overlay -->
+                <button
+                  type="button"
+                  @click="openGalleryLightbox(index)"
+                  class="card-zoom-btn"
+                  :aria-label="'Zoom Full Resolution: ' + item.title"
+                >
+                  <svg width="16" height="16" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                    <path d="M7 3H3v4m10-4h4v4M3 13v4h4m10-4v4h-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                  <span>Zoom Full Resolution</span>
+                </button>
+              </div>
+
+              <!-- Card Content & Descriptions -->
+              <div class="card-body">
+                <div class="card-header">
+                  <div class="card-title-group">
+                    <h2 class="card-title" x-text="item.title"></h2>
+                    <p class="card-subtitle" x-text="item.subtitle"></p>
+                  </div>
+                  <a
+                    :href="'#' + item.id"
+                    class="card-anchor-link"
+                    title="Deep link to this screen"
+                    :aria-label="'Copy anchor link for ' + item.title"
+                  >
+                    #
+                  </a>
+                </div>
+
+                <p class="card-desc" x-text="item.description"></p>
+
+                <!-- Detailed view specifics -->
+                <div class="card-expanded-details" x-show="viewMode === 'detailed'">
+                  <p class="card-deep-details" x-text="item.details"></p>
+                  
+                  <div class="card-features-box">
+                    <span class="features-label">KEY CAPABILITIES</span>
+                    <ul class="features-list">
+                      <template x-for="feat in item.keyFeatures" :key="feat">
+                        <li>
+                          <svg width="12" height="12" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.5" class="feature-check" aria-hidden="true">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                          </svg>
+                          <span x-text="feat"></span>
+                        </li>
+                      </template>
+                    </ul>
+                  </div>
+
+                  <div class="card-stack-tags">
+                    <span class="stack-label">TECH STACK:</span>
+                    <template x-for="tech in item.techStack" :key="tech">
+                      <span class="tech-tag" x-text="tech"></span>
+                    </template>
+                  </div>
+                </div>
+
+                <!-- Footer Action Bar -->
+                <div class="card-footer">
+                  <div class="footer-meta">
+                    <span class="route-badge">
+                      <code>GET <span x-text="item.route"></span></code>
+                    </span>
+                  </div>
+                  <button
+                    type="button"
+                    @click="openGalleryLightbox(index)"
+                    class="footer-zoom-action"
+                  >
+                    <span>Inspect Screen</span>
+                    <span aria-hidden="true">↗</span>
+                  </button>
+                </div>
+              </div>
+            </article>
+          </template>
+        </div>
+      </div>
+    </section>
+
+    <!-- Modal Lightbox Dialog with Zoom & Inspection Controls -->
+    <div
+      role="dialog"
+      aria-modal="true"
+      aria-label="High-resolution screenshot inspection viewer"
+      x-show="lightboxOpen"
+      x-cloak
+      x-ref="dialog"
+      @keydown="trapLightboxFocus($event)"
+      @keydown.escape.window="closeGalleryLightbox()"
+      class="lightbox-overlay"
+      style="display: none;"
+    >
+      <div class="lightbox-backdrop" @click="closeGalleryLightbox()"></div>
+
+      <div class="lightbox-container">
+        <!-- Lightbox Chrome / Control Header -->
+        <div class="lightbox-header">
+          <div class="lightbox-title-area">
+            <span class="lightbox-index" x-text="((activeItemIndex + 1) + ' / ' + filteredItems.length)"></span>
+            <span class="lightbox-title" x-text="currentLightboxItem ? currentLightboxItem.title : ''"></span>
+            <span class="lightbox-route" x-text="currentLightboxItem ? currentLightboxItem.route : ''"></span>
+          </div>
+
+          <div class="lightbox-actions">
+            <!-- Prev Button -->
+            <button
+              type="button"
+              @click="prevLightbox()"
+              class="lightbox-nav-btn"
+              aria-label="Previous screenshot"
+              title="Previous screen (Left Arrow)"
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <polyline points="15 18 9 12 15 6"></polyline>
+              </svg>
+            </button>
+
+            <!-- Next Button -->
+            <button
+              type="button"
+              @click="nextLightbox()"
+              class="lightbox-nav-btn"
+              aria-label="Next screenshot"
+              title="Next screen (Right Arrow)"
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+            </button>
+
+            <!-- Close Button -->
+            <button
+              type="button"
+              x-ref="closeButton"
+              @click="closeGalleryLightbox()"
+              class="lightbox-close-btn"
+              aria-label="Close full resolution screenshot viewer"
+              title="Close (Escape)"
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Lightbox Stage / Image -->
+        <div class="lightbox-stage">
+          <img
+            :src="lightboxImg"
+            :alt="lightboxAlt"
+            alt="Full-resolution screenshot inspection"
+            width="1662"
+            height="905"
+            class="lightbox-image"
+          />
+        </div>
+
+        <!-- Lightbox Caption & Context Drawer -->
+        <template x-if="currentLightboxItem">
+          <div class="lightbox-footer">
+            <div class="footer-desc-col">
+              <h3 x-text="currentLightboxItem.title"></h3>
+              <p class="footer-subtitle" x-text="currentLightboxItem.subtitle"></p>
+              <p class="footer-desc" x-text="currentLightboxItem.description"></p>
+            </div>
+            <div class="footer-meta-col">
+              <div class="footer-key-points">
+                <span class="points-label">VERIFIED HIGHLIGHTS</span>
+                <ul>
+                  <template x-for="point in currentLightboxItem.keyFeatures.slice(0, 3)" :key="point">
+                    <li x-text="point"></li>
+                  </template>
+                </ul>
+              </div>
+              <div class="footer-tech-stack">
+                <template x-for="tech in currentLightboxItem.techStack" :key="tech">
+                  <span class="tech-pill" x-text="tech"></span>
+                </template>
+              </div>
+            </div>
+          </div>
+        </template>
+      </div>
+    </div>
+  </main>
+</BaseLayout>
+
+<style>
+  [x-cloak] { display: none !important; }
+
+  .gallery-page {
+    background: #080d0e;
+    color: #edf4f1;
+    min-height: 100vh;
+    padding-bottom: 7rem;
+  }
+
+  /* Hero Section */
+  .gallery-hero {
+    padding-top: 7.5rem;
+    padding-bottom: 3rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    background: radial-gradient(ellipse at 50% 10%, rgba(16, 185, 129, 0.08), transparent 70%);
+  }
+
+  .gallery-breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: #71807b;
+    margin-bottom: 1.5rem;
+  }
+
+  .gallery-breadcrumb a {
+    color: #a7f3d0;
+    transition: color 150ms;
+  }
+
+  .gallery-breadcrumb a:hover {
+    color: #ffffff;
+  }
+
+  .hero-header-row {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 3rem;
+    align-items: end;
+    margin-bottom: 2.75rem;
+  }
+
+  .gallery-title {
+    font-size: clamp(2.5rem, 5vw, 4.2rem);
+    font-weight: 600;
+    line-height: 1.08;
+    letter-spacing: -0.05em;
+    margin: 0.75rem 0 0;
+    color: #f4f4f5;
+  }
+
+  .title-gradient {
+    background: linear-gradient(110deg, #a7f3d0 0%, #34d399 50%, #06b6d4 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .gallery-subtitle {
+    font-size: 0.95rem;
+    line-height: 1.75;
+    color: #99a7a1;
+    max-width: 32rem;
+    margin: 0;
+  }
+
+  /* Toolbar */
+  .gallery-toolbar {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 1.25rem;
+    align-items: center;
+    margin-bottom: 1.5rem;
+  }
+
+  .search-box {
+    position: relative;
+    display: flex;
+    align-items: center;
+    background: rgba(14, 19, 18, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 8px;
+    padding: 0 0.85rem;
+    transition: border-color 180ms;
+  }
+
+  .search-box:focus-within {
+    border-color: #34d399;
+    box-shadow: 0 0 0 1px #34d39933;
+  }
+
+  .search-icon {
+    color: #71807b;
+    flex-shrink: 0;
+  }
+
+  .search-input {
+    width: 100%;
+    min-height: 44px;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #edf4f1;
+    font-size: 0.85rem;
+    padding: 0 0.65rem;
+  }
+
+  .search-input::placeholder {
+    color: #606d68;
+  }
+
+  .search-clear {
+    background: transparent;
+    border: none;
+    color: #71807b;
+    font-size: 0.85rem;
+    cursor: pointer;
+    padding: 0.4rem;
+    border-radius: 4px;
+  }
+
+  .search-clear:hover {
+    color: #ffffff;
+  }
+
+  /* View Mode Toggle */
+  .view-mode-toggle {
+    display: flex;
+    background: rgba(14, 19, 18, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 8px;
+    padding: 3px;
+  }
+
+  .mode-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: 38px;
+    padding: 0 0.9rem;
+    border-radius: 6px;
+    border: none;
+    background: transparent;
+    color: #71807b;
+    font-size: 0.75rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 180ms;
+  }
+
+  .mode-btn:hover {
+    color: #edf4f1;
+  }
+
+  .mode-active {
+    background: rgba(52, 211, 153, 0.15);
+    color: #a7f3d0;
+    font-weight: 600;
+  }
+
+  /* Category Filter Pills */
+  .category-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .cat-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: 38px;
+    padding: 0.4rem 0.85rem;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(14, 19, 18, 0.6);
+    color: #8d9b97;
+    font-size: 0.75rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 180ms;
+  }
+
+  .cat-pill:hover {
+    color: #edf4f1;
+    border-color: rgba(255, 255, 255, 0.2);
+  }
+
+  .cat-active {
+    background: #10b98122;
+    color: #a7f3d0;
+    border-color: #34d39988;
+    box-shadow: 0 0 15px rgba(16, 185, 129, 0.12);
+  }
+
+  .cat-count {
+    display: inline-block;
+    padding: 0.1rem 0.45rem;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.08);
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+  }
+
+  .cat-active .cat-count {
+    background: #34d39933;
+    color: #34d399;
+  }
+
+  .results-status {
+    font-size: 0.75rem;
+    font-family: var(--font-mono);
+    color: #71807b;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .filter-keyword-badge {
+    color: #34d399;
+  }
+
+  /* Gallery Content */
+  .gallery-content-section {
+    padding-top: 3.5rem;
+  }
+
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 2.5rem 1.8rem;
+  }
+
+  .gallery-grid.detailed-layout {
+    grid-template-columns: 1fr;
+    max-width: 68rem;
+    margin: 0 auto;
+    gap: 3.5rem;
+  }
+
+  /* Gallery Card */
+  .gallery-card {
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 12px;
+    background: #090e0f;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+    overflow: hidden;
+    display: flex;
+    flex-col: column;
+    transition: transform 200ms, border-color 200ms;
+  }
+
+  .gallery-card:hover {
+    border-color: rgba(52, 211, 153, 0.3);
+    transform: translateY(-2px);
+  }
+
+  /* Chrome Header */
+  .card-chrome {
+    height: 2.6rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1rem;
+    background: #0d1413;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+  }
+
+  .chrome-dots {
+    display: flex;
+    gap: 0.35rem;
+  }
+
+  .chrome-dots span {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #3a4743;
+  }
+
+  .chrome-dots span:first-child {
+    background: #5a756c;
+  }
+
+  .chrome-route {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: #8d9b97;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .chrome-os-tag {
+    color: #6ee7b7;
+    font-weight: 600;
+  }
+
+  .chrome-divider {
+    color: #4a5954;
+  }
+
+  .chrome-path {
+    color: #cbd5e1;
+  }
+
+  .chrome-badge {
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    background: rgba(110, 231, 183, 0.08);
+    border: 1px solid rgba(110, 231, 183, 0.15);
+    color: #a7f3d0;
+    font-size: 0.58rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  /* Card Media */
+  .card-media {
+    position: relative;
+    background: #050708;
+    aspect-ratio: 1662 / 905;
+    overflow: hidden;
+  }
+
+  .card-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 300ms ease-out;
+  }
+
+  .card-media:hover img {
+    transform: scale(1.02);
+  }
+
+  .card-zoom-btn {
+    position: absolute;
+    inset: auto 1rem 1rem auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: 38px;
+    padding: 0.5rem 0.9rem;
+    border-radius: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(9, 14, 15, 0.85);
+    backdrop-filter: blur(8px);
+    color: #edf4f1;
+    font-size: 0.75rem;
+    font-weight: 500;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    transition: all 180ms;
+    opacity: 0.9;
+  }
+
+  .card-zoom-btn:hover {
+    background: #34d399;
+    color: #050708;
+    border-color: #34d399;
+    opacity: 1;
+  }
+
+  /* Card Body */
+  .card-body {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: 0.85rem;
+  }
+
+  .card-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .card-title {
+    margin: 0;
+    font-size: 1.15rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: #f4f4f5;
+  }
+
+  .card-subtitle {
+    margin: 0.25rem 0 0;
+    font-size: 0.78rem;
+    color: #34d399;
+    font-family: var(--font-mono);
+  }
+
+  .card-anchor-link {
+    color: #5a6b65;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    text-decoration: none;
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    transition: all 150ms;
+  }
+
+  .card-anchor-link:hover {
+    color: #34d399;
+    background: rgba(52, 211, 153, 0.1);
+  }
+
+  .card-desc {
+    margin: 0;
+    font-size: 0.84rem;
+    line-height: 1.65;
+    color: #99a7a1;
+  }
+
+  /* Expanded Details (Detailed View) */
+  .card-expanded-details {
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .card-deep-details {
+    margin: 0;
+    font-size: 0.82rem;
+    line-height: 1.65;
+    color: #cbd5e1;
+    background: rgba(14, 20, 19, 0.5);
+    padding: 0.75rem 1rem;
+    border-radius: 6px;
+    border-left: 2px solid #34d399;
+  }
+
+  .card-features-box {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .features-label, .stack-label {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.1em;
+    color: #6ee7b7;
+  }
+
+  .features-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.45rem 1rem;
+  }
+
+  .features-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.45rem;
+    font-size: 0.76rem;
+    color: #94a3b8;
+    line-height: 1.45;
+  }
+
+  .feature-check {
+    color: #34d399;
+    flex-shrink: 0;
+    margin-top: 0.15rem;
+  }
+
+  .card-stack-tags {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .tech-tag {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    padding: 0.15rem 0.45rem;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: #cbd5e1;
+  }
+
+  /* Card Footer */
+  .card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    margin-top: auto;
+  }
+
+  .route-badge code {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    color: #71807b;
+  }
+
+  .footer-zoom-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    background: transparent;
+    border: none;
+    color: #34d399;
+    font-size: 0.78rem;
+    font-weight: 550;
+    cursor: pointer;
+    transition: color 150ms;
+  }
+
+  .footer-zoom-action:hover {
+    color: #ffffff;
+  }
+
+  /* Empty State */
+  .gallery-empty-state {
+    text-align: center;
+    padding: 4rem 1rem;
+    background: rgba(14, 20, 19, 0.5);
+    border: 1px dashed rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    max-width: 32rem;
+    margin: 2rem auto;
+  }
+
+  .empty-icon {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .gallery-empty-state h3 {
+    margin: 0 0 0.5rem;
+    font-size: 1.15rem;
+  }
+
+  .gallery-empty-state p {
+    margin: 0 0 1.5rem;
+    font-size: 0.85rem;
+    color: #8d9b97;
+    line-height: 1.65;
+  }
+
+  /* Lightbox Modal */
+  .lightbox-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+  }
+
+  .lightbox-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(4, 7, 7, 0.94);
+    backdrop-filter: blur(14px);
+  }
+
+  .lightbox-container {
+    position: relative;
+    z-index: 101;
+    width: 100%;
+    max-width: 1400px;
+    max-height: 94vh;
+    display: flex;
+    flex-direction: column;
+    background: #090e0f;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    box-shadow: 0 30px 100px rgba(0, 0, 0, 0.8);
+    overflow: hidden;
+  }
+
+  .lightbox-header {
+    height: 3.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1.25rem;
+    background: #0d1514;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    flex-shrink: 0;
+  }
+
+  .lightbox-title-area {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    overflow: hidden;
+  }
+
+  .lightbox-index {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: #34d399;
+    font-weight: 600;
+    padding: 0.2rem 0.5rem;
+    background: rgba(52, 211, 153, 0.1);
+    border-radius: 4px;
+  }
+
+  .lightbox-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #f4f4f5;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+
+  .lightbox-route {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: #71807b;
+  }
+
+  .lightbox-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-shrink: 0;
+  }
+
+  .lightbox-nav-btn, .lightbox-close-btn {
+    min-height: 40px;
+    min-width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    color: #edf4f1;
+    cursor: pointer;
+    transition: all 150ms;
+  }
+
+  .lightbox-nav-btn:hover, .lightbox-close-btn:hover {
+    background: rgba(52, 211, 153, 0.2);
+    color: #34d399;
+    border-color: #34d399;
+  }
+
+  .lightbox-close-btn:hover {
+    background: rgba(239, 68, 68, 0.2);
+    color: #ef4444;
+    border-color: #ef4444;
+  }
+
+  .lightbox-stage {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #040606;
+    overflow: auto;
+    padding: 1rem;
+  }
+
+  .lightbox-image {
+    max-width: 100%;
+    max-height: calc(94vh - 13rem);
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    border-radius: 4px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+  }
+
+  .lightbox-footer {
+    display: grid;
+    grid-template-columns: 1.3fr 0.9fr;
+    gap: 2rem;
+    padding: 1.25rem 1.5rem;
+    background: #0d1514;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    flex-shrink: 0;
+  }
+
+  .footer-desc-col h3 {
+    margin: 0;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: #f4f4f5;
+  }
+
+  .footer-desc-col .footer-subtitle {
+    margin: 0.2rem 0 0.5rem;
+    font-size: 0.75rem;
+    color: #34d399;
+    font-family: var(--font-mono);
+  }
+
+  .footer-desc-col .footer-desc {
+    margin: 0;
+    font-size: 0.82rem;
+    line-height: 1.6;
+    color: #94a3b8;
+  }
+
+  .points-label {
+    font-family: var(--font-mono);
+    font-size: 0.58rem;
+    letter-spacing: 0.1em;
+    color: #6ee7b7;
+    margin-bottom: 0.35rem;
+    display: block;
+  }
+
+  .footer-key-points ul {
+    list-style: disc;
+    padding-left: 1.2rem;
+    margin: 0;
+    font-size: 0.74rem;
+    color: #cbd5e1;
+    line-height: 1.5;
+  }
+
+  .footer-tech-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    margin-top: 0.65rem;
+  }
+
+  .tech-pill {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    padding: 0.15rem 0.45rem;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.06);
+    color: #94a3b8;
+  }
+
+  /* Responsive Adjustments */
+  @media (max-width: 1024px) {
+    .hero-header-row {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+    .features-list {
+      grid-template-columns: 1fr;
+    }
+    .lightbox-footer {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+      max-height: 180px;
+      overflow-y: auto;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .gallery-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .gallery-toolbar {
+      grid-template-columns: 1fr;
+    }
+    .gallery-hero {
+      padding-top: 5.5rem;
+    }
+    .lightbox-overlay {
+      padding: 0.5rem;
+    }
+    .lightbox-image {
+      max-height: 50vh;
+    }
+    .lightbox-route {
+      display: none;
+    }
+  }
+</style>

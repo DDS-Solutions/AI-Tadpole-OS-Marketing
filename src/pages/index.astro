@@ -12,27 +12,32 @@ const homeFaqSchema = [
   {
     question: "What is AI-Tadpole-OS?",
     answer:
-      "AI-Tadpole-OS is a local-first, sovereign multi-agent swarm runtime written in Rust and React (Tauri) that separates human directives, autonomous orchestration, and deterministic execution.",
+      "AI-Tadpole-OS is a local-first, sovereign multi-agent swarm runtime written in Rust (Axum/Tokio) and React 19 (Tauri) released under Plane 1 GA. It deterministically separates human directives, autonomous orchestration, and compiled execution across 62+ registered agents.",
   },
   {
     question: "Does AI-Tadpole-OS require cloud connectivity to operate?",
     answer:
-      "No. The core runtime is local-first by design. It runs on your own hardware with embedded LanceDB vector storage, private memory, and local or self-hosted LLM endpoints, with optional external model routing.",
+      "No. The core runtime is local-first by default. It executes directly on your hardware with embedded LanceDB vector storage (768-dim IVF-PQ), local SQLite indexing, and support for local LLM endpoints (Ollama) or configurable Bring-Your-Own-Key cloud providers.",
   },
   {
-    question: "How does the three-layer architecture improve reliability?",
+    question: "How does the three-layer architecture guarantee deterministic reliability?",
     answer:
-      "By isolating Layer 1 (Directive SOPs in Markdown/YAML), Layer 2 (Orchestration decision-making and self-debugging), and Layer 3 (Deterministic execution scripts), AI-Tadpole-OS prevents cascading probabilistic errors and ensures reliable repeatability.",
+      "By isolating Layer 1 (Directive SOPs in Markdown/YAML specifying strict contracts), Layer 2 (Orchestration decision-making, topological DAG scheduling, and Agent 99 self-annealing), and Layer 3 (Deterministic Rust and Python execution tools), AI-Tadpole-OS stops probabilistic error compounding.",
+  },
+  {
+    question: "What is the Active Documentation Guard (ADG v2)?",
+    answer:
+      "ADG v2 is an automated integrity engine that verifies synchronization across human prose, machine-derived witness manifests (adg.manifest.json), and executable test invariants in tests/invariants/ to eliminate documentation and architectural drift.",
   },
   {
     question: "What is the Sapphire Shield governance system?",
     answer:
-      "Sapphire Shield is a zero-trust capability intercept system that gates high-consequence agent actions (filesystem writes, shell execution, external network calls) behind human operator approval and cryptographic Merkle audit logs.",
+      "Sapphire Shield is a zero-trust capability intercept gate. It flags high-consequence operations (shell commands, budget spending, code mutation) for cryptographic human operator approval before execution, logging immutable SHA-256 Merkle audit chains.",
   },
   {
     question: "What platforms and operating systems are supported?",
     answer:
-      "AI-Tadpole-OS supports Linux, macOS, and Windows 11 with a minimum of 16 GB RAM, 4 CPU cores, and a stable Rust 1.80+ / Node.js 22+ environment.",
+      "AI-Tadpole-OS provides self-contained release bundles for Windows 11 (x64 setup executable), macOS 13+ Universal (Apple Silicon M1-M4 & Intel x86_64 DMG), and Linux (Ubuntu 22.04+ .deb and portable binaries), requiring 16 GB RAM and 4+ CPU cores.",
   },
 ];
 ---

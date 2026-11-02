@@ -291,6 +291,7 @@ try {
     ['how-it-works', `${baseUrl}/how-it-works/`],
     ['mission', `${baseUrl}/mission/`],
     ['governance', `${baseUrl}/governance/`],
+    ['gallery', `${baseUrl}/gallery/`],
     ['404', `${baseUrl}/404.html`],
   ];
 

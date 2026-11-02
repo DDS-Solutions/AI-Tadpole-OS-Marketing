@@ -44,3 +44,59 @@ Browser coverage includes all five routes at 320, 375, 768, 1024, and 1440 pixel
 Desktop and mobile viewport screenshots and full-page captures were visually inspected. The automated checks do not replace an assistive-technology audit or testing on physical mobile devices.
 
 Changes are local to this checkout; publication is separate.
+
+---
+
+## Update: November 2, 2026 (AI-Tadpole-OS v1.1.464 Synchronization)
+
+Synchronized the marketing hub with the live running engine on ports 5173 and 8000, aligning all technical content, links, and assets with [`https://github.com/DDS-Solutions/AI-TadPole-OS`](https://github.com/DDS-Solutions/AI-TadPole-OS):
+
+1. **Live Desktop Captures**:
+   - Captured and updated high-resolution (1662x905) screenshots directly from localhost:5173:
+     - `real_os_dashboard.png`: Operations Command Center (10Hz telemetry, 62 nodes online, 14 active agents, model slots).
+     - `real_os_nodes.png`: Neural Map & AST Symbols Graph (7,205 symbols, 43,517 edges, BFS Dependency Pathfinder).
+     - `real_os_oversight.png`: Sapphire Shield Action Ledger & Zero-Trust HITL gate.
+     - `industry_templates_catalog.png`: Industry Template Store (25 collections, 81 starter templates).
+     - `real_os_missions.png`: Missions Board & Swarm Telemetry Kanban.
+     - `real_os_security.png`: Zero-Trust Security Perimeter & Privacy Shield.
+     - `real_os_hierarchy.png`: Swarm Hierarchy Org Chart.
+     - `engine_health_api.png`: Axum Tokio Rust Kernel (`http://localhost:8000/v1/engine/health`).
+2. **Component & Gallery Expansion**:
+   - Expanded `ScreenshotGallery.astro` into a 6-surface command-center gallery with individual modal lightbox zoom and responsive layout.
+   - Enhanced `Hero.astro` with download links to release assets (`v1.1.464`), dual-plane GA status, and updated foundation pillars.
+   - Refined `Roadmap.astro` to reflect Plane 1 GA, Plane 2 SMB Digital Twin preview, A2A Economic Zone, and Sovereign Compliance.
+   - Updated `ArchitectureLayers.astro` and `architecture-nodes.ts` with exact Tree-sitter, Axum 0.7, LanceDB IVF-PQ, and Sapphire Shield specifications.
+3. **Specification & GEO Compliance**:
+   - Synchronized `BaseLayout.astro` softwareVersion (`1.1.464`) and release download metadata.
+   - Updated `public/llms.txt` and `public/llms-full.txt` to serve comprehensive technical architectures to AI agents and web crawlers.
+4. **Verification**:
+   - `npm run check`: 35 files checked; 0 errors, 0 warnings, 0 hints.
+   - `npm run typecheck`: TypeScript passed (`tsc --noEmit`).
+   - `npm run build`: Static build (6 routes) and sitemap generation succeeded.
+   - `npm run test:built`: Unit, static verification, and full browser test suite passed across all 6 routes and 5 viewport sizes.
+
+---
+
+## Update: November 2, 2026 (Comprehensive 26-Screen Codebase Gallery)
+
+Built and launched the complete Codebase Screen Gallery (`src/pages/gallery.astro`) capturing every operational view, tab header, and kernel probe in the running Tadpole OS v1.1.464:
+
+1. **Complete Screen Inventory (26 High-Resolution Captures)**:
+   - **Core Operations**: Operations Command Center (`/dashboard`), Swarm Hierarchy (`/org-chart`), Missions Board (`/missions`), Missions Flight Recorder (`/missions?view=history`), SMB Practice Digital Twin (`/smb-practice`), Scheduled Jobs (`/scheduled-jobs`).
+   - **Governance & Security**: Sapphire Shield Oversight & Action Ledger (`/oversight`), Zero-Trust Security & Privacy Shield (`/security`).
+   - **Intelligence & Store**: Model Providers & Vault (`/models`), Intelligence Model Store (`/infra/model-store`), Industry Templates Store (`/store`), MCP Connectors Registry (`/mcp-store`), Customer Catalog & A2A Gateway (`/customer-catalog`), Neural AST Map (`/intelligence/map`), Swarm Agents Directory (`/agents`), Skills & Tools Matrix (`/skills`).
+   - **Comms & Workspaces**: Voice Interface & Standups Hub (`/standups`), Workspaces & File System (`/workspaces`).
+   - **Engine & System**: Sovereign Axum Engine Telemetry (`/engine`), Performance Benchmarks (`/benchmarks`), Dual-Trace Analytics (`/analytics`), System Docs (`/docs`), OS Settings (`/settings`), Detached Swarm Pulse (`/detached/swarm-pulse`), Detached Sovereign Chat (`/detached/chat`), Axum Rust Kernel `/v1/engine/health` API probe.
+2. **Interactive UI/UX Controls & Inspection**:
+   - **Search Filter**: Real-time keyword filter across titles, descriptions, routes, key features, and tech stack tags.
+   - **Category Filters**: Pills with live count indicators for All (26), Core Operations (6), Governance & Security (2), Intelligence & Store (8), Comms & Workspaces (2), and Engine & System (8).
+   - **Layout Mode Toggle**: Responsive 2-column Grid View vs Detailed Focus View (with full capabilities checklist and tech stack tags).
+   - **Zoom Lightbox Modal**: High-resolution image viewer with keyboard navigation (Escape, Left/Right arrows), deep anchor linking (`#dashboard`, `#oversight`, etc.), focus trapping, and context drawer.
+3. **Global Navigation & Linking**:
+   - Added `Gallery` to the desktop header menu, mobile drawer menu, homepage hero CTA, and screenshot section CTA.
+4. **Verification**:
+   - `npm run check`: 35 Astro files checked; 0 errors, 0 warnings, 0 hints.
+   - `npm run typecheck`: TypeScript passed (`tsc --noEmit`).
+   - `npm run build`: 6 static routes generated; sitemap.xml generated with 5 indexed routes.
+   - `npm run test:built`: All unit tests, static checks, and browser CDP tests passed with 0 runtime errors. Total deployment size is 6.03 MiB, safely within the 8 MiB budget.
+

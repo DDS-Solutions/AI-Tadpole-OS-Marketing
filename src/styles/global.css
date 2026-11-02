@@ -145,7 +145,7 @@ body {
   height: 5px;
   border-radius: 50%;
   background: #6ee7b7;
-  box-shadow: 0 0 8px #6ee7b74d;
+  box-shadow: 0 0 6px rgba(110, 231, 183, 0.3);
 }
 
 .subpage {

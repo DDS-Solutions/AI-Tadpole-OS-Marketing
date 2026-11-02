@@ -17,21 +17,22 @@ export const architectureNodes: Record<string, ArchitectureNode> = {
   directive: {
     icon: "📜",
     title: "Directives SOP",
-    subTitle: "Layer 1: Instruction Set",
+    subTitle: "Layer 1: Deterministic Intent",
     badge: "INPUT_LAYER",
     description:
-      "The entry point of the sovereign engine. Directives are authored in Markdown and YAML, ensuring that business logic is human-readable but machine-executable. The engine parses these into a directed acyclic graph (DAG) of tasks.",
+      "The entry point of the sovereign engine. Directives are authored in Markdown and YAML, ensuring that business logic is human-readable and machine-executable. The engine parses these into topologically sorted directed acyclic graphs (DAGs) of tasks.",
     specs: [
       { label: "Parsing Engine", val: "Tree-sitter / YAML-rs" },
-      { label: "Validation", val: "Schema-Strict" },
-      { label: "Hot-Reload", val: "Instant (FS-Watch)" },
-      { label: "Control Mapping", val: "Deployment-Dependent" },
+      { label: "Validation", val: "Strict Schema Invariants" },
+      { label: "Hot-Reload", val: "Instant (ReadDirectoryChangesW / inotify)" },
+      { label: "Dual-Plane Mapping", val: "Plane 1 Engine / Plane 2 SMB" },
     ],
     code: `struct Directive {
   id: Uuid,
   sop_version: String,
+  plane: ExecutionPlane,
   parameters: HashMap<String, Value>,
-  constraints: Vec<Constraint>,
+  invariants: Vec<SecurityInvariant>,
 }`,
   },
   orchestration: {
@@ -40,70 +41,71 @@ export const architectureNodes: Record<string, ArchitectureNode> = {
     subTitle: "Layer 2: Intelligence Orchestration",
     badge: "LOGIC_LAYER",
     description:
-      "The brain of the operation. Agent 99 evaluates the Directive and routes the request to the optimal model slot. It manages the Swarm Hierarchy, deciding when to spawn sub-agents or call for human intervention.",
+      "The sovereign brain. Agent 99 evaluates directives, coordinates the 62-node agent roster, routes tasks across primary/secondary/tertiary model slots, and executes autonomous self-annealing to extract architectural wisdom into institutional memory.",
     specs: [
-      { label: "Routing Logic", val: "Semantic Intent Mapping" },
-      { label: "Fallback Chain", val: "Tri-Slot Redundancy" },
-      { label: "Concurrency", val: "Tokio Multi-threaded" },
-      { label: "State Mgmt", val: "Redis / In-Memory" },
+      { label: "Routing Logic", val: "Semantic Intent & DAG Sorting" },
+      { label: "Model Fallback", val: "Tri-Slot Redundancy (BYOK / Ollama)" },
+      { label: "A2A Settlement", val: "Two-Phase Commit (2PC) Ledger" },
+      { label: "Self-Annealing", val: "Institutional Memory Extraction" },
     ],
     code: `enum RoutingStrategy {
   LowLatency(Slot1),
   HighReasoning(Slot2),
   MassiveContext(Slot3),
   HumanInLoop(SapphireShield),
+  EconomicZone(A2ELedger),
 }`,
   },
   execution: {
     icon: "⚙️",
-    title: "Rust Core Engine",
+    title: "Axum Rust Core",
     subTitle: "Layer 3: High-Performance Runtime",
     badge: "EXECUTION_LAYER",
     description:
-      "Built with Axum and Tokio, the execution engine handles asynchronous task processing using Rust's memory-safety model. Throughput depends on hardware, workload, model latency, and tool configuration.",
+      "Built with Axum 0.7 and Tokio, the execution engine handles asynchronous swarm concurrency with sub-millisecond telemetry. It runs deterministic Python/Rust tools with strict process sandboxing and fast-fail state validation.",
     specs: [
-      { label: "Runtime", val: "Tokio Async" },
-      { label: "Web Framework", val: "Axum 0.7" },
-      { label: "Throughput", val: "Benchmark per Deployment" },
-      { label: "Memory", val: "Zero-Copy Deserialization" },
+      { label: "Async Runtime", val: "Tokio Multi-Threaded" },
+      { label: "Web Framework", val: "Axum 0.7 Engine" },
+      { label: "Telemetry Pipeline", val: "10Hz MessagePack Stream" },
+      { label: "Persistence", val: "Transactional SQLite Atomicity" },
     ],
-    code: `async fn execute_task(task: Task) -> Result<Output, Error> {
+    code: `async fn execute_task(task: Task) -> Result<Output, AppError> {
   let handle = tokio::spawn(async move {
-    engine.process(task).await
+    engine.process_sandboxed(task).await
   });
-  handle.await
+  handle.await?
 }`,
   },
   governance: {
     icon: "🛡️",
     title: "Sapphire Shield",
-    subTitle: "Governance & Security",
+    subTitle: "Zero-Trust Governance & ADG v2",
     badge: "TRUST_LAYER",
     description:
-      "The zero-trust gatekeeper. Sapphire Shield intercepts any high-risk tool calls (e.g., file deletion, fund transfer) and triggers a WebSocket event to the Human-In-The-Loop (HITL) dashboard for cryptographically signed approval.",
+      "The zero-trust gatekeeper. Sapphire Shield intercepts high-consequence capability requests (filesystem mutation, budget spend, shell execution) and routes them to the human operator for cryptographically verified approval with SHA-256 Merkle audit chains.",
     specs: [
-      { label: "Auth Protocol", val: "Merkle-Proof Signed" },
-      { label: "Gate Type", val: "Hard Privacy Gate" },
-      { label: "Audit Log", val: "OBLITERATUS Ledger" },
-      { label: "Latency", val: "Environment-Dependent" },
+      { label: "Auth Protocol", val: "Merkle-Proof Signed Receipts" },
+      { label: "Gate Type", val: "Zero-Trust Capability Intercept" },
+      { label: "Integrity Engine", val: "Active Doc Guard (ADG v2)" },
+      { label: "Fail-Closed Gate", val: "FR-11 Multi-Tenant Isolation" },
     ],
-    code: `fn verify_governance(proof: MerkleProof) -> bool {
-  let root = state.get_root();
-  proof.verify(root, current_transaction)
+    code: `fn verify_governance(proof: &MerkleProof, tx: &Transaction) -> bool {
+  let root = state.get_audit_root();
+  proof.verify(root, tx.digest())
 }`,
   },
   memory: {
     icon: "💾",
-    title: "LanceDB GraphRAG",
+    title: "LanceDB & OKF Vault",
     subTitle: "Long-Term Sovereign Memory",
     badge: "DATA_LAYER",
     description:
-      "A serverless vector database that combines Graph structures with RAG. It allows the swarm to remember preferences, historical outcomes, and complex entity relationships across millions of documents.",
+      "Embedded vector database paired with relational metadata indexing the Open Knowledge Format (OKF) specification. Combines 768-dimensional IVF-PQ embeddings with Tree-sitter AST symbol graphs and $O(N)$ linear context compaction.",
     specs: [
-      { label: "Indexing", val: "IVF-PQ" },
-      { label: "Embeddings", val: "768-dim (text-004)" },
-      { label: "Query Speed", val: "Benchmark per Index" },
-      { label: "Storage", val: "Disk-native / S3" },
+      { label: "Vector Store", val: "LanceDB (768-dim, IVF-PQ)" },
+      { label: "Code Graph", val: "Tree-sitter AST (7k+ symbols)" },
+      { label: "Compactor", val: "O(N) Linear Context Filter" },
+      { label: "Dual-Write", val: "Atomic SQLite + LanceDB" },
     ],
     code: `let table = lancedb.open_table("sovereign_mem")
   .search(query_vector)

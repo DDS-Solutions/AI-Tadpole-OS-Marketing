@@ -1,6 +1,6 @@
 # AI-Tadpole-OS: Complete Technical Architecture & Protocol Specification
 
-> Sovereign, local-first multi-agent swarm runtime engineered in Rust and React (Tauri). Designed for deterministic execution, private memory, and cryptographic human-in-the-loop oversight.
+> Sovereign, local-first multi-agent swarm runtime engineered in Rust and React 19 (Tauri). Designed for deterministic execution, private vector memory, and cryptographic human-in-the-loop oversight. Version 1.1.464 (Plane 1 GA).
 
 ---
 
@@ -9,13 +9,22 @@
 Most LLM application frameworks fail in production due to compounded probabilistic error: if each autonomous step is 90% accurate, a 5-step workflow yields only 59% accuracy. 
 
 AI-Tadpole-OS solves this mismatch by separating business logic into three distinct architectural layers:
-1. **Layer 1: Directive (Intent)** — SOPs authored in Markdown and YAML specifying task goals, schema contracts, and boundary conditions.
-2. **Layer 2: Orchestration (Decision-Making)** — An autonomous reasoning loop responsible for task decomposition, tool routing, error diagnosis, and self-annealing.
-3. **Layer 3: Execution (Deterministic Code)** — Compiled, deterministic Rust and Python scripts handling file operations, API invocations, and database queries.
+1. **Layer 1: Directive (Intent)** — SOPs authored in Markdown and YAML specifying task goals, schema contracts, and boundary conditions across dual execution planes.
+2. **Layer 2: Orchestration (Decision-Making)** — An autonomous reasoning loop responsible for task decomposition, topological DAG scheduling (Kahn's/DFS sorting), tool routing, error diagnosis, and Agent 99 self-annealing.
+3. **Layer 3: Execution (Deterministic Code)** — Compiled, deterministic Rust (Axum 0.7 + Tokio) and Python scripts handling file operations, API invocations, and database queries with sub-millisecond telemetry.
 
 ---
 
-## 2. Five Architectural Subsystems
+## 2. Dual-Plane Sovereign Hierarchy
+
+*Governed by `directives/IDENTITY.md`, AI-Tadpole-OS enforces a dual-plane operating hierarchy:*
+
+- **Plane 1: Sovereign Codebase Lifecycle Engine (`Engine-Maintenance`, GA)**: Recursively knows, operates, diagnoses, fixes, maintains, and improves the `AI-Tadpole-OS` codebase over time using Tree-sitter AST Symbol Graphs, Active Documentation Guard (ADG v2), and Agent 99 self-annealing into institutional memory (`LONG_TERM_MEMORY.md`).
+- **Plane 2: Company-Agnostic SMB AI Digital Twin (`SMB-Digital-Twin`, Developer Sandbox & Scenario Preview)**: Virtual employee blueprints (Shopify, QuickBooks, Gmail synthetic preview) governed by FR-11 fail-closed security policies until multi-tenant backend isolation is deployed.
+
+---
+
+## 3. Seven Architectural Subsystems
 
 ### Subsystem 1: Directive Parsing & Schema Validation
 - **Engine**: Tree-sitter / YAML-rs parser with strict schema validation.
@@ -25,41 +34,79 @@ AI-Tadpole-OS solves this mismatch by separating business logic into three disti
 ### Subsystem 2: Swarm Orchestrator & Telemetry
 - **Runtime**: Tokio asynchronous multi-threaded task scheduler.
 - **Telemetry Stream**: 10Hz heartbeat interval transmitting MessagePack frames over local WebSockets.
-- **Routing**: Capability-based agent discovery supporting specialized roles across 25 industry domains.
+- **Routing**: Capability-based agent discovery supporting 62+ registered agent nodes across 25 industry domains (81 starter templates, 223+ specialized roles).
 
 ### Subsystem 3: Deterministic Execution Engine
 - **Isolation**: Process-level sandboxing with strict stdout/stderr capture and monotonic resource limits.
 - **Self-Annealing**: 3-stage automated repair loop on runtime exceptions; circuit-breaker halts execution and alerts human operator after 3 consecutive fix failures.
-- **Environment**: Secret-protected environment configuration with strict redaction.
+- **Environment**: Secret-protected environment configuration with strict OBLITERATUS redaction.
 
 ### Subsystem 4: Sapphire Shield Governance & HITL Gates
-- **Capability Interception**: High-consequence actions (shell commands, file modifications, network egress) trigger zero-trust suspension gates.
+- **Capability Interception**: High-consequence actions (shell commands, budget spending, code mutation) trigger zero-trust suspension gates.
 - **Operator Review**: Detachable oversight portal presenting human operators with diff previews, rationale, and binary approve/reject controls.
 - **Audit Trails**: SHA-256 Merkle-tree event hashing producing tamper-evident decision ledgers.
 
 ### Subsystem 5: Private Memory & Knowledge Vault
-- **Vector Search**: Embedded LanceDB vector store utilizing 768-dimensional embeddings for sub-millisecond similarity queries.
-- **Relational Metadata**: SQLite database mapping Open Knowledge Foundation (OKF) data packages.
+- **Vector Search**: Embedded LanceDB vector store utilizing 768-dimensional IVF-PQ embeddings for sub-millisecond similarity queries.
+- **Relational Metadata**: SQLite database mapping Open Knowledge Format (OKF) data packages with transactional dual-write atomicity.
 - **GraphRAG**: Breadth-First Search (BFS) graph traversal connecting related documentation nodes without third-party cloud data egress.
+- **Linear Compactor**: $O(N)$ linear dialogue context filter eliminating quadratic CPU overhead during extended sessions.
+
+### Subsystem 6: Codebase Knowledge Graph & AST Analysis
+- **Graph Engine**: Tree-sitter AST parser indexing 7,205 symbols and 43,517 dependency edges.
+- **Pathfinder**: BFS Dependency Pathfinder computing shortest call and dependency traces between symbols.
+- **HUD View Modes**: Monochromatic Zinc theme toggle between Codebase Symbols Graph and Semantic OKF Graph with status-mapped semantic lighting.
+
+### Subsystem 7: Agent-to-Agent (A2A) Economic Zone
+- **Settlement Protocol**: Service-to-service payment protocol using a Two-Phase Commit (2PC) ledger (prepare, commit, rollback locks).
+- **Spending Caps**: Configurable daily budget limits per economic zone.
+- **Challenges**: Standard x402 challenge protocol and asynchronous A2A mailboxes preserving reasoning traces and file artifacts.
 
 ---
 
-## 3. System Requirements & Quickstart
+## 4. Active Documentation Guard (ADG v2)
 
-- **Operating System**: Linux (Ubuntu 22.04+), macOS (13+ Apple Silicon or Intel), Windows 11.
-- **Toolchains**: Rust 1.80+ (Stable Cargo), Node.js >= 22.0.0.
+The Active Documentation Guard enforces deterministic 3-layer claim governance:
+1. **Layer 1: Human Prose Claims** — Standardized docstrings and technical descriptions.
+2. **Layer 2: Machine Witness Manifest** — Machine-derived `adg.manifest.json` mapping symbols, files, and invariants.
+3. **Layer 3: Executable Invariant Tests** — Automated test suites in `tests/invariants/` validating architectural constraints before builds succeed.
+
+---
+
+## 5. System Requirements & Quickstart
+
+- **Operating System**: Linux (Ubuntu 22.04+), macOS 13+ (Apple Silicon M1-M4 & Intel x86_64), Windows 11.
+- **Toolchains**: Rust 1.99+ (Stable Cargo), Node.js >= 22.0.0, npm 10+.
 - **Hardware Profile**: 16 GB+ RAM, 4+ CPU cores.
 
 ```bash
-# Clone and verify the sovereign runtime
+# Clone the sovereign runtime repository
 git clone https://github.com/DDS-Solutions/AI-TadPole-OS.git
 cd AI-TadPole-OS
-cargo check
-cargo build --release
+
+# Install dependencies
+npm install
+
+# Option A: Launch full stack via startup script (Windows)
+./start_tadpole.bat
+
+# Option B: Launch kernel and UI independently
+npm run engine   # Axum Tokio Rust Kernel (Port 8000)
+npm run dev      # React Tauri Dashboard UI (Port 5173)
 ```
 
 ---
 
-## 4. Compliance & Performance Qualification
+## 6. Official Resources & Repositories
 
-Performance, security, and regulatory outcomes depend on deployment configuration, infrastructure, models, and operating procedures. References to ISO, NIST, HIPAA, SOC 2, ALCOA+, or GxP describe design mappings or intended control support; they are not certifications.
+- **Core Engine Repository**: [https://github.com/DDS-Solutions/AI-TadPole-OS](https://github.com/DDS-Solutions/AI-TadPole-OS)
+- **Releases & Binary Assets**: [https://github.com/DDS-Solutions/AI-TadPole-OS/releases/latest](https://github.com/DDS-Solutions/AI-TadPole-OS/releases/latest)
+- **Marketing & Architecture Hub**: [https://dds-solutions.github.io/AI-Tadpole-OS-Marketing/](https://dds-solutions.github.io/AI-Tadpole-OS-Marketing/)
+- **Industry Agent Templates**: [https://dds-solutions.github.io/AI-Tadpole-OS-Industry-Templates/](https://dds-solutions.github.io/AI-Tadpole-OS-Industry-Templates/)
+- **Discussions & Community**: [https://github.com/DDS-Solutions/AI-Tadpole-OS/discussions](https://github.com/DDS-Solutions/AI-Tadpole-OS/discussions)
+
+---
+
+## 7. Compliance & Regulatory Qualification
+
+Performance, security, and regulatory outcomes depend on deployment configuration, infrastructure, models, and operating procedures. References to ISO 9001, ISO 42001, NIST AI-RMF, HIPAA, SOC 2, ALCOA+, or GxP describe design mappings or intended control support; they are not certifications.

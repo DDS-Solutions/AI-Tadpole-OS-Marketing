@@ -22,7 +22,12 @@ const lightboxMixin = () => ({
   boundFocusGuard: null as ((event: FocusEvent) => void) | null,
 
   openLightbox(imgUrl: string, altText = 'Full-resolution screenshot') {
-    if (this.lightboxOpen) return;
+    if (this.lightboxOpen) {
+      this.lightboxImg = imgUrl;
+      this.lightboxAlt = altText;
+      this.onLightboxStateChange();
+      return;
+    }
     this.lastFocusedElement = document.activeElement as HTMLElement | null;
     this.lightboxImg = imgUrl;
     this.lightboxAlt = altText;
@@ -141,9 +146,13 @@ export function registerAlpineComponents(Alpine: AlpineInstance) {
           item.title.toLowerCase().includes(q) ||
           item.subtitle.toLowerCase().includes(q) ||
           item.description.toLowerCase().includes(q) ||
+          Boolean(item.details && item.details.toLowerCase().includes(q)) ||
           item.route.toLowerCase().includes(q) ||
           item.badge.toLowerCase().includes(q) ||
-          item.keyFeatures.some((f: string) => f.toLowerCase().includes(q))
+          (Array.isArray(item.keyFeatures) &&
+            item.keyFeatures.some((f: string) => f.toLowerCase().includes(q))) ||
+          (Array.isArray(item.techStack) &&
+            item.techStack.some((t: string) => t.toLowerCase().includes(q)))
         );
       });
     },

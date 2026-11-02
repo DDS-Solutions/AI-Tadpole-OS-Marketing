@@ -3,8 +3,9 @@ import { Buffer } from 'node:buffer';
 import os from 'node:os';
 import path from 'node:path';
 import { spawn } from 'node:child_process';
+import { resolveBrowserPath } from './resolve_browser.js';
 
-const browserPath = 'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe';
+const browserPath = resolveBrowserPath();
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 class CdpClient {

@@ -4,32 +4,14 @@ import os from 'node:os';
 import path from 'node:path';
 import { spawn } from 'node:child_process';
 import { BASE_PATH } from '../site.config.mjs';
+import { resolveBrowserPath } from './resolve_browser.js';
 
 const projectRoot = path.resolve('.');
 const baseUrl = `http://127.0.0.1:4321${BASE_PATH}`;
-const browserCandidates = [
-  process.env.CHROME_PATH,
-  'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
-  'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe',
-  'C:\\Program Files\\Microsoft\\Edge\\Application\\msedge.exe',
-  'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe',
-  '/usr/bin/google-chrome',
-  '/usr/bin/google-chrome-stable',
-  '/usr/bin/chromium',
-  '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
-].filter(Boolean);
-
-const browserPath = browserCandidates.find((candidate) => fs.existsSync(candidate));
+const browserPath = resolveBrowserPath({ allowSkip: process.env.ALLOW_BROWSER_SKIP === '1' });
 if (!browserPath) {
-  if (process.env.ALLOW_BROWSER_SKIP === '1') {
-    console.log('⚠️ Chrome or Edge was not found. Skipping browser verification per ALLOW_BROWSER_SKIP=1.');
-    process.exit(0);
-  }
-  throw new Error(
-    process.env.CI
-      ? 'Chrome or Edge was not found in CI. Set CHROME_PATH to run browser verification.'
-      : 'Chrome or Edge was not found. Set CHROME_PATH or set ALLOW_BROWSER_SKIP=1 to bypass browser verification.',
-  );
+  console.log('⚠️ Chrome or Edge was not found. Skipping browser verification per ALLOW_BROWSER_SKIP=1.');
+  process.exit(0);
 }
 
 const delay = (milliseconds) => new Promise((resolve) => setTimeout(resolve, milliseconds));
@@ -455,6 +437,65 @@ try {
   await delay(300);
   assert.equal(await evaluate(client, `getComputedStyle(document.querySelector('[role="dialog"]')).display`), 'none');
   console.log('  ✓ Lightbox traps focus (Tab/Shift+Tab), inerts header/footer/skip-link, and closes with Escape');
+
+  // Verify Gallery search (features & tech stack) and lightbox next/prev dynamic screenshot updates
+  await navigate(client, `${baseUrl}/gallery/`);
+
+  // 1. Verify tech stack search
+  await evaluate(client, `(() => {
+    const input = document.querySelector('input[type="search"]');
+    input.value = 'Zustand';
+    input.dispatchEvent(new Event('input', { bubbles: true }));
+  })()`);
+  await waitFor(async () => {
+    const count = await evaluate(client, `document.querySelectorAll('.gallery-grid article').length`);
+    return count > 0 && count < 26;
+  }, 3000, 'tech stack search filter');
+  const searchResultsCount = await evaluate(client, `document.querySelectorAll('.gallery-grid article').length`);
+  assert.ok(searchResultsCount >= 1, 'Searching techStack for "Zustand" must yield matching screens');
+  const matchedTitle = await evaluate(client, `document.querySelector('.gallery-grid article h2').textContent.trim()`);
+  assert.equal(matchedTitle, 'Operations Command Center');
+
+  // Reset search filter
+  await evaluate(client, `(() => {
+    const input = document.querySelector('input[type="search"]');
+    input.value = '';
+    input.dispatchEvent(new Event('input', { bubbles: true }));
+  })()`);
+  await waitFor(async () => {
+    const count = await evaluate(client, `document.querySelectorAll('.gallery-grid article').length`);
+    return count === 26;
+  }, 3000, 'gallery filter reset');
+
+  // 2. Open first gallery item lightbox
+  await evaluate(client, `document.querySelectorAll('.gallery-grid article button.card-zoom-btn')[0].click()`);
+  await waitFor(() => evaluate(client, `getComputedStyle(document.querySelector('[role="dialog"]')).display !== 'none'`), 3000, 'gallery lightbox to open');
+
+  const initialImgSrc = await evaluate(client, `document.querySelector('[role="dialog"] .lightbox-stage img').getAttribute('src')`);
+  assert.ok(initialImgSrc && initialImgSrc.includes('gallery_dashboard'), `Initial lightbox image must be gallery_dashboard, got: ${initialImgSrc}`);
+
+  // 3. Advance to next item via Next button and verify the image src updates dynamically
+  await evaluate(client, `document.querySelector('[role="dialog"] button[aria-label="Next screenshot"]').click()`);
+  await waitFor(async () => {
+    const newSrc = await evaluate(client, `document.querySelector('[role="dialog"] .lightbox-stage img').getAttribute('src')`);
+    return newSrc !== initialImgSrc;
+  }, 3000, 'gallery lightbox image src to change on Next');
+
+  const nextImgSrc = await evaluate(client, `document.querySelector('[role="dialog"] .lightbox-stage img').getAttribute('src')`);
+  assert.notEqual(nextImgSrc, initialImgSrc, 'Next must update the screenshot image src, not stay on initial image');
+  assert.ok(nextImgSrc.includes('gallery_org_chart'), `Next lightbox image should be gallery_org_chart, got: ${nextImgSrc}`);
+
+  // 4. Return to previous item via Prev button and verify image src reverts dynamically
+  await evaluate(client, `document.querySelector('[role="dialog"] button[aria-label="Previous screenshot"]').click()`);
+  await waitFor(async () => {
+    const revertedSrc = await evaluate(client, `document.querySelector('[role="dialog"] .lightbox-stage img').getAttribute('src')`);
+    return revertedSrc === initialImgSrc;
+  }, 3000, 'gallery lightbox image src to revert on Prev');
+
+  await pressKey(client, 'Escape');
+  await delay(200);
+  assert.equal(await evaluate(client, `getComputedStyle(document.querySelector('[role="dialog"]')).display`), 'none');
+  console.log('  ✓ Gallery tech stack search ("Zustand") and lightbox next/prev dynamic screenshot updates pass');
 
   if (process.env.SKIP_PLAYBACK_TIMING !== '1') {
     await navigate(client, `${baseUrl}/mission/`);

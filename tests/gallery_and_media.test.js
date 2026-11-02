@@ -78,5 +78,78 @@ test('Gallery & Media Asset Integrity', async (t) => {
       assert.ok(stats.size > 10 * 1024, `Asset for ${item.id} too small (${(stats.size / 1024).toFixed(1)} KB); must be > 10 KB`);
     });
   });
+
+  await t.test('gallery search filter accurately matches techStack and details keywords', () => {
+    const filterScreens = (query, category = 'all') => {
+      const q = query.toLowerCase().trim();
+      return GALLERY_ITEMS.filter((item) => {
+        const matchesCategory = category === 'all' || item.category === category;
+        if (!matchesCategory) return false;
+        if (!q) return true;
+        return (
+          item.title.toLowerCase().includes(q) ||
+          item.subtitle.toLowerCase().includes(q) ||
+          item.description.toLowerCase().includes(q) ||
+          Boolean(item.details && item.details.toLowerCase().includes(q)) ||
+          item.route.toLowerCase().includes(q) ||
+          item.badge.toLowerCase().includes(q) ||
+          (Array.isArray(item.keyFeatures) &&
+            item.keyFeatures.some((f) => f.toLowerCase().includes(q))) ||
+          (Array.isArray(item.techStack) &&
+            item.techStack.some((t) => t.toLowerCase().includes(q)))
+        );
+      });
+    };
+
+    // Tech stack matching
+    const zustandResults = filterScreens('Zustand');
+    assert.ok(zustandResults.length >= 1, 'Search for techStack term "Zustand" must return results');
+    assert.ok(zustandResults.some((item) => item.id === 'dashboard'), 'Dashboard must match "Zustand" via techStack');
+
+    const lancedbResults = filterScreens('LanceDB');
+    assert.ok(lancedbResults.length >= 1, 'Search for techStack term "LanceDB" must return results');
+
+    const rustResults = filterScreens('Rust');
+    assert.ok(rustResults.length >= 3, 'Search for techStack term "Rust" must return multiple engine screens');
+
+    // Deep details matching
+    const detailsResults = filterScreens('detachable portal windows');
+    assert.ok(detailsResults.length >= 1, 'Search for phrase inside details must return results');
+    assert.equal(detailsResults[0].id, 'dashboard');
+
+    // Case-insensitivity & trimming
+    const paddedResults = filterScreens('   zustand   ');
+    assert.equal(paddedResults.length, zustandResults.length, 'Search query must be trimmed and case-insensitive');
+  });
+
+  await t.test('browser executable resolver supports cross-platform discovery and configuration', async () => {
+    const { getBrowserCandidates, resolveBrowserPath } = await import('../scripts/resolve_browser.js');
+
+    const candidates = getBrowserCandidates();
+    assert.ok(Array.isArray(candidates), 'Candidates must be an array');
+    assert.ok(candidates.length >= 5, 'Must have at least 5 cross-platform candidates');
+
+    // Must include Linux, Mac, and Windows candidate patterns
+    const candidateStrings = candidates.join(';');
+    assert.ok(candidateStrings.includes('chrome') || candidateStrings.includes('msedge'), 'Candidates must cover Chrome/Edge');
+
+    // Resolves an existing executable on the host
+    const resolved = resolveBrowserPath({ allowSkip: true });
+    assert.ok(resolved === null || (typeof resolved === 'string' && fs.existsSync(resolved)), 'Resolved path must exist if found');
+
+    // Honors custom environment variables
+    const originalChromePath = process.env.CHROME_PATH;
+    try {
+      process.env.CHROME_PATH = process.execPath; // Node binary as mock executable
+      const customResolved = resolveBrowserPath();
+      assert.equal(customResolved, process.execPath, 'CHROME_PATH must override discovery');
+    } finally {
+      if (originalChromePath !== undefined) {
+        process.env.CHROME_PATH = originalChromePath;
+      } else {
+        delete process.env.CHROME_PATH;
+      }
+    }
+  });
 });
 

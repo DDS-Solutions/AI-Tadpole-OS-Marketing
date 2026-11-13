@@ -200,6 +200,31 @@ requireCondition(
   htmlByPage.get("how-it-works/index.html")?.includes("Tree-sitter / YAML-rs"),
   "Architecture default card is server-rendered",
 );
+for (const interiorPage of [
+  "how-it-works/index.html",
+  "mission/index.html",
+  "governance/index.html",
+  "gallery/index.html",
+]) {
+  const breadcrumbCount = (
+    htmlByPage.get(interiorPage)?.match(/aria-label="Breadcrumb"/g) ?? []
+  ).length;
+  requireCondition(
+    breadcrumbCount === 1,
+    `${interiorPage} renders exactly one breadcrumb`,
+    `${interiorPage} expected 1 breadcrumb, found ${breadcrumbCount}`,
+  );
+}
+requireCondition(
+  !/server-rsand/.test(htmlByPage.get("how-it-works/index.html") ?? ""),
+  "how-it-works performance subtitle preserves word spacing around <code>server-rs</code>",
+);
+requireCondition(
+  /id="gallery-search"[^>]*name="gallery-search"|name="gallery-search"[^>]*id="gallery-search"/.test(
+    htmlByPage.get("gallery/index.html") ?? "",
+  ),
+  "gallery search input declares id and name attributes",
+);
 
 const allBuiltFiles = walkFiles(distDir);
 const textExtensions = new Set([
@@ -318,6 +343,14 @@ requireCondition(
     "Performance, security, and regulatory outcomes depend on deployment configuration",
   ),
   "Agent-facing documentation qualifies performance and compliance claims",
+);
+requireCondition(
+  publicText.includes("342 curated personas") &&
+    publicText.includes("81 templates across 38 industries") &&
+    !/223 specialized roles|25 collections|25 industry domains/.test(
+      publicText,
+    ),
+  "Industry template metrics match the 342-persona / 81-template / 38-industry catalog",
 );
 
 // Mathematical WCAG AA Relative Luminance & Contrast Verification (anti-slop standard R-25)

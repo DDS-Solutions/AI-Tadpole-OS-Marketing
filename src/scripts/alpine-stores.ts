@@ -140,10 +140,19 @@ export function registerAlpineComponents(Alpine: Alpine) {
   Alpine.data("galleryPage", () => ({
     ...lightboxMixin(),
     activeCategory: "all",
+    categoryOrder: [
+      "all",
+      "core-ops",
+      "governance",
+      "intelligence",
+      "comms-workspace",
+      "engine-system",
+    ],
     searchQuery: "",
     viewMode: "grid" as "grid" | "detailed",
     items: GALLERY_ITEMS as GalleryItem[],
     activeItemIndex: 0,
+    boundKeydownHandler: null as ((event: KeyboardEvent) => void) | null,
 
     get filteredItems(): GalleryItem[] {
       const q = this.searchQuery.toLowerCase().trim();
@@ -205,7 +214,7 @@ export function registerAlpineComponents(Alpine: Alpine) {
         }
       }
 
-      window.addEventListener("keydown", (e: KeyboardEvent) => {
+      this.boundKeydownHandler = (e: KeyboardEvent) => {
         if (!this.lightboxOpen) return;
         if (e.key === "ArrowRight") {
           e.preventDefault();
@@ -214,7 +223,18 @@ export function registerAlpineComponents(Alpine: Alpine) {
           e.preventDefault();
           this.prevLightbox();
         }
-      });
+      };
+      window.addEventListener("keydown", this.boundKeydownHandler);
+      document.addEventListener(
+        "astro:before-swap",
+        () => {
+          if (this.boundKeydownHandler) {
+            window.removeEventListener("keydown", this.boundKeydownHandler);
+            this.boundKeydownHandler = null;
+          }
+        },
+        { once: true },
+      );
     },
 
     openGalleryLightbox(index: number) {
@@ -283,6 +303,29 @@ export function registerAlpineComponents(Alpine: Alpine) {
     setCategory(cat: string) {
       this.activeCategory = cat;
       this.activeItemIndex = 0;
+    },
+
+    focusCategoryTab(cat: string) {
+      this.setCategory(cat);
+      (this as unknown as AlpineComponent).$nextTick?.(() => {
+        document.getElementById(`gallery-tab-${cat}`)?.focus();
+      });
+    },
+
+    moveCategoryFocus(offset: number) {
+      const index = this.categoryOrder.indexOf(this.activeCategory);
+      const nextIndex =
+        (index + offset + this.categoryOrder.length) %
+        this.categoryOrder.length;
+      this.focusCategoryTab(this.categoryOrder[nextIndex]);
+    },
+
+    focusCategoryBoundary(position: "first" | "last") {
+      this.focusCategoryTab(
+        position === "first"
+          ? this.categoryOrder[0]
+          : this.categoryOrder[this.categoryOrder.length - 1],
+      );
     },
 
     setViewMode(mode: "grid" | "detailed") {

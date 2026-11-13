@@ -82,7 +82,7 @@ const slides = getMissionSlides(assetBaseUrl);
             @click="toggleAutoPlay()"
             :aria-pressed="autoPlay ? 'true' : 'false'"
             :class="autoPlay ? 'border-emerald-500/40 bg-emerald-500/10 text-emerald-300' : 'border-white/10 bg-black/40 text-zinc-400'"
-            class="px-3.5 py-2 rounded-xl border transition-all flex items-center gap-2 cursor-pointer"
+            class="min-h-11 px-3.5 py-2 rounded-xl border transition-all flex items-center gap-2 cursor-pointer"
           >
             <span x-text="autoPlay ? '⏸ Pause Slideshow' : '▶ Auto-Play Slideshow'">
               ▶ Auto-Play Slideshow
@@ -94,7 +94,7 @@ const slides = getMissionSlides(assetBaseUrl);
             <button
               type="button"
               @click="prevSlide()"
-              class="px-3 py-1.5 rounded-lg hover:bg-white/10 text-white font-bold transition-colors cursor-pointer"
+              class="min-h-11 px-3.5 py-2 rounded-lg hover:bg-white/10 text-white font-bold transition-colors cursor-pointer"
               title="Previous slide (Left Arrow)"
             >
               ← Prev
@@ -108,7 +108,7 @@ const slides = getMissionSlides(assetBaseUrl);
             <button
               type="button"
               @click="nextSlide()"
-              class="px-3 py-1.5 rounded-lg hover:bg-white/10 text-white font-bold transition-colors cursor-pointer"
+              class="min-h-11 px-3.5 py-2 rounded-lg hover:bg-white/10 text-white font-bold transition-colors cursor-pointer"
               title="Next slide (Right Arrow)"
             >
               Next →
@@ -169,7 +169,7 @@ const slides = getMissionSlides(assetBaseUrl);
             <button
               type="button"
               @click="openLightbox(slides[currentSlide].image, slides[currentSlide].title)"
-              class="absolute bottom-4 right-4 bg-zinc-950/85 hover:bg-zinc-950 border border-white/20 text-white px-3 py-1.5 rounded-lg text-xs font-mono flex items-center gap-1.5 opacity-90 hover:opacity-100 transition-all backdrop-blur cursor-pointer shadow-lg"
+              class="absolute bottom-4 right-4 min-h-11 bg-zinc-950/85 hover:bg-zinc-950 border border-white/20 text-white px-3.5 py-2 rounded-lg text-xs font-mono flex items-center gap-1.5 opacity-90 hover:opacity-100 transition-all backdrop-blur cursor-pointer shadow-lg"
             >
               <span>🔍 Zoom Full Resolution</span>
             </button>

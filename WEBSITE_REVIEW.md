@@ -1,102 +1,46 @@
-# Website review and refinement
+# AI-Tadpole-OS Marketing website review
 
-Reviewed: October 15, 2026. Scope: the Astro marketing website, its five built routes, shared components, and client interactions. The Rust/React product and industry catalog are separate projects.
+Reviewed and verified November 13, 2026. Scope: the Astro (`7.4.5`), Tailwind CSS v4 (`@tailwindcss/vite`), and Alpine.js (`3.17.5`) static marketing site in `tadpole-marketing`, its six built routes (`/`, `/how-it-works/`, `/mission/`, `/governance/`, `/gallery/`, and `/404.html`), shared layout/UI/feature components, `26`-screen codebase gallery, SEO/GEO manifests, static/unit/CDP verification gates, headless Chrome verification (`320px`, `375px`, `768px`, `1024px`, and `1440px`), and live Chrome DevTools inspection across desktop (`1440x900`), tablet (`768x1024`), and phone (`390x844`) viewports.
 
-## Findings addressed
+## Resolved findings
 
-| Finding | Effect | Change |
+| Finding | Impact | Resolution |
 | --- | --- | --- |
-| Dense jargon and three competing hero actions | Visitors had to understand implementation details before understanding the product | Clear value proposition, a primary mission walkthrough link, secondary source link, and real desktop preview |
-| Seven desktop navigation links starting at tablet widths | Header crowding and potential control overlap | Four desktop destinations, a tablet/mobile menu, and clear mission access |
-| Mobile menu lacked dismissal behavior | Menu could remain open after following an anchor or pressing Escape | Link, outside-click, focus-out, Escape, and navigation dismissal |
-| Mission arrow handlers fired on both child and parent | A keypress could advance two slides | One carousel-level handler |
-| Slideshow autoplay continued during exploration | Content changed while a visitor was reading or enlarging a screenshot | Pause on keyboard focus, hover, modal display, or a hidden browser tab |
-| Approval demonstration had an inactive button | An apparently functional control produced no feedback | Explicit preview-only interaction with acknowledgement, reset, and accessible status |
-| Cleanup ran before a destination finished loading | Canceled navigation could stop the current page's interactions | Cleanup runs immediately before page replacement |
-| Lightbox scroll restoration could run while already closed | Escape could overwrite the previous page scroll state | Guard closed dialogs; make the shared footer inert while a dialog is open |
-| Full-screen preview controls crowded small screens | Modal heading and close action competed for space | Shorter controls and responsive help text |
-| Release badges included unsupported completion claims | Roadmap conveyed more certainty than the available implementation evidence supported | Engineering focus areas, clear qualification, and a source release link |
-| Homepage lacked a consistent resource footer | Important destinations were harder to rediscover | Shared product/resource navigation on every page |
+| Dense jargon and three competing hero actions | Visitors had to parse runtime internals before understanding the product | Refactored `Hero.astro` around a clear value proposition, primary mission CTA, GitHub source link, gallery/release subactions, and illustrative mission-control SVG + desktop preview |
+| Desktop navigation crowding and missing mobile menu dismissal | Header links risked crowding at tablet widths and the mobile `<details>` menu stayed open after interaction | Consolidated desktop navigation to 5 destinations (`Header.astro`), moved secondary links into the mobile drawer below `1024px`, and added outside-click, `focusin`, `Escape` (with focus restoration), link-click, and `astro:before-swap` dismissal |
+| Mission arrow handlers fired twice and autoplay ignored active exploration | A single arrow keypress could skip a slide and slides advanced while reading or zooming | Bound `@keydown.left`/`@keydown.right` once at the carousel container (`mission.astro`) and paused autoplay on pointer hover, keyboard focus, open lightbox, `document.hidden`, and `prefers-reduced-motion: reduce` (`alpine-stores.ts`) |
+| Approval demonstration lacked clear state and feedback | Interactive-looking HITL control gave no accessible confirmation | Implemented explicit preview-only toggle in `HitlIntercept.astro` with `aria-pressed`, reset state, and `aria-live="polite"` `role="status"` output |
+| Lightbox cleanup, focus containment, and scroll restoration edge cases | Canceled `ClientRouter` swaps or repeated `Escape` presses could leak listeners or overwrite `body` overflow | Added closed-dialog guards in `lightboxMixin` (`alpine-stores.ts`), `astro:before-swap` cleanup, `inert` isolation across `body > a, body > header, body > footer, main > :not([role="dialog"])`, Tab/Shift+Tab trapping, and responsive `LightboxModal.astro` controls |
+| Tablists lacked keyboard roving focus and no-JS fallback | Keyboard users could not traverse tabs with arrow keys and JS-disabled browsers risked hidden panels | Added `ArrowLeft`/`ArrowRight`/`Home`/`End` roving focus in `governance.astro`, `how-it-works.astro`, and the gallery `.category-pills` (`gallery.astro` + `alpine-stores.ts`), plus `<noscript>` fallbacks and static initial panels |
+| Gallery lightbox Next/Prev freeze, `techStack` search gap, listener leak, and stacking/flex CSS bugs | Clicking Next/Prev could leave the displayed image stale, tech-stack keywords missed, `window` keydown listeners lacked swap cleanup, `.card-body` failed flex column layout, and `BackgroundCanvas` masked gallery content | Fixed `currentLightboxItem` reactive resolution, `techStack`/`details` filtering, and `boundKeydownHandler` `astro:before-swap` cleanup (`alpine-stores.ts`), corrected `flex-direction: column`, and added `relative z-10` on `main.gallery-page` (`gallery.astro`) |
+| Duplicate `/how-it-works/` breadcrumb, missing inline space around `<code>server-rs</code>`, and mobile performance table collision | `/how-it-works/` rendered two `<Breadcrumb current="Architecture" />` landmarks, compiled `server-rsand` without a space, and collided 3-column metrics text at `390x844` | Removed the duplicate `<Breadcrumb />` and added `{" "}` spacing in `how-it-works.astro`, converted the Core Protocol Performance Metrics grid into stacked mobile cards with explicit `TARGET:`/`RUNTIME:` labels (`sm:hidden`), and added static regression checks in `verify_site.js` |
+| Gallery breadcrumb divergence, JSON-LD relative URLs, search `<input>` DevTools issue, placeholder clipping, and wrapped lightbox counter | `/gallery/` used bespoke `.gallery-breadcrumb`, emitted base-relative `CollectionPage` URLs, lacked `id`/`name` and `<label>` on the search input, clipped its placeholder on `390x844`, and wrapped `1 / 26` onto two lines | Adopted shared `<Breadcrumb current="Gallery" />`, origin-qualified `CollectionPage` JSON-LD `url`/`contentUrl`, added `<label for="gallery-search" class="sr-only">` + `id`/`name="gallery-search"` with a concise non-clipping placeholder (`Search screens, routes, or stack...`), removed redundant static lightbox `alt`, and constrained `.lightbox-title-area` / `.lightbox-index` (`white-space: nowrap`) in `gallery.astro` |
+| Interactive touch targets under `44x44px` on tablet/phone and `/mission` link trailing-slash mismatch | Header CTA, footer/breadcrumb links, hero/gallery action links, preview zoom buttons, how-it-works tabs/zoom, mission slideshow buttons, and gallery pills/cards/lightbox buttons fell below `44px`, and `/mission` links lacked the canonical trailing slash | Raised touch targets to `>= 44px` across `Header.astro`, `Footer.astro`, `Breadcrumb.astro`, `Hero.astro`, `ScreenshotGallery.astro`, `global.css`, `how-it-works.astro`, `mission.astro`, and `gallery.astro`, and updated `/mission` links to `/mission/` in `BottomCta.astro` and `how-it-works.astro` |
+| Chrome DevTools lazy-loaded image dimension warnings on `/` and `/how-it-works/` | Lazy-loaded `<img>` tags with CSS `height: auto` triggered DevTools explicit-dimensions Issues (`7` on `/` and `4` on `/how-it-works/`) | Added explicit `aspect-ratio` sizing (`1662 / 905`, `1680 / 1050`, and `aspect-square`) to lazy-loaded screenshots in `ScreenshotGallery.astro`, `TemplateCatalog.astro`, and `how-it-works.astro` |
+| Gallery cards, homepage FAQs, sitemap `lastmod`, and SEO/GEO metadata gaps | Gallery content depended on client hydration, `FAQPage` JSON-LD lacked visible markup, and `llms*.txt` / `sitemap.xml` drifted | Pre-rendered all 26 gallery cards in static HTML (`gallery.astro`), added visible `FaqSection.astro` accordion matching `homeFaqSchema` (`index.astro`), included `FaqSection.astro` in homepage `lastmod` tracking (`generate_sitemap.js`), wired `Organization`/`WebSite`/`SoftwareApplication`/`BreadcrumbList`/`TechArticle`/`CollectionPage` schemas (`BaseLayout.astro`), and synced `sitemap.xml`, `robots.txt`, `llms.txt`, and `llms-full.txt` |
+| Unqualified performance/compliance claims, workstation path leaks, and low-contrast muted tokens | Static outputs risked publishing local paths, `localhost` URLs, or failing WCAG AA small-text contrast | Overrode `--color-zinc-500` to `#8f8f99` (`global.css`) with mathematical WCAG AA checks in `antislop_and_contrast.test.js` and `verify_site.js`, enforced `@media (forced-colors: active)` high-contrast rules, and gated `dist/` against local paths, `localhost`, and unqualified claims |
+| v1.1.464 & Industry-Templates contract alignment | Homepage catalog (`223` roles / `25` collections), FAQ, gallery cards (`/store`, `/mcp-store`), governance copy, and `llms*.txt` drifted behind `AI-Tadpole-OS-Industry-Templates` | Aligned `TemplateCatalog.astro`, `index.astro`, `governance.astro`, `gallery-items.ts`, `public/llms.txt`, `public/llms-full.txt`, and `verify_site.js` to `342` curated personas, `81` public templates (`12` verified flagships + `69` starters) across `38` canonical industries, `246` agent profiles, `13` declarative eval suites, `4` MCP blueprints, Dual-Experience Swarm Architect, `FR-11` Plane 2 firewalls, `ollama-cloud`/`ollama` defaults, and `content_sha256` digests |
+| Cross-platform browser discovery and CI formatting/permission gaps | `verify_browser.js` could miss Edge/Chrome paths or run with overly broad workflow permissions | Extracted `scripts/resolve_browser.js` with `CHROME_PATH`/`BROWSER_PATH` + Windows/Linux/macOS discovery, added `npm run format:check`, and scoped `pages: write` / `id-token: write` to the `deploy` job in `.github/workflows/deploy.yml` |
 
-## Visual direction
+## Interface changes
 
-Preserved the Tadpole identity and local font stacks. Introduced restrained emerald and cyan accents, CSS-only ambient lighting, a responsive command-center hero, readable display typography, consistent buttons, sequential architecture, a larger real interface gallery, and a cohesive footer. Removed the continuous background rendering loop. The hero workflow is explicitly labelled illustrative; screenshots are presented as product previews.
-
-## Remaining product and content gaps
-
-- Add a concise, versioned installation and requirements guide for first-time users. The current next step is the source repository.
-- Verify catalog totals and example collection sizes when the separate industry catalog changes; the marketing site currently repeats those values manually.
-- Keep detailed governance and security language tied to the actual configuration and release. A marketing preview does not demonstrate enforcement by the runtime.
-- Consider a short narrated product walkthrough with captions and a transcript. Current mission content consists of six real screenshots.
-- Measure conversion and performance on the deployed site before expanding visual effects. No customer testimonials or performance benchmarks were invented for this update.
+- **Design system & tokens**: Standardized on `design.md` (v2.2, `ENERGY 2 / RHYTHM 2 / MOTION 1`) and `DESIGN_SYNERGY.md` (v2.1.0), using Tailwind CSS v4 `@theme` palette tokens, `clamp()` fluid typography/spacing (`src/styles/global.css`), privacy-preserving local system font stacks, and CSS-only ambient lighting (`BackgroundCanvas.astro`) with no perpetual JS render loop.
+- **Component architecture**: Decomposed pages into `src/components/layout/` (`Header.astro`, `Footer.astro`, `BackgroundCanvas.astro`), `src/components/ui/` (`Breadcrumb.astro`, `GlassCard.astro`, `HitlIntercept.astro`, `LightboxModal.astro`, `SectionHeader.astro`, `StatusBadge.astro`), and `src/components/features/` (`Hero.astro`, `ArchitectureLayers.astro`, `ScreenshotGallery.astro`, `TemplateCatalog.astro`, `Roadmap.astro`, `FaqSection.astro`, `BottomCta.astro`).
+- **26-screen Codebase Gallery (`/gallery/`)**: Added 26 `1662x905` WebP captures from `AI-Tadpole-OS` (`v1.1.464`) across 5 categories (`Core Operations`, `Governance & Security`, `Intelligence & Store`, `Comms & Workspaces`, `Engine & System`), Grid vs. Detailed view toggle, live search across titles/routes/features/`techStack`/`details`, `#id` deep linking, keyboard roving category tabs, and a multi-screen zoom lightbox with context drawer.
+- **v1.1.464 runtime & Industry-Templates alignment**: Updated `ScreenshotGallery.astro`, `TemplateCatalog.astro`, `Roadmap.astro`, `FaqSection` data (`index.astro`), `governance.astro`, `gallery-items.ts`, `mission-slides.ts`, `architecture-nodes.ts`, `public/llms.txt`, and `public/llms-full.txt` to reflect Plane 1 GA, Plane 2 SMB Digital Twin preview (`FR-11`), A2A 2PC economic zone, Tree-sitter AST graphs, LanceDB IVF-PQ memory, ADG v2, Sapphire Shield governance, and the `AI-Tadpole-OS-Industry-Templates` ecosystem (`342` curated personas, `81` public templates across `38` canonical industries, `12` verified flagships + `69` starters, `246` installable agent profiles, `13` eval suites, `4` reviewed Python MCP connector blueprints, Dual-Experience Swarm Architect Guided/Advanced modes, and `ollama-cloud` / `ollama` multi-slot defaults).
 
 ## Verification
 
-Passed on October 15, 2026:
+- `npm run format:check` (`prettier --check`): all matched files pass Prettier formatting.
+- `npm run check` (`astro check`): `41` files checked; `0` errors, `0` warnings, `0` hints.
+- `npm run typecheck` (`tsc --noEmit`): passed with `0` errors.
+- `npm run build` (`astro build && node scripts/generate_sitemap.js`): built `6` static routes (`/404.html`, `/gallery/index.html`, `/governance/index.html`, `/how-it-works/index.html`, `/mission/index.html`, `/index.html`), generated `sitemap.xml` with `5` indexed routes, and synchronized `robots.txt`, `llms.txt`, and `llms-full.txt`.
+- `npm run test:unit` (`node --experimental-strip-types --test tests/*.test.js`): `21` tests passed (`0` failed) across `antislop_and_contrast.test.js`, `gallery_and_media.test.js`, and `tokens_and_components.test.js`.
+- `npm run test:static` (`node scripts/verify_site.js`): passed (`6` built routes, skip-links, single `<h1>`, single breadcrumb on each interior page, `server-rs` word spacing, gallery search `id`/`name`, `342`-persona / `81`-template / `38`-industry catalog alignment, local Alpine bundle, zero external font requests, explicit `type="button"`, image dimensions/`alt`, internal link & anchor resolution, zero workstation/`localhost`/unqualified-claim leaks, `14` core assets present, header mark `12.9 KiB`, social card `168.4 KiB`, total `dist/` bundle `6.22 MiB` within the `8 MiB` budget, and `10` WCAG contrast pairs passing from `4.23:1` to `18.10:1`).
+- `npm run test:browser` (`node scripts/verify_browser.js` via headless Chrome CDP against `astro preview` on `http://127.0.0.1:4321/AI-Tadpole-OS-Marketing`): passed across all `6` routes and `320px`, `375px`, `768px`, `1024px`, and `1440px` viewports with zero runtime exceptions, zero horizontal overflow, full accessibility-tree button/link naming, JS-disabled panel/card visibility (`4` governance panels, `5` how-it-works panels, `26` gallery cards, `6` mission steps), roving tab focus across Governance, Architecture, and Gallery categories, approval preview toggle/reset, lightbox focus trap + `inert` + `Escape`, gallery `"Zustand"` search + Next/Prev updates, mission autoplay pause/resume, repeated `ClientRouter` transitions, reduced-motion autoplay disable, and mobile menu dismissal.
+- **Live Chrome DevTools review (`astro preview`, `1440x900`, `768x1024`, `390x844`)**: Verified prior to the final Industry-Templates copy/metadata sync across all `6` routes with `0` console errors, `0` uncaught page errors, `0` failed network/asset requests, `0` horizontal overflow, `0` Chrome DevTools Issues, `>= 44px` interactive control hit targets across tablet/phone viewports, single-line `.lightbox-index` (`1 / 26`), unclipped `#gallery-search` placeholder at `390x844`, clean stacked mobile metrics rows on `/how-it-works/`, and canonical `/mission/` CTA trailing slashes; `npm run test:browser` re-verified all `6` routes after the final copy/metadata sync.
 
-- `npm run check`: 31 Astro files checked; zero errors, warnings, or hints.
-- `npm run typecheck`: TypeScript passed.
-- `npm run build`: five static routes built; sitemap and robots.txt generated.
-- `npm test`: six unit checks, built-site verification, and isolated Chrome browser verification passed. The deployment artifact is 3.60 MiB, within the 8 MiB budget.
+## Remaining boundary
 
-Browser coverage includes all five routes at 320, 375, 768, 1024, and 1440 pixels, with no horizontal overflow or overlapping navigation. The hero text also stays inside its content area at every tested width, including 320 pixels. Interaction checks cover accessible control names, keyboard tabs, approval-preview feedback and reset, modal focus and background isolation, mobile menu dismissal, repeated client navigation, reduced motion, and mission playback pause/resume behavior. Full playback timing passed before a final layout-only recheck.
-
-Desktop and mobile viewport screenshots and full-page captures were visually inspected. The automated checks do not replace an assistive-technology audit or testing on physical mobile devices.
-
-Changes are local to this checkout; publication is separate.
-
----
-
-## Update: November 2, 2026 (AI-Tadpole-OS v1.1.464 Synchronization)
-
-Synchronized the marketing hub with the live running engine on ports 5173 and 8000, aligning all technical content, links, and assets with [`https://github.com/DDS-Solutions/AI-TadPole-OS`](https://github.com/DDS-Solutions/AI-TadPole-OS):
-
-1. **Live Desktop Captures**:
-   - Captured and updated high-resolution (1662x905) screenshots directly from localhost:5173:
-     - `real_os_dashboard.png`: Operations Command Center (10Hz telemetry, 62 nodes online, 14 active agents, model slots).
-     - `real_os_nodes.png`: Neural Map & AST Symbols Graph (7,205 symbols, 43,517 edges, BFS Dependency Pathfinder).
-     - `real_os_oversight.png`: Sapphire Shield Action Ledger & Zero-Trust HITL gate.
-     - `industry_templates_catalog.png`: Industry Template Store (25 collections, 81 starter templates).
-     - `real_os_missions.png`: Missions Board & Swarm Telemetry Kanban.
-     - `real_os_security.png`: Zero-Trust Security Perimeter & Privacy Shield.
-     - `real_os_hierarchy.png`: Swarm Hierarchy Org Chart.
-     - `engine_health_api.png`: Axum Tokio Rust Kernel (`http://localhost:8000/v1/engine/health`).
-2. **Component & Gallery Expansion**:
-   - Expanded `ScreenshotGallery.astro` into a 6-surface command-center gallery with individual modal lightbox zoom and responsive layout.
-   - Enhanced `Hero.astro` with download links to release assets (`v1.1.464`), dual-plane GA status, and updated foundation pillars.
-   - Refined `Roadmap.astro` to reflect Plane 1 GA, Plane 2 SMB Digital Twin preview, A2A Economic Zone, and Sovereign Compliance.
-   - Updated `ArchitectureLayers.astro` and `architecture-nodes.ts` with exact Tree-sitter, Axum 0.7, LanceDB IVF-PQ, and Sapphire Shield specifications.
-3. **Specification & GEO Compliance**:
-   - Synchronized `BaseLayout.astro` softwareVersion (`1.1.464`) and release download metadata.
-   - Updated `public/llms.txt` and `public/llms-full.txt` to serve comprehensive technical architectures to AI agents and web crawlers.
-4. **Verification**:
-   - `npm run check`: 35 files checked; 0 errors, 0 warnings, 0 hints.
-   - `npm run typecheck`: TypeScript passed (`tsc --noEmit`).
-   - `npm run build`: Static build (6 routes) and sitemap generation succeeded.
-   - `npm run test:built`: Unit, static verification, and full browser test suite passed across all 6 routes and 5 viewport sizes.
-
----
-
-## Update: November 2, 2026 (Comprehensive 26-Screen Codebase Gallery)
-
-Built and launched the complete Codebase Screen Gallery (`src/pages/gallery.astro`) capturing every operational view, tab header, and kernel probe in the running Tadpole OS v1.1.464:
-
-1. **Complete Screen Inventory (26 High-Resolution Captures)**:
-   - **Core Operations**: Operations Command Center (`/dashboard`), Swarm Hierarchy (`/org-chart`), Missions Board (`/missions`), Missions Flight Recorder (`/missions?view=history`), SMB Practice Digital Twin (`/smb-practice`), Scheduled Jobs (`/scheduled-jobs`).
-   - **Governance & Security**: Sapphire Shield Oversight & Action Ledger (`/oversight`), Zero-Trust Security & Privacy Shield (`/security`).
-   - **Intelligence & Store**: Model Providers & Vault (`/models`), Intelligence Model Store (`/infra/model-store`), Industry Templates Store (`/store`), MCP Connectors Registry (`/mcp-store`), Customer Catalog & A2A Gateway (`/customer-catalog`), Neural AST Map (`/intelligence/map`), Swarm Agents Directory (`/agents`), Skills & Tools Matrix (`/skills`).
-   - **Comms & Workspaces**: Voice Interface & Standups Hub (`/standups`), Workspaces & File System (`/workspaces`).
-   - **Engine & System**: Sovereign Axum Engine Telemetry (`/engine`), Performance Benchmarks (`/benchmarks`), Dual-Trace Analytics (`/analytics`), System Docs (`/docs`), OS Settings (`/settings`), Detached Swarm Pulse (`/detached/swarm-pulse`), Detached Sovereign Chat (`/detached/chat`), Axum Rust Kernel `/v1/engine/health` API probe.
-2. **Interactive UI/UX Controls & Inspection**:
-   - **Search Filter**: Real-time keyword filter across titles, descriptions, routes, key features, and tech stack tags.
-   - **Category Filters**: Pills with live count indicators for All (26), Core Operations (6), Governance & Security (2), Intelligence & Store (8), Comms & Workspaces (2), and Engine & System (8).
-   - **Layout Mode Toggle**: Responsive 2-column Grid View vs Detailed Focus View (with full capabilities checklist and tech stack tags).
-   - **Zoom Lightbox Modal**: High-resolution image viewer with keyboard navigation (Escape, Left/Right arrows), deep anchor linking (`#dashboard`, `#oversight`, etc.), focus trapping, and context drawer.
-3. **Global Navigation & Linking**:
-   - Added `Gallery` to the desktop header menu, mobile drawer menu, homepage hero CTA, and screenshot section CTA.
-4. **Verification**:
-   - `npm run check`: 35 Astro files checked; 0 errors, 0 warnings, 0 hints.
-   - `npm run typecheck`: TypeScript passed (`tsc --noEmit`).
-   - `npm run build`: 6 static routes generated; sitemap.xml generated with 5 indexed routes.
-   - `npm run test:built`: All unit tests, static checks, and browser CDP tests passed with 0 runtime errors. Total deployment size is 6.03 MiB, safely within the 8 MiB budget.
-
+- **External runtime and catalog separation**: The `AI-Tadpole-OS` (`v1.1.464`) desktop/Rust runtime (ports `5173`/`8000`) and `AI-Tadpole-OS-Industry-Templates` (`342` personas, `81` public templates, `38` canonical industries, `246` installable agent profiles, `13` eval suites, `4` MCP connector blueprints) live in separate repositories. The marketing site renders static captures and mirrors counts (`62` nodes, `7,205` symbols, `43,517` edges, `342` personas, `81` templates, `38` industries, `246` profiles, `12` verified flagships, `69` starters, `13` eval suites, `4` MCP blueprints); re-verify those values when upstream releases change.
+- **Manual assistive-technology & physical-device testing**: Automated Chrome CDP checks and desktop DevTools mobile emulation do not replace manual screen-reader audits or testing on physical iOS/Android hardware.

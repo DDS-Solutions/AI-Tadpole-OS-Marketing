@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import Breadcrumb from "../components/ui/Breadcrumb.astro";
 import { GALLERY_CATEGORIES, GALLERY_ITEMS } from "../data/gallery-items";
 
 const basePath = import.meta.env.BASE_URL.replace(/\/$/, "");
@@ -10,12 +11,12 @@ const gallerySchema = {
   name: "AI-Tadpole-OS Codebase Screen Gallery",
   description:
     "Complete photographic walkthrough of all 26 screens, operational views, and tab headers in AI-Tadpole-OS v1.1.464.",
-  url: `${basePath}/gallery/`,
+  url: new URL(`${basePath}/gallery/`, Astro.url.origin).href,
   hasPart: GALLERY_ITEMS.map((item) => ({
     "@type": "ImageObject",
     name: item.title,
     caption: item.description,
-    contentUrl: `${basePath}${item.image}`,
+    contentUrl: new URL(`${basePath}${item.image}`, Astro.url.origin).href,
     width: `${item.width} px`,
     height: `${item.height} px`,
   })),
@@ -36,11 +37,7 @@ const gallerySchema = {
     <!-- Top Hero Section -->
     <section class="gallery-hero" aria-labelledby="gallery-heading">
       <div class="section-shell">
-        <nav class="gallery-breadcrumb" aria-label="Breadcrumb">
-          <a href={`${basePath}/`}>Home</a>
-          <span aria-hidden="true">/</span>
-          <span aria-current="page">Gallery</span>
-        </nav>
+        <Breadcrumb current="Gallery" />
 
         <div class="hero-header-row">
           <div>
@@ -82,10 +79,15 @@ const gallerySchema = {
               <circle cx="11" cy="11" r="8"></circle>
               <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
             </svg>
+            <label for="gallery-search" class="sr-only">
+              Search screens by keyword
+            </label>
             <input
+              id="gallery-search"
+              name="gallery-search"
               type="search"
               x-model="searchQuery"
-              placeholder="Search screens, routes, features, or stack (e.g. DAG, LanceDB, Rust, Merkle)..."
+              placeholder="Search screens, routes, or stack..."
               class="search-input"
               aria-label="Search screens by keyword"
             />
@@ -162,15 +164,21 @@ const gallerySchema = {
           class="category-pills"
           role="tablist"
           aria-label="Screen categories"
+          @keydown.right.prevent="moveCategoryFocus(1)"
+          @keydown.left.prevent="moveCategoryFocus(-1)"
+          @keydown.home.prevent="focusCategoryBoundary('first')"
+          @keydown.end.prevent="focusCategoryBoundary('last')"
         >
           {GALLERY_CATEGORIES.map((cat) => (
             <button
               type="button"
+              id={`gallery-tab-${cat.id}`}
               role="tab"
               class="cat-pill"
               :class={`{ 'cat-active': activeCategory === '${cat.id}' }`}
               @click={`setCategory('${cat.id}')`}
               :aria-selected={`activeCategory === '${cat.id}'`}
+              :tabindex={`activeCategory === '${cat.id}' ? 0 : -1`}
             >
               <span>{cat.label}</span>
               <span class="cat-count">{cat.countLabel}</span>
@@ -484,7 +492,6 @@ const gallerySchema = {
           <img
             :src="lightboxImg"
             :alt="lightboxAlt"
-            alt="Full-resolution screenshot inspection"
             width="1662"
             height="905"
             class="lightbox-image"
@@ -557,25 +564,6 @@ const gallerySchema = {
       rgba(16, 185, 129, 0.08),
       transparent 70%
     );
-  }
-
-  .gallery-breadcrumb {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-family: var(--font-mono);
-    font-size: 0.72rem;
-    color: #71807b;
-    margin-bottom: 1.5rem;
-  }
-
-  .gallery-breadcrumb a {
-    color: #a7f3d0;
-    transition: color 150ms;
-  }
-
-  .gallery-breadcrumb a:hover {
-    color: #ffffff;
   }
 
   .hero-header-row {
@@ -655,6 +643,11 @@ const gallerySchema = {
   }
 
   .search-clear {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 44px;
+    min-height: 44px;
     background: transparent;
     border: none;
     color: #71807b;
@@ -681,7 +674,7 @@ const gallerySchema = {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    min-height: 38px;
+    min-height: 44px;
     padding: 0 0.9rem;
     border-radius: 6px;
     border: none;
@@ -715,8 +708,8 @@ const gallerySchema = {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    min-height: 38px;
-    padding: 0.4rem 0.85rem;
+    min-height: 44px;
+    padding: 0.45rem 0.9rem;
     border-radius: 20px;
     border: 1px solid rgba(255, 255, 255, 0.1);
     background: rgba(14, 19, 18, 0.6);
@@ -892,7 +885,7 @@ const gallerySchema = {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    min-height: 38px;
+    min-height: 44px;
     padding: 0.5rem 0.9rem;
     border-radius: 6px;
     border: 1px solid rgba(255, 255, 255, 0.2);
@@ -946,11 +939,16 @@ const gallerySchema = {
   }
 
   .card-anchor-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 44px;
+    min-height: 44px;
     color: #a1ada8;
     font-family: var(--font-mono);
     font-size: 0.85rem;
     text-decoration: none;
-    padding: 0.2rem 0.4rem;
+    padding: 0.25rem 0.45rem;
     border-radius: 4px;
     transition: all 150ms;
   }
@@ -1062,6 +1060,8 @@ const gallerySchema = {
     display: inline-flex;
     align-items: center;
     gap: 0.35rem;
+    min-height: 44px;
+    padding-inline: 0.25rem;
     background: transparent;
     border: none;
     color: #34d399;
@@ -1151,10 +1151,13 @@ const gallerySchema = {
     display: flex;
     align-items: center;
     gap: 0.85rem;
+    min-width: 0;
     overflow: hidden;
   }
 
   .lightbox-index {
+    flex-shrink: 0;
+    white-space: nowrap;
     font-family: var(--font-mono);
     font-size: 0.72rem;
     color: #34d399;
@@ -1188,8 +1191,8 @@ const gallerySchema = {
 
   .lightbox-nav-btn,
   .lightbox-close-btn {
-    min-height: 40px;
-    min-width: 40px;
+    min-height: 44px;
+    min-width: 44px;
     display: flex;
     align-items: center;
     justify-content: center;

@@ -34,6 +34,7 @@ function getRouteLastModified(route) {
       path.join("src", "components", "features", "ScreenshotGallery.astro"),
       path.join("src", "components", "features", "TemplateCatalog.astro"),
       path.join("src", "components", "features", "Roadmap.astro"),
+      path.join("src", "components", "features", "FaqSection.astro"),
       path.join("src", "components", "features", "BottomCta.astro"),
     );
   }

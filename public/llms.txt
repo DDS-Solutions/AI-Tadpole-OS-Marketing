@@ -12,11 +12,13 @@ AI-Tadpole-OS (Tadpole OS) separates directives, orchestration, and execution in
 - [Governance Protocol](https://dds-solutions.github.io/AI-Tadpole-OS-Marketing/governance/)
 - [Codebase Screen Gallery (26 Screens)](https://dds-solutions.github.io/AI-Tadpole-OS-Marketing/gallery/)
 - [Full Technical Specification (LLMs-Full)](https://dds-solutions.github.io/AI-Tadpole-OS-Marketing/llms-full.txt)
-- [Industry Agent Templates](https://dds-solutions.github.io/AI-Tadpole-OS-Industry-Templates/)
+- [Industry Agent Templates & Swarm Architect](https://dds-solutions.github.io/AI-Tadpole-OS-Industry-Templates/)
+- [Industry Templates Machine Catalog (LLMs)](https://dds-solutions.github.io/AI-Tadpole-OS-Industry-Templates/llms.txt)
 
 ## Key Technical Specifications (v1.1.464)
 - **Core Runtime**: Local Axum 0.7 + Tokio asynchronous Rust execution engine for deterministic thread/process isolation and sub-millisecond telemetry.
 - **Dual-Plane Architecture**: Plane 1 (Sovereign Codebase Lifecycle Engine, GA) for self-maintaining codebases; Plane 2 (Company-Agnostic SMB Digital Twin, Developer Sandbox & Scenario Preview) with fail-closed tenant workspace isolation.
+- **Industry Templates & Swarm Architect**: 81 pre-configured public templates (12 verified flagships + 69 starters) across 38 canonical industries, 246 installable agent profiles, 342 curated Swarm Architect personas (Guided & Advanced setup), 13 declarative eval suites (`evals/scenarios.json`), and 4 reviewed MCP connector blueprints (`mcp_registry.json`) with canonical `content_sha256` archive digests and FR-11 Plane 2 permission firewalls.
 - **Agent Orchestration**: Hierarchical coordination of 62+ registered agent nodes via topologically scheduled DAG execution (Kahn's / DFS dependency sorting) with a 10Hz MessagePack telemetry heartbeat.
 - **Agent Intelligence & Self-Annealing**: Agent 99 autonomous post-mission wisdom extraction continuously writing lessons back to institutional memory (`LONG_TERM_MEMORY.md`).
 - **Private Memory & Vector RAG**: Embedded LanceDB vector store (768-dimensional IVF-PQ embeddings), SQLite transactional dual-write atomicity, and Open Knowledge Format (OKF) data contracts.

@@ -34,7 +34,8 @@ AI-Tadpole-OS solves this mismatch by separating business logic into three disti
 ### Subsystem 2: Swarm Orchestrator & Telemetry
 - **Runtime**: Tokio asynchronous multi-threaded task scheduler.
 - **Telemetry Stream**: 10Hz heartbeat interval transmitting MessagePack frames over local WebSockets.
-- **Routing**: Capability-based agent discovery supporting 62+ registered agent nodes across 25 industry domains (81 starter templates, 223+ specialized roles).
+- **Routing**: Capability-based agent discovery supporting 62+ registered runtime agent nodes and an external community ecosystem of 38 canonical industry domains (81 public templates: 12 verified flagships + 69 starters, 246 installable agent profile files, and 342 curated Swarm Architect personas).
+- **Swarm Architect & Contract Registry**: Dual-experience builder (Guided Setup & Advanced Setup) aligned with `v1.1.464` JSON Schemas (`schemas/*.json`), canonical `content_sha256` archive digests, multi-slot defaults (`ollama-cloud` / `gemma4:31b-cloud` primary & planning slots; `ollama` / `gemma4:e4b` edge/execution slot), FR-11 Plane 2 permission firewalls, 13 declarative eval suites (`evals/scenarios.json`), and 4 reviewed Python MCP connector blueprints (`mcp_registry.json`).
 
 ### Subsystem 3: Deterministic Execution Engine
 - **Isolation**: Process-level sandboxing with strict stdout/stderr capture and monotonic resource limits.

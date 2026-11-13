@@ -298,7 +298,7 @@ export const GALLERY_ITEMS: GalleryItem[] = [
     id: "store",
     title: "Industry Templates Marketplace",
     subtitle:
-      "Turnkey pre-configured multi-agent swarms for legal, finance, logistics, and dev",
+      "81 swarm templates (12 verified flagships, 69 starters) across 38 canonical industries",
     route: "/store",
     category: "intelligence",
     image: "/assets/gallery/gallery_store.webp",
@@ -306,18 +306,18 @@ export const GALLERY_ITEMS: GalleryItem[] = [
     height: 905,
     badge: "Template Store",
     description:
-      "Marketplace for ready-to-run swarm templates with complete role definitions, system directives, workflows, and tool configurations.",
+      "Contract-validated marketplace covering 38 industries, 246 installable agent profiles, 342 Swarm Architect personas, and 13 declarative eval suites.",
     details:
-      "Operators can install complete swarms for Legal Due Diligence, Financial Reconciliation, Codebase Architecture Review, and Customer Support in one click.",
+      "Supports one-click catalog installs or custom .zip imports from the Guided and Advanced Swarm Architect with canonical content_sha256 digests, Dual-Plane FR-11 permission checks, and Open Knowledge Format (OKF) playbooks.",
     keyFeatures: [
-      "Modular swarm bundles with predefined agent roles and directives",
-      "Configurable environment secrets and placeholder variables wizard",
-      "Installed swarms management with update checking and uninstall",
-      "Custom swarm bundle export and packaging (.tadpole-swarm.json)",
+      "81 public swarms (12 verified flagships + 69 starters) across 38 industries",
+      "Dual-Experience Swarm Architect with Guided and Advanced modes plus draft recovery",
+      "Multi-slot defaults pairing ollama-cloud (gemma4:31b-cloud) with ollama (gemma4:e4b)",
+      "Pre-export capability disclosure, Dual-Plane FR-11 firewall, and SHA-256 digests",
     ],
     techStack: [
       "Template Registry API",
-      "JSON Schema Validation",
+      "JSON Schema v1 Contracts",
       "Zustand Store",
     ],
   },
@@ -325,7 +325,7 @@ export const GALLERY_ITEMS: GalleryItem[] = [
     id: "mcp-store",
     title: "MCP Connectors Registry Hub",
     subtitle:
-      "Open Model Context Protocol servers connecting swarms to external tools",
+      "MCP 2026-07-28 streamable HTTP and stdio servers with reviewed blueprint locks",
     route: "/mcp-store",
     category: "intelligence",
     image: "/assets/gallery/gallery_mcp_store.webp",
@@ -333,16 +333,16 @@ export const GALLERY_ITEMS: GalleryItem[] = [
     height: 905,
     badge: "MCP Protocol",
     description:
-      "Comprehensive registry of Model Context Protocol (MCP) servers allowing agents to interface with external systems deterministically.",
+      "Reviewed Model Context Protocol (MCP) connector registry pairing runtime secret placeholders with exact server:tool capability grants.",
     details:
-      "Provides sandboxed connectors for PostgreSQL, GitHub, Filesystem, Slack, Brave Search, and Docker with capability permission scoping.",
+      "Includes 4 reviewed Python MCP blueprints (generic-crm, smb-accounting, hardware-edge, local-log-scanner) with connector-lock.json SHA-256 dependency provenance and transport-owned HTTP header guards.",
     keyFeatures: [
-      "Standardized Model Context Protocol (MCP) JSON-RPC connectors",
-      "Configurable environment arguments and stdio/SSE transports",
-      "Capability permission scoping (Read-only, Read/Write, Execution)",
-      "Live ping and health status diagnostics",
+      "MCP 2026-07-28 streamable HTTP and stdio transports with reserved header guards",
+      "Exact server:tool authorization filtering (wildcards and ENGINE_PRIVATE_ENV_VARS blocked)",
+      "4 reviewed Python blueprints with SHA-256 connector-lock.json provenance",
+      "Runtime secret placeholder wizard keeping API credentials out of blueprints",
     ],
-    techStack: ["Model Context Protocol", "JSON-RPC 2.0", "Process Spawner"],
+    techStack: ["Model Context Protocol", "JSON-RPC 2.0", "Connector Lockfile"],
   },
   {
     id: "customer-catalog",

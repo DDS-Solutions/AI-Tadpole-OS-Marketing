@@ -799,6 +799,43 @@ try {
     '  ✓ Gallery tech stack search ("Zustand") and lightbox next/prev dynamic screenshot updates pass',
   );
 
+  await evaluate(client, `document.getElementById('gallery-tab-all').focus()`);
+  await pressKey(client, "ArrowRight");
+  const galleryTabState = await waitFor(
+    async () => {
+      const state = await evaluate(
+        client,
+        `({
+      focused: document.activeElement.id,
+      selected: document.querySelector('.category-pills [role="tab"][aria-selected="true"]')?.id,
+    })`,
+      );
+      if (
+        state.focused === "gallery-tab-core-ops" &&
+        state.selected === "gallery-tab-core-ops"
+      )
+        return state;
+      return null;
+    },
+    3000,
+    "gallery category tab focus change",
+  );
+  assert.deepEqual(galleryTabState, {
+    focused: "gallery-tab-core-ops",
+    selected: "gallery-tab-core-ops",
+  });
+  await pressKey(client, "Home");
+  await waitFor(
+    async () =>
+      (await evaluate(
+        client,
+        `document.querySelector('.category-pills [role="tab"][aria-selected="true"]')?.id`,
+      )) === "gallery-tab-all",
+    3000,
+    "gallery category Home key reset",
+  );
+  console.log("  ✓ Gallery category tabs support roving keyboard focus");
+
   if (process.env.SKIP_PLAYBACK_TIMING !== "1") {
     await navigate(client, `${baseUrl}/mission/`);
     await evaluate(

@@ -30,9 +30,6 @@ const articleMetadata = {
       <div>
         <Breadcrumb current="Architecture" />
       </div>
-      <div>
-        <Breadcrumb current="Architecture" />
-      </div>
       <StatusBadge variant="emerald" pulse={true}>
         Technical Architecture & Mechanics
       </StatusBadge>
@@ -386,7 +383,7 @@ const articleMetadata = {
           :aria-selected="activePerspective === 'it'"
           :tabindex="activePerspective === 'it' ? 0 : -1"
           :class="getPerspectiveClass('it')"
-          class="px-6 py-3 rounded-xl border uppercase tracking-wider transition-all cursor-pointer"
+          class="min-h-11 px-6 py-3 rounded-xl border uppercase tracking-wider transition-all cursor-pointer"
         >
           🛡️ IT & Infrastructure
         </button>
@@ -399,7 +396,7 @@ const articleMetadata = {
           :aria-selected="activePerspective === 'manager'"
           :tabindex="activePerspective === 'manager' ? 0 : -1"
           :class="getPerspectiveClass('manager')"
-          class="px-6 py-3 rounded-xl border uppercase tracking-wider transition-all cursor-pointer"
+          class="min-h-11 px-6 py-3 rounded-xl border uppercase tracking-wider transition-all cursor-pointer"
         >
           📊 Operations Manager
         </button>
@@ -412,7 +409,7 @@ const articleMetadata = {
           :aria-selected="activePerspective === 'exec'"
           :tabindex="activePerspective === 'exec' ? 0 : -1"
           :class="getPerspectiveClass('exec')"
-          class="px-6 py-3 rounded-xl border uppercase tracking-wider transition-all cursor-pointer"
+          class="min-h-11 px-6 py-3 rounded-xl border uppercase tracking-wider transition-all cursor-pointer"
         >
           🏰 C-Suite Executive
         </button>
@@ -425,7 +422,7 @@ const articleMetadata = {
           :aria-selected="activePerspective === 'operator'"
           :tabindex="activePerspective === 'operator' ? 0 : -1"
           :class="getPerspectiveClass('operator')"
-          class="px-6 py-3 rounded-xl border uppercase tracking-wider transition-all cursor-pointer"
+          class="min-h-11 px-6 py-3 rounded-xl border uppercase tracking-wider transition-all cursor-pointer"
         >
           ⚡ Operator Employee
         </button>
@@ -488,12 +485,12 @@ const articleMetadata = {
               height="905"
               loading="lazy"
               decoding="async"
-              class="w-full h-auto object-cover"
+              class="w-full h-auto aspect-[1662/905] object-cover"
             />
             <button
               type="button"
               @click={`openLightbox('${basePath}/assets/real_os_oversight.png', 'IT security controls')`}
-              class="absolute bottom-3 right-3 bg-zinc-950/85 hover:bg-zinc-950 border border-white/20 text-white px-3 py-1.5 rounded-lg text-xs font-mono flex items-center gap-1.5 opacity-90 hover:opacity-100 transition-all backdrop-blur shadow-lg cursor-pointer"
+              class="absolute bottom-3 right-3 min-h-11 bg-zinc-950/85 hover:bg-zinc-950 border border-white/20 text-white px-3.5 py-2 rounded-lg text-xs font-mono flex items-center gap-1.5 opacity-90 hover:opacity-100 transition-all backdrop-blur shadow-lg cursor-pointer"
             >
               <span>🔍 Zoom Full Resolution</span>
             </button>
@@ -550,12 +547,12 @@ const articleMetadata = {
               height="905"
               loading="lazy"
               decoding="async"
-              class="w-full h-auto object-cover"
+              class="w-full h-auto aspect-[1662/905] object-cover"
             />
             <button
               type="button"
               @click={`openLightbox('${basePath}/assets/real_os_dashboard.png', 'Operations dashboard')`}
-              class="absolute bottom-3 right-3 bg-zinc-950/85 hover:bg-zinc-950 border border-white/20 text-white px-3 py-1.5 rounded-lg text-xs font-mono flex items-center gap-1.5 opacity-90 hover:opacity-100 transition-all backdrop-blur shadow-lg cursor-pointer"
+              class="absolute bottom-3 right-3 min-h-11 bg-zinc-950/85 hover:bg-zinc-950 border border-white/20 text-white px-3.5 py-2 rounded-lg text-xs font-mono flex items-center gap-1.5 opacity-90 hover:opacity-100 transition-all backdrop-blur shadow-lg cursor-pointer"
             >
               <span>🔍 Zoom Full Resolution</span>
             </button>
@@ -615,13 +612,13 @@ const articleMetadata = {
                 height="640"
                 loading="lazy"
                 decoding="async"
-                class="w-full h-auto object-cover"
+                class="w-full h-auto aspect-square object-cover"
               />
             </picture>
             <button
               type="button"
               @click={`openLightbox('${basePath}/assets/moat-visual.webp', 'Sovereign moat')`}
-              class="absolute bottom-3 right-3 bg-zinc-950/85 hover:bg-zinc-950 border border-white/20 text-white px-3 py-1.5 rounded-lg text-xs font-mono flex items-center gap-1.5 opacity-90 hover:opacity-100 transition-all backdrop-blur shadow-lg cursor-pointer"
+              class="absolute bottom-3 right-3 min-h-11 bg-zinc-950/85 hover:bg-zinc-950 border border-white/20 text-white px-3.5 py-2 rounded-lg text-xs font-mono flex items-center gap-1.5 opacity-90 hover:opacity-100 transition-all backdrop-blur shadow-lg cursor-pointer"
             >
               <span>🔍 Zoom Full Resolution</span>
             </button>
@@ -671,12 +668,12 @@ const articleMetadata = {
               height="905"
               loading="lazy"
               decoding="async"
-              class="w-full h-auto object-cover"
+              class="w-full h-auto aspect-[1662/905] object-cover"
             />
             <button
               type="button"
               @click={`openLightbox('${basePath}/assets/real_os_nodes.png', 'Operator node management')`}
-              class="absolute bottom-3 right-3 bg-zinc-950/85 hover:bg-zinc-950 border border-white/20 text-white px-3 py-1.5 rounded-lg text-xs font-mono flex items-center gap-1.5 opacity-90 hover:opacity-100 transition-all backdrop-blur shadow-lg cursor-pointer"
+              class="absolute bottom-3 right-3 min-h-11 bg-zinc-950/85 hover:bg-zinc-950 border border-white/20 text-white px-3.5 py-2 rounded-lg text-xs font-mono flex items-center gap-1.5 opacity-90 hover:opacity-100 transition-all backdrop-blur shadow-lg cursor-pointer"
             >
               <span>🔍 Zoom Full Resolution</span>
             </button>
@@ -771,39 +768,77 @@ const articleMetadata = {
           Core Protocol Performance Metrics
         </h2>
         <p class="text-sm text-zinc-400 font-light">
-          Representative runtime targets for the Rust <code>server-rs</code>
-          and Tauri desktop builds.
+          Representative runtime targets for the Rust <code>server-rs</code> and
+          Tauri desktop builds.
         </p>
       </div>
 
       <div class="glass-surface rounded-2xl border border-white/10 overflow-hidden font-mono text-xs">
-        <div class="grid grid-cols-3 bg-zinc-950 p-4 border-b border-white/10 text-zinc-400 font-bold uppercase text-[10px]">
+        <div class="hidden sm:grid sm:grid-cols-3 gap-4 bg-zinc-950 p-4 border-b border-white/10 text-zinc-400 font-bold uppercase text-[10px]">
           <div>Component / Subsystem</div>
           <div>Target Specification</div>
           <div>Runtime Performance</div>
         </div>
         <div class="divide-y divide-white/5 bg-black/40 text-zinc-300">
-          <div class="grid grid-cols-3 p-4 items-center">
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-1.5 sm:gap-4 p-4 items-start sm:items-center">
             <div class="font-bold text-white">Swarm Pulse Telemetry</div>
-            <div>MessagePack over WebSockets</div>
+            <div>
+              <span class="sm:hidden text-[10px] uppercase tracking-wider text-zinc-500 mr-1.5">
+                Target:
+              </span>
+              MessagePack over WebSockets
+            </div>
             <div class="text-emerald-400 font-bold">
+              <span class="sm:hidden text-[10px] uppercase tracking-wider text-zinc-500 font-normal mr-1.5">
+                Runtime:
+              </span>
               10Hz Stream (100ms interval)
             </div>
           </div>
-          <div class="grid grid-cols-3 p-4 items-center">
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-1.5 sm:gap-4 p-4 items-start sm:items-center">
             <div class="font-bold text-white">Vector Search (LanceDB)</div>
-            <div>768-dim text-embedding-004</div>
-            <div class="text-cyan-400 font-bold">Direct Vector Indexing</div>
+            <div>
+              <span class="sm:hidden text-[10px] uppercase tracking-wider text-zinc-500 mr-1.5">
+                Target:
+              </span>
+              768-dim text-embedding-004
+            </div>
+            <div class="text-cyan-400 font-bold">
+              <span class="sm:hidden text-[10px] uppercase tracking-wider text-zinc-500 font-normal mr-1.5">
+                Runtime:
+              </span>
+              Direct Vector Indexing
+            </div>
           </div>
-          <div class="grid grid-cols-3 p-4 items-center">
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-1.5 sm:gap-4 p-4 items-start sm:items-center">
             <div class="font-bold text-white">Active Doc Guard (ADG-01)</div>
-            <div>Symbol Gate Static Analysis</div>
-            <div class="text-purple-400 font-bold">Symbol Gate Validation</div>
+            <div>
+              <span class="sm:hidden text-[10px] uppercase tracking-wider text-zinc-500 mr-1.5">
+                Target:
+              </span>
+              Symbol Gate Static Analysis
+            </div>
+            <div class="text-purple-400 font-bold">
+              <span class="sm:hidden text-[10px] uppercase tracking-wider text-zinc-500 font-normal mr-1.5">
+                Runtime:
+              </span>
+              Symbol Gate Validation
+            </div>
           </div>
-          <div class="grid grid-cols-3 p-4 items-center">
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-1.5 sm:gap-4 p-4 items-start sm:items-center">
             <div class="font-bold text-white">Governance Authorization</div>
-            <div>Sapphire Shield HITL Gate</div>
-            <div class="text-amber-400 font-bold">Zero-Trust Merkle Proof</div>
+            <div>
+              <span class="sm:hidden text-[10px] uppercase tracking-wider text-zinc-500 mr-1.5">
+                Target:
+              </span>
+              Sapphire Shield HITL Gate
+            </div>
+            <div class="text-amber-400 font-bold">
+              <span class="sm:hidden text-[10px] uppercase tracking-wider text-zinc-500 font-normal mr-1.5">
+                Runtime:
+              </span>
+              Zero-Trust Merkle Proof
+            </div>
           </div>
         </div>
       </div>
@@ -902,7 +937,7 @@ npm run engine &amp;&amp; npm run dev</pre>
           Clone Runtime Repo
         </a>
         <a
-          href={`${basePath}/mission`}
+          href={`${basePath}/mission/`}
           class="px-8 py-3.5 border border-white/20 bg-white/5 text-white rounded-xl hover:border-emerald-400 hover:text-emerald-300 transition-all uppercase tracking-wider"
         >
           Launch Mission Demo ➔

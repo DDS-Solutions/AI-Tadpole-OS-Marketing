@@ -276,11 +276,14 @@ const articleMetadata = {
           </div>
 
           <p class="text-base text-zinc-300 font-light leading-relaxed">
-            All template swarms are strictly declarative (JSON/Markdown) with
-            zero raw executable code allowed. Dynamic capability escalation can
-            pause the runtime until an authorized operator records a{" "}
-            <strong>Merkle-proof audit receipt</strong>; enforcement depends on
-            the configured policy boundary.
+            Template swarms are contract-validated against canonical JSON
+            Schemas (<code>schemas/*.json</code>), prompt-injection rules,
+            content digests (<code>content_sha256</code>), and pinned Python MCP
+            connector provenance (<code>connector-lock.json</code>). Plane 2 SMB
+            personas block shell and delete capabilities via{" "}
+            <strong>FR-11</strong> firewalls, while dynamic capability
+            escalation pauses for a <strong>Merkle-proof audit receipt</strong>{" "}
+            governed by the configured policy boundary.
           </p>
 
           <HitlIntercept class="my-4" />
